@@ -1,0 +1,223 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+
+\tcbuselibrary{skins, breakable}
+
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+% ===== ЦВЕТА =====
+\definecolor{defblue}{RGB}{13, 71, 161}
+\definecolor{defbluebg}{RGB}{227, 242, 253}
+\definecolor{thmgreen}{RGB}{27, 94, 32}
+\definecolor{thmgreenbg}{RGB}{232, 245, 233}
+\definecolor{propviolet}{RGB}{74, 20, 140}
+\definecolor{propvioletbg}{RGB}{243, 229, 245}
+\definecolor{remamber}{RGB}{180, 60, 0}
+\definecolor{remamberbg}{RGB}{255, 243, 224}
+\definecolor{exgraybg}{RGB}{245, 245, 245}
+\definecolor{exgray}{RGB}{60, 60, 60}
+\definecolor{corollteal}{RGB}{0, 77, 64}
+\definecolor{corolltbg}{RGB}{224, 242, 241}
+\definecolor{proofbg}{RGB}{250, 250, 250}
+\definecolor{qcolor}{RGB}{130, 0, 30}
+
+% ===== БЛОКИ =====
+\tcbset{
+  mybase/.style={
+    breakable, enhanced,
+    fonttitle=\bfseries\small,
+    left=8pt, right=8pt, top=5pt, bottom=5pt,
+    arc=4pt, boxrule=1pt,
+    parbox=false
+  }
+}
+
+\newtcolorbox{defbox}[1]{
+  mybase,
+  colback=defbluebg, colframe=defblue,
+  colbacktitle=defblue, coltitle=white,
+  title={\small Определение\ifx&#1&\else{}: {#1}\fi}
+}
+\newtcolorbox{thmbox}[1]{
+  mybase,
+  colback=thmgreenbg, colframe=thmgreen,
+  colbacktitle=thmgreen, coltitle=white,
+  title={\small Теорема\ifx&#1&\else{}: {#1}\fi}
+}
+\newtcolorbox{propbox}[1]{
+  mybase,
+  colback=propvioletbg, colframe=propviolet,
+  colbacktitle=propviolet, coltitle=white,
+  title={\small Утверждение\ifx&#1&\else{}: {#1}\fi}
+}
+\newtcolorbox{rembox}[1]{
+  mybase,
+  colback=remamberbg, colframe=remamber,
+  colbacktitle=remamber, coltitle=white,
+  title={\small Замечание\ifx&#1&\else{}: {#1}\fi}
+}
+\newtcolorbox{exbox}[1]{
+  mybase,
+  colback=exgraybg, colframe=exgray,
+  colbacktitle=exgray, coltitle=white,
+  title={\small Пример\ifx&#1&\else{}: {#1}\fi}
+}
+\newtcolorbox{corbox}[1]{
+  mybase,
+  colback=corolltbg, colframe=corollteal,
+  colbacktitle=corollteal, coltitle=white,
+  title={\small Следствие\ifx&#1&\else{}: {#1}\fi}
+}
+\newtcolorbox{proofbox}{
+  mybase,
+  colback=proofbg, colframe=gray!50,
+  colbacktitle=gray!50, coltitle=black,
+  title={\small Доказательство}
+}
+
+% ===== ЗАГОЛОВКИ =====
+\newcommand{\question}[2]{%
+  \newpage%
+  \noindent\colorbox{qcolor}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
+    \color{white}\large\bfseries\strut Вопрос #1. #2%
+  }}%
+  \vspace{6pt}%
+}
+\newcommand{\qsub}[1]{%
+  \vspace{6pt}%
+  {\bfseries\color{defblue} #1}%
+  \par\vspace{2pt}%
+}
+
+% ===== КОЛОНТИТУЛЫ =====
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{gray} Статистика для МО --- Блок 1 (Вопросы 1--8)}
+\fancyhead[R]{\small\color{gray} ИТМО, 2026}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14pt}
+
+% ===== МАТ. МАКРОСЫ =====
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\rk}{\operatorname{rk}}
+\newcommand{\supp}{\operatorname{supp}}
+
+\hypersetup{colorlinks=true, linkcolor=defblue, urlcolor=defblue, hidelinks}
+\setlist[enumerate]{leftmargin=*, topsep=2pt, itemsep=1pt}
+\setlist[itemize]{leftmargin=*, topsep=2pt, itemsep=1pt}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{1}{Гауссовские векторы и их свойства}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\qsub{Стандартный гауссовский вектор}
+
+\begin{defbox}{Стандартный гауссовский вектор}
+Вектор $X = (X_1, \ldots, X_n)^T$ называется \textbf{стандартным гауссовским}, если
+\[
+  X_i \sim \mathcal{N}(0,1), \quad X_1,\ldots,X_n \text{ --- независимы.}
+\]
+Обозначение: $X \sim \mathcal{N}(0, I)$.
+
+Совместная плотность:
+\[
+  p(x_1,\ldots,x_n)
+  = \prod_{i=1}^{n}\frac{1}{\sqrt{2\pi}}\,e^{-\frac{x_i^2}{2}}
+  = \frac{1}{(\sqrt{2\pi})^n}\,e^{-\frac{1}{2}x^Tx}.
+\]
+\end{defbox}
+
+\qsub{Матрица ковариаций}
+
+\begin{defbox}{Матрица ковариаций}
+Для случайного вектора $X$:
+\[
+  \Var X = \bigl(\cov(X_i,X_j)\bigr)_{i,j} = \E\bigl[(X-\E X)(X-\E X)^T\bigr].
+\]
+\end{defbox}
+
+\begin{propbox}{Преобразование матрицы ковариаций}
+Если $Y = BX$, то $\Var(BX) = B\,\Var X\,B^T$.
+\end{propbox}
+
+\begin{proofbox}
+\[
+  \Var(BX) = \E[(BX - \E BX)(BX-\E BX)^T]
+  = \E[B(X-\E X)(X-\E X)^T B^T]
+  = B\,\Var X\,B^T. \quad\square
+\]
+\end{proofbox}
+
+\begin{thmbox}{Независимость $\Leftrightarrow$ некоррелированность для гауссовских}
+Если $(X,Y)\sim\mathcal{N}(\mu,\Sigma)$, то
+\[
+  X \text{ и } Y \text{ независимы} \;\iff\; \cov(X,Y) = 0.
+\]
+\end{thmbox}
+
+\begin{proofbox}
+Б.о.о. $\E X = \E Y = 0$. Пусть $\cov(X,Y)=0$, тогда
+$\Sigma = \begin{pmatrix}\sigma_X^2 & 0\\0 & \sigma_Y^2\end{pmatrix}$.
+\begin{align*}
+  p(x,y)
+  &= \frac{1}{2\pi\sigma_X\sigma_Y}
+     \exp\!\left(-\tfrac{1}{2}\!\left(\tfrac{x^2}{\sigma_X^2}+\tfrac{y^2}{\sigma_Y^2}\right)\right)
+   = \underbrace{\frac{1}{\sqrt{2\pi}\,\sigma_X}e^{-\frac{x^2}{2\sigma_X^2}}}_{p_X(x)}
+   \cdot
+     \underbrace{\frac{1}{\sqrt{2\pi}\,\sigma_Y}e^{-\frac{y^2}{2\sigma_Y^2}}}_{p_Y(y)}.
+\end{align*}
+Совместная плотность разложилась в произведение маргинальных $\Rightarrow$ независимость. $\square$
+\end{proofbox}
+
+\begin{rembox}{}
+Этот факт специфичен для гауссовского случая. В общем случае некоррелированность
+\textbf{не} влечёт независимость.
+\end{rembox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{2}{Независимость и некоррелированность}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{defbox}{Независимость}
+$X$ и $Y$ \textbf{независимы}, если:
+\[
+  F_{X,Y}(x,y) = F_X(x)\cdot F_Y(y).
+\]
+\end{defbox}
+
+\begin{defbox}{Некоррелированность}
+$X$ и $Y$ \textbf{некоррелированы}, если
+\[
+  \rho(X,Y) = \frac{\cov(X,Y)}{\sqrt{\Var X \cdot \Var Y}} = 0.
+\]
+\end{defbox}
+
+\begin{exbox}{Некоррелированные, но зависимые с.в.}
+$(X,Y)$ равномерно на 4 точках $(1,0),(-1,0),(0,1),(0,-1)$ с $p=1/4$.
+
+$\E[XY] = 0$, $\E X = \E Y = 0 \Rightarrow \cov = 0$.
+
+Но $P(X=1,Y=1) = 0 \neq 1/16 = P(X=1)\cdot P(Y=1)$ --- зависимы.
+\end{exbox}
+
+\end{document}
