@@ -42,6 +42,8 @@
 ## Текущий билет
 - Билет 36: Задача классификации и отступ (margin) — начинаем (раздел 5)
 
+## Раздел 4 закрыт полностью, конспект дописан (билеты 30-35), запушено 3906f0c
+
 ## Конспект (data/ml_conspect.tex + скомпилированный data/ml_conspect.pdf)
 ВАЖНО по оформлению: делать блочный стиль как в образце data/block1_sample.tex (tcolorbox, цветные боксы). pdflatex + T2A + babel russian (НЕ xelatex). Компиляция: `cd /c/itmo/academic/data && pdflatex -interaction=nonstopmode ml_conspect.tex` (дважды).
 Боксы: defbox (Определение, синий), thmbox (Теорема, зелёный), propbox (свойство/утверждение, фиолетовый), rembox (Замечание, оранжевый), exbox (Пример, серый), corbox (Следствие), proofbox (Вывод/Доказательство), fishkabox (Фишка на собесе, малиновый). Заголовки: \razdel{N}{}, \bilet{N}{}, \qsub{}.
