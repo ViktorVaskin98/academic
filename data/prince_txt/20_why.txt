@@ -1,0 +1,723 @@
+
+
+===== PDF 415 / книга 401 =====
+Chapter 20
+Why does deep learning work?
+This chapter differs from those that precede it. Instead of presenting established results,
+it poses questions about how and why deep learning works so well. These questions are
+rarely discussed in textbooks. However, it’s important to realize that (despite the title
+of this book) understanding of deep learning is still limited.
+We argue that it is surprising that deep networks are easy to train and also surprising
+that they generalize. Then we consider each of these topics in turn. We enumerate the
+factors that influence training success and discuss what is known about loss functions for
+deep networks. Then we consider the factors that influence generalization. We conclude
+with a discussion of whether networks need to be overparameterized and deep.
+20.1 The case against deep learning
+The MNIST-1D dataset (figure 8.1) has just forty input dimensions and ten output
+dimensions. With enough hidden units per layer, a two-layer fully connected network
+classifies 10000 MNIST-1D training data points perfectly and generalizes reasonably to
+unseen examples (figure 8.10a). Indeed, we now take it for granted that with suﬀicient
+hidden units, deep networks will classify almost any training set near-perfectly. We also
+take for granted that the fitted model will generalize to new data. However, it’s not at
+all obvious either that the training process should succeed or that the resulting model
+should generalize. This section argues that both these phenomena are surprising.
+20.1.1 Training
+Performance of a two-layer fully connected network on 10000 MNIST-1D training exam-
+ples is perfect once there are 43 hidden units per layer (∼4000 parameters). However,
+finding the global minimum of an arbitrary non-convex function is NP-hard (Murty &
+Kabadi, 1987), and this is also true for certain neural network loss functions (Blum &
+Rivest, 1992). It’s remarkable that the fitting algorithm doesn’t get trapped in local min-
+ima or stuck near saddle points and that it can eﬀiciently recruit spare model capacity
+
+
+===== PDF 416 / книга 402 =====
+402 20 Why does deep learning work?
+to fit unexplained training data wherever they lie.
+Perhaps this success is less surprising when there are far more parameters than train-
+ing data. However, it’s debatable whether this is generally the case. AlexNet had ∼60
+million parameters and was trained with ∼1 million data points. However, to complicate
+matters, each training example was augmented with 2048 transformations. GPT-3 had
+175 billion parameters and was trained with 300 billion tokens. There is not a clear-cut
+case that either model was overparameterized, and yet they were successfully trained.
+In short, it’s surprising that we can fit deep networks reliably and eﬀiciently. Either
+the data, the models, the training algorithms, or some combination of all three must
+have some special properties that make this possible.
+20.1.2 Generalization
+If the eﬀicient fitting of neural networks is startling, their generalization to new data
+is dumbfounding. First, it’s not obvious a priori that typical datasets are suﬀicient to
+characterize the input/output mapping. The curse of dimensionality implies that the
+training dataset is tiny compared to the possible inputs; if each of the 40 inputs of the
+MNIST-1D data were quantized into 10 possible values, there would be 1040 possible
+inputs, which is a factor of 1035 more than the number of training examples.
+Problem 20.1 Second, deep networks describe very complicated functions. A fully connected net-
+work for MNIST-1D with two hidden layers of width 400 can create mappings with up
+to 1042 linear regions. That’s roughly 1037 regions per training example, so very few of
+these regions contain data at any stage during training; regardless, those regions that do
+encounter data points constrain the remaining regions to behave reasonably.
+Third, generalization gets better with more parameters (figure 8.10). The model in the
+previous paragraph has 177,201 parameters. Assuming it can fit one training example
+per parameter, it has 167,201 spare degrees of freedom. This surfeit gives the model
+latitude to do almost anything between the training data, and yet it behaves sensibly.
+20.1.3 The unreasonable effectiveness of deep learning
+To summarize, it’s neither obvious that we should be able to fit deep networks nor that
+they should generalize. A priori, deep learning shouldn’t work. And yet it does. This
+chapter investigates why. Sections 20.2–20.3 describe what we know about fitting deep
+networks and their loss functions. Sections 20.4–20.6 examine generalization.
+20.2 Factors that influence fitting performance
+Figure 6.4 showed that loss functions for nonlinear models can have both local minima
+and saddle points. However, we can reliably fit deep networks to complex training sets.
+For example, figure 8.10 shows perfect training performance on MNIST-1D, MNIST, and
+CIFAR-100. This section considers factors that might resolve this contradiction.
+
+
+===== PDF 417 / книга 403 =====
+20.2 Factors that influence fitting performance 403
+Figure 20.1 Fitting random data. Losses
+for AlexNet architecture trained on
+CIFAR-10 dataset with SGD. When the
+pixels are drawn from a Gaussian ran-
+dom distribution with the same mean
+and variance as the original data, the
+model can still be fit (albeit more
+slowly). When the labels are random-
+ized, the model can still be fit (albeit
+even more slowly). Adapted from Zhang
+et al. (2017a).
+20.2.1 Dataset
+It’s important to realize that we can’t learn any function. Consider a completely random
+mapping from every possible 28×28 binary image to one of ten categories. Since there
+is no structure to this function, the only recourse is to memorize the 2784 assignments.
+However, it’s easy to train a model on the MNIST dataset (figures 8.10 and 15.15),
+which contains 60,000 examples of 28×28 images labeled with one of ten categories. One
+explanation for this contradiction could be that it is easy to find global minima because
+the real-world functions that we approximate are relatively simple.1
+This hypothesis was investigated by Zhang et al. (2017a), who trained AlexNet on the
+CIFAR-10 image classification dataset when (i) each image was replaced with Gaussian N R o a t n e d b o o m ok d 2 a 0 t . a 1
+noise and (ii) the labels of the ten classes were randomly permuted (figure 20.1). These
+changes slowed down learning, but the network could still fit this finite dataset well.
+This suggests that the properties of the dataset aren’t critical. Problem 20.2
+20.2.2 Regularization
+Another possible explanation for the ease with which models are trained is that some
+regularization methods like L2 regularization (weight decay) make the loss surface flatter
+and more convex. However, Zhang et al. (2017a) found that neither L2 regularization nor
+Dropout was required to fit random data. This does not eliminate implicit regularization
+due to the finite step size of the fitting algorithms (section 9.2). However, this effect
+increases with the learning rate (equation 9.9), and model-fitting does not get easier
+with larger learning rates.
+20.2.3 Stochastic training algorithms
+Chapter 6 argued that the SGD algorithm potentially allows the optimization trajectory
+to move between “valleys” during training. However, Keskar et al. (2017) show that
+several models (including fully connected and convolutional networks) can be fit to many
+1In this chapter, we use the term “global minimum” loosely to mean any solution where all data are
+classified correctly. We have no way of knowing if there are solutions with a lower loss elsewhere.
+
+
+===== PDF 418 / книга 404 =====
+404 20 Why does deep learning work?
+Figure 20.2 MNIST-1D training. Four
+fully connected networks were fit to 4000
+MNIST-1D examples with random labels
+using full batch gradient descent, He ini-
+tialization, no momentum or regulariza-
+tion, and learning rate 0.0025. Mod-
+els with 1,2,3,4 layers had 298, 100, 75,
+and 63 hidden units per layer and 15208,
+15210, 15235, and 15139 parameters, re-
+spectively. All models train successfully,
+but deeper models require fewer epochs.
+datasets (including CIFAR-100 and MNIST) almost perfectly with very large batches of
+5000-6000 images. This eliminates most of the randomness but training still succeeds.
+Figure 20.2 shows training results for four fully connected models fitted to 4000
+No F t u e l b l o b o a k tc 2 h 0.2 MNIST-1D examples with randomized labels using full-batch (i.e., non-stochastic) gra-
+gradient descent dient descent. There was no explicit regularization, and the learning rate was set to a
+small constant value of 0.0025 to minimize implicit regularization. Here, the true map-
+Problem 20.3 ping from data to labels has no structure, the training is deterministic, and there is no
+regularization, and yet the training error still decreases to zero. This suggests that these
+loss functions may genuinely have no local minima.
+20.2.4 Overparameterization
+Overparameterization almost certainly is an important factor that contributes to ease
+of training. It implies that there is a large family of degenerate solutions, so there may
+always be a direction in which the parameters can be modified to decrease the loss.
+Sejnowski (2020) suggests that “. . . the degeneracy of solutions changes the nature of
+the problem from finding a needle in a haystack to a haystack of needles.”
+In practice, networks are frequently overparameterized by one or two orders of mag-
+nitude (figure 20.3). However, data augmentation makes it diﬀicult to make precise
+statements. Augmentation may increase the data by several orders of magnitude, but
+these are manipulations of existing examples rather than independent new data points.
+Moreover, figure 8.10 shows that neural networks can sometimes fit the training data
+well when there are the same number or fewer parameters than data points. This is
+presumably due to redundancy in training examples from the same underlying function.
+Several theoretical convergence results show that, under certain circumstances, SGD
+converges to a global minimum when the network is suﬀiciently overparameterized. For
+example, Du et al. (2019b) show that randomly initialized SGD converges to a global
+minimum for shallow fully connected ReLU networks with a least squares loss with
+enough hidden units. Similarly, Du et al. (2019a) consider deep, residual, and convolu-
+tional networks when the activation function is smooth and Lipschitz. Zou et al. (2020)
+analyzed the convergence of gradient descent on deep, fully connected networks using a
+hinge loss. Allen-Zhu et al. (2019) considered deep networks with ReLU functions.
+If a neural network is suﬀiciently overparameterized so that it can memorize any
+
+
+===== PDF 419 / книга 405 =====
+20.2 Factors that influence fitting performance 405
+Figure 20.3 Overparameterization. Im-
+ageNet performance for convolutional
+nets as a function of overparameteriza-
+tion (in multiples of dataset size). Most
+models have 10–100 times more param-
+eters than there were training exam-
+ples. Models compared are ResNet (He
+et al., 2016a,b), DenseNet (Huang et al.,
+2017b), Xception (Chollet, 2017), Eﬀi-
+cientNet (Tan & Le, 2019), Inception
+(Szegedy et al., 2017), ResNeXt (Xie
+et al., 2017), and AmoebaNet (Cubuk
+et al., 2019).
+dataset of a fixed size, then all stationary points become global minima (Livni et al.,
+2014; Nguyen & Hein, 2017, 2018). Other results show that if the network is wide
+enough, local minima where the loss is higher than the global minimum are rare (see
+Choromanska et al., 2015; Pascanu et al., 2014; Pennington & Bahri, 2017). Kawaguchi
+et al. (2019) prove that as a network becomes deeper, wider, or both, the loss at local
+minima becomes closer to that at the global minimum for squared loss functions.
+These theoretical results are intriguing but usually make unrealistic assumptions
+about the network structure. For example, Du et al. (2019a) show that residual networks
+converge to zero training loss when the width of the network D (i.e., the number of hidden
+units) is O[I4K2] where I is the amount of training data, and K is the depth of the
+network. Similarly, Nguyen & Hein (2017) assume that the network’s width is larger than
+the dataset size, which is unrealistic in most practical scenarios. Overparameterization
+seems to be important, but theory cannot yet explain empirical fitting performance.
+20.2.5 Activation functions
+The activation function is also known to affect training diﬀiculty. Networks where the
+activation only changes over a small part of the input range are harder to fit than ReLUs
+(which vary over half the input range) or Leaky ReLUs (which vary over the full range);
+For example, sigmoid and tanh nonlinearities (figure 3.13a) have shallow gradients in
+their tails; where the activation function is near-constant, the training gradient is near-
+zero, so there is no mechanism to improve the model.
+20.2.6 Initialization
+Another potential explanation is that Xavier/He initialization sets the parameters to
+values that are easy to optimize. Of course, for deeper networks, such initialization is
+necessary to avoid exploding and vanishing gradients, so in a trivial sense, initialization
+is critical to training success. However, for shallower networks, the initial variance of the
+weights is less important. Liu et al. (2023c) trained a 3-layer fully connected network with
+
+
+===== PDF 420 / книга 406 =====
+406 20 Why does deep learning work?
+Figure 20.4 Initialization and fitting. A
+three-layer fully connected network with
+200 hidden units per layer was trained
+on 1000 MNIST examples with AdamW
+using one-hot targets and mean-squared
+error loss. It takes longer to fit networks
+when larger multiples of He initialization
+are used, but this doesn’t change the out-
+come. This may simply reflect the ex-
+tra distance that the weights must move.
+Adapted from Liu et al. (2023c).
+200 hidden units per layer on 1000 MNIST data points. They found that more iterations
+were required to fit the training data as the variance increased from that proposed by He
+(figure 20.4), but this did not ultimately impede fitting. Hence, initialization doesn’t shed
+much light on why fitting neural networks is easy, although exploding/vanishing gradients
+do reveal initializations that make training diﬀicult with finite precision arithmetic.
+20.2.7 Network depth
+Neural networks are harder to fit when the depth becomes very large due to exploding
+and vanishing gradients (figure 7.7) and shattered gradients (figure 11.3). However,
+these are (arguably) practical numerical issues. There is no definitive evidence that
+the underlying loss function is fundamentally more or less convex as the network depth
+increases. Figure 20.2 does show that for MNIST data with randomized labels and He
+initialization, deeper networks train in fewer iterations. However, this might be because
+either (i) the gradients in deeper networks are steeper or (ii) He initialization just starts
+wider, shallower networks further away from the optimal parameters.
+Frankle & Carbin (2019) show that for small networks like VGG, you can get the
+same or better performance if you (i) train the network, (ii) prune the weights with
+the smallest magnitudes and (iii) retrain from the same initial weights. This does not
+work if the weights are randomly re-initialized. They concluded that the original over-
+parameterized network contains small trainable sub-networks, which are suﬀicient to
+L N o o t t t e e b r o y o t k ic 2 k 0 e . t 3 s provide the performance. They term this the lottery ticket hypothesis and denote the
+sub-networks as winning tickets. This suggests that the effective number of sub-networks
+may have a key role to play in fitting. This (perhaps) varies with the network depth for
+a fixed parameter count, but a precise characterization of this idea is lacking.
+20.3 Properties of loss functions
+The previous section discussed factors that contribute to the ease with which neural net-
+works can be trained. The number of parameters (degree of overparameterization) and
+the choice of activation function are both important. Surprisingly, the choice of dataset,
+
+
+===== PDF 421 / книга 407 =====
+20.3 Properties of loss functions 407
+the randomness of the fitting algorithm, and the use of regularization don’t seem impor-
+tant. There is no definitive evidence that (for a fixed parameter count) the depth of the
+network matters (other than numerical problems due to exploding/vanishing/shattered
+gradients). This section tackles the same topic from a different angle by considering the
+empirical properties of loss functions. Most of this evidence comes from fully connected
+networks and CNNs; loss functions of transformer networks are less well understood.
+20.3.1 Multiple global minima
+We expect loss functions for deep networks to have a large family of equivalent global
+minima. In fully connected networks, the hidden units at each layer and their associated
+weights can be permuted without changing the output. In convolutional networks, per-
+muting the channels and convolution kernels appropriately doesn’t change the output.
+We can multiply the weight before any ReLU function and divide the weight after by a
+positive number without changing the output. Using BatchNorm induces another set of
+redundancies because the mean and variance of each hidden unit or channel are reset.
+The above modifications all produce the same output for every input. However, the
+global minimum only depends on the output at the training data points. In overparam-
+eterized networks, there will also be families of solutions that behave identically at the
+data points but differently between them. All of these are also global minima.
+20.3.2 Route to the minimum
+Goodfellow et al. (2015b) considered a straight line between the initial parameters and
+the final values. They show that the loss function along this line usually decreases
+monotonically (except for a small bump near the start sometimes). This phenomenon is
+observed for several different types of networks and activation functions (figure 20.5a).
+Of course, real optimization trajectories do not proceed in a straight line. However,
+Li et al. (2018b) find that they do lie in low-dimensional subspaces. They attribute this
+to the existence of large, nearly convex regions in the loss landscape that capture the
+trajectory early on and funnel it in a few important directions. Surprisingly, Li et al.
+(2018a) showed that networks still train well if optimization is constrained to lie in a
+random low-dimensional subspace (figure 20.6).
+Li & Liang (2018) show that the relative change in the parameters during training
+decreases as network width increases; for larger widths, the parameters start at smaller
+values, change by a smaller proportion of those values, and converge in fewer steps.
+20.3.3 Connections between minima
+Goodfellow et al. (2015b) examined the loss function along a straight line between two
+minima that were found independently. They saw a pronounced increase in the loss be-
+tween them (figure 20.5b); good minima are not generally linearly connected. However,
+
+
+===== PDF 422 / книга 408 =====
+408 20 Why does deep learning work?
+Figure 20.5 Linear slices through loss function. a) A two-layer fully connected
+ReLU network is trained on MNIST. The loss along a straight line starting at the
+initial parameters (δ=0) and finishing at the trained parameters (δ=1) descends
+monotonically. b) However, in this two-layer fully connected MaxOut network on
+MNIST, there is an increase in the loss along a straight line between one solution
+(δ=0) and another (δ=1). Adapted from Goodfellow et al. (2015b).
+Figure 20.6 Subspace training. A fully
+connected network with two hidden lay-
+ers, each with 200 units was trained on
+MNIST. Parameters were initialized us-
+ing a standard method but then con-
+strained to lie within a random sub-
+space. Performance reaches 90% of the
+unconstrained level when this subspace is
+750D (termed the intrinsic dimension),
+which is 0.4% of the original parameters.
+Adapted from Li et al. (2018a).
+Frankle et al. (2020) showed that this increase vanishes if the networks are identically
+trained initially and later allowed to diverge by using different SGD noise and augmen-
+tation. This suggests that the solution is constrained early in training and that some
+families of minima are linearly connected.
+Draxler et al. (2018) found minima with good (but different) performance on the
+CIFAR-10 dataset. They then showed that it is possible to construct paths from one to
+the other, where the loss function remains low along this path. They conclude that there
+is a single connected manifold of low loss (figure 20.7). This seems to be increasingly
+true as the width and depth of the network increase. Garipov et al. (2018) and Fort &
+Jastrzębski (2019) present other schemes for connecting minima.
+20.3.4 Curvature of loss surface
+Random Gaussian functions (in which points are jointly distributed with covariance
+given by a kernel function of their distance) have an interesting property: for points
+
+
+===== PDF 423 / книга 409 =====
+20.3 Properties of loss functions 409
+Figure 20.7 Connections between min-
+ima. A slice through the loss function
+of DenseNet on CIFAR-10. Parameters
+e ϕ r1ed an m d i ϕ ni2m a a r . e tw L o in i e n a d r ep in e t n e d rp en o t la ly ti d o i n sc b ov e- -
+tween these parameters reveals an en-
+ergy barrier (dashed line). However, for
+suﬀiciently deep and wide networks, it
+is possible to find a curved path of low
+energy between two minima (cyan line).
+Adapted from Draxler et al. (2018).
+Figure 20.8 Critical points vs. loss. a) In random Gaussian functions, the number
+of directions in which the function curves down at points with zero gradient
+decreases with the height of the function, so minima all appear at lower function
+values. b) Dauphin et al. (2014) found critical points on a neural network loss
+surface (i.e., points with zero gradient). They showed that the proportion of
+negative eigenvalues (directions that point down) decreases with the loss. The
+implication is that all minima (points with zero gradient where no directions
+point down) have low losses. Adapted from Dauphin et al. (2014) and Bahri
+et al. (2020).
+Figure 20.9 Goldilocks zone. The pro-
+portion of eigenvalues of the Hessian that
+are greater than zero (a measure of pos-
+itive curvature/convexity) within a ran-
+dom subspace of dimension Ds in a two-
+layer fully connected network with ReLU
+functions applied to MNIST as a func-
+tion of the squared radius r2 of the pa-
+rameters relative to Xavier initialization.
+There is a pronounced region of positive
+curvature known as the Goldilocks zone.
+Adapted from Fort & Scherlis (2019).
+
+
+===== PDF 424 / книга 410 =====
+410 20 Why does deep learning work?
+Figure 20.10 Batch size to learning rate
+ratio. Generalization of two models
+on the CIFAR-10 database depends on
+the ratio of batch size to the learning
+rate. As the batch size increases, gen-
+eralization decreases. As the learning
+rate increases, generalization increases.
+Adapted from He et al. (2019).
+where the gradient is zero, the fraction of directions where the function curves down
+becomes smaller when these points occur at lower loss values (see Bahri et al., 2020).
+Dauphin et al. (2014) searched for saddle points in a neural network loss function and
+similarly found a correlation between the loss and the number of negative eigenvalues
+(figure 20.8). Baldi & Hornik (1989) analyzed the error surface of a shallow network and
+found that there were no local minima but only saddle points. These results suggest that
+there are few or no bad local minima.
+Fort & Scherlis (2019) measured the curvature at random points on a neural network
+loss surface; they showed that the curvature of the surface is unusually positive when
+the ℓ2 norm of the weights lies within a certain range (figure 20.9), which they term the
+Goldilocks zone. He and Xavier initialization fall within this range.
+20.4 Factors that determine generalization
+The last two sections considered factors that determine whether the network trains suc-
+cessfully and what is known about neural network loss functions. This section considers
+factors that determine how well the network generalizes. This complements the discus-
+sion of regularization (chapter 9), which explicitly aims to encourage generalization.
+20.4.1 Training algorithms
+Since deep networks are usually overparameterized, the details of the training process
+determine which of the degenerate family of minima the algorithm converges to. Some
+of these details reliably improve generalization.
+LeCun et al. (2012) show that SGD generalizes better than full-batch gradient de-
+scent. It has been argued that SGD generalizes better than Adam (e.g., Wilson et al.,
+2017; Keskar & Socher, 2017), but more recent studies suggest that there is little dif-
+ference when the hyperparameter search is done carefully (Choi et al., 2019). Keskar
+et al. (2017) show that deep nets generalize better with smaller batch-size when no other
+form of regularization is used. It is also well-known that larger learning rates tend to
+generalize better (e.g., figure 9.5). Jastrzębski et al. (2018), Goyal et al. (2018), and He
+
+
+===== PDF 425 / книга 411 =====
+20.4 Factors that determine generalization 411
+Figure 20.11 Flat vs. sharp minima.
+Flat minima are expected to generalize
+better. Small errors in estimating the pa-
+rameters or in the alignment of the train
+and test loss functions are less problem-
+atic in flat regions. Adapted from Keskar
+et al. (2017).
+et al. (2019) argue that the batch size/learning rate ratio is important. He et al. (2019)
+show a significant correlation between this ratio and the degree of generalization and
+prove a generalization bound for neural networks, which has a positive correlation with
+this ratio (figure 20.10).
+These observations are aligned with the discovery that SGD implicitly adds regu-
+larization terms to the loss function (section 9.2), and their magnitude depends on the
+learning rate. The trajectory of the parameters is changed by this regularization, and
+they converge to a part of the loss function that generalizes well.
+20.4.2 Flatness of minimum
+There has been speculation dating at least to Hochreiter & Schmidhuber (1997a) that
+flat minima in the loss function generalize better than sharp minima (figure 20.11).
+Informally, if the minimum is flatter, then small errors in the estimated parameters are
+less important. This can also be motivated from various theoretical viewpoints. For
+example, minimum description length theory suggests models specified by fewer bits
+generalize better (Rissanen, 1983). For wide minima, the precision needed to store the
+weights is lower, so they should generalize better.
+Flatness can be measured by (i) the size of the connected region around the minimum
+for which training loss is similar (Hochreiter & Schmidhuber, 1997a), (ii) the second-
+order curvature around the minimum (Chaudhari et al., 2019), or (iii) the maximum
+loss within a neighborhood of the minimum (Keskar et al., 2017). However, caution is
+required; estimated flatness can be affected by trivial reparameterizations of the network
+due to the non-negative homogeneity property of the ReLU function (Dinh et al., 2017).
+Nonetheless, Keskar et al. (2017) varied the batch size and learning rate and showed
+that flatness correlates with generalization. Izmailov et al. (2018) average together
+weights from multiple points in a learning trajectory. This both results in flatter test
+and training surfaces at the minimum and improves generalization. Other regularization
+techniques can also be viewed through this lens. For example, averaging model outputs
+(ensembling) may also make the test loss surface flatter. Kleinberg et al. (2018) showed
+that large gradient variance during training helps avoid sharp regions. This may explain
+why reducing the batch size and adding noise helps generalization.
+The above studies consider flatness for a single model and training set. However,
+sharpness is not a good criterion to predict generalization between datasets; when the
+
+
+===== PDF 426 / книга 412 =====
+412 20 Why does deep learning work?
+labels in the CIFAR dataset are randomized (making generalization impossible), there
+is no commensurate decrease in the flatness of the minimum (Neyshabur et al., 2017).
+20.4.3 Architecture
+The inductive bias of a network is determined by its architecture, and judicious choices
+of model can drastically improve generalization. Chapter 10 introduced convolutional
+networks, which are designed to process data on regular grids; they implicitly assume
+that the input statistics are the same across the input, so they share parameters across
+position. Similarly, transformers are suited for modeling data that is invariant to permu-
+tations, and graph neural networks are suited to data represented on irregular graphs.
+Matching the architecture to the properties of the data improves generalization over
+generic, fully connected architectures (see figure 10.8).
+20.4.4 Norm of weights
+Section 20.3.4 reviewed the finding of Fort & Scherlis (2019) that the curvature of the loss
+surface is unusually positive when the ℓ2 norm of the weights lies within a certain range.
+The same authors provided evidence that generalization is also good when the ℓ2 weight
+norm falls within this Goldilocks zone (figure 20.12). This is perhaps unsurprising. The
+norm of the weights is (indirectly) related to the Lipschitz constant of the model. If this
+norm is too small, then the model will not be able to change fast enough to capture the
+variation in the underlying function. If the norm is too large, then the model will be
+unnecessarily variable between training points and will not interpolate smoothly.
+This finding was used by Liu et al. (2023c) to explain the phenomenon of grokking
+(Power et al., 2022), in which a sudden improvement in generalization can occur many
+epochs after the training error is already zero (figure 20.13). It is proposed that grokking
+occurs when the norm of the weights is initially too large; the training data fits well,
+but the variation of the model between the data points is large. Over time, implicit or
+explicit regularization decreases the norm of the weights until they reach the Goldilocks
+zone, and generalization suddenly improves.
+20.4.5 Overparameterization
+Figure 8.10 showed that generalization performance tends to improve with the degree
+of overparameterization. When combined with the bias/variance trade-off curve, this
+results in double descent. The putative explanation for this improvement is that the
+network has more latitude to become smoother between the training data points when
+the model is overparameterized.
+It follows that the norm of the weights can also be used to explain double descent.
+The norm of the weights increases when the number of parameters is similar to the
+number of data points (as the model contorts itself to fit these points exactly), causing
+
+
+===== PDF 427 / книга 413 =====
+20.4 Factors that determine generalization 413
+Figure 20.12 Generalization on hyper-
+spheres. A fully connected network with
+two hidden layers, each with 200 units
+(198,450 parameters) was trained on the
+MNIST database. The parameters are
+initialized to a given ℓ2 norm and then
+constrained to maintain this norm and
+to lie in a subspace (vertical direction).
+The network generalizes well in a small
+range around the radius r defined by
+Xavier initialization (cyan dotted line).
+Adapted from Fort & Scherlis (2019).
+Figure 20.13 Grokking. When the pa-
+rameters are initialized so that their
+ℓ2 norm (radius) is considerably larger
+than is specified by He initialization,
+training takes longer (dashed lines), and
+generalization takes much longer (solid
+lines). The lag in generalization is at-
+tributed to the time taken for the norm
+of the weights to decrease back to the
+Goldilocks zone. Adapted from Liu et al.
+(2023c).
+generalization to reduce. As the network becomes wider and the number of weights
+increases, the overall norm of these weights decreases; the weights are initialized with a
+variance that is inversely proportional to the width (i.e., with He or Glorot initialization),
+and the weights change very little from their original values.
+20.4.6 Leaving the data manifold
+Until this point, we have discussed how models generalize to new data that is drawn from
+the same distribution as the training data. This is a reasonable assumption for experi-
+mentation. However, systems deployed in the real world may encounter unexpected data
+due to noise, changes in the data statistics over time, or deliberate attacks. Of course,
+it is harder to make definite statements about this scenario, but D’Amour et al. (2020)
+show that the variability of identical models trained with different seeds on corrupted
+data can be enormous and unpredictable.
+Goodfellow et al. (2015a) showed that deep learning models are susceptible to adver-
+sarial attacks. Consider perturbing an image that is correctly classified by the network Notebook 20.4
+as “dog” so that the probability of the correct class decreases as fast as possible un- Adversarial attacks
+til the class flips. If this image is now classified as an airplane, you might expect the
+perturbed image to look like a cross between a dog and an airplane. However, in prac-
+tice, the perturbed image looks almost indistinguishable from the original dog image
+(figure 20.14).
+
+
+===== PDF 428 / книга 414 =====
+414 20 Why does deep learning work?
+Figure 20.14 Adversarial examples. In
+each case, the left image is correctly clas-
+sified by AlexNet. By considering the
+gradients of the network output with re-
+spect to the input, it’s possible to find
+a small perturbation (center, magnified
+by 10 for visibility) that, when added
+to the original image (right), causes the
+network to misclassify it as an ostrich.
+This is despite the fact that the original
+and perturbed images are almost indis-
+tinguishable to humans. Adapted from
+Szegedy et al. (2014).
+The conclusion is that there are positions that are close to but not on the data man-
+ifold that are misclassified. These are known as adversarial examples. Their existence
+is surprising; how can such a small change to the network input make such a drastic
+change to the output? The best current explanation is that adversarial examples aren’t
+due to a lack of robustness to data from outside the training data manifold. Instead,
+they are exploiting a source of information that is in the training distribution but which
+has a small norm and is imperceptible to humans (Ilyas et al., 2019).
+20.5 Do we need so many parameters?
+Section 20.4 argued that models generalize better when over-parameterized. Indeed,
+there are almost no examples of state-of-the-art performance on complex datasets where
+the model has significantly fewer parameters than there were training data points.
+However, section 20.2 reviewed evidence that training becomes easier as the number
+of parameters increases. Hence, it’s not clear if some fundamental property of smaller
+models prevents them from performing as well or whether the training algorithms can’t
+find good solutions for small models. Pruning and distilling are two methods for reducing
+the size of trained models. This section examines whether these methods can produce
+underparameterized models which retain the performance of overparameterized ones.
+20.5.1 Pruning
+Pruning trained models reduces their size and hence storage requirements (figure 20.15).
+The simplest approach is to remove individual weights. This can be done based on the
+second derivatives of the loss function (LeCun et al., 1990; Hassibi & Stork, 1993) or
+(more practically) based on the absolute value of the weight (Han et al., 2016, 2015).
+Other work prunes hidden units (Zhou et al., 2016a; Alvarez & Salzmann, 2016), channels
+in convolutional networks (Li et al., 2017a; Luo et al., 2017b; He et al., 2017; Liu et al.,
+2019a), or entire layers in residual nets (Huang & Wang, 2018). Often, the network is
+
+
+===== PDF 429 / книга 415 =====
+20.5 Do we need so many parameters? 415
+Figure 20.15 Pruning neural networks. The goal is to remove as many weights
+as possible without decreasing performance. This is often done just based on the
+magnitude of the weights. Typically, the network is fine-tuned after pruning. a)
+Example fully connected network. b) After pruning.
+fine-tuned after pruning, and sometimes this process is repeated.
+In general, the smaller the model, the large the proportion of weights can be pruned
+without significantly damaging performance. For example, Han et al. (2016) maintained
+good performance for the VGG network on ImageNet classification when only 8% of the
+weights were retained. This significantly decreases the model size but isn’t enough to
+show that overparameterization is not required; the VGG network has ∼100 times as
+many parameters as there are training data in ImageNet (disregarding augmentation).
+Pruning is a form of architecture search. In their work on lottery tickets (see sec-
+tion 20.2.7), Frankle & Carbin (2019) (i) trained a network, (ii) pruned the weights with
+the smallest magnitudes, and (iii) retrained the remaining network from the same ini-
+tial weights. By iterating this procedure, they reduced the size of the VGG-19 network
+(originally 138 million parameters) by 98.5% on the CIFAR-10 database (60,000 exam-
+ples) while maintaining good performance. For ResNet-50 (25.6 million parameters),
+they reduced the parameters by 80% without reducing the performance on ImageNet
+(1.28 million examples). These demonstrations are impressive but (disregarding data
+augmentation) these networks are still over-parameterized after pruning.
+20.5.2 Knowledge distillation
+The parameters can also be reduced by training a smaller network (the student) to
+replicate the performance of a larger one (the teacher). This is known as knowledge
+distillation and dates back to at least Buciluǎ et al. (2006). Hinton et al. (2015) showed
+that the pattern of information across the output classes is important and trained a
+smaller network to approximate the pre-softmax logits of the larger one (figure 20.16).
+Zagoruyko & Komodakis (2017) further encouraged the spatial maps of the activa-
+tions of the student network to be similar to the teacher network at various points. They
+use this attention transfer method to approximate the performance of a 34-layer residual
+
+
+===== PDF 430 / книга 416 =====
+416 20 Why does deep learning work?
+Figure 20.16 Knowledge distillation. a) A teacher network for image classification
+is trained as usual, using a multiclass cross-entropy classification loss. b) A smaller
+student network is trained with the same loss, plus also a distillation loss that
+encourages the pre-softmax activations to be the same as for the teacher.
+network (∼63 million parameters) with an 18-layer residual network (∼11 million param-
+eters) on the ImageNet classification task. However, this is still larger than the number
+of training examples (∼1 million images). Modern methods (e.g. Chen et al., 2021a) can
+improve on this result, but distillation has not yet provided convincing evidence that
+under-parameterized models can perform well.
+20.5.3 Discussion
+Current evidence suggests that overparameterization is needed for generalization — at
+least for the size and complexity of datasets that are currently used. There are no
+demonstrations of state-of-the-art performance on complex datasets where there are sig-
+nificantly fewer parameters than training examples. Attempts to reduce model size by
+pruning or distilling trained networks have not changed this picture.
+Moreover, recent theory shows that there is a trade-off between the model’s Lipschitz
+constant and overparameterization; Bubeck & Sellke (2021) proved that in D dimensions,
+smooth interpolation requires D times more parameters than mere interpolation. They
+argue that current models for large datasets (e.g., ImageNet) aren’t overparameterized
+enough; increasing model capacity further may be key to improving performance.
+
+
+===== PDF 431 / книга 417 =====
+20.6 Do networks have to be deep? 417
+20.6 Do networks have to be deep?
+Chapter 3 discussed the universal approximation theorem. This states that shallow
+neural networks can approximate any function to arbitrary accuracy given enough hidden
+units. This raises the obvious question of whether networks need to be deep.
+First, let’s consider the evidence that depth is required. Historically, there has been
+a definite correlation between performance and depth. For example, performance on the
+ImageNet benchmark initially improved as a function of network depth until training
+became diﬀicult. Subsequently, residual connections and batch normalization (chap-
+ter 11) allowed training of deeper networks with commensurate gains in performance.
+At the time of writing, almost all state-of-the-art applications, including image classifica-
+tion (e.g., the vision transformer), text generation (e.g., GPT3), and text-guided image
+synthesis (e.g., DALL·E-2), are based on deep networks with tens or hundreds of layers.
+Despite this trend, there have been efforts to use shallower networks. Zagoruyko &
+Komodakis (2016) constructed shallower but wider residual neural networks and achieved
+similar performance to ResNet. More recently, Goyal et al. (2021) constructed a network
+that used parallel convolutional channels and achieved performance similar to deeper net-
+works with only 12 layers. Furthermore, Veit et al. (2016) showed that it is predominantly
+shorter paths of 5–17 layers that drive performance in residual networks.
+Nonetheless, the balance of evidence suggests that depth is critical; even the shallow-
+est networks with good image classification performance require >10 layers. However,
+there is no definitive explanation for why. Three possible explanations are that (i) deep
+networks can represent more complex functions than shallow ones, (ii) deep networks
+are easier to train, and (iii) deep networks impose better inductive biases.
+20.6.1 Complexity of modeled function
+Chapter 4 showed that deep networks make functions with many more linear regions than
+shallow ones for the same parameter count. We also saw that “pathological” functions
+have been identified that require exponentially more hidden units to model with a shallow
+network than a deep one (e.g., Eldan & Shamir, 2016; Telgarsky, 2016). Indeed Liang &
+Srikant (2016) found quite general families of functions that are more eﬀiciently modeled
+by deep networks. However, Nye & Saxe (2018) found that some of these functions
+cannot easily be fit by deep networks in practice. Moreover, there is little evidence that
+the real-world functions that we are approximating have these pathological properties.
+20.6.2 Tractability of training
+An alternative explanation is that shallow networks with a practical number of hidden
+units could support state-of-the-art performance, but it is just diﬀicult to find a good
+solution that both fits the training data well and interpolates sensibly.
+One way to show this is to distill successful deep networks into shallower (but wider)
+student models and see if performance can be maintained. Urban et al. (2017) dis-
+
+
+===== PDF 432 / книга 418 =====
+418 20 Why does deep learning work?
+tilled an ensemble of 16 convolutional networks for image classification on the CIFAR-10
+dataset into student models of varying depths. They found that shallow networks could
+not replicate the performance of the deeper teacher and that the student performance
+increased as a function of depth for a constant parameter budget.
+20.6.3 Inductive bias
+Most current models rely on convolutional blocks or transformers. These networks share
+parameters for local regions of the input data, and often they gradually integrate this
+information across the whole input. These constraints mean that the functions that
+these networks can represent are not general. One explanation for the supremacy of
+deep networks, then, is that these constraints have a good inductive bias and that it is
+diﬀicult to force shallow networks to obey these constraints.
+Multi-layer convolutional architectures seem to be inherently helpful, even without
+training. Ulyanov et al. (2018) demonstrated that the structure of an untrained CNN
+can be used as a prior in low-level tasks such as denoising and super-resolution. Frankle
+et al. (2021) achieved good performance in image classification by initializing the kernels
+randomly, fixing their values, and just training the batch normalization offset and scaling
+factors. Zhang et al. (2017a) show that features from randomly initialized convolutional
+filters can support subsequent image classification using a kernel model.
+Additional evidence that convolutional networks provide a useful inductive bias comes
+from Urban et al. (2017), who attempted to distill convolutional networks into shal-
+lower networks. They found that distilling into convolutional architectures systemat-
+ically worked better than distilling into fully connected networks. This suggests that
+the convolutional architecture has some inherent advantages. Since the sequential local
+processing of convolutional networks cannot easily be replicated by shallower networks,
+this argues that depth is indeed important.
+20.7 Summary
+This chapter has made the case that the success of deep learning is surprising. We
+discussed the challenges of optimizing high-dimensional loss functions and argued that
+overparameterization and the choice of activation function are the two most important
+factors that make this tractable in deep networks. We saw that, during training, the
+parameters move through a low-dimensional subspace to one of a family of connected
+global minima and that local minima are not apparent.
+Generalization of neural networks also improves with overparameterization, although
+other factors, such as the flatness of the minimum and the inductive bias of the architec-
+ture, are also important. It appears that both a large number of parameters and multiple
+network layers are required for good generalization, although we do not yet know why.
+Many questions remain unanswered. We do not currently have any prescriptive theory
+that will allow us to predict the circumstances in which training and generalization will
+
+
+===== PDF 433 / книга 419 =====
+20.7 Summary 419
+succeed or fail. We do not know the limits of learning in deep networks or whether
+much more eﬀicient models are possible. We do not know if there are parameters that
+would generalize better within the same model. The study of deep learning is still driven
+by empirical demonstrations. These are undeniably impressive, but they are not yet
+matched by our understanding of deep learning mechanisms.
+Problems
+Problem 20.1 Consider the ImageNet image classification task in which the input images contain
+224×224×3 RGB values. Consider coarsely quantizing these inputs into ten bins per RGB value
+and training with ∼ 107 training examples. How many possible inputs are there per training
+data point?
+Problem 20.2 Consider figure 20.1. Why do you think that the algorithm fits the data faster
+when the pixels are randomized relative to when the labels are randomized?
+Problem 20.3 Figure 20.2 shows a non-stochastic fitting process with a fixed learning rate
+successfully fitting random data. Does this imply that the loss function has no local minima?
+Does this imply that the function is convex? Justify your answer and give a counter-example if
+you think either statement is false.
