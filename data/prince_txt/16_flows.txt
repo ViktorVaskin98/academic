@@ -1,0 +1,1008 @@
+
+
+===== PDF 317 / книга 303 =====
+Chapter 16
+Normalizing flows
+Chapter 15 introduced generative adversarial networks (GANs). These are generative
+models that pass a latent variable through a deep network to create a new sample. GANs
+are trained using the principle that the samples should be indistinguishable from real
+data. However, they don’t define a distribution over data examples. Hence, assessing
+the probability that a new example belongs to the same dataset isn’t straightforward.
+In this chapter, we describe normalizing flows. These learn a probability model by
+transforming a simple distribution into a more complicated one using a deep network.
+Normalizing flows can both sample from this distribution and evaluate the probability
+of new examples. However, they require specialized architecture: each layer must be
+invertible. In other words, it must be able to transform data in both directions.
+16.1 1D example
+Normalizing flows are probabilistic generative models: they fit a probability distribution
+to training data (figure 14.2b). Consider modeling a 1D distribution P r(x). Normalizing
+flows start with a simple tractable base distribution P r(z) over a latent variable z and
+apply a function x = f[z, ϕ], where the parameters ϕ are chosen so that P r(x) has the
+desired distribution (figure 16.1). Generating a new example x∗ is easy; we draw z∗ from
+the base density and pass this through the function so that x∗ = f[z∗, ϕ].
+16.1.1 Measuring probability
+Measuring the probability of a data point x is more challenging. Consider applying a
+function f[z, ϕ] to random variable z with known density P r(z). The probability density
+will decrease in areas that are stretched by the function and increase in areas that are
+compressed so that the area under the new distribution remains one. The degree to
+which a function f[z, ϕ] stretches or compresses its input depends on the magnitude of
+its gradient. If a small change to the input causes a larger change in the output, it
+
+
+===== PDF 318 / книга 304 =====
+304 16 Normalizing flows
+Figure 16.1 Transforming probability distributions. a) The base density is a
+standard normal defined on a latent variable z. b) This variable is transformed
+by a function x = f[z, ϕ] to a new variable x, which c) has a new distribution. To
+sample from this model, we draw values z from the base density (green and brown
+arrows in panel (a) show two examples). We pass these through the function f[z, ϕ]
+as shown by dotted arrows in panel (b) to generate the values of x, which are
+indicated as arrows in panel (c).
+Figure 16.2 Transforming distributions. The base density (cyan, bottom) passes
+through a function (blue curve, top right) to create the model density (orange,
+left). Consider dividing the base density into equal intervals (gray vertical lines).
+The probability mass between adjacent lines must remain the same after transfor-
+mation. The cyan-shaded region passes through a part of the function where the
+gradient is larger than one, so this region is stretched. Consequently, the height
+of the orange-shaded region must be lower so that it retains the same area as the
+cyan-shaded region. In other places (e.g., z = −2), the gradient is less than one,
+and the model density increases relative to the base density.
+
+
+===== PDF 319 / книга 305 =====
+16.1 1D example 305
+Figure 16.3 Inverse mapping (normalizing direction). If the function is invertible,
+then it’s possible to transform the model density back to the original base density.
+The probability of a point x under the model density depends partly on the
+probability of the equivalent point z under the base density (see equation 16.1).
+stretches the function. If a small change to the input causes a smaller change in the
+output, it compresses the function (figure 16.2).
+More precisely, the probability of data x under the transformed distribution is:
+P r(x|ϕ) = (cid:12)(cid:12)(cid:12)(cid:12) ∂f[
+∂
+z
+z
+, ϕ] (cid:12)(cid:12)(cid:12)(cid:12) −1 · P r(z), (16.1)
+where z = f−1[x, ϕ] is the latent variable that created x. The term P r(z) is the original
+probability of this latent variable under the base density. This is moderated according 1 N D ot n e o b r o m o a k li 1 z 6 in .1 g
+to the magnitude of the derivative of the function. If this is greater than one, then the flows
+probability decreases. If it is smaller, the probability increases.
+16.1.2 Forward and inverse mappings
+To draw samples from the distribution, we need the forward mapping x = f[z, ϕ], but to
+measure the likelihood, we need to compute the inverse z = f−1[x, ϕ]. Hence, we need
+to choose f[z, ϕ] judiciously so that it is invertible.
+Problems 16.1–16.2
+The forward mapping is sometimes termed the generative direction. The base density
+is usually chosen to be a standard normal distribution. Hence, the inverse mapping is
+termed the normalizing direction since this takes the complex distribution over x and
+turns it into a normal distribution over z (figure 16.3).
+
+
+===== PDF 320 / книга 306 =====
+306 16 Normalizing flows
+16.1.3 Learning
+To learn the distribution, we find parameters ϕ that maximize the likelihood of the
+training data {xi}I i=1 or equivalently minimize the negative log-likelihood:
+" #
+YI
+ϕˆ = argmax P r(xi|ϕ)
+ϕ " X i= I 1 h i#
+= argmin − log P r(xi|ϕ)
+= arg ϕ
+ϕ
+min " X i
+i
+=
+=
+I 1
+1
+log "(cid:12)(cid:12)(cid:12)(cid:12) ∂f[
+∂
+z
+z
+i,
+i
+ϕ] (cid:12)(cid:12)(cid:12)(cid:12) # − log (cid:2) P r(zi) (cid:3) # , (16.2)
+where we have assumed that the data are independent and identically distributed in the
+first line and used the likelihood definition from equation 16.1 in the third line.
+16.2 General case
+The previous section developed a simple 1D example that modeled a probability dis-
+tribution P r(x) by transforming a simpler base density P r(z). We now extend this to
+multivariate distributions P r(x) and P r(z) and add the complication that the transfor-
+mation is defined by a deep neural network.
+Consider applying a function x = f[z, ϕ] to a random variable z ∈ RD with base
+density P r(z), where f[z, ϕ] is a deep network. The resulting variable x ∈ RD has a
+new distribution. A new sample x∗ can be drawn from this distribution by (i) drawing
+a sample z∗ from the base density and (ii) passing this through the neural network so
+that x∗ = f[z∗, ϕ].
+By analogy with equation 16.1, the likelihood of a sample under this distribution is:
+P r(x|ϕ) = (cid:12)(cid:12)(cid:12)(cid:12) ∂f[
+∂
+z
+z
+, ϕ] (cid:12)(cid:12)(cid:12)(cid:12) −1 · P r(z), (16.3)
+where z = f−1[x, ϕ] is the latent variable z that created x. The first term is the in-
+verse of the determinant of the D × D Jacobian matrix ∂f[z, ϕ]/∂z, which contains
+A D pp et e e n r d m ix in B an .3 t .8 terms ∂fi[z, ϕ]/∂zj at position (i, j). Just as the absolute derivative measured the change
+of area at a point on a 1D function when the function was applied, the absolute determi-
+Appendix B.5 nant measures the change in volume at a point in the multivariate function. The second
+Jacobian term is the probability of the latent variable under the base density.
+
+
+===== PDF 321 / книга 307 =====
+16.2 General case 307
+Figure 16.4 Forward and inverse mappings for a deep neural network. The base
+d to en c s r i e ty at ( e le t f h t) e is m g o r d a e d l u d a e ll n y s t it r y a . ns E fo a r c m h ed lay b e y r t i h s e i n n e v t e w rt o i r b k le l , ay a e n r d s f w 1[ e •, c ϕ an1], e f q 2[ u • i , v ϕ al2e ] n , t . l . y .
+think of the inverse of the layers as gradually transforming (or “flowing”) the
+model density back to the base density.
+16.2.1 Forward mapping with a deep neural network
+In practice, the forward mapping f[z, ϕ] is usually defined by a neural network, consisting
+of a series of layers fk[•, ϕk] with parameters ϕk, which are composed together as:
+(cid:20) h (cid:2) (cid:3) i (cid:21)
+x = f[z, ϕ] = fK fK−1 . . . f2 f1[z, ϕ1], ϕ2 , . . . ϕK−1 , ϕK . (16.4)
+The inverse mapping (normalizing direction) is defined by the composition of the inverse
+of each layer f− k 1[•, ϕk] applied in the opposite order:
+(cid:20) h (cid:2) (cid:3) i (cid:21)
+z = f−1[x, ϕ] = f− 1 1 f− 2 1 . . . f− K 1−1 f− K 1[x, ϕK], ϕK−1 , . . . ϕ2 , ϕ1 . (16.5)
+The base density P r(z) is usually defined as a multivariate standard normal (i.e., with
+mean zero and identity covariance). Hence, the effect of each subsequent inverse layer is
+to gradually move or “flow” the data density toward this normal distribution (figure 16.4).
+This gives rise to the name “normalizing flows.”
+The Jacobian of the forward mapping can be expressed as:
+∂f[z, ϕ] = ∂fK[fK−1, ϕK] · ∂fK−1[fK−2, ϕK−1] . . . ∂f2[f1, ϕ2] · ∂f1[z, ϕ1] , (16.6)
+∂z ∂fK−1 ∂fK−2 ∂f1 ∂z
+where we have overloaded the notation to make fk the output of the function fk[•, ϕk].
+The absolute determinant of this Jacobian can be computed by taking the product of
+the individual absolute determinants:
+
+
+===== PDF 322 / книга 308 =====
+308 16 Normalizing flows
+(cid:12)(cid:12)(cid:12)(cid:12)
+∂f[
+∂
+z
+z
+, ϕ]
+(cid:12)(cid:12)(cid:12)(cid:12)
+=
+(cid:12)(cid:12)(cid:12)(cid:12)
+∂fK[
+∂
+fK
+fK
+−
+−
+1
+1
+, ϕK]
+(cid:12)(cid:12)(cid:12)(cid:12)
+·
+(cid:12)(cid:12)(cid:12)(cid:12)
+∂fK−1[
+∂
+fK
+fK
+−
+−
+2
+2
+, ϕK−1]
+(cid:12)(cid:12)(cid:12)(cid:12)
+. . .
+(cid:12)(cid:12)(cid:12)(cid:12)
+∂f2[
+∂
+f1
+f1
+, ϕ2]
+(cid:12)(cid:12)(cid:12)(cid:12)
+·
+(cid:12)(cid:12)(cid:12)(cid:12)
+∂f1[
+∂
+z
+z
+, ϕ1]
+(cid:12)(cid:12)(cid:12)(cid:12)
+.
+(16.7)
+The absolute determinant of the Jacobian of the inverse mapping is found by applying
+Problem 16.3 the same rule to equation 16.5. It is the reciprocal of the absolute determinant in the
+forward mapping.
+We train normalizing flows with a dataset {xi} of I training examples using the
+negative log-likelihood criterion:
+ϕˆ = = a a r r g g
+ϕ
+ϕ m m a in x " " X
+i
+i Y
+=
+= I I
+1
+1 l P og r( (cid:20) z (cid:12)(cid:12)(cid:12)(cid:12) i ∂ ) f · [
+∂
+(cid:12)(cid:12)(cid:12)(cid:12) z
+z
+∂ i,
+i
+f ϕ [ ∂ z ] z i (cid:12)(cid:12)(cid:12)(cid:12) , i (cid:21) ϕ − ] (cid:12)(cid:12)(cid:12)(cid:12) − lo 1 g # (cid:2) P r(zi) (cid:3) # , (16.8)
+where zi = f−1[xi, ϕ], P r(zi) is measured under the base distribution, and the absolute
+determinant |∂f[zi, ϕ]/∂zi| is given by equation 16.7.
+16.2.2 Desiderata for network layers
+The theory of normalizing flows is straightforward. However, for this to be practical, we
+need neural network layers fk that have four properties.
+1. Collectively, the set of network layers must be suﬀiciently expressive to map a
+multivariate standard normal distribution to an arbitrary density.
+2. The network layers must be invertible; each must define a unique one-to-one map-
+ping from any input point to an output point (a bijection). If multiple inputs were
+Ap B p i e j n ec d t i i x on B.1 mapped to the same output, the inverse would be ambiguous.
+3. It must be possible to compute the inverse of each layer eﬀiciently. We need
+to do this every time we evaluate the likelihood. This happens repeatedly during
+training, so there must be a closed-form solution or a fast algorithm for the inverse.
+4. It also must be possible to evaluate the determinant of the Jacobian eﬀiciently for
+either the forward or inverse mapping.
+16.3 Invertible network layers
+We now describe different invertible network layers or flows for use in these models.
+We start with linear and elementwise flows. These are easy to invert, and it’s possible
+to compute the determinant of their Jacobians, but neither is suﬀiciently expressive to
+describe arbitrary transformations of the base density. However, they form the building
+blocks of coupling, autoregressive, and residual flows, which are all more expressive.
+
+
+===== PDF 323 / книга 309 =====
+16.3 Invertible network layers 309
+16.3.1 Linear flows
+A linear flow has the form f[h] = β + Ωh. If the matrix Ω is invertible, the linear
+transform is invertible. For Ω ∈ RD×D, the computation of the inverse is O[D3]. The
+d in et O er [ m D i 3 n ]. an T t h o is f t m h e e a J n a s c t o h b a i t an lin is ea j r us fl t o t w h s e b d e e c t o e m rm e i e n x a p n e t n o s f iv Ω e , as w t h h ic e h d c im an en a s l i s o o n b D e c in om cr p ea u s t e e s d . B A ig p O pe n n o d t ix at A ion
+If the matrix Ω takes a special form, then inversion and computation of the deter-
+m ex i a n m an p t le c , a d n ia b go ec n o a m l m e a m tr o i r c e es eﬀi re c q i u e i n r t e , o b n u ly t O th [ e D t ] r c a o n m sf p or u m ta a t t i i o o n n fo b r ec t o h m e e in s v l e e r s s s io g n en a e n r d al d . et F e o r r - A M p a p t e r n ix di t x yp B e . s 4
+minant, but the elements of h don’t interact. Orthogonal matrices are also more eﬀicient
+to invert, and their determinant is fixed, but they do not allow scaling of the individual Problem 16.4
+dimensions. Triangular matrices are more practical; they are invertible using a process
+known as back-substitution, which is O[D2], and the determinant is just the product of
+the diagonal values.
+One way to make a linear flow that is general, eﬀicient to invert, and for which the
+Jacobian can be computed eﬀiciently is to parameterize it directly in terms of the LU
+decomposition. In other words, we use:
+Ω = PL(U + D), (16.9)
+where P is a predetermined permutation matrix, L is a lower triangular matrix, U is
+an upper triangular matrix with zeros on the diagonal, and D is a diagonal matrix that
+supplies those missing diagonal elements. This can be inverted in O[D2], and the log
+determinant is just the sum of the log of the absolute values on the diagonal of D.
+Unfortunately, linear flows are not suﬀiciently expressive. When a linear func-
+tion f[h] = β + Ωh is applied to normally distributed input Normh[µ, Σ], then the
+result is also normally distributed with mean and variance, β + Ωµ and ΩΣΩT , respec-
+tively. Hence, it is not possible to map a normal distribution to an arbitrary density Problems 16.5–16.6
+using linear flows alone.
+16.3.2 Elementwise flows
+Since linear flows are not suﬀiciently expressive, we must turn to nonlinear flows. The
+simplest of these are elementwise flows, which apply a pointwise nonlinear function f[•, ϕ]
+with parameters ϕ to each element of the input so that:
+h i
+T
+f[h] = f[h1, ϕ], f[h2, ϕ], . . . f[hD, ϕ] . (16.10)
+The Jacobian ∂f[h]/∂h is diagonal since the dth input to f[h] only affects the dth output.
+Its determinant is the product of the entries on the diagonal, so:
+(cid:12)(cid:12)(cid:12)(cid:12) ∂
+∂
+f[
+h
+h] (cid:12)(cid:12)(cid:12)(cid:12)
+=
+d
+YD
+=1
+(cid:12)(cid:12)(cid:12)(cid:12) ∂
+∂
+f[
+h
+h
+d
+d] (cid:12)(cid:12)(cid:12)(cid:12)
+. (16.11)
+The function f[•, ϕ] could be a fixed invertible nonlinearity like the leaky ReLU Problem 16.7
+(figure 3.13), in which case there are no parameters, or it may be any parameterized
+
+
+===== PDF 324 / книга 310 =====
+310 16 Normalizing flows
+Figure 16.5 Piecewise linear mapping. An invertible piecewise linear map-
+ping h′ = f[h, ϕ] can be created by dividing the input domain h ∈ [0, 1] into K
+e a q ) u I a f l t ly he s s i e ze p d a r r e a g m io e n te s r ( s h a e r r e e p K os = iti 5 v ) e . a E n a d ch su r m egi t o o n o h n a e s , t a h s e l n op b e ) w th it e h fu p n ar c a ti m on et w er i , ll ϕ bke .
+invertible and map to the output domain h′ ∈ [0, 1].
+invertible one-to-one mapping. A simple example is a piecewise linear function with K
+regions (figure 16.5) which maps [0, 1] to [0, 1] as:
+!
+Xb−1
+f[hd, ϕ] = ϕk + (hK − b)ϕb, (16.12)
+k=1
+where the parameters ϕ1, ϕ2, . . . , ϕK are positive and sum to K, and b = ⌊Kh⌋ is the
+index of the bin that contains h. The first term is the sum of all the preceding bins, and
+the second term represents the proportion of the way through the current bin that h lies.
+This function is easy to invert, and its gradient can be calculated almost everywhere.
+Problems 16.8–16.9 There are many similar schemes for creating smooth functions, often using splines with
+parameters that ensure the function is monotonic and hence invertible.
+Elementwise flows are nonlinear but don’t mix input dimensions, so they can’t create
+correlations between variables. When alternated with linear flows (which do mix dimen-
+sions), more complex transformations can be modeled. However, in practice, elementwise
+flows are used as components of more complex layers like coupling flows.
+16.3.3 Coupling flows
+Coupling flows divide the input h into two parts so that h = [hT 1 , hT 2 ]T and define the
+flow f[h, ϕ] as:
+
+
+===== PDF 325 / книга 311 =====
+16.3 Invertible network layers 311
+F a o n u ig d t u p r u h e t 2. h 16 ′ 2 T . i 6 s he c C r fi e o a u rs t p e t l d i p n b a g y rt fl a o p h w p ′ 1 s ly . o i f n a g t ) h a e T n o h i u n e v tp e in r u t p t i u b ( t l c e y ( t a o r n r a a n n v s g e fo c e t r o m v r e a ) c t t i i o s o r n ) a g i c [ s • o , p d ϕ y iv ] i o t d f o ed h h 2 i 1 , n . w to h T e h h r 1 e e
+t
+I a n
+h
+n
+e
+d th
+p
+t e
+a
+h
+r
+i e n
+a
+n v
+m
+e a
+e
+r p
+t
+s p
+e
+e
+r
+l m y
+s
+a
+ϕ
+th p e p
+ar
+i i n
+e
+n g v
+t
+,
+h
+e h r
+e
+s
+m
+1 e =
+s
+g
+e
+−
+l
+h
+v
+1 ′ 1
+e
+[ .
+s
+h T ′ 2
+a
+, h
+(
+ϕ
+n
+is ]
+o
+a t
+t
+o ll
+n
+o r
+e
+w e
+c
+t s
+e
+r
+s
+i u
+s
+e s
+a
+v
+r
+e t
+i
+o
+l
+h
+y
+c 2 a
+i
+.
+n
+lc
+v
+u
+e
+l
+r
+a
+t
+t
+ib
+e
+l
+t
+e
+h
+)
+e
+fu
+p
+n
+ar
+c
+a
+ti
+m
+on
+et
+o
+er
+f
+s
+h
+ϕ
+1.
+[h
+b
+1
+)
+]
+h′ 1 = hh1 i
+h′ 2 = g h2, ϕ[h1] . (16.13)
+Here g[•, ϕ] is an elementwise flow (or other invertible layer) with parameters ϕ[h1] that
+are themselves a nonlinear function of the inputs h1 (figure 16.6). The function ϕ[•] is
+usually a neural network of some kind and does not have to be invertible. The original
+variables can be recovered as:
+h1 = h′ 1 h i
+h2 = g−1 h′ 2, ϕ[h1] . (16.14)
+If the function g[•, ϕ] is an elementwise flow, the Jacobian will be diagonal with the iden-
+tity matrix in the top-left quadrant and the derivatives of the elementwise transformation
+in the bottom right. Its determinant is the product of these diagonal values.
+The inverse and Jacobian can be computed eﬀiciently, but this approach only trans-
+forms the second half of the parameters in a way that depends on the first half. To make
+a more general transformation, the elements of h are randomly shuffled using permuta-
+tion matrices between layers, so every variable is ultimately transformed by every other. Pe A rm pp u e ta n t d i i o x n B m .4 a . t 4 rix
+In practice, these permutation matrices are diﬀicult to learn. Hence, they are initialized
+randomly and then frozen. For structured data like images, the channels are divided into
+two halves h1 and h2 and permuted between layers using 1×1 convolutions.
+
+
+===== PDF 326 / книга 312 =====
+312 16 Normalizing flows
+Figure 16.7 Autoregressive flows. The input h (orange column) and output h′
+(cyan column) are split into their constituent dimensions (here four dimensions).
+a ve ) r O tib u l t e pu fu t n h c ′ 1 tio is n a o n f i i n n v p e u r t ti h bl 2 e w tr h a e n r s e fo t r h m e a p ti a o r n am o e f t i e n r p s u d t ep h1 en . d O o u n tp h u 1 t . h O ′ 2 u is tp a u n t i h n ′ 3 -
+is an invertible function of input h3 where the parameters depend on previous
+inputs h1 and h2, and so on. None of the outputs depend on one another, so
+they can be computed in parallel. b) The inverse of the autoregressive flow is
+computed using a similar method as for coupling flows. However, notice that to
+compute h2 we must already know h1, to compute h3, we must already know h1
+and h2, and so on. Consequently, the inverse cannot be computed in parallel.
+16.3.4 Autoregressive flows
+Autoregressive flows are a generalization of coupling flows that treat each input dimension
+as a separate “block” (figure 16.7). They compute the dth dimension of the output h′
+based on the first d−1 dimensions of the input h:
+h i
+h′ d = g hd, ϕ[h1:d−1] . (16.15)
+The function g[•, •] is termed the transformer, 1 and the parameters ϕ, ϕ[h1], ϕ[h1, h2], . . .
+are termed conditioners. As for coupling flows, the transformer g[•, ϕ] must be invert-
+ible, but the conditioners ϕ[•] can take any form and are usually neural networks. If the
+transformer and conditioner are suﬀiciently flexible, autoregressive flows are universal
+approximators in that they can represent any probability distribution.
+It’s possible to compute all of the entries of the output h′ in parallel using a network
+with appropriate masks so that the parameters ϕ at position d only depend on previous
+1This is nothing to do with the transformer layers discussed in chapter 12.
+
+
+===== PDF 327 / книга 313 =====
+16.3 Invertible network layers 313
+positions. This is known as a masked autoregressive flow. The principle is very similar to
+masked self-attention (section 12.7.2); connections that relate inputs to previous outputs
+are pruned.
+Inverting the transformation is less eﬀicient. Consider the forward mapping:
+h i
+h′ 1 = g h h1, ϕ i
+h′ 2 = g h h2, ϕ[h1] i
+h′ 3 = g h h3, ϕ[h1:2] i
+h′ 4 = g h4, ϕ[h1:3] . (16.16)
+This must be inverted sequentially using a similar principle as for coupling flows:
+h i
+h1 = g−1
+h
+h′ 1, ϕ
+i
+h2 = g−1
+h
+h′ 2, ϕ[h1]
+i
+h3 = g−1
+h
+h′ 3, ϕ[h1:2]
+i
+h4 = g−1 h′ 4, ϕ[h1:3] . (16.17)
+T pa h r i t s ia c l a r n e ’ s t u b lt e s s d o on fa e r) in . H p e a n ra c l e l , el in a v s er t s h io e n co is m t p im ut e a -c ti o o n n su f m or in h g d w d h e e p n en t d h s e o in n pu h t 1:d is − l 1 ar ( g i. e e . ., the Au N to o r t e e g b re o s o s k iv 1 e 6 fl .2 ows
+16.3.5 Inverse autoregressive flows
+Masked autoregressive flows are defined in the normalizing (inverse) direction. This is
+required to evaluate the likelihood eﬀiciently and hence to learn the model. However,
+sampling requires the forward direction, in which each variable must be computed se-
+quentially at each layer, which is slow. If we use an autoregressive flow for the forward
+(generative) transformation, then sampling is eﬀicient, but computing the likelihood (and
+training) is slow. This is known as an inverse autoregressive flow.
+A trick that allows fast learning and also fast (but approximate) sampling is to
+build a masked autoregressive flow to learn the distribution (the teacher) and then use
+this to train an inverse autoregressive flow from which we can sample eﬀiciently (the
+student). This requires a different formulation of normalizing flows that learns from
+another function rather than a set of samples (see section 16.5.3).
+16.3.6 Residual flows: iRevNet
+Residual flows take their inspiration from residual networks. They divide the input into
+two parts h = [hT 1 , hT 2 ]T (as for coupling flows) and define the outputs as:
+
+
+===== PDF 328 / книга 314 =====
+314 16 Normalizing flows
+Figure 16.8 Residual flows. a) An invertible function is computed by splitting the
+input into h1 and h2 and creating two residual layers. In the first, h2 is processed
+and h1 is added. In the second, the result is processed, and h2 is added. b) In
+the reverse mechanism the functions are computed in the opposite order, and the
+addition operation becomes subtraction.
+h′ 1 = h1 + f1[h2, ϕ1]
+h′ 2 = h2 + f2[h′ 1, ϕ2], (16.18)
+where f1[•, ϕ1] and f2[•, ϕ2] are two functions that do not necessarily have to be invertible
+(figure 16.8). The inverse can be computed by reversing the order of computation:
+h2 = h′ 2 − f2[h′ 1, ϕ2]
+h1 = h′ 1 − f1[h2, ϕ1]. (16.19)
+As for coupling flows, the division into blocks restricts the family of transformations
+that can be represented. Hence, the inputs are permuted between layers so that the
+variables can mix in arbitrary ways.
+This formulation can be inverted easily, but for general functions f1[•, ϕ1] and f2[•, ϕ2],
+there is no eﬀicient way to compute the Jacobian. This formulation is sometimes used to
+Problem 16.10 save memory when training residual networks; because the network is invertible, storing
+the activations at each layer in the forward pass is unnecessary.
+16.3.7 Residual flows and contraction mappings: iResNet
+A different approach to exploiting residual networks is to utilize the Banach fixed point
+theorem or contraction mapping theorem, which states that every contraction mapping
+has a fixed point. A contraction mapping f[•] has the property that:
+
+
+===== PDF 329 / книга 315 =====
+16.3 Invertible network layers 315
+Figure 16.9 Contraction mappings. If a function has an absolute slope of less
+than one everywhere, iterating the function converges to a fixed point f[z] = z. a)
+Starting at z0, we evaluate z1 = f[z0]. We then pass z1 back into the function and
+iterate. Eventually, the process converges to the point where f[z] = z (i.e., where
+the function crosses the dashed diagonal identity line). b) This can be used to
+invert equations of the form y = z + f[z] for a value y∗ by noticing that the fixed
+point of y∗ − f[z] (where the orange line crosses the dashed identity line) is at
+the same position as where y∗ = z + f[z].
+h i h i
+dist f[z′], f[z] < β · dist z′, z ∀ z, z′, (16.20)
+where dist[•, •] is a distance function and 0 < β < 1. When a function with this property
+is iterated (i.e., the output is repeatedly passed back in as an input), the result converges
+to a fixed point where f[z] = z (figure 16.9). To understand this, consider applying the Con N tr o a t c e t b io o n ok m 1 a 6 p . p 3 ings
+function to both the fixed point and the current position; the fixed point remains static,
+but the distance between the two must become smaller, so the current position must get
+closer to the fixed point.
+This theorem can be exploited to invert an equation of the form:
+y = z + f[z] (16.21)
+if f[z] is a contraction mapping. In other words, it can be used to find the z∗ that maps
+y to ∗ a − T g f h i [ v e z e k s n ] a . v m T a e l h u i p e s , r h i y n a ∗ c s . ip a T le fi h x i c s e a d c n a p n b o e b in e u t s d e a o d t ne z to b + y in f s [ v z t e a ] r r = t ti r n y e g ∗ si w ( d fi u i g t a h u l r a e n n e 1 y t 6 w p .9 o o b r i k n ) t . la z0 ye a r n s d o i f te t r h a e ti f n o g rm zk+ h 1 ′ = = Appendix B.1.1
+h+f[h, ϕ] if we ensure that f[h, ϕ] is a contraction mapping. In practice, this means that Lipschitz constant
+the Lipschitz constant must be less than one. Assuming that the slope of the activation Ap E p ig en en d v ix alu B e . s 3.7
+functions is not greater than one, this is equivalent to ensuring the largest eigenvalue of
+
+
+===== PDF 330 / книга 316 =====
+316 16 Normalizing flows
+each weight matrix Ω must be less than one. A crude way to do this is to ensure that
+the absolute magnitudes of the weights Ω are small by clipping them.
+The Jacobian determinant cannot be computed easily, but its logarithm can be ap-
+proximated using a series of tricks.
+log
+(cid:20)(cid:12)(cid:12)(cid:12)(cid:12)I
++
+∂f[
+∂
+h
+h
+, ϕ]
+(cid:12)(cid:12)(cid:12)(cid:12) (cid:21)
+= trace
+(cid:20)
+log
+(cid:20)
+I +
+∂f[
+∂
+h
+h
+, ϕ]
+(cid:21)(cid:21)
+= X∞ (−1)k−1trace (cid:20) ∂f[h, ϕ] (cid:21) k , (16.22)
+∂h
+k=1
+where we have used the identity log[|A|] = trace[log[A]] in the first line and expanded
+this into a power series in the second line.
+Even when we truncate this series, it’s still computationally expensive to compute
+Appe T n r d a ix ce B.3.8 the trace of the constituent terms. Hence, we approximate this using Hutchinson’s trace
+estimator. Consider a normal random variable ϵ with mean 0 and variance I. The trace
+of a matrix A can be estimated as:
+(cid:2) (cid:2) (cid:3)(cid:3)
+trace[A] = trace AE ϵϵT
+(cid:2) (cid:2) (cid:3)(cid:3)
+= trace E AϵϵT
+(cid:2) (cid:2) (cid:3)(cid:3)
+= E trace AϵϵT
+(cid:2) (cid:2) (cid:3)(cid:3)
+= E trace ϵT Aϵ
+(cid:2) (cid:3)
+= E ϵT Aϵ , (16.23)
+where the first line is true because E[ϵϵT ] = I. The second line derives from the properties
+of the expectation operator. The third line comes from the linearity of the trace operator.
+The fourth line is due to the invariance of the trace to cyclic permutation. The final line
+is true because the argument in the fourth line is now a scalar. We estimate the trace
+by drawing samples ϵi from P r(ϵ):
+(cid:2) (cid:3)
+trace[A] = E ϵT Aϵ
+≈ I 1 XI ϵT i Aϵi. (16.24)
+i=1
+In this way, we can approximate the trace of the powers of the Taylor expansion (equa-
+tion 16.22) and evaluate the log probability.
+16.4 Multi-scale flows
+In normalizing flows, the latent space z must be the same size as the data space x, but
+we know that natural datasets can often be described by fewer underlying variables. At
+
+
+===== PDF 331 / книга 317 =====
+16.5 Applications 317
+Figure 16.10 Multiscale flows. The latent space z must be the same size as the
+model density in normalizing flows. However, it can be partitioned into several
+components, which can be gradually introduced at different layers. This makes
+both density estimation and sampling faster. For the inverse process, the black
+arrows are reversed, and the last part of each block skips the remaining processing.
+F bl o o r ck ex b a e m co p m le e , s f− 3z4 1[• a , n ϕ d3i ] s o a n ss ly ess o e p d er a a g t a e i s ns o t n th th e e b fi as rs e t d t e h n r s e i e ty. blocks, and the fourth
+some point, we have to introduce all of these variables, but it is ineﬀicient to pass them
+through the entire network. This leads to the idea of multi-scale flows (figure 16.10).
+In the generative direction, multi-scale flows partition the latent vector into z =
+[z1, z2, . . . , zN ]. The first partition z1 is processed by a series of reversible layers with
+the same dimension as z1 until, at some point, z2 is appended and combined with the
+first partition. This continues until the network is the same size as the data x. In the
+normalizing direction, the network starts at the full dimension of x, but when it reaches
+the point where zn was added, this is assessed against the base distribution.
+16.5 Applications
+We now describe three applications of normalizing flows. First, we consider modeling
+probability densities. Second, we consider the GLOW model for synthesizing images.
+Finally, we discuss using normalizing flows to approximate other distributions.
+16.5.1 Modeling densities
+Of the four generative models discussed in this book, normalizing flows is the only model
+that can compute the exact log-likelihood of a new sample. Generative adversarial
+
+
+===== PDF 332 / книга 318 =====
+318 16 Normalizing flows
+Figure 16.11 Modeling densities. a) Toy 2D data samples. b) Modeled density
+using iResNet. c–d) Second example. Adapted from Behrmann et al. (2019)
+networks are not probabilistic, and both variational autoencoders and diffusion models
+can only return a lower bound on the likelihood.2 Figure 16.11 depicts the estimated
+probability distributions in two toy problems using i-ResNet. One application of density
+estimation is anomaly detection; the data distribution of a clean dataset is described
+using a normalizing flow model. New examples with low probability are flagged as
+outliers. However, caution must be used as there may exist outliers with high probability
+that don’t fall in the typical set (see figure 8.13).
+16.5.2 Synthesis
+Generative flows, or GLOW, is a normalizing flow model that can create high-fidelity
+images (figure 16.12) and uses many of the ideas from this chapter. It is easiest under-
+stood in the normalizing direction. GLOW starts with a 256 × 256 × 3 tensor containing
+an RGB image. It uses coupling layers, in which the channels are partitioned into two
+halves. The second half is subject to a different aﬀine transform at each spatial position,
+where the parameters of the aﬀine transformation are computed by a 2D convolutional
+neural network run on the other half of the channels. The coupling layers are alternated
+with 1 × 1 convolutions, parameterized as LU decompositions which mix the channels.
+Periodically, the resolution is halved by combining each 2 × 2 patch into one position
+with four times as many channels. GLOW is a multi-scale flow, and some of the channels
+are periodically removed to become part of the latent vector z. Images are discrete (due
+to the quantization of RGB values), so noise is added to the inputs to prevent the training
+likelihood increasing without bound. This is known as dequantization.
+To sample more realistic images, the GLOW model samples from the base density
+raised to a positive power. This chooses examples that are closer to the center of the
+density rather than from the tails. This is similar to the truncation trick in GANs
+2The lower bound on the likelihood for diffusion models can actually exceed the exact computation
+in normalizing flows, but data generation is much slower (see chapter 18).
+
+
+===== PDF 333 / книга 319 =====
+16.5 Applications 319
+Figure 16.12 Samples from GLOW trained on the CelebA HQ dataset (Karras
+et al., 2018). The samples are of reasonable quality, although GANs and diffusion
+models produce superior results. Adapted from Kingma & Dhariwal (2018).
+Figure 16.13 Interpolation using GLOW model. The left and right images are real
+people. The intermediate images were computed by projecting the real images to
+the latent space, interpolating, and then projecting the interpolated points back
+to image space. Adapted from Kingma & Dhariwal (2018).
+
+
+===== PDF 334 / книга 320 =====
+320 16 Normalizing flows
+(figure 15.10). Notably, the samples are not as good as those from GANs or diffusion
+models. It is unknown whether this is due to a fundamental restriction associated with
+invertible layers or merely because less research effort has been invested in this goal.
+Figure 16.13 shows an example of interpolation using GLOW. Two latent vectors are
+computed by transforming two real images in the normalizing direction. Intermediate
+points between these latent vectors are computed by linear interpolation, and these are
+projected back to image space using the network in the generative direction. The result
+is a set of images that interpolate realistically between the two real ones.
+16.5.3 Approximating other density models
+Normalizing flows can also learn to generate samples that approximate an existing density
+which is easy to evaluate but diﬀicult to sample from. In this context, we denote the
+normalizing flow P r(x|ϕ) as the student and the target density q(x) as the teacher.
+To make progress, we generate samples xi = f[zi, ϕ] from the student. Since we
+generated these samples ourselves, we know their corresponding latent variables zi, and
+we can calculate their likelihood in the student model without inversion. Thus, we can
+use a model like a masked-autoregressive flow where inversion is slow. We define a loss
+function based on the reverse KL divergence that encourages the student and teacher
+Problem 16.11 likelihood to be identical and use this to train the student model (figure 16.14):
+ϕˆ = argmin
+"
+KL
+" XI
+δ
+(cid:2)
+x − f[zi, ϕ]
+(cid:3) (cid:12)(cid:12)(cid:12)(cid:12) (cid:12)(cid:12)(cid:12)(cid:12)q(x) ##
+. (16.25)
+ϕ i=1
+This approach contrasts with the typical use of normalizing flows to build a proba-
+bility model P r(xi, ϕ) of data that came from an unknown distribution with samples xi
+using maximum likelihood, which relies on the cross-entropy term from the forward KL
+divergence (section 5.7):
+ϕˆ = arg
+ϕ
+min " KL "
+I
+1 X
+i=
+I
+1
+δ[x − xi] (cid:12)(cid:12)(cid:12)(cid:12) (cid:12)(cid:12)(cid:12)(cid:12)P r(xi, ϕ) ## . (16.26)
+Normalizing flows can model the posterior in VAEs using this trick (see chapter 17).
+16.6 Summary
+Normalizing flows transform a base distribution (usually a normal distribution) to create
+a new density. They have the advantage that they can both evaluate the likelihood
+of samples exactly and generate new samples. However, they have the architectural
+constraint that each layer must be invertible; we need the forward transformation to
+generate samples and the backward transformation to evaluate the likelihoods.
+It’s also important that the Jacobian can be estimated eﬀiciently to evaluate the
+likelihood; this must be done repeatedly to learn the density. However, invertible layers
+
+
+===== PDF 335 / книга 321 =====
+Notes 321
+Figure 16.14 Approximating density models. a) Training data. b) Usually, we
+modify the flow model parameters to minimize the KL divergence from the train-
+ing data to the flow model. This is equivalent to maximum likelihood fitting
+(section 5.7). c) Alternatively, we can modify the flow parameters ϕ to minimize
+the KL divergence from the flow samples xi = f[zi, ϕ] to d) a target density.
+are still useful in their own right even when the Jacobian cannot be estimated eﬀiciently;
+they reduce the memory requirements of training a K-layer network from O[K] to O[1].
+This chapter reviewed invertible network layers or flows. We considered linear flows
+and elementwise flows, which are simple but insuﬀiciently expressive. Then we described
+more complex flows, such as coupling, autoregressive, and residual flows. Finally, we
+showed how normalizing flows can be used to estimate likelihoods, generate and inter-
+polate between images, and approximate other distributions.
+Notes
+Normalizing flows were first introduced by Rezende & Mohamed (2015) but had intellectual
+antecedents in the work of Tabak & Vanden-Eijnden (2010), Tabak & Turner (2013), and
+Rippel & Adams (2013). Reviews of normalizing flows can be found in Kobyzev et al. (2020)
+and Papamakarios et al. (2021). Kobyzev et al. (2020) presented a quantitative comparison of
+
+
+===== PDF 336 / книга 322 =====
+322 16 Normalizing flows
+many normalizing flow approaches. They concluded that the Flow++ model (a coupling flow
+with a novel elementwise transformation and other innovations) performed best at the time.
+Invertible network layers: Invertible layers decrease the memory requirements of the back-
+propagation algorithm; the activations in the forward pass no longer need to be stored since
+they can be recomputed in the backward pass. In addition to the regular network layers and
+residual layers (Gomez et al., 2017; Jacobsen et al., 2018) discussed in this chapter, invertible
+layers have been developed for graph neural networks (Li et al., 2021a), recurrent neural net-
+works (MacKay et al., 2018), masked convolutions (Song et al., 2019), U-Nets (Brügger et al.,
+2019; Etmann et al., 2020), and transformers (Mangalam et al., 2022).
+Radial and planar flows: The original normalizing flows paper (Rezende & Mohamed, 2015)
+used planar flows (which contract or expand the distribution along certain dimensions) and
+radial flows (which expand or contract around a certain point). Inverses for these flows can’t
+be computed easily, but they are useful for approximating distributions where sampling is slow
+or where the likelihood can only be evaluated up to an unknown scaling factor (figure 16.14).
+Applications: Applications include image generation (Ho et al., 2019; Kingma & Dhariwal,
+2018), noise modeling (Abdelhamed et al., 2019), video generation (Kumar et al., 2019b), au-
+dio generation (Esling et al., 2019; Kim et al., 2018; Prenger et al., 2019), graph generation
+(Madhawa et al., 2019), image classification (Kim et al., 2021; Mackowiak et al., 2021), im-
+age steganography (Lu et al., 2021), super-resolution (Yu et al., 2020; Wolf et al., 2021; Liang
+et al., 2021), style transfer (An et al., 2021), motion style transfer (Wen et al., 2021), 3D shape
+modeling (Paschalidou et al., 2021), compression (Zhang et al., 2021b), sRGB to RAW image
+conversion (Xing et al., 2021), denoising (Liu et al., 2021b), anomaly detection (Yu et al., 2021),
+image-to-image translation (Ardizzone et al., 2020), synthesizing cell microscopy images under
+different molecular interventions (Yang et al., 2021), and light transport simulation (Müller
+et al., 2019b). For applications using image data, noise must be added before learning since the
+inputs are quantized and hence discrete (see Theis et al., 2016).
+Rezende & Mohamed (2015) used normalizing flows to model the posterior in VAEs. Abdal
+et al. (2021) used normalizing flows to model the distribution of attributes in the latent space of
+StyleGAN and then used these distributions to change specified attributes in real images. Wolf
+et al. (2021) use normalizing flows to learn the conditional image of a noisy input image given a
+clean one and hence simulate noisy data that can be used to train denoising or super-resolution
+models.
+Normalizing flows have also found diverse uses in physics (Kanwar et al., 2020; Köhler et al.,
+2020; Noé et al., 2019; Wirnsberger et al., 2020; Wong et al., 2020), natural language processing
+(Tran et al., 2019; Ziegler & Rush, 2019; Zhou et al., 2019; He et al., 2018; Jin et al., 2019), and
+reinforcement learning (Schroecker et al., 2019; Haarnoja et al., 2018a; Mazoure et al., 2020;
+Ward et al., 2019; Touati et al., 2020).
+Linear flows: Diagonal linear flows can represent normalization transformations like Batch-
+Norm (Dinh et al., 2016) and ActNorm (Kingma & Dhariwal, 2018). Tomczak & Welling (2016)
+investigated combining triangular matrices and using orthogonal transformations parameterized
+by the Householder transform. Kingma & Dhariwal (2018) proposed the LU parameterization
+described in section 16.5.2. Hoogeboom et al. (2019b) proposed using the QR decomposition
+instead, which does not require predetermined permutation matrices. Convolutions are lin-
+ear transformations (figure 10.4) that are widely used in deep learning, but their inverse and
+determinant are not straightforward to compute. Kingma & Dhariwal (2018) used 1×1 con-
+volutions, which is effectively a full linear transformation applied separately at each position.
+Zheng et al. (2017) introduced ConvFlow, which was restricted to 1D convolutions. Hoogeboom
+et al. (2019b) provided more general solutions for modeling 2D convolutions either by stacking
+together masked autoregressive convolutions or by operating in the Fourier domain.
+
+
+===== PDF 337 / книга 323 =====
+Notes 323
+Elementwise flows and coupling functions: Elementwise flows transform each variable
+independently using the same function (but with different parameters for each variable). The
+same flows can be used to form the coupling functions in coupling and autoregressive flows, in
+which case their parameters depend on the preceding variables. To be invertible, these functions
+must be monotone.
+An additive coupling function (Dinh et al., 2015) just adds an offset to the variable. Aﬀine
+coupling functions scale the variable and add an offset and were used by Dinh et al. (2015),
+Dinh et al. (2016), Kingma & Dhariwal (2018), Kingma et al. (2016), and Papamakarios et al.
+(2017). Ziegler & Rush (2019) propose the nonlinear squared flow, which is an invertible ratio
+of polynomials with five parameters. Continuous mixture CDFs (Ho et al., 2019) apply a
+monotone transformation based on the cumulative density function (CDF) of a mixture of K
+logistics, post-composed by an inverse logistic sigmoid, scaled, and offset.
+The piecewise linear coupling function (figure 16.5) was developed by Müller et al. (2019b).
+Since then, systems based on cubic splines (Durkan et al., 2019a) and rational quadratic splines
+(Durkan et al., 2019b) have been proposed. Huang et al. (2018a) introduced neural autoregres-
+sive flows, in which the function is represented by a neural network that produces a monotonic
+function. A suﬀicient condition is that the weights are all positive and the activation functions
+are monotone. It is hard to train a network with the constraint that the weights are positive, so
+this led to unconstrained monotone neural networks (Wehenkel & Louppe, 2019), which model
+strictly positive functions and then integrate them numerically to get a monotone function.
+Jaini et al. (2019) construct positive functions that can be integrated in closed form based on a
+classic result that all positive single-variable polynomials are the sum of squares of polynomials.
+Finally, Dinh et al. (2019) investigated piecewise monotonic coupling functions.
+Coupling flows: Dinh et al. (2015) introduced coupling flows in which the dimensions were
+split in half (figure 16.6). Dinh et al. (2016) introduced RealNVP, which partitioned the image
+input by taking alternating pixels or blocks of channels. Das et al. (2019) proposed selecting
+features for the propagated part based on the magnitude of the derivatives. Dinh et al. (2016)
+interpreted multi-scale flows (in which dimensions are gradually introduced) as coupling flows in
+which the parameters ϕ have no dependence on the other half of the data. Kruse et al. (2021)
+introduce a hierarchical formulation of coupling flows in which each partition is recursively
+divided into two. GLOW (figures 16.12–16.13) was designed by Kingma & Dhariwal (2018) and
+uses coupling flows, as do NICE (Dinh et al., 2015), RealNVP (Dinh et al., 2016), FloWaveNet
+(Kim et al., 2018), WaveGlOW (Prenger et al., 2019), and Flow++ (Ho et al., 2019).
+Autoregressive flows: Kingma et al. (2016) used autoregressive models for normalizing flows.
+Germain et al. (2015) developed a general method for masking previous variables. This was
+exploited by Papamakarios et al. (2017) to compute all of the outputs in the forward direction
+simultaneously in masked autoregressive flows. Kingma et al. (2016) introduced the inverse
+autoregressive flow. Parallel WaveNet (Van den Oord et al., 2018) distilled WaveNet (Van den
+Oord et al., 2016a), which is a different type of generative model for audio, into an inverse
+autoregressive flow so that sampling would be fast (see figure 16.14c–d).
+Residual flows: Residual flows are based on residual networks (He et al., 2016a). RevNets
+(Gomez et al., 2017) and iRevNets (Jacobsen et al., 2018) divide the input into two sections
+(figure 16.8), each of which passes through a residual network. These networks are invertible,
+but the determinant of the Jacobian cannot be computed easily. The residual connection can
+be interpreted as the discretization of an ordinary differential equation, and this perspective led
+to different invertible architectures (Chang et al., 2018, 2019a). However, the Jacobian of these
+networks could still not be computed eﬀiciently. Behrmann et al. (2019) noted that the network
+can be inverted using fixed point iterations if its Lipschitz constant is less than one. This led to
+iResNet, in which the log determinant of the Jacobian can be estimated using Hutchinson’s trace
+
+
+===== PDF 338 / книга 324 =====
+324 16 Normalizing flows
+estimator (Hutchinson, 1989). Chen et al. (2019) removed the bias induced by the truncation
+of the power series in equation 16.22 by using the Russian Roulette estimator.
+Infinitesimal flows: If residual networks can be viewed as a discretization of an ordinary
+differential equation (ODE), then the next logical step is to represent the change in the variables
+directly by an ODE. The neural ODE was explored by Chen et al. (2018e) and exploits standard
+methods for forward and backward propagation in ODEs. The Jacobian is no longer required
+to compute the likelihood; this is represented by a different ODE in which the change in log
+probability is related to the trace of the derivative of the forward propagation. Grathwohl
+et al. (2019) used the Hutchinson estimator to estimate the trace and simplified this further.
+Finlay et al. (2020) added regularization terms to the loss function that make training easier,
+and Dupont et al. (2019) augmented the representation to allow the neural ODE to represent
+a broader class of diffeomorphisms. Tzen & Raginsky (2019) and Peluchetti & Favaro (2020)
+replaced the ODEs with stochastic differential equations.
+Universality: The universality property refers to the ability of a normalizing flow to model
+any probability distribution arbitrarily well. Some flows (e.g., planar, elementwise) do not have
+this property. Autoregressive flows can be shown to have the universality property when the
+coupling function is a neural monotone network (Huang et al., 2018a), based on monotone
+polynomials (Jaini et al., 2020) or based on splines (Kobyzev et al., 2020). For dimension D,
+a series of D coupling flows can form an autoregressive flow. To understand why, note that
+the partitioning into two parts h1 and h2 means that at any given layer h2 depends only on
+the previous variables (figure 16.6). Hence, if we increase the size of h1 by one at every layer,
+we can reproduce an autoregressive flow, and the result is universal. It is not known whether
+coupling flows can be universal with fewer than D layers. However, they work well in practice
+(e.g., GLOW) without the need for this induced autoregressive structure.
+Other work: Active areas of research in normalizing flows include the investigation of discrete
+flows (Hoogeboom et al., 2019a; Tran et al., 2019), normalizing flows on non-Euclidean manifolds
+(Gemici et al., 2016; Wang & Wang, 2019), and equivariant flows (Köhler et al., 2020; Rezende
+et al., 2019) which aim to create densities that are invariant to families of transformations.
+Problems
+Problem 16.1 Consider transforming a uniform base density defined on z ∈ [0, 1] using the
+function x = f[z] = z2. Find an expression for the transformed distribution P r(x).
+Problem 16.2∗ Consider transforming a standard normal distribution:
+(cid:20) (cid:21)
+P r(z) = √1 exp −z2 , (16.27)
+2π 2
+with the function:
+x = f[z] = 1 + ex 1 p[−z] . (16.28)
+Find an expression for the transformed distribution P r(x).
+Problem 16.3∗ Write expressions for the Jacobian of the inverse mapping z = f−1[x, ϕ] and the
+absolute determinant of that Jacobian in forms similar to equations 16.6 and 16.7.
+
+
+===== PDF 339 / книга 325 =====
+Notes 325
+Problem 16.4 Compute the inverse and the determinant of the following matrices by hand:
+2 3 2 3
+2 0 0 0 1 0 0 0
+Ω1 = 664 0 0 − 0 5 1 0 0 0775 Ω2 = 664 2 1 − 4 1 2 0 0 0775 . (16.29)
+0 0 0 2 4 −2 −2 1
+Problem 16.5 Consider a random variable z with mean µ and covariance Σ that is transformed
+as x = Az + b. Show that the expected value of x is Aµ + b and that the covariance of x is
+AΣAT .
+Problem 16.6∗ Prove that if x = f[z] = Az + b and P r(z) = Normz[µ, Σ], then P r(x) =
+Normx[Aµ + b, AΣAT ] using the relation:
+P r(x) = Pr(z) · (cid:12)(cid:12)(cid:12)(cid:12) ∂
+∂
+f[
+z
+z] (cid:12)(cid:12)(cid:12)(cid:12) −1 . (16.30)
+Problem 16.7 The Leaky ReLU is defined as:
+(
+0.1z z < 0
+LReLU[z] = z z ≥ 0 . (16.31)
+Write an expression for the inverse of the leaky ReLU. Write an expression for the inverse
+absolute determinant of the Jacobian |∂f[z]/∂z|−1 for an elementwise transformation x = f[z]
+of the multivariate variable z where:
+h i
+f[z] = LReLU[z1], LReLU[z2], . . . , LReLU[zD] T . (16.32)
+Problem 16.8 Consider applying the piecewise linear function f[h, ϕ] defined in equation 16.12
+for the domain h′ ∈ [0, 1] elementwise to an input h = [h1, h2, . . . , hD]T so that f[h] =
+[f[h1, ϕ], f[h2, ϕ], . . . , f[hD, ϕ]]. What is the Jacobian ∂f[h]/∂h? What is the determinant of
+the Jacobian?
+Problem 16.9∗ Consider constructing an element-wise flow based on a conical combination of
+square root functions in equally spaced bins:
+h′ = f[h, ϕ] =
+p
+[Kh − b] ϕb +
+Xb p
+ϕk, (16.33)
+k=1
+where b = ⌊Kh⌋ is the bin that h falls into, and the parameters ϕk are positive, and sum to
+o th n e e. fu C n o c n ti s o id n e f r [h t , h ϕ e ] c . a D se ra w w he t r h e e K inv = er 5 se a f n u d nc ϕ t 1 io = n 0 f− .1 1 , [h ϕ ′2 , ϕ = ]. 0.2, ϕ3 = 0.5, ϕ4 = 0.1, ϕ5 = 0.1. Draw
+Problem 16.10 Draw the structure of the Jacobian (indicating which elements are zero) for the
+forward mapping of the residual flow in figure 16.8 for the cases where f1[•, ϕ1] and f2[•, ϕ2] are
+(i) a fully connected neural network, (ii) an elementwise flow.
+Problem 16.11∗ Write out the expression for the KL divergence in equation 16.25. Why does
+it not matter if we can only evaluate the probability q(x) up to a scaling factor κ? Does the
+network have to be invertible to minimize this loss function? Explain your reasoning.

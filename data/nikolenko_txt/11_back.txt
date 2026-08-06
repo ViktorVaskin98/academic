@@ -1,0 +1,1416 @@
+
+
+===== СТР. 450 =====
+Благодарности
+Мыоченьблагодарнынашимколлегам,которыепрочиталирукописьивыска-
+зализамечания,позволившиенамсделатьэтукнигулучше.Этобыли:
+• ВалентинМалых,исследовательлабораториинейронныхсистемиглубокого
+обученияМФТИ;
+• Елена Тутубалина, исследователь кафедры интеллектуальных технологий
+поискаКазанского(Приволжского)федеральногоуниверситета;
+• ПавелНестеров,энтузиастмашинногообучения,активистOpenDataScience,
+движения,собирающеговместелучшихрусскоязычныхспециалистовпома-
+шинномуобучениюианализуданных.
+Сергей Николенко благодарен своим коллегам и аспирантам из Санкт-
+Петербургского отделения Математического института им. В.А. Стеклова РАН,
+с которыми уже более десяти лет ведет плодотворное сотрудничество (особенно
+Эдуарду Гиршу, Дмитрию Ицыксону и Александру Куликову), коллегам и сту-
+дентамизВысшейшколыэкономикивСанкт-Петербурге(особенноАлександру
+Сироткину), коллегам из компании Neuromation (особенно Максиму Прасолову
+иКонстантинуГольцеву),атакжеличноКириллуКогану(IMDEA,Мадрид).Ра-
+ботатьсовсемивами—одноудовольствие,иянадеюсь,чтонашесотрудничество
+будетпродолжатьсяивпредь.
+АртурКадуринблагодаренсынуМихаилуиженеАлександре,которыечасто
+позволялиемужертвоватьсемейнымиобязательствамирадинаписанияэтойкни-
+ги.Коллегамидрузьям—ИвануБаскову,ПавлуНестерову,КузьмеХраброву—
+активноследившимзапроцессомимотивирующимнапродолжение.Атакжебыв-
+шемуруководителю—МихаилуФирулику,которыйпомогвстатьнапутьдатасай-
+ентистаисделатьнаэтомпутипервыешаги.
+ЕкатеринаАрхангельскаяблагодарнасвоейсемье,авособенностисвоемуде-
+душкеВалентинуМихайловичузаподдержкуипониманиевпроцессенаписания
+этойкниги.
+
+===== СТР. 451 =====
+Литература
+1. AbdiH.,WilliamsL.J.PrincipalComponentAnalysis//WileyInterdisciplinaryReviews:
+ComputationalStatistics, 2010, vol.2,no.4.—P.433–459.
+2. AckleyD.H.,HintonG.E.,SejnowskiT.J.ALearningAlgorithmforBoltzmannMachines//
+ConnectionistModelsandTheirImplications:ReadingsfromCognitiveScience/Norwood,
+NJ,USA:AblexPublishingCorp.,1988.—P.285–307.
+3. Addressing the Rare Word Problem in Neural Machine Translation / T. Luong et al. //
+Proc.53rdACLandthe7thIJCNLP,Vol.1:LongPapers, Beijing,China:ACL,2015.—
+P.11–19.
+4. Adversarial Autoencoders / A. Makhzani et al. // arXiv, 2015. http://arxiv:org/abs/
+1511:05644.
+5. AggarwalC.C.,ReddyC.K.DataClustering:AlgorithmsandApplications, Chapmanand
+Hall/CRC,2013.
+6. AntipovG.,BaccoucheM.,DugelayJ.FaceAgingWithConditionalGenerativeAdversarial
+Networks//arXiv, 2017.http://arxiv:org/abs/1702:01983.
+7. ApplicationOfPretrainedDeepNeuralNetworksToLargeVocabularySpeechRecogni-
+tion/N.Jaitlyetal.//ProceedingsofInterspeech2012, 2012.
+8. ArjovskyM.,ChintalaS.,BottouL.WassersteinGenerativeAdversarialNetworks//Proc.
+34th ICML / vol. 70 of Proceedings of Machine Learning Research, PMLR, 2017. —
+P.214–223.
+9. ArjovskyM.,ShahA.,BengioY.UnitaryEvolutionRecurrentNeuralNetworks//arXiv,
+2015.http://arxiv:org/abs/1511:06464.
+10. AskMeAnything:DynamicMemoryNetworksforNaturalLanguageProcessing/A.Ku-
+maretal.//arXiv, 2015.http://arxiv:org/abs/1506:07285.
+11. AsynchronousMethodsforDeepReinforcementLearning/V.Mnihetal.//ArXiv, 2016.
+http://arxiv:org/abs/1602:01783.
+12. Attention Is All You Need / A. Vaswani et al. // arXiv, 2017. http://arxiv:org/abs/
+1706:03762.
+13. AuerP.,Cesa-BianchiN.,FischerP.Finite-TimeAnalysisoftheMultiarmedBanditProb-
+lem//MachineLearning, 2002, vol.47,no.2–3.—P.235–256.
+14. TheAuthor-TopicModelforAuthorsandDocuments/M.Rosen-Zvietal.//Proc.20th
+UAI, Arlington,VI,UnitedStates:AUAIPress,2004.—P.487–494.
+15. BaJ.,MnihV.,KavukcuogluK.MultipleObjectRecognitionwithVisualAttention//arXiv,
+2014.http://arxiv:org/abs/1412:7755.
+16. BaL.J.,KirosR.,HintonG.E.LayerNormalization//arXiv, 2016.http://arxiv:org/abs/
+1607:06450.
+17. Bachman P., Precup D. Variational Generative Stochastic Networks with Collaborative
+Shaping//Proc.32ndICML, 2015.—P.1964–1972.
+18. Back-PropagationAppliedtoHandwrittenZipCodeRecognition/Y.LeCunetal.//Neu-
+ralComputation, 1989, vol.1,no.4.—P.541–551.
+19. ABackwardProgressionofAttentionalEffectsintheVentralStream/E.A.Buffaloetal.//
+Proc.NationalAcademyofSciences, 2010, vol.107,no.1.—P.361–365.
+20. BadrinarayananV.,KendallA.,CipollaR.SegNet:ADeepConvolutionalEncoder-Decoder
+ArchitectureforImageSegmentation//arXiv, 2015.http://arxiv:org/abs/1511:00561.
+21. Bag of Tricks for Efficient Text Classification / A. Joulin et al. // arXiv, 2016. http://
+arxiv:org/abs/1607:01759.
+
+===== СТР. 452 =====
+452 Литература
+22. BahdanauD.,ChoK.,BengioY.NeuralMachineTranslationbyJointlyLearningtoAlign
+andTranslate//arXiv, 2014.http://arxiv:org/abs/1409:0473.
+23. Baillargeon R. Infants’ Physical World // Current Directions in Psychological Science,
+2004, vol.13,no.3.—P.89–94.
+24. BainA.TheSensesandtheIntellect, London:Parker,1855.
+25. BakerC.L.,SaxeR.,TenenbaumJ.B.BayesianTheoryofMind:ModelingJointBelief-Desire
+Attribution//Proc.33thCogSci, 2011.
+26. BallardD.H.ModularLearninginNeuralNetworks//Proc.AAAI, 1987.—P.279–284.
+27. BallesterosM.,DyerC.,SmithN.A.ImprovedTransition-basedParsingbyModelingCharac-
+tersinsteadofWordswithLSTMs//Proc.EMNLP2015,Lisbon,Portugal:ACL,2015.—
+P.349–359.
+28. BaltescuP.,BlunsomP.PragmaticNeuralLanguageModellinginMachineTranslation//
+NAACLHLT2015, 2015.—P.820–829.
+29. BanchsR.E.Movie-DiC:AMovieDialogueCorpusforResearchandDevelopment//Proc.
+50thACL:ShortPapers-Volume2, Stroudsburg,PA,USA:ACL,2012.—P.203–207.
+30. BanerjeeS.,RoyA.LinearAlgebraandMatrixAnalysisforStatistics.TextsinStatistical
+Science, ChapmanandHall/CRC,2014.
+31. BarberD.,BishopC.EnsembleLearninginBayesianNeuralNetworks//NeuralNetworks
+andMachineLearning, Springer,1998.—P.215–237.
+32. Baroni M., Zamparelli R. Nouns Are Vectors, Adjectives Are Matrices: Representing
+Adjective-nounConstructionsinSemanticSpace//Proc.EMNLP2010,Stroudsburg,PA,
+USA:ACL,2010.—P.1183–1193.
+33. BartoA.G.,SuttonR.S.,AndersonC.W.NeuronlikeAdaptiveElementsThatCanSolve
+DifficultLearningControlProblems//ArtificialNeuralNetworks/Piscataway,NJ,USA:
+IEEEPress,1990.—P.81–93.
+34. BatchNormalizedRecurrentNeuralNetworks/C.Laurentetal.//2016IEEEInterna-
+tionalConferenceonAcoustics,SpeechandSignalProcessing(ICASSP), March2016.—
+P.2657–2661.
+35. BaxterJ.,BartlettP.L.Infinite-HorizonPolicy-GradientEstimation//JournalofArtificial
+IntelligenceResearch, 2001, vol.15,no.1.—P.319–350.
+36. BayesT.AnEssayTowardsSolvingaProblemintheDoctrineofChances//Philosophical
+TransactionsoftheRoyalSocietyofLondon, 1763, vol.53.—P.370–418.
+37. Benenson R. Are We There Yet? Crowdsourced List of State of the Art Results
+in Object Classification, 2016. http://rodrigob:github:io/are_we_there_yet/build/
+classification_datasets_results:html.
+38. BengioY.LearningDeepArchitecturesforAI//FoundationsandTrendsinMachineLearn-
+ing, 2009, vol.2,no.1.—P.1–127.
+39. BengioY.,CourvilleA.C.,VincentP.UnsupervisedFeatureLearningandDeepLearning:A
+ReviewandNewPerspectives//arXiv, 2012.http://arxiv:org/abs/1206:5538.
+40. BengioY.,DucharmeR.,VincentP.ANeuralProbabilisticLanguageModel//Journalof
+MachineLearningResearch, 2003, vol.3.—P.1137–1155.
+41. BengioY.,Thibodeau-LauferE.,YosinskiJ.DeepGenerativeStochasticNetworksTrainable
+byBackprop//arXiv, 2013.http://arxiv:org/abs/1306:1091.
+42. BianJ.,GaoB.,LiuT.-Y.Knowledge-PoweredDeepLearningforWordEmbedding//Ma-
+chineLearningandKnowledgeDiscoveryinDatabases/Springer,2014.—P.132–148.
+43. BickelS.,BrucknerM.,SchefferT.DiscriminativeLearningunderCovariateShift//Journal
+ofMachineLearningResearch, 2009, vol.10,no.Sep.—P.2137–2155.
+44. BishopC.M.PatternRecognitionandMachineLearning, Springer,2006.
+45. Blei D. M., Jordan M. I., Paisley J. W. Variational Bayesian Inference with Stochastic
+Search//Proc.29thICML, NewYork,NY,USA:ACM,2012.—P.1367–1374.
+
+===== СТР. 453 =====
+Литература 453
+46. BleiD.M.,LaffertyJ.D.CorrelatedTopicModels//AdvancesinNeuralInformationPro-
+cessingSystems, 2006, vol.18.
+47. BleiD.M.,NgA.Y.,JordanM.I.LatentDirichletallocation//JournalofMachineLearning
+Research, 2003, vol.3,no.4–5.—P.993–1022.
+48. BLEU:aMethodforAutomaticEvaluationofMachineTranslation/K.Papinenietal.//
+Proc.40thACL, 2002.—P.311–318.
+49. BlissT.V.,CollingridgeG.L.ASynapticModelofMemory:Long-TermPotentiationinthe
+Hippocampus//Nature, 1993, vol.361,no.6407.—P.31–39.
+50. Bliss T. V., Lomo T. Long-Lasting Potentiation of Synaptic Transmission in the Dentate
+AreaoftheAnaesthetizedRabbitFollowingStimulationofthePerforantPath//Journal
+ofPhysiology, 1973, vol.232,no.2.—P.331–356.
+51. BloomP.HowChildrenLearntheMeaningsofWords, Cambridge,MA:MITPress,2000.
+52. BostromN.Superintelligence:Paths,Dangers,Strategies, Oxford,UK:OxfordUniversity
+Press,2014.
+53. BostromN.,YudkowskyE.TheEthicsofArtificialIntelligence//TheCambridgeHandbook
+ofArtificialIntelligence/NewYork:CambridgeUniversityPress,2014.
+54. BothaJ.A.,BlunsomP.CompositionalMorphologyforWordRepresentationsandLanguage
+Modelling//Proc.31thICML, 2014.—P.1899–1907.
+55. Boulanger-lewandowskiN.,BengioY.,VincentP.ModelingTemporalDependenciesinHigh-
+DimensionalSequences:ApplicationtoPolyphonicMusicGenerationandTranscription//
+Proc.29thICML, NewYork,NY,USA:ACM,2012.—P.1159–1166.
+56. Boulanger-Lewandowski N., Bengio Y., Vincent P. Modeling Temporal Dependencies in
+High-DimensionalSequences:ApplicationtoPolyphonicMusicGenerationandTranscrip-
+tion//Proc.29thICML, icml.cc/Omnipress,2012.
+57. BoureauY.-L.,PonceJ.,LeCunY.ATheoreticalAnalysisofFeaturePoolinginVisualRecog-
+nition.//Proc.27thICML, Omnipress,2010.—P.111–118.
+58. BowmanS.R.,PottsC.,ManningC.D.LearningDistributedWordRepresentationsforNat-
+uralLogicReasoning//arXiv, 2014.http://arxiv:org/abs/1410:4176.
+59. BowmanS.R.,PottsC.,ManningC.D.RecursiveNeuralNetworksforLearningLogicalSe-
+mantics//arXiv, 2014.http://arxiv:org/abs/1406:1827.
+60. BradshawR.,CitroC.,SeljebotnD.Cython:TheBestofBothWorlds//CiSE2011Special
+PythonIssue, 2010.—P.25.
+61. BreakingSticksandAmbiguitieswithAdaptiveSkip-gram/S.Bartunovetal.//Proc.19th
+InternationalConferenceonArtificialIntelligenceandStatistics,AISTATS2016,Cadiz,
+Spain,May9-11,2016, 2016.—P.130–138.
+62. BrideA.,VandeCruysT.,AsherN.AGeneralisationofLexicalFunctionsforComposition
+inDistributionalSemantics//Proc.53rdACLandthe7thIJCNLP,Vol.1:LongPapers,
+Beijing,China:ACL,2015.—P.281–291.
+63. Brown N., Sandholm T. Safe and Nested Endgame Solving for Imperfect-Information
+Games//Proc.AAAI-17WorkshoponComputerPokerandImperfectInformationGames,
+2017.
+64. BrownleeJ.SequenceClassificationwithLSTMRecurrentNeuralNetworksinPythonwith
+Keras, 2016.http://machinelearningmastery:com/.
+65. BuchananB.G.,ShortliffeE.H.RuleBasedExpertSystems:TheMycinExperimentsofthe
+StanfordHeuristicProgrammingProject(TheAddison-WesleySeriesinArtificialIntelli-
+gence), Boston,MA,USA:Addison-WesleyLongmanPublishingCo.,Inc.,1984.
+66. BuildingMachinesThatLearnandThinkLikePeople/B.M.Lakeetal.//Behavioraland
+BrainSciences, Nov2016.—P.1–101.
+67. BuysJ.,BlunsomP.GenerativeIncrementalDependencyParsingwithNeuralNetworks//
+Proc.53rdACLandthe7thInternationalJointConferenceonNaturalLanguageProcessing
+
+===== СТР. 454 =====
+454 Литература
+of the Asian Federation of Natural Language Processing, Vol. 2: Short Papers, 2015. —
+P.863–869.
+68. CalafioreG.C.,ElGhaouiL.OptimizationModels, CambridgeUniversityPress,2014.
+69. CAN:CreativeAdversarialNetworks,Generating”Art”byLearningAboutStylesandDe-
+viatingfromStyleNorms/A.M.Elgammaletal.//arXiv, 2017.http://arxiv:org/abs/
+1706:07068.
+70. CaporaleN.,DanY.SpikeTiming–DependentPlasticity:AHebbianLearningRule//An-
+nualReviewofNeuroscience, 2008, vol.31.—P.25–46.
+71. CarandiniM.AreaV1//Scholarpedia/2012.—P.12105.http://www:scholarpedia:org/
+article/Area_V1.
+72. Carreira-PerpinanM.A.,HintonG. OnContrastiveDivergenceLearning//AISTATS/
+vol.10, 2005.—P.33–40.
+73. ChangJ.,BleiD.M.HierarchicalRelationalModelsforDocumentNetworks//Annalsof
+AppliedStatistics, 2010, vol.4,no.1.—P.124–150.
+74. Character-AwareNeuralLanguageModels/Y.Kimetal.//arXiv,2015.http://arxiv:org/
+abs/1508:06615.
+75. ChenJ.,DengL.ANewMethodforLearningDeepRecurrentNeuralNetworks//arXiv,
+2013.http://arxiv:org/abs/1311:6091.
+76. ChenS.F.,GoodmanJ.AnEmpiricalStudyofSmoothingTechniquesforLanguageModel-
+ing//Proc.34thACL, Stroudsburg,PA,USA:ACL,1996.—P.310–318.
+77. Chintala S., LeCun Y. A Path to Unsupervised Learning through Adversarial Networks,
+2016.https://code:facebook:com/posts/1587249151575490.
+78. Cho K. Introduction to Neural Machine Translation with GPUs, 2015. https://
+devblogs:nvidia:com/parallelforall/introduction-neural-machine-translation-with-gpus/.
+79. CholletF.Keras, https://github:com/fchollet/keras, 2015.
+80. ChomskyN.SyntacticStructures, Mouton&Co.,1957.
+81. ChungJ.,ChoK.,BengioY.ACharacter-levelDecoderwithoutExplicitSegmentationfor
+NeuralMachineTranslation//arXiv, 2016.http://arxiv:org/abs/1603:06147.
+82. ChurchlandP.S.,RamachandranV.S.,SejnowskiT.J.ACritiqueofPureVision//Large-
+ScaleNeuronalTheoriesoftheBrain/MITPress,1993.—P.23.
+83. Clark S., Coecke B., Sadrzadeh M. A Compositional Distributional Model of Meaning //
+Proc.SecondSymposiumonQuantumInteraction(QI-2008), 2008.—P.133–140.
+84. Clark S., Coecke B., Sadrzadeh M. Mathematical Foundations for a Compositional Dis-
+tributedModelofMeaning//LinguisticAnalysis, 2011, vol.36,no.1-4.—P.345–384.
+85. Class-basedN-gramModelsofNaturalLanguage/P.F.Brownetal.//Comput.Linguist.,
+1992, vol.18,no.4.—P.467–479.
+86. ClevertD.,UnterthinerT.,HochreiterS.FastandAccurateDeepNetworkLearningbyEx-
+ponentialLinearUnits(ELUs)//arXiv, 2015.http://arxiv:org/abs/1511:07289.
+87. CoeckeB.,SadrzadehM.,ClarkS.MathematicalFoundationsforaCompositionalDistribu-
+tionalModelofMeaning//arXiv, 2010.http://arxiv:org/abs/1003:4394.
+88. CollobertR.,BengioS.LinksBetweenPerceptrons,MLPsandSVMs//Proc.21stICML,
+NewYork,NY,USA:ACM,2004.—P.23–.
+89. CollobertR.,BengioS.,MarithozJ.Torch:AModularMachineLearningSoftwareLibrary,
+2002.
+90. CollobertR.,KavukcuogluK.,FarabetC.Torch7:AMatlab-likeEnvironmentforMachine
+Learning//BigLearn,NIPSWorkshop, 2011.
+91. CombiningModel-BasedandModel-FreeUpdatesforTrajectory-CentricReinforcement
+Learning/Y.Chebotaretal.//arXiv, 2017.http://arxiv:org/abs/1703:03078.
+92. Concrete Sentence Spaces for Compositional Distributional Models of Meaning /
+E.Grefenstetteetal.//Proc.9thInternationalConferenceonComputationalSemantics
+(IWCS11), 2011.—P.125–134.
+
+===== СТР. 455 =====
+Литература 455
+93. Concrete Sentence Spaces for Compositional Distributional Models of Meaning /
+E.Grefenstetteetal.//ComputingMeaning/Springer,2014.—P.71–86.
+94. ConditionalImageGenerationwithPixelCNNDecoders/A.vandenOordetal.//arXiv,
+2016.http://arxiv:org/abs/1606:05328.
+95. AContext-AwareTopicModelforStatisticalMachineTranslation/J.Suetal.//Proc.
+53rdACLandthe7thIJCNLP,Vol.1:LongPapers,Beijing,China:ACL,2015.—P.229–
+238.
+96. Context-Dependent Pre-Trained Deep Neural Networks for Large Vocabulary Speech
+Recognition/G.Dahletal./vol.20, 2012.—P.30–42.
+97. TheCornucopiaofMeaningfulLeads:ApplyingDeepAdversarialAutoencodersforNew
+MoleculeDevelopmentinOncology/A.Kadurinetal.//Oncotarget, 2017, vol.8.—
+P.10883–10890.
+98. CovariateShiftbyKernelMeanMatching/A.Grettonetal.//DatasetShiftinMachine
+Learning, 2009, vol.3,no.4.—P.5.
+99. CoxR.T.TheAlgebraofProbableInference,JohnsHopkinsPressBaltimore,1961.—114P.
+100. Creswell A., Bharath A. A. Denoising Adversarial Autoencoders // arXiv, 2017. http://
+arxiv:org/abs/1703:01220.
+101. CS231nConvolutionalNeuralNetworksforVisualRecognition.http://cs231n:github:io/
+neural-networks-3/#second.
+102. cuDNN:EfficientPrimitivesforDeepLearning/S.Chetluretal.//arXiv, 2014.http:
+//arxiv:org/abs/1410:0759.
+103. DatasetShiftinMachineLearning/J.Quionero-Candelaetal., TheMITPress,2009.
+104. DaugmanJ.G.UncertaintyRelationforResolutioninSpace,SpatialFrequency,andOri-
+entationOptimizedbyTwo-DimensionalVisualCorticalFilters//JournaloftheOptical
+SocietyofAmericaA, 1985, vol.2,no.7.—P.1160–1169.
+105. DayanP.,AbottL.TheoreticalNeuroscience, Cambridge,MA,USA:MITPress,2001.
+106. DeepGenerativeAdversarialNetworksforCompressedSensingAutomatesMRI/M.Mar-
+danietal.//arXiv, 2017.http://arxiv:org/abs/1706:00051.
+107. DeepLearningforVisualUnderstanding:AReview/Y.Guoetal.//Neurocomputing,
+2016, vol.187.—P.27–48, RecentDevelopmentsonDeepBigVision.
+108. BergstraJ.,BreuleuxO.etal.DeepLearningTutorial:TheanoDocumentation, 2015.
+109. DeepNeuralNetworksforAcousticModelinginSpeechRecognition:TheSharedViewsof
+FourResearchGroups/G.Hintonetal.//IEEESignalProcessingMagazine, Nov2012,
+vol.29,no.6.—P.82–97.
+110. DeepReinforcementLearningforRoboticManipulation/S.Guetal.//arXiv,2016.http:
+//arxiv:org/abs/1610:00633.
+111. DeepResidualLearningforImageRecognition/K.Heetal.//Proc.2016CVPR,2016.—
+P.770–778.
+112. DeepFace:ClosingtheGaptoHuman-LevelPerformanceinFaceVerification/Y.Taig-
+manetal.//Proc.2014IEEEConferenceonComputerVisionandPatternRecognition,
+Washington,DC,USA:IEEEComputerSociety,2014.—P.1701–1708.
+113. DeepStack:Expert-LevelArtificialIntelligenceinHeads-UpNo-LimitPoker/M.Morav-
+ciketal.//Science, 2017, vol.356,no.6337.—P.508–513.
+114. DelvingDeepintoRectifiers:SurpassingHuman-LevelPerformanceonImageNetClassifi-
+cation/K.Heetal.//Proc.ICCV2015, 2015.—P.1026–1034.
+115. DengL.ATutorialSurveyofArchitectures,Algorithms,andApplicationsforDeepLearn-
+ing//APSIPATransactionsonSignalandInformationProcessing, 2014.
+116. DengL.,HintonG.,KingsburyB.NewTypesofDeepNeuralNetworkLearningforSpeech
+RecognitionandRelatedApplications:AnOverview//IEEEInternationalConferenceon
+Acoustics,Speech,andSignalProcessing(ICASSP),May2013, 2013.
+
+===== СТР. 456 =====
+456 Литература
+117. DengL.,YuD.DeepLearning:MethodsandApplications//FoundationsandTrendsin
+SignalProcessing, 2014, vol.7,no.3–4.—P.197–387.
+118. Dependency-based Convolutional Neural Networks for Sentence Embedding / M. Ma
+etal.//Proc.ACL2015,Vol.2:ShortPapers, 2015.—P.174.
+119. DevelopmentsandDirectionsinSpeechRecognitionandUnderstanding,Part1[DSPEd-
+ucation]/J.M.Bakeretal.//IEEESignalProcessingMagazine,May2009,vol.26,no.3.—
+P.75–80.
+120. Dex-Net2.0:DeepLearningtoPlanRobustGraspswithSyntheticPointCloudsandAna-
+lyticGraspMetrics/J.Mahleretal.//arXiv, 2017.http://arxiv:org/abs/1703:09312.
+121. DinhL.,Sohl-DicksteinJ.,BengioS.DensityEstimationusingRealNVP//arXiv, 2016.
+http://arxiv:org/abs/1605:08803.
+122. DirectImportanceEstimationwithModelSelectionanditsApplicationtoCovariateShift
+Adaptation / M. Sugiyama et al. // Advances in neural information processing systems,
+2008.—P.1433–1440.
+123. DistributedRepresentationsofWordsandPhrasesandtheirCompositionality/T.Mikolov
+etal.//arXiv, 2013.http://arxiv:org/abs/1310:4546.
+124. DoerschC.TutorialonVariationalAutoencoders//ArXive-prints, 2016.
+125. Domingos P. The Master Algorithm: How the Quest for the Ultimate Learning Machine
+WillRemakeOurWorld.BasicBooks, BasicBooks,2015.
+126. DowneyA.B.ThinkPython—HowtoThinkLikeaComputerScientist, O’Reilly,2012.
+127. DRAW:ARecurrentNeuralNetworkForImageGeneration/K.Gregoretal.//arXiv,
+2015.http://arxiv:org/abs/1502:04623.
+128. DreyfusS.E.TheComputationalSolutionofOptimalControlProblemswithTimeLag//
+IEEETransactionsonAutomaticControl, 1973, vol.18(4).—P.383–385.
+129. Dropout: A Simple Way to Prevent Neural Networks from Overfitting / N. Srivastava
+etal.//JournalofMachineLearningResearch, 2014, vol.15,no.1.—P.1929–1958.
+130. druGAN:AnAdvancedGenerativeAdversarialAutoencoderModelfordeNovoGenera-
+tionofNewMoleculeswithDesiredMolecularPropertiesinSilico/A.Kadurinetal.//
+MolecularPharmaceutics, 2017.
+131. DuchiJ.,HazanE.,SingerY.Adaptivesubgradientmethodsforonlinelearningandstochastic
+optimization//JournalofMachineLearningResearch, 2011, vol.12,no.Jul.—P.2121–
+2159.
+132. DuffyS.A.,HendersonJ.M.,MorrisR.K.Semanticfacilitationoflexicalaccessduringsen-
+tenceprocessing//JournalofExperimentalPsychology:Learning,Memory,andCognition,
+1989, vol.15.—P.791–801.
+133. DurrettG.,KleinD.NeuralCRFparsing//arXiv, 2015.http://arxiv:org/abs/1507:03641.
+134. Dynamic Pooling and Unfolding Recursive Autoencoders for Paraphrase Detection /
+R.Socheretal.//AdvancesinNeuralInformationProcessingSystems,2011.—P.801–809.
+135. EfficientBackProp/Y.LeCunetal.//NeuralNetworks:TricksoftheTrade,London,UK,
+UK:Springer-Verlag,1998.—P.9–50.
+136. EfficientBackprop/Y.LeCunetal.//NeuralNetworks:TricksoftheTrade/Springer
+BerlinHeidelberg,2012.—P.9–48.
+137. EfficientEstimationofWordRepresentationsinVectorSpace/T.Mikolovetal.//arXiv,
+2013.http://arxiv:org/abs/1301:3781.
+138. ElHihiS.,BengioY.HierarchicalRecurrentNeuralNetworksforLong-TermDependencies,
+1996.
+139. Elman J. L. Finding Structure in Time // Cognitive Science, 1990, vol. 14, no. 2. —
+P.179–211.
+140. Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling /
+J.Chungetal.//arXiv, 2014.http://arxiv:org/abs/1412:3555.
+
+===== СТР. 457 =====
+Литература 457
+141. EncodingSourceLanguagewithConvolutionalNeuralNetworkforMachineTranslation/
+F.Mengetal.//Proc.53rdACLandthe7thIJCNLP,Vol.1:LongPapers,Beijing,China:
+ACL,2015.—P.20–30.
+142. End to End Learning for Self-Driving Cars / M. Bojarski et al. // arXiv, 2016. http://
+arxiv:org/abs/1604:07316.
+143. End-to-endTrainingofDeepVisuomotorPolicies/S.Levineetal.//JournalofMachine
+LearningResearch, 2016, vol.17,no.1.—P.1334–1373.
+144. EnrichingWordVectorswithSubwordInformation/P.Bojanowskietal.//arXiv, 2016.
+http://arxiv:org/abs/1607:04606.
+145. EuclideanEmbeddingofCo-occurrenceData/A.Globersonetal.//JournalofMachine
+LearningResearch, 2007, vol.8.—P.2265–2295.
+146. ExploringtheLimitsofLanguageModeling/R.J−zefowiczetal.//arXiv, 2016.http://
+arxiv:org/abs/1602:02410.
+147. ExtensionsofRecurrentNeuralNetworkLanguageModel/T.Mikolovetal.//Acoustics,
+SpeechandSignalProcessing(ICASSP),2011IEEEInternationalConferenceon,2011.—
+P.5528–5531.
+148. Extracting and Composing Robust Features with Denoising Autoencoders / P. Vincent
+etal.//Proc.25thICML, NewYork,NY,USA:ACM,2008.—P.1096–1103.
+149. ExtractiveSummarizationusingContinuousVectorSpaceModels/M.Kagebacketal.//
+Proc. 2nd Workshop on Continuous Vector Space Models and their Compositionality
+(CVSC)@EACL, 2014.—P.31–39.
+150. FarlowS.J.Self-OrganizingMethodsinModeling:GmdhTypeAlgorithms,NewYork,NY,
+USA:MarcelDekker,Inc.,1984.
+151. FastandRobustNeuralNetworkJointModelsforStatisticalMachineTranslation/J.De-
+vlinetal.//Proc.52ndACL,Vol.1:LongPapers,Baltimore,Maryland:ACL,June2014.—
+P.1370–1380.
+152. Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks /
+S.Renetal.//arXiv, 2015.http://arxiv:org/abs/1506:01497.
+153. FastText.zip: Compressing Text Classification Models / A. Joulin et al. // arXiv, 2016.
+http://arxiv:org/abs/1612:03651.
+154. FellbaumC.WordNetandwordnets//EncyclopediaofLanguageandLinguistics,Oxford:
+Elsevier,2005.—P.665–670.
+155. Felzenszwalb P. F., Girshick R. B., McAllester D. A. Cascade Object Detection with De-
+formablePartModels//CVPR, IEEEComputerSociety,2010.—P.2241–2248.
+156. FindingFunctioninForm:CompositionalCharacterModelsforOpenVocabularyWord
+Representation/W.Lingetal.//Proc.EMNLP2015, Lisbon,Portugal:ACL,2015.—
+P.1520–1530.
+157. Findingsofthe2016ConferenceonMachineTranslation/O.Bojaretal.//Proc.First
+ConferenceonMachineTranslation, Berlin,Germany:ACL,August2016.—P.131–198.
+158. FinnC.,LevineS.,AbbeelP.GuidedCostLearning:DeepInverseOptimalControlviaPolicy
+Optimization//Proc.33ndICML, 2016.—P.49–58.
+159. FinnsonH.GeneralizedMonte-CarloTreeSearchExtensionsforGeneralGamePlaying//
+Proc.26thAAAIConferenceonArtificialIntelligence, 2012.—P.1550–1556.
+160. FinnsonH.Simulation-BasedGeneralGamePlaying:Ph.D.thesis/ReykjavikUniversity,
+2012.
+161. Firat O., Cho K., Bengio Y. Multi-Way, Multilingual Neural Machine Translation with
+ASharedAttentionMechanism//arXiv, 2016.http://arxiv:org/abs/1601:01073.
+162. Flexible,HighPerformanceConvolutionalNeuralNetworksforImageClassification/D.C.
+Ciresanetal.//Proc.22ndInternationalJointConferenceonArtificialIntelligence–Vol-
+umeTwo, AAAIPress,2011.—P.1237–1242.
+
+===== СТР. 458 =====
+458 Литература
+163. Freebase:ACollaborativelyCreatedGraphDatabaseforStructuringHumanKnowledge/
+K.Bollackeretal.//Proc.2008ACMSIGMODInternationalConferenceonManagement
+ofData, NewYork,NY,USA:ACM,2008.—P.1247–1250.
+164. FreyB.GraphicalModelsforMachineLearningandDigitalCommunication, Cambridge,
+MA:MITPress,1998.
+165. FriedD.,PolajnarT.,ClarkS.Low-RankTensorsforVerbsinCompositionalDistributional
+Semantics//Proc.53rdACLandthe7thIJCNLP,Vol.2:ShortPapers, Beijing,China:
+ACL,2015.—P.731–736.
+166. FukushimaK.NeuralNetworkModelforaMechanismofPatternRecognitionUnaffected
+byShiftinPosition—Neocognitron//TransactionsoftheIECE, 1979, vol.J62-A(10).—
+P.658–665.
+167. FukushimaK.Neocognitron:ASelf-OrganizingNeuralNetworkforaMechanismofPat-
+ternRecognitionUnaffectedbyShiftinPosition//BiologicalCybernetics, 1980, vol.36,
+no.4.—P.193–202.
+168. GaborAnalysisandAlgorithms/Ed.byH.G.Feichtinger,T.Strohmer.AppliedandNu-
+mericalHarmonicAnalysis, Birkhauser,1998.
+169. GalY.ATheoreticallyGroundedApplicationofDropoutinRecurrentNeuralNetworks//
+arXiv:1512.05287, 2015.
+170. GalY.UncertaintyinDeepLearning:Ph.D.thesis/UniversityofCambridge, 2016.
+171. GalY.,GhahramaniZ.DropoutasaBayesianApproximation:InsightsandApplications//
+DeepLearningWorkshop,ICML, 2015.
+172. GalY.,GhahramaniZ.OnModernDeepLearningandVariationalInference//Advances
+inApproximateBayesianInferenceworkshop,NIPS, 2015.
+173. GanitkevitchJ.,DurmeB.V.,Callison-BurchC.PPDB:TheParaphraseDatabase//Proc.
+HLT-NAACL, ACL,2013.—P.758–764.
+174. GefterA.TheManWhoTriedtoRedeemtheWorldwithLogic//Nautilus,2015,vol.21.—
+P.106–154.
+175. GeitgeyA.AbusingGenerativeAdversarialNetworkstoMake8-bitPixelArt, 2017.https:
+//medium:com/@ageitgey/.
+176. GenerativeAdversarialNetworks/I.J.Goodfellowetal.//ArXive-prints, 2014.
+177. GersF.A.,SchmidhuberJ.RecurrentNetsthatTimeandCount//NeuralNetworks,2000.
+IJCNN2000,Proc.IEEE-INNS-ENNSInternationalJointConferenceon/vol.3, 2000.—
+P.189–194.
+178. Gers F. A., Schmidhuber J., Cummins F. Learning to Forget: Continual Prediction with
+LSTM//NeuralComputation, 2000, vol.12,no.10.—P.2451–2471.
+179. Glorot X., Bengio Y. Understanding the Difficulty of Training Deep Feedforward Neural
+Networks // International conference on artificial intelligence and statistics, 2010. —
+P.249–256.
+180. Glorot X., Bordes A., Bengio Y. Deep Sparse Rectifier Networks // AISTATS / vol. 15,
+2011.—P.315–323.
+181. GoingDeeperwithConvolutions/C.Szegedyetal.//arXiv, 2014, vol.abs/1409.4842.
+http://arxiv:org/abs/1409:4842.
+182. GoldbergY.APrimeronNeuralNetworkModelsforNaturalLanguageProcessing//arXiv,
+2015.http://arxiv:org/abs/1510:00726.
+183. Goldberg Y., Levy O. Word2vec Explained: Deriving Mikolov et al.’s Negative-Sampling
+Word-EmbeddingMethod//arXiv, 2014.http://arxiv:org/abs/1402:3722.
+184. Goodfellow I., Bengio Y., Courville A. Deep Learning, MIT Press, 2016, http://
+www:deeplearningbook:org.
+185. GoodfellowI.J.NIPS2016Tutorial:GenerativeAdversarialNetworks//arXiv,2017.http:
+//arxiv:org/abs/1701:00160.
+
+===== СТР. 459 =====
+Литература 459
+186. GoodmanJ.T.ABitofProgressinLanguageModeling//Comput.SpeechLang., 2001,
+vol.15,no.4.—P.403–434.
+187. Google’sNeuralMachineTranslationSystem:BridgingtheGapbetweenHumanandMa-
+chineTranslation/Y.Wuetal.//arXiv, 2016.http://arxiv:org/abs/1609:08144.
+188. Gradient-Based Learning Applied to Document Recognition / Y. LeCun et al. // Proc.
+IEEE, 1998, vol.86,no.11.—P.2278–2324.
+189. GranbergD.TheMontyHallDilemma:ACognitiveIllusionParExcellence, Lumad/Cre-
+ateSpace,2014.
+190. TheGrandChallengeofComputerGo:MonteCarloTreeSearchandExtensions/S.Gelly
+etal.//CommunicationsoftheACM, 2012, vol.55,no.3.—P.106–113.
+191. GravesA.PracticalVariationalInferenceforNeuralNetworks//AdvancesinNeuralInfor-
+mationProcessingSystems24/CurranAssociates,Inc.,2011.—P.2348–2356.
+192. GravesA.GeneratingSequencesWithRecurrentNeuralNetworks//arXiv, 2013.http:
+//arxiv:org/abs/1308:0850.
+193. Graves A., Schmidhuber J. Framewise Phoneme Classification with Bidirectional LSTM
+andOtherNeuralNetworkArchitectures//NeuralNetworks, 2005, vol.18,no.5-6.—
+P.602–610.
+194. GravesA.,WayneG.,DanihelkaI.NeuralTuringMachines//arXiv,2014.http://arxiv:org/
+abs/1410:5401.
+195. GreedyLayer-WiseTrainingofDeepNetworks/Y.Bengioetal.//Proc.19thNIPS,Cam-
+bridge,MA,USA:MITPress,2006.—P.153–160.
+196. GrefenstetteE.TowardsaFormalDistributionalSemantics:SimulatingLogicalCalculiwith
+Tensors//arXiv, 2013.http://arxiv:org/abs/1304:5823.
+197. GrefenstetteE.,SadrzadehM.ExperimentalSupportforaCategoricalCompositionalDistri-
+butionalModelofMeaning//Proc.EMNLP2011, Stroudsburg,PA,USA:ACL,2011.—
+P.1394–1404.
+198. GriffithsT.,SteyversM.FindingScientificTopics//Proc.NationalAcademyofSciences,
+2004, vol.101(Suppl.1).—P.5228–5335.
+199. GSNs:GenerativeStochasticNetworks/G.Alainetal.//arXiv, 2015.http://arxiv:org/
+abs/1503:05571.
+200. GueninB.,KonemannJ.,Tun−elL.AGentleIntroductiontoOptimization, CambridgeUni-
+versityPress,2014.
+201. Guo H. Generating Text with Deep Reinforcement Learning // arXiv, 2015. http://
+arxiv:org/abs/1510:09292.
+202. HallD.,DurrettG.,KleinD.LessGrammar,MoreFeatures//Proc.52ndACL,Vol.1:Long
+Papers, Baltimore,Maryland:ACL,June2014.—P.228–237.
+203. HamlinJ.K.MoralJudgmentandActioninPreverbalInfantsandToddlers//CurrentDi-
+rectionsinPsychologicalScience, 2013, vol.22,no.3.—P.186–193.
+204. HanA.L.F.,WongD.F.,ChaoL.S.LEPOR:ARobustEvaluationMetricforMachineTrans-
+lationwithAugmentedFactors//ProceedingsofCOLING2012:Posters, Mumbai,India:
+TheCOLING2012OrganizingCommittee,December2012.—P.441–450.
+205. HandwrittenDigitRecognitionwithaBack-PropagationNetwork/Y.LeCunetal.//Ad-
+vancesinNeuralInformationProcessingSystems2, MorganKaufmann,1990.—P.396–
+404.
+206. HansonR.,YudkowskyE.TheHanson-YudkowskyAI-FoomDebate, Berkeley,CA:Ma-
+chineIntelligenceResearchInstitute,2013.
+207. HansonS.J.,PrattL.Y.ComparingBiasesforMinimalNetworkConstructionwithBack-
+Propagation//AdvancesinNeuralInformationProcessingSystems(NIPS)1,SanMateo,
+CA:MorganKaufmann,1989.—P.177–185.
+208. HastadJ.ComputationalLimitationsofSmall-DepthCircuits,Cambridge,MA,USA:MIT
+Press,1987.
+
+===== СТР. 460 =====
+460 Литература
+209. HebbD.O.TheOrganizationofBehavior, Wiley,NewYork,1949.
+210. HeessN.,SilverD.,TehY.W.Actor-CriticReinforcementLearningwithEnergy-BasedPoli-
+cies.//EWRL/vol.24ofJMLRProceedings, JMLR.org,2012.—P.43–58.
+211. Hermann K. M., Blunsom P. Multilingual Models for Compositional Distributed Seman-
+tics//Proc.52ndACL,Vol.1:LongPapers,Baltimore,Maryland:ACL,2014.—P.58–68.
+212. AHierarchicalLatentVariableEncoder-DecoderModelforGeneratingDialogues/I.V.
+Serbanetal.//Proc.31stAAAI, 2017.—P.3295–3301.
+213. HierarchicalNeuralLanguageModelsforJointRepresentationofStreamingDocuments
+andTheirContent/N.Djuricetal.//Proc.24thWWW, NewYork,NY,USA:ACM,
+2015.—P.248–255.
+214. HierarchicalNeuralNetworkGenerativeModelsforMovieDialogues/I.V.Serbanetal.//
+arXiv, 2015.http://arxiv:org/abs/1507:04808.
+215. AHierarchicalRecurrentEncoder-DecoderforGenerativeContext-AwareQuerySugges-
+tion/A.Sordonietal.//Proc.24thACMInternationalonConferenceonInformationand
+KnowledgeManagement, NewYork,NY,USA:ACM,2015.—P.553–562.
+216. High-PerformanceNeuralNetworksforVisualObjectClassification/D.C.Ciresanetal.//
+arXiv, 2011.http://arxiv:org/abs/1102:0183.
+217. Hindupur A. The GAN Zoo: A List of All Named GANs, 2017. https://github:com/
+hindupuravinash/the-gan-zoo.
+218. HintonG. Howto DoBackpropagation ina Brain, Invitedtalk attheNIPS’2007Deep
+LearningWorkshop, 2007.
+219. HintonG.E.TrainingProductsofExpertsbyMinimizingContrastiveDivergence//Neural
+Computation, 2002, vol.14,no.8.—P.1771–1800.
+220. HintonG.E.LearningMultipleLayersofRepresentation//TrendsinCognitiveSciences,
+2007, vol.11.—P.428–434.
+221. HintonG.E.APracticalGuidetoTrainingRestrictedBoltzmannMachines.//NeuralNet-
+works:TricksoftheTrade(2nded.)/Springer,2012.—P.599–619.
+222. HintonG.E.,McClellandJ.L.LearningRepresentationsbyRecirculation//NeuralInfor-
+mationProcessingSystems/AmericanInstituteofPhysics,1988.—P.358–366.
+223. Hinton G. E., Osindero S., Teh Y.-W. A Fast Learning Algorithm for Deep Belief Nets //
+NeuralComputation, 2006, vol.18,no.7.—P.1527–1554.
+224. HintonG.E.,SalakhutdinovR.R.ReducingtheDimensionalityofDatawithNeuralNet-
+works//Science, 2006, vol.313,no.5786.—P.504–507.
+225. HintonG.E.,SejnowskiT.J.LearningandRelearninginBoltzmannMachines//ParallelDis-
+tributedProcessing:ExplorationsintheMicrostructureofCognition,Vol.1/Cambridge,
+MA,USA:MITPress,1986.—P.282–317.
+226. HintonG.E.,vanCampD.KeepingtheNeuralNetworksSimplebyMinimizingtheDe-
+scriptionLengthoftheWeights//Proc.6thCoLT, NewYork,NY,USA:ACM,1993.—
+P.5–13.
+227. HochreiterS.,SchmidhuberJ.LongShort-TermMemory:Tech.Rep.FKI-207-95:Fakultat
+furInformatik,TechnischeUniversitatMunchen,1995.
+228. Hochreiter S., Schmidhuber J. Long Short-Term Memory // Neural Computation, 1997,
+vol.9,no.8.—P.1735–1780.
+229. HoffmannT.UnsupervisedLearningbyProbabilisticLatentSemanticAnalysis//Machine
+Learning, 2001, vol.42,no.1.—P.177–196.
+230. HopfieldJ.J.NeuralNetworksandPhysicalSystemswithEmergentCollectiveComputa-
+tionalAbilities//Proc.oftheNationalAcademyofSciences,1982,vol.79.—P.2554–2558.
+231. HornikK.,StinchcombeM.,WhiteH.MultilayerFeedforwardNetworksareUniversalAp-
+proximators//NeuralNetworks, 1989, vol.2,no.5.—P.359–366.
+
+===== СТР. 461 =====
+Литература 461
+232. HowNOTToEvaluateYourDialogueSystem:AnEmpiricalStudyofUnsupervisedEval-
+uationMetricsforDialogueResponseGeneration/C.Liuetal.//Proc.EMNLP2016,
+2016.—P.2122–2132.
+233. HowardR.A.DynamicProgrammingandMarkovProcesses, Cambridge,MA:MITPress,
+1960.
+234. HubelD.H.Eye,Brain,andVision, 2ndedition, W.H.Freeman,1995.
+235. HubelD.H.,WieselT.ReceptiveFields,BinocularInteraction,andFunctionalArchitecture
+intheCat’sVisualCortex//JournalofPhysiology(London),1962,vol.160.—P.106–154.
+236. HubelD.H.,WieselT.N.ReceptiveFieldsandFunctionalArchitectureofMonkeyStriate
+Cortex//JournalofPhysiology, 1968, vol.195,no.1.—P.215–243.
+237. HubelD.H.,WieselT.N.BrainandVisualPerception:TheStoryofa25-YearCollaboration,
+OxfordUniversityPress,2004.
+238. Human-LevelControlthroughDeepReinforcementLearning/V.Mnihetal.//Nature,
+2015, vol.518,no.7540.—P.529–533.
+239. HumansPredictLiquidDynamicsusingProbabilisticSimulation/C.Batesetal.//Proc.
+CogSci2015, 2015.
+240. HybridComputingUsingaNeuralNetworkwithDynamicExternalMemory/A.Graves
+etal.//Nature, 2016, vol.538,no.7626.—P.471–476.
+241. Hyvarinen A., Karhunen J., Oja E. Independent Component Analysis, New York: Wiley,
+2001.
+242. Identity Mappings in Deep Residual Networks / K. He et al. // arXiv, 2016. http://
+arxiv:org/abs/1603:05027.
+243. Image Processing of Human Corneal Endothelium Based on a Learning Network /
+W.Zhangetal.//AppliedOptics, 1991, vol.30,no.29.
+244. ImageNetLargeScaleVisualRecognitionChallenge/O.Russakovskyetal.//Interna-
+tionalJournalofComputerVision(IJCV), 2015, vol.115,no.3.—P.211–252.
+245. Improved Techniques for Training GANs / T. Salimans et al. // arXiv, 2016. http://
+arxiv:org/abs/1606:03498.
+246. Improving Neural Networks by Preventing Co-Adaptation of Feature Detectors / G. E.
+Hintonetal.//arXiv, 2012.http://arxiv:org/abs/1207:0580.
+247. IndexingbyLatentSemanticAnalysis/S.Deerwesteretal.//JournaloftheAmerican
+SocietyforInformationScience, 1990, vol.41,no.6.—P.391–407.
+248. InfoGAN:InterpretableRepresentationLearningbyInformationMaximizingGenerative
+AdversarialNets/X.Chenetal.//arXiv, 2016.http://arxiv:org/abs/1606:03657.
+249. Intriguing Properties of Neural Networks / C. Szegedy et al. // arXiv, 2013. http://
+arxiv:org/abs/1312:6199.
+250. AnIntroductiontoMCMCforMachineLearning/C.Andrieuetal.//MachineLearning,
+Jan2003, vol.50,no.1.—P.5–43.
+251. InvertibleConditionalGANsforImageEditing/G.Perarnauetal.//arXiv, 2016.http:
+//arxiv:org/abs/1611:06355.
+252. IoffeS.,SzegedyC.BatchNormalization:AcceleratingDeepNetworkTrainingbyReducing
+InternalCovariateShift//Proc.32ndICML, 2015.—P.448–456.
+253. Irsoy O., Cardie C. Opinion Mining with Deep Recurrent Neural Networks // Proc.
+EMNLP, 2014.—P.720–728.
+254. IttiL.,KochC.,NieburE.AModelofSaliency-BasedVisualAttentionforRapidSceneAnal-
+ysis//IEEETrans.PatternAnal.MachineIntelling,1998,vol.20,no.11.—P.1254–1259.
+255. IvakhnenkoA.G.TheGroupMethodofDataHandling–aRivaloftheMethodofStochastic
+Approximation//SovietAutomaticControl, 1968, vol.13,no.3.—P.43–55.
+256. IvakhnenkoA.G.PolynomialTheoryofComplexSystems//IEEETransactionsonSys-
+tems,ManandCybernetics, 1971, no.4.—P.364–378.
+
+===== СТР. 462 =====
+462 Литература
+257. IvakhnenkoA.G.,LapaV.G.,McDonoughR.N.CyberneticsandForecastingTechniques,
+AmericanElsevier,NY,1967.
+258. JaegerH.DiscoveringMultiscaleDynamicalFeatureswithHierarchicalEchoStateNet-
+works:TechnicalReport10, Bremen,Germany:SchoolofEngineeringandScience,Jacobs
+University,2007.
+259. Jain V., Seung S. Natural Image Denoising with Convolutional Networks // Advances
+inNeuralInformationProcessingSystems(NIPS)21/CurranAssociates,Inc.,2009.—
+P.769–776.
+260. JaitlyN.,HintonG.E.LearningaBetterRepresentationofSpeechSoundwavesUsingRe-
+strictedBoltzmannMachines//ICASSP, IEEE,2011.—P.5884–5887.
+261. JeffreysH.TheoryofProbability, Oxford:OxfordUniversityPress,1939.
+262. JointLearningofCharacterandWordEmbeddings/X.Chenetal.//Proc.24thInterna-
+tionalConferenceonArtificialIntelligence, AAAIPress,2015.—P.1236–1242.
+263. Jonas E., Kording K. Could a Neuroscientist Understand a Microprocessor? // bioRxiv,
+2016.
+264. JordanM.I.SerialOrder:AParallelDistributedProcessingApproach:Tech.Rep.ICSRe-
+port8604:InstituteforCognitiveScience,UniversityofCalifornia,SanDiego,1986.
+265. JordanM.I.AttractorDynamicsandParallelisminaConnectionistSequentialMachine//
+ArtificialNeuralNetworks/Piscataway,NJ,USA:IEEEPress,1990.—P.112–127.
+266. JordanM.I.Serialorder:Aparalleldistributedprocessingapproach//AdvancesinPsy-
+chology, 1997, vol.121.—P.471–495.
+267. J−zefowiczR.,ZarembaW.,SutskeverI.AnEmpiricalExplorationofRecurrentNetworkAr-
+chitectures//Proc.32ndICML, 2015.—P.2342–2350.
+268. Kaku M. Интервью, http://www:wnyc:org/story/michio-kaku-explores-human-brain/,
+2014.
+269. KalchbrennerN.,BlunsomP.RecurrentContinuousTranslationModels//EMNLP/vol.3,
+2013.—P.413.
+270. KalchbrennerN.,BlunsomP.RecurrentConvolutionalNeuralNetworksforDiscourseCom-
+positionality//arXiv, 2013.http://arxiv:org/abs/1306:3584.
+271. KalchbrennerN.,GrefenstetteE.,BlunsomP.AConvolutionalNeuralNetworkforModelling
+Sentences//arXiv, 2014.http://arxiv:org/abs/1404:2188.
+272. Karpathy A. What I Learned from Competing Against a ConvNet on ImageNet,
+2014. http://karpathy:github:io/2014/09/02/what-i-learned-from-competing-against-a-
+convnet-on-imagenet/.
+273. KarpathyA.TheUnreasonableEffectivenessofRecurrentNeuralNetworks, 2015.http:
+//karpathy:github:io/2015/05/21/rnn-effectiveness/.
+274. KarpathyA.,Fei-FeiL.DeepVisual-SemanticAlignmentsforGeneratingImageDescrip-
+tions//Proc.IEEEConferenceonComputerVisionandPatternRecognition, 2015.—
+P.3128–3137.
+275. Kartsaklis D., Sadrzadeh M., Pulman S. A Unified Sentence Space for Categorical
+Distributional-CompositionalSemantics:TheoryandExperiments//Proceedingsof24th
+InternationalConferenceonComputationalLinguistics(COLING):Posters,Mumbai,In-
+dia:2012.—P.549–558.
+276. Kendall A., Badrinarayanan V., Cipolla R. Bayesian SegNet: Model Uncertainty in Deep
+ConvolutionalEncoder-DecoderArchitecturesforSceneUnderstanding//arXiv, 2015.
+http://arxiv:org/abs/1511:02680.
+277. KendallA.,CipollaR.ModellingUncertaintyinDeepLearningforCameraRelocalization//
+arXiv, 2015.http://arxiv:org/abs/1509:05909.
+278. Kingma D., Ba J. Adam: A Method for Stochastic Optimization // arXiv, 2014. http://
+arxiv:org/abs/1412:6980.
+
+===== СТР. 463 =====
+Литература 463
+279. KingmaD.P.,SalimansT.,WellingM.VariationalDropoutandtheLocalReparameteriza-
+tionTrick//AdvancesinNeuralInformationProcessingSystems28/CurranAssociates,
+Inc.,2015.—P.2575–2583.
+280. KingmaD.P.,WellingM.Auto-EncodingVariationalBayes//ArXive-prints, 2013.
+281. Kneser R., Ney H. Improved Backing-Off for M-Gram Language Modeling // Proc.
+ICASSP-95/vol.1, 1995.—P.181–184.
+282. KnudsenE.I.FundamentalComponentsofAttention//AnnualReviewofNeuroscience,
+2007, vol.30,no.1.—P.57–78.
+283. KoJ.,FoxD.GP-BayesFilters:BayesianFilteringusingGaussianProcessPredictionand
+ObservationModels//Proc.IROS2008, 2008.—P.3471–3476.
+284. KrizhevskyA.,SutskeverI.,HintonG.E.ImageNetClassificationwithDeepConvolutional
+NeuralNetworks//AdvancesinNeuralInformationProcessingSystems25/CurranAs-
+sociates,Inc.,2012.—P.1097–1105.
+285. KroghA.,HertzJ.A.ASimpleWeightDecaycanImproveGeneralization//Advancesin
+NeuralInformationProcessingSystems4, MorganKaufmann,1992.—P.950–957.
+286. KullbackS.InformationTheoryandStatistics, JohnWiley&Sons,1959.
+287. Kullback S., Leibler R. A. On Information and Sufficiency // Ann. Math. Statist., 1951,
+vol.22,no.1.—P.79–86.
+288. Lacoste-JulienS.,ShaF.,JordanM.I.DiscLDA:DiscriminativeLearningforDimensionality
+ReductionandClassification//AdvancesinNeuralInformationProcessingSystems,2008,
+vol.20.
+289. LaffertyJ.,McCallumA.,PereiraF.C.ConditionalRandomFields:ProbabilisticModelsfor
+SegmentingandLabelingSequenceData, 2001.
+290. Lake B. M., Salakhutdinov R., Tenenbaum J. B. Human-Level Concept Learning through
+ProbabilisticProgramInduction//Science, 2015.
+291. LampertC.H.,BlaschkoM.B.,HofmannT.BeyondSlidingWindows:ObjectLocalization
+byEfficientSubwindowSearch//2008IEEEConferenceonComputerVisionandPattern
+Recognition, 2008.—P.1–8.
+292. LandauerT..,DumaisS.T.ASolutiontoPlato’sproblem:TheLatentSemanticAnalysis
+TheoryofAcquisition,Induction,andRepresentationofKnowledge//Psychologicalre-
+view, 1997, vol.104,no.2.—P.211–240.
+293. LangK.J.,WaibelA.H.,HintonG.E.ATime-DelayNeuralNetworkArchitectureforIsolated
+WordRecognition//NeuralNetworks, 1990, vol.3,no.1.—P.23–43.
+294. LargeAutomaticLearning,RuleExtraction,andGeneralization/J.Denkeretal.//Com-
+plexSystems, 1987, vol.1.—P.877–922.
+295. LargeScaleDistributedDeepNetworks/J.Deanetal.//Proc.25thNIPS, USA:Curran
+AssociatesInc.,2012.—P.1223–1231.
+296. LarochelleH.,HintonG.E.LearningtoCombineFovealGlimpseswithaThird-OrderBoltz-
+mannMachine//AdvancesinNeuralInformationProcessingSystems23/CurranAsso-
+ciates,Inc.,2010.—P.1243–1251.
+297. A Latent Semantic Model with Convolutional-Pooling Structure for Information Re-
+trieval/Y.Shenetal.//Proc.23rdCIKM,NewYork,NY,USA:ACM,2014.—P.101–110.
+298. LavieA.,SagaeK.,JayaramanS.TheSignificanceofRecallinAutomaticMetricsforMT
+Evaluation//MachineTranslation:FromRealUserstoResearch:Proc.6thAMTA/Ed.
+byR.E.Frederking,K.B.Taylor, Berlin,Heidelberg:SpringerBerlinHeidelberg,2004.—
+P.134–143.
+299. LazebnikY.CanaBiologistFixaRadio?—or,WhatILearnedwhileStudyingApoptosis//
+Biochemistry(Moscow), 2004, vol.69,no.12.—P.1403–1406.
+300. LeQ.V.,JaitlyN.,HintonG.E.ASimpleWaytoInitializeRecurrentNetworksofRectified
+LinearUnits//arXiv, 2015.http://arxiv:org/abs/1504:00941.
+
+===== СТР. 464 =====
+464 Литература
+301. Le Q. V., Mikolov T. Distributed Representations of Sentences and Documents // arXiv,
+2014.http://arxiv:org/abs/1405:4053.
+302. LearningAuthor-TopicModelsfromTextCorpora/M.Rosen-Zvietal.//ACMTransac-
+tionsonInformationSystems, 2010, vol.28,no.1.—P.1–38.
+303. Learning Convolutional Feature Hierarchies for Visual Recognition / K. Kavukcuoglu
+etal.//AdvancesinNeuralInformationProcessingSystems23/CurranAssociates,Inc.,
+2010.—P.1090–1098.
+304. Learning Deep Structured Semantic Models for Web Search using Clickthrough Data /
+P.-S.Huangetal., Proc.CIKM,2013.
+305. LearningLongerMemoryinRecurrentNeuralNetworks/T.Mikolovetal.//arXiv,2014.
+http://arxiv:org/abs/1412:7753.
+306. Learning Mid-Level Features for Recognition / Y. Boureau et al. // Proc. International
+ConferenceonComputerVisionandPatternRecognition(CVPR’10), IEEE,2010.
+307. LearningNewFactsfromKnowledgeBaseswithNeuralTensorNetworksandSemantic
+WordVectors/D.Chenetal.//InternationalConferenceonLearningRepresentations
+(ICLR), 2013.
+308. Learning Phrase Representations using RNN Encoder–Decoder for Statistical Machine
+Translation/K.Choetal.//Proc.2014EMNLP, Doha,Qatar:ACL,2014.—P.1724–
+1734.
+309. Learning Phrase Representations using RNN Encoder-Decoder for Statistical Machine
+Translation/K.Choetal.//Proc.EMNLP2014, 2014.—P.1724–1734.
+310. LearningtoNavigateinComplexEnvironments/P.Mirowskietal.//arXiv, 2016.http:
+//arxiv:org/abs/1611:03673.
+311. LearningWhatandWheretoDraw/S.E.Reedetal.//arXiv,2016.http://arxiv:org/abs/
+1610:02454.
+312. LearningwheretoAttendwithDeepArchitecturesforImageTracking/M.Deniletal.//
+arXiv, 2011.http://arxiv:org/abs/1109:3737.
+313. Lebret R., Collobert R. Word Embeddings through Hellinger PCA // Proc. 14th EACL,
+Gothenburg,Sweden:ACL,April2014.—P.482–490.
+314. LeCun Y., Bengio Y., Hinton G. Deep learning // Nature, 2015, vol. 521, no. 7553. —
+P.436–444.
+315. LeCun Y., Cortes C. MNIST Handwritten Digit Database,
+http://yann.lecun.com/exdb/mnist/, 2010.
+316. LeeA.X.,LevineS.,AbbeelP.LearningVisualServoingwithDeepFeaturesandFittedQ-
+Iteration//arXiv, 2017.http://arxiv:org/abs/1703:11000.
+317. LeeD.-H.Pseudo-Label:TheSimpleandEfficientSemi-SupervisedLearningMethodfor
+DeepNeuralNetworks-pseudo_label_final.pdf.
+318. Lei T., Zhang Y. Training RNNs as Fast as CNNs // arXiv, 2017. http://arxiv:org/abs/
+1709:02755.
+319. LennieP.TheCostofCorticalComputation//CurrentBiology, 2003, vol.13,no.6.—
+P.493–497.
+320. LererA.,GrossS.,FergusR.LearningPhysicalIntuitionofBlockTowersbyExample//
+arXiv, 2016.http://arxiv:org/abs/1603:01312.
+321. Levine S., Koltun V. Guided Policy Search // Proc. 30th ICML / vol. III of ICML’13,
+JMLR.org,2013.—P.1–9.
+322. Levy O., Goldberg Y. Dependency-Based Word Embeddings // Proc. 52nd ACL, Vol. 2:
+ShortPapers, 2014.—P.302–308.
+323. Levy O., Goldberg Y. Neural Word Embedding as Implicit Matrix Factorization // Ad-
+vances in Neural Information Processing Systems 27 / Curran Associates, Inc., 2014. —
+P.2177–2185.
+
+===== СТР. 465 =====
+Литература 465
+324. LiY.DeepReinforcementLearning:AnOverview//arXiv, 2017.http://arxiv:org/abs/
+1701:07274.
+325. LiangM.,HuX.RecurrentConvolutionalNeuralNetworkforObjectRecognition//2015
+IEEEConferenceonComputerVisionandPatternRecognition(CVPR), June2015.—
+P.3367–3375.
+326. LinC.-Y.,OchF.J.AutomaticEvaluationofMachineTranslationQualityUsingLongest
+CommonSubsequenceandSkip-bigramStatistics//Proc.42ndACL, Stroudsburg,PA,
+USA:ACL,2004.
+327. LinJ.DivergenceMeasuresBasedontheShannonEntropy//IEEETransactionsonInfor-
+mationTheory, Jan1991, vol.37,no.1.—P.145–151.
+328. Lin M., Chen Q., Yan S. Network In Network // arXiv, 2013. http://arxiv:org/abs/
+1312:4400.
+329. LinnainmaaS., TheRepresentationoftheCumulativeRoundingErrorofanAlgorithmas
+ATaylorExpansionoftheLocalRoundingErrors, Master’sthesis,Univ.Helsinki,1970.
+330. LiuD.C.,NocedalJ.OntheLimitedMemoryBFGSMethodforLargeScaleOptimization//
+MathematicalProgramming, 1989, vol.45,no.1.—P.503–528.
+331. LivnatA.,PapadimitriouC.SexAsanAlgorithm:TheTheoryofEvolutionUndertheLens
+ofComputation//CommunicationsoftheACM, 2016, vol.59,no.11.—P.84–93.
+332. LomoT.Long-LastingPotentiationofSynapticTransmissionintheDentateAreaofthe
+AnaesthetizedRabbitFollowingStimulationofthePerforantPath//PhilosophicalTrans-
+actionsoftheRoyalSocietyB:BiologicalSciences,2003,vol.358,no.1432.—P.617–620.
+333. LotterW.,KreimanG.,CoxD.UnsupervisedLearningofVisualStructureusingPredictive
+GenerativeNetworks//arXiv, 2015.http://arxiv:org/abs/1511:06380.
+334. LoweD.G.ObjectRecognitionfromLocalScale-InvariantFeatures//Proc.7thIEEEIn-
+ternationalConferenceonComputerVision/vol.2, 1999.—P.1150–1157vol.2.
+335. Lowe D. G. Distinctive Image Features from Scale-Invariant Keypoints // International
+JournalofComputerVision, 2004, vol.60,no.2.—P.91–110.
+336. LSTM: A Search Space Odyssey / K. Greff et al. // arXiv, 2015. http://arxiv:org/abs/
+1503:04069.
+337. LSUN:ConstructionofaLarge-ScaleImageDatasetusingDeepLearningwithHumansin
+theLoop/F.Yuetal.//arXiv, 2015.http://arxiv:org/abs/1506:03365.
+338. LuoQ.,XuW.LearningWordVectorsEfficientlyUsingSharedRepresentationsandDoc-
+umentRepresentations//Proc.Twenty-NinthAAAIConferenceonArtificialIntelligence,
+AAAIPress,2015.—P.4180–4181.
+339. LuoQ.,XuW.,GuoJ.AStudyontheCBOWModel’sOverfittingandStability//Proc.5th
+InternationalWorkshoponWeb-ScaleKnowledgeRepresentation, NewYork,NY,USA:
+ACM,2014.—P.9–12.
+340. LuongM.-T.,SocherR.,ManningC.D.BetterWordRepresentationswithRecursiveNeural
+NetworksforMorphology//CoNLL, Sofia,Bulgaria:2013.
+341. Luong T., Pham H., Manning C. D. Effective Approaches to Attention-based Neural Ma-
+chine Translation // Proc. 2015 EMNLP, Lisbon, Portugal: ACL, September 2015. —
+P.1412–1421.
+342. MaasA.L.,HannunA.Y.,NgA.Y.RectifierNonlinearitiesImproveNeuralNetworkAcous-
+ticModels//Proc.29thICML, 2013, vol.30,no.1.
+343. MacKayD.J.InformationTheory,InferenceandLearningAlgorithms,CambridgeUniver-
+sityPress,2003.
+344. MacKayD.J.C.APracticalBayesianFrameworkforBackpropagationNetworks//Neural
+Computation, 1992, vol.4,no.3.—P.448–472.
+345. Makhzani A., Frey B. J. PixelGAN Autoencoders // arXiv, 2017. http://arxiv:org/abs/
+1706:00531.
+
+===== СТР. 466 =====
+466 Литература
+346. MakingDeepBeliefNetworksEffectiveforLargeVocabularyContinuousSpeechRecog-
+nition/T.N.Sainathetal.//ASRU, IEEE,2011.—P.30–35.
+347. ManistoComputerProgrammerasWomanistoHomemaker?DebiasingWordEmbed-
+dings/T.Bolukbasietal.//arXiv, 2016.http://arxiv:org/abs/1607:06520.
+348. MarceljaS.MathematicalDescriptionoftheResponsesofSimpleCorticalCells//Journal
+oftheOpticalSocietyofAmerica, 1980, vol.70,no.11.—P.1297–1300.
+349. MarieB.,MaxA.Multi-PassDecodingWithComplexFeatureGuidanceforStatisticalMa-
+chineTranslation//Proc.53rdACLandthe7thIJCNLP,Vol.2:ShortPapers, Beijing,
+China:ACL,July2015.—P.554–559.
+350. MarkovTopicModels/C.Wangetal.//JournalofMachineLearningResearch, 2009,
+vol.5.—P.583–590.
+351. MarkramH.,GerstnerW.,SjostromP.J.AHistoryofSpike-Timing-DependentPlasticity//
+FrontiersinSynapticNeuroscience, 2011, vol.3,no.4.
+352. Markram H., Gerstner W., Sjostrom P. J. Spike Timing–Dependent Plasticity: A Hebbian
+LearningRule//FrontSynapticNeuroscience, 2011, vol.3,no.4.
+353. MaskR-CNN/K.Heetal.//arXiv, 2017.http://arxiv:org/abs/1703:06870.
+354. MassivelyParallelMethodsforDeepReinforcementLearning/A.Nairetal.//arXiv,2015.
+http://arxiv:org/abs/1507:04296.
+355. MasteringtheGameofGowithDeepNeuralNetworksandTreeSearch/D.Silveretal.//
+Nature, 2016, vol.529,no.7587.—P.484–489.
+356. McCullochW.,PittsW.ALogicalCalculusoftheIdeasImmanentinNervousActivity//
+BulletinofMathematicalBiophysics, 1943, vol.7.—P.115–133.
+357. MeschederL.,NowozinS.,GeigerA.AdversarialVariationalBayes:UnifyingVariationalAu-
+toencodersandGenerativeAdversarialNetworks//Proc.34thICML/vol.70ofProceed-
+ingsofMachineLearningResearch, PMLR,2017.—P.2391–2400.
+358. Metzen J. H. Variational Autoencoder in TensorFlow, 2015. https://jmetzen:github:io/
+2015-11-27/vae:html.
+359. MichieD.,ChambersR.A.BOXES:AnExperimentinAdaptiveControl//MachineIntel-
+ligence/Edinburgh,UK:OliverandBoyd,1968.
+360. MikolovT.StatisticalLanguageModelsBasedonNeuralNetworks:Ph.D.thesis/Ph.D.
+thesis,BrnoUniversityofTechnology, 2012.
+361. MikolovT.,JoulinA.,BaroniM.ARoadmaptowardsMachineIntelligence//arXiv, 2015.
+http://arxiv:org/abs/1511:08130.
+362. MinskyM.NeuralNetsandtheBrainModelProblem:Ph.D.thesis/PrincetonUniversity,
+1954.
+363. MinskyM.StepsTowardArtificialIntelligence//ComputersandThought/McGraw-Hill,
+NewYork,1963.—P.406–450.
+364. MinskyM.Matter,MindandModels//IFIPCongress, SpartanBooks,1965.—P.45–50.
+http://dspace:mit:edu/handle/1721:1/6119.
+365. MinskyM.,PapertS.Perceptrons, Cambridge,MA:MITPress,1969.
+366. Mirza M., Osindero S. Conditional Generative Adversarial Nets // arXiv, 2014. http://
+arxiv:org/abs/1411:1784.
+367. MitchellJ.,LapataM.CompositioninDistributionalModelsofSemantics//CognitiveSci-
+ence, 2010, vol.34,no.8.—P.1388–1429.
+368. MitchellT.M.MachineLearning,1edition,NewYork,NY,USA:McGraw-Hill,Inc.,1997.
+369. MnihA.,HintonG.E.AScalableHierarchicalDistributedLanguageModel//Advancesin
+neuralinformationprocessingsystems, 2009.—P.1081–1088.
+370. MnihA.,KavukcuogluK.LearningWordEmbeddingsEfficientlywithNoise-Contrastive
+Estimation//AdvancesinNeuralInformationProcessingSystems26/CurranAssociates,
+Inc.,2013.—P.2265–2273.
+
+===== СТР. 467 =====
+Литература 467
+371. MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications /
+A.G.Howardetal.//arXiv, 2017.http://arxiv:org/abs/1704:04861.
+372. ModelingInterestingnesswithDeepNeuralNetworks/J.Gaoetal.//EMNLP, 2014.
+373. ModelingUserActivitiesontheWebUsingParagraphVector/Y.Tagamietal.//Proc.
+24thWWW, NewYork,NY,USA:ACM,2015.—P.125–126.
+374. Molchanov D., Ashukha A., Vetrov D. Variational Dropout Sparsifies Deep Neural Net-
+works//Proc.34thICML/vol.70ofProceedingsofMachineLearningResearch, PMLR,
+2017.—P.2498–2507.
+375. Moll H., Tomasello M. Infant cognition // Current Biology, 2010, vol. 20, no. 20. —
+P.R872–R875.
+376. Mordvintsev A., Olah C., Tyka M. Inceptionism : Going Deeper into Neural Net-
+works, 2015. http://googleresearch:blogspot:com/2015/06/inceptionism-going-deeper-
+into-neural:html.
+377. MozerM.C.AFocusedBackpropagationAlgorithmforTemporalPatternRecognition//
+ComplexSystems, 1989, vol.3.—P.349–381.
+378. MozerM.C.NeuralNetArchitecturesforTemporalSequenceProcessing,Addison-Wesley,
+1994.—P.243–264.
+379. MullerM.InformationRetrievalforMusicandMotion,Secaucus,NJ,USA:Springer-Verlag
+NewYork,Inc.,2007.
+380. MullerV.C.,BostromN.FutureProgressinArtificialIntelligence:ASurveyofExpertOpin-
+ion//FundamentalIssuesofArtificialIntelligence/Ed.byV.C.Muller, Cham:Springer
+InternationalPublishing,2016.—P.555–572.
+381. MurphyK.P.MachineLearning:aProbabilisticPerspective, CambridgeUniversityPress,
+2013.
+382. NairV.,HintonG.E.RectifiedLinearUnitsImproveRestrictedBoltzmannMachines//
+Proc.27thICML, 2010.—P.807–814.
+383. NealR.M.BayesianLearningforNeuralNetworks, Secaucus,NJ,USA:Springer-Verlag
+NewYork,Inc.,1996.
+384. NeelakantanA.,RothB.,McCallumA.CompositionalVectorSpaceModelsforKnowledge
+BaseCompletion//Proc.53rdACLandthe7thIJCNLP,Vol.1:LongPapers, Beijing,
+China:ACL,2015.—P.156–166.
+385. Neil D., Pfeiffer M., Liu S. Phased LSTM: Accelerating Recurrent Network Training for
+LongorEvent-basedSequences//Proc.30thConferenceonNeuralInformationProcessing
+Systems(NIPS2016)/2016.
+386. NesterovY.IntroductoryLecturesonConvexOptimization:ABasicCourse,SpringerPub-
+lishingCompany,Incorporated,2014.
+387. NeuralArchitecturesforNamedEntityRecognition/G.Lampleetal.//arXiv,2016.http:
+//arxiv:org/abs/1603:01360.
+388. NeuralNetworks:TricksoftheTrade/Ed.byG.B.Orr,K.-R.Mueller, Springer,1998,
+vol.1524ofLectureNotesinComputerScience.
+389. NeuralNetworks:TricksoftheTrade:2ndEdition/Ed.byG.Montavonetal., Springer,
+2012, vol.7700ofLectureNotesinComputerScience.
+390. NeuralProbabilisticLanguageModels/Y.Bengioetal.//InnovationsinMachineLearn-
+ing/Springer,2006.—P.137–186.
+391. A Neural Probabilistic Structured-Prediction Model for Transition-Based Dependency
+Parsing/H.Zhouetal.//Proc.53rdACLandthe7thIJCNLP,Vol.1:LongPapers, Bei-
+jing,China:ACL,2015.—P.1213–1222.
+392. NewellA.,ShawJ.C.,SimonH.A.ReportonaGeneralProblem-SolvingProgram//Proc.
+InternationalConferenceonInformationProcessing, 1959.—P.256–264.
+393. NilssonD.-E.,PelgerS.APessimisticEstimateoftheTimeRequiredforanEyetoEvolve//
+Proc.RoyalSocietyofLondonB:BiologicalSciences,1994,vol.256,no.1345.—P.53–58.
+
+===== СТР. 468 =====
+468 Литература
+394. Nonparametric Variational Auto-encoders for Hierarchical Representation Learning /
+P.Goyaletal.//arXiv, 2017.http://arxiv:org/abs/1703:07027.
+395. Nossenson N., Messer H. Modeling Neuron Firing Pattern Using a Two State Markov
+Chain//2010IEEESensorArrayandMultichannelSignalProcessingWorkshop,2010.—
+P.41–44.
+396. ANovelConnectionistSystemforUnconstrainedHandwritingRecognition/A.Graves
+etal.//IEEETransactionsonPatternAnalysisandMachineIntelligence, 2009, vol.31,
+no.5.—P.855–868.
+397. NowozinS.,CsekeB.,TomiokaR.f-GAN:TrainingGenerativeNeuralSamplersusingVari-
+ationalDivergenceMinimization//AdvancesinNeuralInformationProcessingSystems
+29/CurranAssociates,Inc.,2016.—P.271–279.
+398. OntheNumberofLinearRegionsofDeepNeuralNetworks/G.Montufaretal.//Proc.
+27thNIPS, Cambridge,MA,USA:MITPress,2014.—P.2924–2932.
+399. OnthePropertiesofNeuralMachineTranslation:Encoder-DecoderApproaches/K.Cho
+etal.//arXiv, 2014.http://arxiv:org/abs/1409:1259.
+400. OnUnifyingDeepGenerativeModels/Z.Huetal.//arXiv, 2017.http://arxiv:org/abs/
+1706:00550.
+401. OnUsingVeryLargeTargetVocabularyforNeuralMachineTranslation/S.Jeanetal.//
+Proc.53rdACLandthe7thIJCNLP,Vol.1:LongPapers, Beijing,China:ACL,2015.—
+P.1–10.
+402. One-ShotLearningofGenerativeSpeechConcepts/B.M.Lakeetal.//CogSci, cogni-
+tivesciencesociety.org,2014.
+403. One-Year-OldInfantsUseTeleologicalRepresentationsofActionsProductively/G.Csi-
+braetal.//CognitiveScience, 2003, vol.27,no.1.—P.111–133.
+404. OpenWorm:anOpen-ScienceApproachtoModelingCaenorhabditisElegans/B.Szigeti
+etal.//FrontiersofComputationalNeuroscience, 2014, vol.2014.
+405. Opper M., Archambeau C. The Variational Gaussian Approximation Revisited // Neural
+Computation, 2009, vol.21,no.3.—P.786–792.
+406. OvercomingtheCurseofSentenceLengthforNeuralMachineTranslationusingAutomatic
+Segmentation/J.Pouget-Abadieetal.//arXiv, 2014.http://arxiv:org/abs/1409:1257.
+407. OverFeat:IntegratedRecognition,LocalizationandDetectionusingConvolutionalNet-
+works/P.Sermanetetal.//arXiv, 2013.http://arxiv:org/abs/1312:6229.
+408. PantelP.InducingOntologicalCo-occurrenceVectors//Proc.43rdACL, Stroudsburg,
+PA,USA:ACL,2005.—P.125–132.
+409. PapernoD.,PhamN.T.,BaroniM.APracticalandLinguistically-MotivatedApproachto
+CompositionalDistributionalSemantics//Proc.52ndACL,Vol.1:LongPapers, Balti-
+more,Maryland:ACL,2014.—P.90–99.
+410. ParallelDistributedProcessing:ExplorationsintheMicrostructureofCognition,Vol.1:
+Foundations/Ed.byD.E.Rumelhartetal., Cambridge,MA,USA:MITPress,1986.
+411. ParallelDistributedProcessingModelwithLocalSpace-InvariantInterconnectionsandIts
+OpticalArchitecture/W.Zhangetal.//AppliedOptics, 1990, vol.29,no.32.
+412. Pascanu R., Mikolov T., Bengio Y. On the Difficulty of Training Recurrent Neural Net-
+works//Proc.30thICML, 2013.—P.1310–1318.
+413. PathIntegralGuidedPolicySearch/Y.Chebotaretal.//arXiv, 2016.http://arxiv:org/
+abs/1610:00529.
+414. PathNet:EvolutionChannelsGradientDescentinSuperNeuralNetworks/C.Fernando
+etal.//arXiv, 2017.http://arxiv:org/abs/1701:08734.
+415. PavelM.S.,SchulzH.,BehnkeS.RecurrentConvolutionalNeuralNetworksforObject-Class
+SegmentationofRGB-DVideo//IJCNN, IEEE,2015.—P.1–8.
+416. PearlJ.ProbabilisticReasoninginIntelligentSystems:NetworksofPlausibleInference,NY
+etc.:MorganKaufmann,1994.
+
+===== СТР. 469 =====
+Литература 469
+417. Pennington J., Socher R., Manning C. Glove: Global Vectors for Word Representation //
+Proc.2014EMNLP, Doha,Qatar:ACL,2014.—P.1532–1543.
+418. PerceptionoftheSpeechCode/A.M.Libermanetal.//PsychologyReview,1967,vol.74,
+no.6.—P.431–461.
+419. PetersJ.,SchaalS.ReinforcementLearningofMotorSkillswithPolicyGradients//Neural
+Networks, 2008, vol.21,no.4.—P.682–697.
+420. Phoneme Recognition Using Time-Delay Neural Networks / A. Waibel et al. // IEEE
+Transactions on Acoustics, Speech, and Signal Processing, Mar 1989, vol. 37, no. 3. —
+P.328–339.
+421. Photo-RealisticSingleImageSuper-ResolutionUsingaGenerativeAdversarialNetwork/
+C.Ledigetal.//arXiv, 2016.http://arxiv:org/abs/1609:04802.
+422. PhotovoltaicRetinalProsthesis:ImplantFabricationandPerformance/L.Wangetal.//
+JournalofNeuralEngineering, 2012, vol.9,no.4.—P.046014.
+423. PilgrimM.DiveIntoPython3, Berkeley,CA,USA:Apress,2009.
+424. PinheiroP.H.O.,CollobertR.RecurrentConvolutionalNeuralNetworksforScenePars-
+ing//arXiv, 2013.http://arxiv:org/abs/1306:2795.
+425. PinheiroP.H.O.,CollobertR.RecurrentConvolutionalNeuralNetworksforSceneLabel-
+ing//Proc.31thICML, 2014.—P.82–90.
+426. PlayingAtariWithDeepReinforcementLearning/V.Mnihetal.//NIPSDeepLearning
+Workshop/2013.
+427. PolicyGradientMethodsforReinforcementLearningwithFunctionApproximation/R.S.
+Suttonetal.//Proc.12thNIPS,Cambridge,MA,USA:MITPress,1999.—P.1057–1063.
+428. Pollack J. B., Blair A. D. Why Did TD-Gammon Work? // NIPS, MIT Press, 1996. —
+P.10–16.
+429. PotapenkoA.,VorontsovK.RobustpLSAPerformsBetterThanLDA//Proc.35thECIR/
+vol.7814ofLectureNotesinComputerScience, Springer,2013.—P.784–787.
+430. Prokhorov D. AConvolutional Learning System for Object Classification in 3-D LIDAR
+Data//IEEETransactionsonNeuralNetworks, 2010, vol.21,no.5.—P.858–863.
+431. McCarthy J., Minsky M. et al. A proposal for the Dartmouth summer research project
+onartificialintelligence, 1955.http://www-formal:stanford:edu/jmc/history/dartmouth/
+dartmouth:html.
+432. RadfordA.,MetzL.,ChintalaS.UnsupervisedRepresentationLearningwithDeepConvolu-
+tionalGenerativeAdversarialNetworks//arXiv, 2015.http://arxiv:org/abs/1511:06434.
+433. RaikoT.,ValpolaH.,LeCunY.DeepLearningMadeEasierbyLinearTransformationsin
+Perceptrons.//AISTATS/vol.22ofJMLRProceedings, JMLR.org,2012.—P.924–932.
+434. RainaR.,MadhavanA.,NgA.Large-ScaleDeepUnsupervisedLearningUsingGraphics
+Processors//Proc.26thICML, 2009.—P.873–880.
+435. RardinR.L.OptimizationinOperationsResearch, Pearson,2016.
+436. RC-NET:AGeneralFrameworkforIncorporatingKnowledgeintoWordRepresentations/
+C.Xuetal.//Proc.23rdACMInternationalConferenceonConferenceonInformationand
+KnowledgeManagement, NewYork,NY,USA:ACM,2014.—P.1219–1228.
+437. Reasoning With Neural Tensor Networks for Knowledge Base Completion / R. Socher
+etal.//AdvancesinNeuralInformationProcessingSystems(NIPS), 2013.
+438. RecentAdvancesinConvolutionalNeuralNetworks/J.Guetal.//arXiv, 2015.http:
+//arxiv:org/abs/1512:07108.
+439. RecurrentBatchNormalization/T.Cooijmansetal.//arXiv,2016.http://arxiv:org/abs/
+1603:09025.
+440. RecurrentHighwayNetworks/J.G.Zillyetal.//Proc.34thICML/vol.70ofProceedings
+ofMachineLearningResearch, PMLR,2017.—P.4189–4198.
+441. RecurrentModelsofVisualAttention/V.Mnihetal.//AdvancesinNeuralInformation
+ProcessingSystems27/CurranAssociates,Inc.,2014.—P.2204–2212.
+
+===== СТР. 470 =====
+470 Литература
+442. RecurrentNeuralNetworkBasedLanguageModel/T.Mikolovetal.//INTERSPEECH,
+2010, vol.2.—P.3.
+443. Recursive Deep Models for Semantic Compositionality over a Sentiment Treebank /
+R.Socheretal.//Proc.EMNLP2013/vol.1631, 2013.—P.1642.
+444. RedmonJ.,FarhadiA.YOLO9000:Better,Faster,Stronger//arXiv,2016.http://arxiv:org/
+abs/1612:08242.
+445. RehurekR.APathtoUnsupervisedLearningthroughAdversarialNetworks, 2013.https:
+//rare-technologies:com/deep-learning-with-word2vec-and-gensim/.
+446. RehurekR.,SojkaP.SoftwareFrameworkforTopicModellingwithLargeCorpora//Proc.
+LREC2010WorkshoponNewChallengesforNLPFrameworks, Valletta,Malta:ELRA,
+2010.—pp.45–50.
+447. RensinkR.A.TheDynamicRepresentationofScenes//VisualCognition, 2000, vol.7,
+no.1–3.—P.17–42.
+448. RethinkingtheInceptionArchitectureforComputerVision/C.Szegedyetal.//arXiv,
+2015.http://arxiv:org/abs/1512:00567.
+449. RetrofittingWordVectorstoSemanticLexicons/M.Faruquietal.//Proc.2015NAACL-
+HLT, Denver,Colorado:ACL,May–June2015.—P.1606–1615.
+450. RobustAdversarialReinforcementLearning/L.Pintoetal.//Proc.34thICML/vol.70
+ofProceedingsofMachineLearningResearch, PMLR,2017.—P.2817–2826.
+451. RohasR.NeuralNetworks—ASystematicIntroduction, Springer-Verlag,Berlin,New-
+York,1996.
+452. RohdeD.L.T.,GonnermanL.M.,PlautD.C.AnImprovedModelofSemanticSimilarity
+BasedonLexicalCo-Occurence//CommunicationsoftheACM, 2006, vol.8.—P.627–
+633.
+453. RongX.word2vecParameterLearningExplained//arXiv, 2014.http://arxiv:org/abs/
+1411:2738.
+454. RonnebergerO.,FischerP.,BroxT.U-Net:ConvolutionalNetworksforBiomedicalImage
+Segmentation//arXiv, 2015.http://arxiv:org/abs/1505:04597.
+455. RosenblattF.ThePerceptron:AProbabilisticModelforInformationStorageandOrgani-
+zationintheBrain//PsychologicalReview, 1958, vol.65,no.6.—P.386–408.
+456. RosenblattF.PrinciplesofNeurodynamics, Spartan,NewYork,1962.
+457. RubensteinH.,GoodenoughJ.B.ContextualCorrelatesofSynonymy//Communicationsof
+theACM, 1965, vol.8,no.10.—P.627–633.
+458. RuderS.AnOverviewofGradientDescentOptimizationAlgorithms//arXiv, 2016.http:
+//arxiv:org/abs/1609:04747.
+459. Rumelhart D. E., Hinton G. E., Williams R. J. Learning Internal Representations by Error
+Propagation // Parallel Distributed Processing. Vol 1: Foundations / Cambridge, MA,
+USA:MITPress,1986.
+460. RumelhartD.E.,HintonG.E.,WilliamsR.J.LearningRepresentationsbyBack-propagating
+Errors//Neurocomputing:FoundationsofResearch/Cambridge,MA,USA:MITPress,
+1988.—P.696–699.
+461. SaatchiY.,WilsonA.G.BayesianGAN//arXiv, 2017.http://arxiv:org/abs/1705:09558.
+462. Sadrzadeh M., Grefenstette E. A Compositional Distributional Semantics, Two Concrete
+Constructions,andSomeExperimentalEvaluations//Proc.5thInternationalConference
+onQuantumInteraction, Berlin,Heidelberg:Springer-Verlag,2011.—P.35–47.
+463. SahlgrenM.TheDistributionalHypothesis//ItalianJournalofLinguistics, 2008, vol.20,
+no.1.—P.33–54.
+464. SalakhutdinovR.LearningDeepBoltzmannMachinesusingAdaptiveMCMC//Proc.27th
+ICML, 2010.—P.943–950.
+465. SalakhutdinovR.LearningDeepGenerativeModels//AnnualReviewofStatisticsandIts
+Application, 2015, vol.2,no.1.—P.361–385.
+
+===== СТР. 471 =====
+Литература 471
+466. SalakhutdinovR.,HintonG.E.DeepBoltzmannMachines//Proc.TwelfthInternational
+Conference on Artificial Intelligence and Statistics, AISTATS 2009, Clearwater Beach,
+Florida,USA,April16-18,2009, 2009.—P.448–455.
+467. SalakhutdinovR.,HintonG.E.ABetterWaytoPretrainDeepBoltzmannMachines//Ad-
+vancesinNeuralInformationProcessingSystems25, 2012.—P.2456–2464.
+468. SalakhutdinovR.,LarochelleH.EfficientLearningofDeepBoltzmannMachines//Proc.
+13thInternationalConferenceonArtificialIntelligenceandStatistics(AISTATS),2010.—
+P.693–700.
+469. SallansB.,HintonG.E.ReinforcementLearningwithFactoredStatesandActions//Jour-
+nalofMachineLearningResearch, 2004, vol.5.—P.1063–1088.
+470. SavageL.TheFoundationsofStatistics, NewYork:Wiley,1954.
+471. SchererD.,MullerA.,BehnkeS.EvaluationofPoolingOperationsinConvolutionalArchi-
+tecturesforObjectRecognition//Proc.20thInternationalConferenceonArtificialNeural
+Networks:PartIII, Berlin,Heidelberg:Springer-Verlag,2010.—P.92–101.
+472. Schmidhuber J. Learning Complex, Extended Sequences Using the Principle of History
+Compression//NeuralComputation, 1992, vol.4,no.2.—P.234–242.
+473. SchmidhuberJ.Low-ComplexityArt//Leonardo, 1997, vol.30,no.2.—P.97–103.
+474. Schmidhuber J. Simple Algorithmic Principles of Discovery, Subjective Beauty, Selective
+Attention,Curiosity&Creativity//DiscoveryScience:10thInternationalConference,DS
+2007 Sendai, Japan, October 1-4, 2007. Proceedings / Ed. by V. Corruble et al., Berlin,
+Heidelberg:SpringerBerlinHeidelberg,2007.—P.26–38.
+475. SchmidhuberJ.DeepLearninginNeuralNetworks:AnOverview//NeuralNetworks,2015,
+vol.61.—P.85–117.
+476. SchwenkH.ContinuousSpaceLanguageModels//Comput.SpeechLang., 2007, vol.21,
+no.3.—P.492–518.
+477. SearleJ.R.Minds,BrainsandPrograms//BehavioralandBrainSciences, 1980, vol.3,
+no.3.—P.417–57.
+478. SedolL.Анализ5-йпартииматчасAlphaGo,23марта2016г., http://news:donga:com/
+Issue/List/08000000000070/3/08000000000070/20160323/77152796/1, перевод на
+английский см. на http://badukinkorea:tumblr:com/post/142578829241/lee-sedols-
+review-on-the-fifth-match-with-alphago.
+479. Sedol L. Интервью, 29 января 2016 г., http://news:donga:com/3/all/20160129/
+76197440/1, частичный перевод на русский см. на http://gofederation:ru/board/
+viewtopic:php?f=2&t=656.
+480. SegeeB.MethodsinNeuronalModeling:fromIonstoNetworks,2ndEdition//Computing
+inScienceEngineering, 1999, vol.1,no.1.—P.81–81.
+481. SeideF.,LiG.,YuD.ConversationalSpeechTranscriptionUsingContext-DependentDeep
+NeuralNetworks//Interspeech2011, InternationalSpeechCommunicationAssociation,
+2011.
+482. Self-NormalizingNeuralNetworks/G.Klambaueretal.//arXiv, 2017.http://arxiv:org/
+abs/1706:02515.
+483. SemanticCompositionalityThroughRecursiveMatrix-vectorSpaces/R.Socheretal.//
+Proc.2012JointEMNLPandComputationalNaturalLanguageLearning, Stroudsburg,
+PA,USA:ACL,2012.—P.1201–1211.
+484. SemanticObjectParsingwithGraphLSTM/X.Liangetal.//Proc.ECCV2016,PartI/
+Ed.byB.Leibeetal., Cham:SpringerInternationalPublishing,2016.—P.125–143.
+485. SemanticallySmoothKnowledgeGraphEmbedding/S.Guoetal.//Proc.53rdACLand
+the7thIJCNLP,Vol.1:LongPapers, Beijing,China:ACL,2015.—P.84–94.
+486. Semeval-2014Task1:EvaluationofCompositionalDistributionalSemanticModelsonFull
+Sentences through Semantic Relatedness and Textual Entailment / M. Marelli et al. //
+SemEval-2014, 2014.
+
+===== СТР. 472 =====
+472 Литература
+487. Semi-supervisedLearningwithLadderNetworks/A.Rasmusetal.//Proc.28thNIPS,
+Cambridge,MA,USA:MITPress,2015.—P.3546–3554.
+488. SennrichR.,HaddowB.,BirchA.EdinburghNeuralMachineTranslationSystemsforWMT
+16//arXiv, 2016.http://arxiv:org/abs/1606:02891.
+489. Sex,Mixability,andModularity/A.Livnatetal.//Proc.NationalAcademyofSciences,
+2010, vol.107,no.4.—P.1452–1457.
+490. ShannonC.ThisMouseIsSmarterThanYouAre//PopularScience, 1952.—P.99–101.
+491. ShawZ.A.LearnPythontheHardWay:AVerySimpleIntroductiontotheTerrifyingly
+BeautifulWorldofComputersandCode,3rdedition,Addison-WesleyProfessional,2013.
+492. Shift-Invariant Pattern Recognition Neural Network and Its Optical Architecture /
+W. Zhang et al. // Proceedings of Annual Conference of the Japan Society of Applied
+Physics, 1988.
+493. ShimodairaH.ImprovingPredictiveInferenceunderCovariateShiftbyWeightingtheLog-
+LikelihoodFunction//JournalofStatisticalPlanningandInference,2000,vol.90,no.2.—
+P.227–244.
+494. ShortliffeE.H.,BuchananB.G.AModelofInexactReasoninginMedicine//Mathematical
+Biosciences, 1975, vol.23.—P.351–379.
+495. ShowandTell:ANeuralImageCaptionGenerator/O.Vinyalsetal.//arXiv, 2014.http:
+//arxiv:org/abs/1411:4555.
+496. Show,AttendandTell:NeuralImageCaptionGenerationwithVisualAttention/K.Xu
+etal.//arXiv, 2015, vol.2,no.3.—P.5.http://arxiv:org/abs/1502:03044.
+497. SjostromJ.,GerstnerW.Spike-TimingDependentPlasticity//Scholarpedia, 2010, vol.5,
+no.2.—P.1362.
+498. Skip-ThoughtVectors/R.Kirosetal.//AdvancesinNeuralInformationProcessingSys-
+tems28/CurranAssociates,Inc.,2015.—P.3294–3302.
+499. SmolenskyP.InformationProcessinginDynamicalSystems:FoundationsofHarmonyThe-
+ory//ParallelDistributedProcessing:ExplorationsintheMicrostructureofCognition,
+Vol.1/Cambridge,MA,USA:MITPress,1986.—P.194–281.
+500. SnapshotEnsembles:Train1,GetMforFree/G.Huangetal.//arXiv, 2017.http://
+arxiv:org/abs/1704:00109.
+501. SoricutR.,OchF.UnsupervisedMorphologyInductionUsingWordEmbeddings//Proc.
+2015ConferenceoftheNorthAmericanChapteroftheAssociationforComputationalLin-
+guistics:HumanLanguageTechnologies, Denver,Colorado:ACL,2015.—P.1627–1637.
+502. SpelkeE.S.,GutheilG.,VandeWalleG.TheDevelopmentofObjectPerception//Visual
+Cognition:AnInvitationtoCognitiveScience/1995.
+503. SpelkeE.S.,KinzlerK.D.CoreKnowledge//DevelopmentalScience,2007,vol.10,no.1.—
+P.89–96.
+504. SqueezeNet:AlexNet-LevelAccuracywith50xFewerParametersand<1MBModelSize/
+F.N.Iandolaetal.//arXiv, 2016.http://arxiv:org/abs/1602:07360.
+505. SrivastavaN.,SalakhutdinovR.MultimodalLearningwithDeepBoltzmannMachines//
+JournalofMachineLearningResearch, 2014, vol.15,no.1.—P.2949–2980.
+506. Srivastava R. K., Greff K., Schmidhuber J. Highway Networks // arXiv, 2015. http://
+arxiv:org/abs/1505:00387.
+507. SrivastavaR.K.,GreffK.,SchmidhuberJ.TrainingVeryDeepNetworks//Proc.28thNIPS,
+Cambridge,MA,USA:MITPress,2015.—P.2377–2385.
+508. StackGAN:TexttoPhoto-realisticImageSynthesiswithStackedGenerativeAdversarial
+Networks/H.Zhangetal.//arXiv, 2016.http://arxiv:org/abs/1612:03242.
+509. StatisticalMachineTranslationFeatureswithMultitaskTensorNetworks/H.Setiawan
+etal.//Proc.53rdACLandthe7thIJCNLP,Vol.1:LongPapers, Beijing,China:ACL,
+2015.—P.31–41.
+
+===== СТР. 473 =====
+Литература 473
+510. Stenetorp P. Transition-based Dependency Parsing Using Recursive Neural Networks //
+DeepLearningWorkshopatNIPS2013, 2013.
+511. StrivingforSimplicity:TheAllConvolutionalNet/J.T.Springenbergetal.//arXiv,2014.
+http://arxiv:org/abs/1412:6806.
+512. Structured Training for Neural Network Transition-Based Parsing / D. Weiss et al. //
+Proc.53rdACLandthe7thIJCNLP,Vol.1:LongPapers, Beijing,China:ACL,2015.—
+P.323–333.
+513. AStudyofTranslationEditRatewithTargetedHumanAnnotation/M.Snoveretal.//
+Proc.AssociationforMachineTranslationintheAmericas, 2006.—P.223–231.
+514. Sugiyama M., Krauledat M., Muller K.-R. Covariate Shift Adaptation by Importance
+Weighted Cross Validation // Journal of Machine Learning Research, 2007, vol. 8. —
+P.985–1005.
+515. ASurveyofMonteCarloTreeSearchMethods/C.B.Browneetal.//IEEETransactions
+onComputationalIntelligenceandAIinGames, March2012, vol.4,no.1.—P.1–43.
+516. SutskeverI.,TielemanT.OntheConvergencePropertiesofContrastiveDivergence.//AIS-
+TATS/vol.9ofJMLRProceedings, JMLR.org,2010.—P.789–795.
+517. SutskeverI.,VinyalsO.,LeQ.V.SequencetoSequenceLearningwithNeuralNetworks//
+arXiv, 2014.http://arxiv:org/abs/1409:3215.
+518. SuttonC.,McCallumA.AnIntroductiontoConditionalRandomFieldsforRelationalLearn-
+ing, 2006.
+519. SuttonR.S.,BartoA.G.ReinforcementLearning:AnIntroduction, Cambridge,MA,1998.
+520. Syntax-based Simultaneous Translation through Prediction of Unseen Syntactic Con-
+stituents/Y.Odaetal.//Proc.53rdACLandthe7thIJCNLP,Vol.1:LongPapers,Beijing,
+China:ACL,2015.—P.198–207.
+521. Target-drivenVisualNavigationinIndoorScenesusingDeepReinforcementLearning/
+Y.Zhuetal.//arXiv, 2016.http://arxiv:org/abs/1609:05143.
+522. ATaxonomyofDeepConvolutionalNeuralNetsforComputerVision/S.Srinivasetal.//
+arXiv, 2016.http://arxiv:org/abs/1601:06615.
+523. AbadiM.,AgarwalA.etal.TensorFlow:Large-ScaleMachineLearningonHeterogeneous
+Systems, 2015, Softwareavailablefromtensorflow.org.http://tensorflow:org/.
+524. TesauroG.NeurogammonWinsComputerOlympiad//NeuralComputation,1989,vol.1,
+no.3.—P.321–323.
+525. TesauroG.PracticalIssuesinTemporalDifferenceLearning//MachineLearning, 1992,
+vol.8.—P.257–277.
+526. Tesauro G. Temporal Difference Learning and TD-Gammon // Communications of the
+ACM, 1995, vol.38,no.3.—P.58–68.
+527. ThalerL.,ArnottS.R.,GoodaleM.A.HumanEcholocationI//JournalofVision, 2010,
+vol.10,no.7.—P.1050.
+528. Theano:aCPUandGPUMathExpressionCompiler/J.Bergstraetal.//Proc.Pythonfor
+ScientificComputingConference(SciPy), 2010, OralPresentation.
+529. BastienF.,LamblinP.etal.Theano:NewFeaturesandSpeedImprovements,DeepLearning
+andUnsupervisedFeatureLearningNIPS2012Workshop, 2012.
+530. ThorndikeE.L.AnimalIntelligence:AnExperimentalStudyoftheAssociativeProcessesin
+Animals.PsychologicalReviewMonographs, NewYork:Macmillan,1898.
+531. TiedemannJ.NewsfromOPUS-ACollectionofMultilingualParallelCorporawithTools
+and Interfaces // Recent Advances in Natural Language Processing (vol V) / Amster-
+dam/Philadelphia:JohnBenjamins,2009.—P.237–248.
+532. TielemanT.,HintonG.Lecture6.5—RMSProp:DividetheGradientbyaRunningAverage
+ofitsRecentMagnitude, Coursera:NeuralNetworksforMachineLearning, 2012.https:
+//www:coursera:org/learn/neural-networks.
+
+===== СТР. 474 =====
+474 Литература
+533. TinyFlow:BuildYourOwnDLSystemin2KLines,https://github.com/tqchen/tinyflow,
+2016.
+534. Tishby N., Levin E., Solla S. Consistent Inference of Probabilities in Layered Networks:
+PredictionsandGeneralizations//IJCNNInternationalJointConferenceonNeuralNet-
+works/vol.II, IEEE,1989.—P.403–409.
+535. TitovI.,HendersonJ.ALatentVariableModelforGenerativeDependencyParsing//Proc.
+10th International Conference on Parsing Technologies, Stroudsburg, PA, USA: ACL,
+2007.—P.144–155.
+536. TowardsaVirtualC.Elegans:AFrameworkforSimulationandVisualizationoftheNeu-
+romuscularSystemina3DPhysicalEnvironment/A.Palyanovetal.//InsilicoBiology,
+2012, vol.11,no.3,4.—P.137–147.
+537. Lowe R., Noseworthy M. et al. Towards an Automatic Turing Test: Learning to Evaluate
+DialogueResponses, SubmittedtoICLR2017, 2017.https://openreview:net/forum?id=
+HJ5PIaseg.
+538. TowardsBiologicallyPlausibleDeepLearning/Y.Bengioetal.//arXiv, 2015.http://
+arxiv:org/abs/1502:04156.
+539. Transition-basedDependencyParsingUsingTwoHeterogeneousGatedRecursiveNeural
+Networks/X.Chenetal.//Proc.EMNLP2015,Lisbon,Portugal:ACL,2015.—P.1879–
+1889.
+540. Transition-Based Dependency Parsing with Stack Long Short-Term Memory / C. Dyer
+etal.//Proc.53rdACLandthe7thIJCNLP,Vol.1:LongPapers, Beijing,China:ACL,
+2015.—P.334–343.
+541. Tsitsiklis J. N., Van Roy B. An Analysis of Temporal-Difference Learning with Function
+Approximation // IEEE Transactions on Automatic Control, 1997, vol. 42, no. 5. —
+P.674–690.
+542. TuringA.M.IntelligentMachinery,AHereticalTheory, LecturegivenatOxford, 1948.
+543. TuringA.M.ComputingMachineryandIntelligence,1950,Oneofthemostinfluentialpa-
+persinthehistoryofthecognitivesciences:http://cogsci.umn.edu/millennium/final.html.
+544. UngerleiderL.G.,MishkinM.TwoCorticalVisualSystems//AnalysisofVisualBehaviour/
+Ed.byD.J.Ingleetal., 1982.—P.549–586.
+545. UnrolledGenerativeAdversarialNetworks/L.Metzetal.//arXiv,2016.http://arxiv:org/
+abs/1611:02163.
+546. AnUpdatedSetofBasicLinearAlgebraSubprograms(BLAS)/L.Blackfordetal.//ACM
+TransactionsonMathematicalSoftware, 2002, vol.28,no.2.—P.135–151.
+547. vandenOordA.,DielemanS.,ZenH.WaveNet:AGenerativeModelforRawAudio, 2016.
+https://deepmind:com/blog/wavenet-generative-model-raw-audio/.
+548. van den Oord A., Kalchbrenner N., Kavukcuoglu K. Pixel Recurrent Neural Networks //
+arXiv, 2016.http://arxiv:org/abs/1601:06759.
+549. VariationalApproachesforAuto-EncodingGenerativeAdversarialNetworks/M.Rosca
+etal.//arXiv, 2017.http://arxiv:org/abs/1706:04987.
+550. Variational Lossy Autoencoder / X. Chen et al. // arXiv, 2016. http://arxiv:org/abs/
+1611:02731.
+551. VinyalsO.,LeQ.V.ANeuralConversationalModel//ICMLDeepLearningWorkshop,
+arXiv:1506.05869, 2015.
+552. Viola P. A., Jones M. J. Rapid Object Detection using a Boosted Cascade of Simple Fea-
+tures//Proc.CVPR2001, 2001.—P.511–518.
+553. Vorontsov K. Additive Regularization for Topic Models of Text Collections // Doklady
+Mathematics, 2014, vol.89,no.3.—P.301–304.
+554. vosSavantM.AskMarilyn//Parade, 1990, no.16,25.
+555. TheWake-SleepAlgorithmforUnsupervisedNeuralNetworks/G.E.Hintonetal.//Sci-
+ence, 1995, vol.268.—P.1158–1161.
+
+===== СТР. 475 =====
+Литература 475
+556. WaldA.StatisticalDecisionFunctions//TheAnnalsofMathematicalStatistics, 1949,
+vol.20,no.2.—P.165–205.
+557. WangC.,BleiD.M.,HeckermanD.ContinuousTimeDynamicTopicModels//Proc.24th
+ConferenceonUncertaintyinArtificialIntelligence, 2008.
+558. WangX.,McCallumA.TopicsoverTime:aNon-MarkovContinuous-TimeModelofTopical
+Trends//Proc.12th ACMSIGKDDInternationalConferenceonKnowledgeDiscovery
+andDataMining, NewYork,NY,USA:ACM,2006.—P.424–433.
+559. WatkinsC.J.C.H.,DayanP.Q-learning//MachineLearning, 1992.—P.279–292.
+560. WaveNet:AGenerativeModelforRawAudio/A.vandenOordetal.//arXiv, 2016.
+http://arxiv:org/abs/1609:03499.
+561. Weakly Supervised Memory Networks / S. Sukhbaatar et al. // arXiv, 2015. http://
+arxiv:org/abs/1503:08895.
+562. Webvision: The Organization of the Retina and Visual System, 2007. http://
+webvision:med:utah:edu/book/.
+563. WeizenbaumJ.ELIZA—AComputerProgramfortheStudyofNaturalLanguageCommu-
+nicationBetweenManandMachine//CommunicationsoftheACM,1966,vol.9,no.1.—
+P.36–45.
+564. WerbosP.J.ApplicationsofAdvancesinNonlinearSensitivityAnalysis//Proc.10thIFIP
+Conference,31.8-4.9,NYC, 1981.—P.762–770.
+565. WestonJ.,ChopraS.,BordesA.Memorynetworks//arXiv, 2014.http://arxiv:org/abs/
+1410:3916.
+566. WestonJ.,RatleF.,CollobertR.DeepLearningviaSemi-supervisedEmbedding//Proc.25th
+ICML, NewYork,NY,USA:ACM,2008.—P.1168–1175.
+567. WhyDoesUnsupervisedPre-TrainingHelpDeepLearning?/D.Erhanetal.//Journalof
+MachineLearningResearch, 2010, vol.11.—P.625–660.
+568. WienerN.Cybernetics,SecondEdition:OrtheControlandCommunicationintheAnimal
+andtheMachine, TheMITPress,1965.
+569. WieselD.H.,HubelT.N.ReceptiveFieldsofSingleNeuronesintheCat’sStriateCortex//
+JournalofPhysiology, 1959, vol.148.—P.574–591.
+570. Wiesler S., Ney H. A Convergence Analysis of Log-Linear Training. // NIPS, 2011. —
+P.657–665.
+571. Williams R. J. Simple Statistical Gradient-Following Algorithms for Connectionist Rein-
+forcementLearning//MachineLearning, 1992, vol.8,no.3-4.—P.229–256.
+572. WohlerC.,AnlaufJ.K.AnAdaptableTime-DelayNeural-NetworkAlgorithmforImageSe-
+quenceAnalysis//IEEETransactionsonNeuralNetworks, Nov1999, vol.10,no.6.—
+P.1531–1536.
+573. XuR.,WunschD.Clustering, Wiley-IEEEPress,2008.
+574. YangX.,KwittR.,NiethammerM.FastPredictiveImageRegistration//arXiv, 2016.http:
+//arxiv:org/abs/1607:02504.
+575. Yao K., Zweig G., Peng B. Attention with Intention for a Neural Network Conversation
+Model//arXiv, 2015.http://arxiv:org/abs/1510:08565.
+576. YouOnlyLookOnce:Unified,Real-TimeObjectDetection/J.Redmonetal.//arXiv,
+2015.http://arxiv:org/abs/1506:02640.
+577. YuM.,DredzeM.ImprovingLexicalEmbeddingswithSemanticKnowledge//Proc.52nd
+ACL,Vol.2, 2014.—P.545–550.
+578. Yudkowsky E. Artificial Intelligence as a Positive and Negative Factor in Global Risk //
+GlobalCatastrophicRisks, 2008, vol.1.—P.303.
+579. YudkowskyE.FriendlyArtificialIntelligence//SingularityHypotheses:AScientificand
+PhilosophicalAssessment/Berlin:Springer,2012.
+580. Yudkowsky E. Harry Potter and the Methods of Rationality, http://www.hpmor.com/,
+2015.
+
+===== СТР. 476 =====
+476 Литература
+581. YudkowskyE.Rationality:FromAItoZombies, Berkeley,CA:MachineIntelligenceRe-
+searchInstitute,2015.http://intelligence:org/rationality-ai-zombies/.
+582. ZarembaW.,SutskeverI.ReinforcementLearningNeuralTuringMachines//arXiv, 2015.
+http://arxiv:org/abs/1505:00521.
+583. ZarembaW.,SutskeverI.,VinyalsO.RecurrentNeuralNetworkRegularization//arXiv,
+2014.http://arxiv:org/abs/1409:2329.
+584. Zeiler M. D. ADADELTA: An Adaptive Learning Rate Method // arXiv, 2012. http://
+arxiv:org/abs/1212:5701.
+585. ZeilerM.D.,FergusR.VisualizingandUnderstandingConvolutionalNetworks//arXiv,
+2013.http://arxiv:org/abs/1311:2901.
+586. ZhangX.,LeCunY.TextUnderstandingfromScratch//arXiv,2015.http://arxiv:org/abs/
+1502:01710.
+587. ZhangX.,ZhaoJ.,LeCunY.Character-levelConvolutionalNetworksforTextClassifica-
+tion//AdvancesinNeuralInformationProcessingSystems28/CurranAssociates,Inc.,
+2015.—P.649–657.
+588. ИвахненкоА.Г.,ЛапаВ.Г.Кибернетическиепредсказывающиеустройства.Киев,Наук.
+думка,1965.
+589. КолмогоровА.Н.Опредставлениинепрерывныхфункцийнесколькихпеременныхв
+видесуперпозицийнепрерывныхфункцийоднойпеременнойисложения//Доклады
+Академиинаук. 1957. T.114,№5.—С.953–956.
+590. Колмогоров А.Н. Автоматы и жизнь // Возможное и невозможное в кибернетике /
+1964.—C.10–29.
+591. ЛурияА.Р.Мозгипсихическиепроцессы.В2-хтт. М.,ИздательствоАПНРСФСР,
+1970.
+592. ЛурияА.Р.Основынейропсихологии. М.,1973.
+593. МалыхВ.Обучениесподкреплением:отПавловадоигровыхавтоматов. 2017.https:
+//habrahabr:ru/post/322404/.
+594. Тулупьев А.Л., Николенко С.И., Сироткин А.В. Байесовские сети: логико-
+вероятностныйподход. СПб.:Наука,2006. 608с.
+595. ФеллерВ.Введениевтеориювероятностейиеёприложения. М.,Мир,1984.
+596. ШиряевА.Вероятность. М.,Наука,1989.
+597. ШиряевA.,ЭрлихИ.,ЯськовП.Вероятностьвтеоремахизадачах(сдоказательствами
+ирешениями). М.,МЦНМО,2013.
+
+===== СТР. 477 =====
+С. Николенко, А. Кадурин, Е. Архангельская
+Глубокое обучение
+Заведующая редакцией Ю. Сергиенко
+Руководитель проекта О. Сивченко
+Ведущий редактор Н. Гринчик
+Литературный редактор Е. Рафалюк-Бузовская
+Художественный редактор С. Заматевская
+Корректоры О. Андриевич, О. Порохнявая
+Изготовлено в России. Изготовитель: ООО «Питер Пресс».
+Место нахождения и фактический адрес: 192102, Россия, город Санкт-Петербург,
+улица Андреевская, дом 3, литер А, помещение 7Н. Тел.: +78127037373.
+Дата изготовления: 11.2017. Наименование: книжная продукция. Срок годности: не ограничен.
+Налоговая льгота — общероссийский классификатор продукции ОК 034-2014, 58.11.12 —
+Книги печатные профессиональные, технические и научные.
+Подписано в печать 25.10.17. Формат 70×100/16. Усл. п. л. 38,700. Тираж 1200. Заказ 0000.
+Отпечатано в ОАО «Первая Образцовая типография». Филиал «Чеховский Печатный Двор»
+142300, Московская область, г. Чехов, ул. Полиграфистов, 1.
+Сайт: www.chpk.ru. E-mail: marketing@chpk.ru
+Факс: 8(496) 726-54-10, телефон: (495) 988-63-87

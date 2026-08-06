@@ -1,0 +1,1062 @@
+
+
+===== PDF 254 / книга 240 =====
+Chapter 13
+Graph neural networks
+Chapter 10 described convolutional networks, which specialize in processing regular ar-
+rays of data (e.g., images). Chapter 12 described transformers, which specialize in pro-
+cessing sequences of variable length (e.g., text). This chapter describes graph neural
+networks. As the name suggests, these are neural architectures that process graphs (i.e.,
+sets of nodes connected by edges).
+There are three novel challenges associated with processing graphs. First, their topol-
+ogy is variable, and it is hard to design networks that are both suﬀiciently expressive and
+can cope with this variation. Second, graphs may be enormous; a graph representing
+connections between users of a social network might have a billion nodes. Third, there
+may only be a single monolithic graph available, so the usual protocol of training with
+many data examples and testing with new data is not always appropriate.
+This chapter starts by presenting real-world examples of graphs. It then describes
+how to encode these graphs and how to formulate supervised learning problems for
+graphs. The algorithmic requirements for processing graphs are discussed, and these lead
+naturally to graph convolutional networks, a particular type of graph neural network.
+13.1 What is a graph?
+A graph is a very general structure and consists of a set of nodes or vertices, where pairs
+of nodes are connected by edges or links. Graphs are typically sparse; only a small subset
+of the possible edges are present.
+Some objects in the real world naturally take the form of graphs. For example,
+road networks can be considered graphs where the nodes are physical locations, and the
+edges represent roads between them (figure 13.1a). Chemical molecules are small graphs
+where the nodes represent atoms, and the edges represent chemical bonds (figure 13.1b).
+Electrical circuits are graphs where the nodes represent components and junctions, and
+the edges are electrical connections (figure 13.1c).
+Furthermore, many datasets can also be represented by graphs, even if this is not
+their obvious surface form. For example:
+
+
+===== PDF 255 / книга 241 =====
+13.1 What is a graph? 241
+Figure 13.1 Real-world graphs. Some objects, such as a) road networks, b)
+molecules, and c) electrical circuits, are naturally structured as graphs.
+• Social networks are graphs where nodes are people, and the edges represent friend-
+ships between them.
+• The scientific literature can be viewed as a graph where the nodes are papers, and
+the edges represent citations.
+• Wikipedia can be considered a graph where the nodes are articles, and the edges
+represent hyperlinks between articles.
+• Computer programs can be represented as graphs where the nodes are syntax
+tokens (variables at different points in the program flow), and the edges represent
+computations involving these variables.
+• Geometric point clouds can be represented as graphs. Here, each point is a node
+with edges connecting to other nearby points.
+• Protein interactions in a cell can be expressed as graphs, where the nodes are the
+proteins, and there is an edge between two proteins if they interact.
+In addition, a set (an unordered list) can be treated as a graph in which every member
+is a node and connects to every other. An image can be treated as a graph with regular
+topology, in which each pixel is a node with edges to the adjacent pixels.
+13.1.1 Types of graphs
+Graphs can be categorized in various ways. The social network in figure 13.2a contains
+undirected edges; each pair of individuals with a connection between them have mutually
+agreed to be friends, so there is no sense that the relationship is directional. In contrast,
+the citation network in figure 13.2b contains directed edges. Each paper cites other
+papers, and this relationship is inherently one-way.
+Figure 13.2c depicts a knowledge graph that encodes a set of facts about objects by
+defining relations between them. Technically, this is a directed heterogeneous multigraph.
+It is heterogeneous because the nodes can represent different types of entities (e.g., people,
+countries, companies). It is a multigraph because there can be multiple edges of different
+types between any two nodes.
+
+
+===== PDF 256 / книга 242 =====
+242 13 Graph neural networks
+Figure 13.2 Types of graphs. a) A social network is an undirected graph; the
+connections between people are symmetric. b) A citation network is a directed
+graph; one publication cites another, so the relationship is asymmetric. c) A
+knowledge graph is a directed heterogeneous multigraph. The nodes are hetero-
+geneous in that they represent different object types (people, places, companies)
+and multiple edges may represent different relations between each node. d) A
+point set can be converted to a graph by forming edges between nearby points.
+Each node has an associated position in 3D space, and this is termed a geometric
+graph (adapted from Hu et al., 2022). e) The scene on the left can be represented
+by a hierarchical graph. The topology of the room, table, and light are all repre-
+sented by graphs. These graphs form nodes in a larger graph representing object
+adjacency (adapted from Fernández-Madrigal & González, 2002).
+
+
+===== PDF 257 / книга 243 =====
+13.2 Graph representation 243
+Figure 13.3 Graph representation. a) Example graph with six nodes and seven
+edges. Each node has an associated embedding of length five (brown vectors).
+Each edge has an associated embedding of length four (blue vectors). This graph
+can be represented by three matrices. b) The adjacency matrix is a binary matrix
+where element (m, n) is set to one if node m connects to node n. c) The node
+data matrix X contains the concatenated node embeddings. d) The edge data
+matrix E contains the edge embeddings.
+The point set representing the airplane in figure 13.2d can be converted into a graph
+by connecting each point to its K nearest neighbors. The result is a geometric graph
+where each point is associated with a position in 3D space. Figure 13.2e represents a
+hierarchical graph. The table, light, and room are each described by graphs representing
+the adjacency of their respective components. These three graphs are themselves nodes
+in another graph that represents the topology of the objects in a larger model.
+All types of graphs can be processed using deep learning. However, this chapter
+focuses on undirected graphs like the social network in figure 13.2a.
+13.2 Graph representation
+In addition to the graph structure itself, information is typically associated with each
+node. For example, in a social network, each individual might be characterized by a fixed-
+length vector representing their interests. Sometimes, the edges also have information
+attached. For example, in the road network example, each edge might be characterized
+by its length, number of lanes, frequency of accidents, and speed limit. The information
+at a node is stored in a node embedding, and the information at an edge is stored in an
+edge embedding.
+More formally, a graph consists of a set of N nodes connected by a set of E edges. The
+graph can be encoded by three matrices A, X, and E, representing the graph structure,
+node embeddings, and edge embeddings, respectively (figure 13.3).
+
+
+===== PDF 258 / книга 244 =====
+244 13 Graph neural networks
+Figure 13.4 Properties of the adjacency matrix. a) Example graph. b) Posi-
+tion (m, n) of the adjacency matrix A contains the number of walks of length one
+from node m to node n. c) Position (m, n) of the squared adjacency matrix A2
+contains the number of walks of length two from node n to node m. d) One hot
+vector representing node six, which was highlighted in panel (a). e) When we
+pre-multiply this vector by A, the result contains the number of walks of length
+one from node six to each node; we can reach nodes five, seven, and eight in one
+move. f) When we pre-multiply this vector by A2, the resulting vector contains
+the number of walks of length two from node six to each node; we can reach nodes
+two, three, four, five, and eight in two moves, and we can return to the original
+node in three different ways (via nodes five, seven, and eight).
+The graph structure is represented by the adjacency matrix, A. This is an N × N
+matrix where entry (m, n) is set to one if there is an edge between nodes m and n and
+Problems 13.1–13.2 zero otherwise. For undirected graphs, this matrix is always symmetric. For large sparse
+graphs, it can be stored as a list of connections (m, n) to save memory.
+The nth node has an associated node embedding x(n) of length D. These embeddings
+are concatenated and stored in the D×N node data matrix X. Similarly, the eth edge has
+an associated edge embedding e(e) of length DE. These edge embeddings are collected
+into the DE × E matrix E. For simplicity, we initially consider graphs that only have
+node embeddings and return to edge embeddings in section 13.9.
+13.2.1 Properties of the adjacency matrix
+The adjacency matrix can be used to find the neighbors of a node using linear algebra.
+Consider encoding the nth node as a one-hot column vector (a vector with only one
+non-zero entry at position n, which is set to one). When we pre-multiply this vector by
+the adjacency matrix, it extracts the nth column of the adjacency matrix and returns a
+vector with ones at the positions of the neighbors (i.e., all the places we can reach in a
+
+
+===== PDF 259 / книга 245 =====
+13.3 Graph neural networks, tasks, and loss functions 245
+walk of length one from the nth node). If we repeat this procedure (i.e., pre-multiply
+by A again), the resulting vector contains the number of walks of length two from node n
+to every node (figures 13.4d–f). Problems 13.3–13.4
+In general, if we raise the adjacency matrix to the power of L, the entry at posi-
+tion (m, n) of AL contains the number of unique walks of length L from node n to
+node m (figures 13.4a–c). This is not the same as the number of unique paths since it No E te n b c o o o d k in 1 g 3.1
+includes routes that visit the same node more than once. Nonetheless, AL still contains graphs
+valuable information about the graph connectivity; a non-zero entry at position (m, n)
+indicates that the distance from m to n must be less than or equal to L.
+13.2.2 Permutation of node indices
+Node indexing in graphs is arbitrary; permuting the node indices results in a permu-
+tation of the columns of the node data matrix X and a permutation of both the rows
+and columns of the adjacency matrix A. However, the underlying graph is unchanged
+(figure 13.5). This is in contrast to images, where permuting the pixels creates a different
+image, and to text, where permuting the words creates a different sentence.
+The operation of exchanging node indices can be expressed mathematically by a
+permutation matrix, P. This is a matrix where exactly one entry in each row and
+column take the value one, and the remaining values are zero. When position (m, n) of
+the permutation matrix is set to one, it indicates that node m will become node n after
+the permutation. To map from one indexing to another, we use the operations: Problem 13.5
+X′ = XP
+A′ = PT AP, (13.1)
+where post-multiplying by P permutes the columns and pre-multiplying by PT permutes
+the rows. It follows that any processing applied to the graph should also be indifferent
+to these permutations. Otherwise, the result will depend on the choice of node indices.
+13.3 Graph neural networks, tasks, and loss functions
+A graph neural network is a model that takes the node embeddings X and the adjacency
+matrix A as inputs and passes them through a series of K layers. The node embeddings
+are updated at each layer to create intermediate “hidden” representations Hk before
+finally computing output embeddings HK.
+At the start of this network, each column of the input node embeddings X just con-
+tains information about the node itself. At the end, each column of the model output HK
+includes information about the node and its context within the graph. This is similar to
+word embeddings passing through a transformer network. These represent words at the
+start, but represent the word meanings in the context of the sentence at the end.
+
+
+===== PDF 260 / книга 246 =====
+246 13 Graph neural networks
+Figure 13.5 Permutation of node indices. a) Example graph, b) associated adja-
+cency matrix and c) node embeddings. d) The same graph where the (arbitrary)
+order of the indices has been changed. e) The adjacency matrix and f) node
+matrix are now different. Consequently, any network layer that operates on the
+graph should be indifferent to the ordering of the nodes.
+13.3.1 Tasks and loss functions
+We defer discussion of graph neural network models until section 13.4 and first describe
+the types of problems these networks tackle and their associated loss functions. Super-
+vised graph problems usually fall into one of three categories (figure 13.6).
+Graph-level tasks: The network assigns a label or estimates one or more values from
+the entire graph, exploiting both the structure and node embeddings. For example, we
+might want to predict the temperature at which a molecule becomes liquid (a regression
+task) or whether a molecule is poisonous to human beings or not (a classification task).
+For graph-level tasks, the output node embeddings are combined (e.g., by averaging),
+and the resulting vector is mapped via a linear transformation or neural network to a
+fixed-size vector. For regression, the mismatch between the result and the ground truth
+values is computed using the least squares loss. For binary classification, the output
+is passed through a sigmoid function, and the mismatch is calculated using the binary
+cross-entropy loss. Here, the probability that the graph belongs to class one might be
+given by:
+P r(y = 1|X, A) = sig [βK + ωKHK1/N] , (13.2)
+where the scalar βK and 1 × D vector ωK are learned parameters. Post-multiplying the
+output embedding matrix HK by the column vector 1 that contains ones has the effect
+of summing together all the embeddings and subsequently dividing by the number of
+nodes N computes the average. This is known as mean pooling (see figure 10.11).
+
+
+===== PDF 261 / книга 247 =====
+13.3 Graph neural networks, tasks, and loss functions 247
+Figure 13.6 Common tasks for graphs. In each case, the input is a graph repre-
+sented by its adjacency matrix and node embeddings. The graph neural network
+processes the node embeddings by passing them through a series of layers. The
+node embeddings at the last layer contain information about both the node and
+its context in the graph. a) Graph classification. The node embeddings are com-
+bined (e.g., by averaging) and then mapped to a fixed-size vector that is passed
+through a softmax function to produce class probabilities. b) Node classification.
+Each node embedding is used individually as the basis for classification (cyan
+and orange colors represent assigned node classes). c) Edge prediction. Node
+embeddings adjacent to the edge are combined (e.g., by taking the dot product)
+to compute a single number that is mapped via a sigmoid function to produce a
+probability that a missing edge should be present.
+
+
+===== PDF 262 / книга 248 =====
+248 13 Graph neural networks
+Node-level tasks: The network assigns a label (classification) or one or more values
+(regression) to each node of the graph, using both the graph structure and node em-
+beddings. For example, given a graph constructed from a 3D point cloud similar to
+figure 13.2d, the goal might be to classify the nodes according to whether they belong
+to the wings or fuselage. Loss functions are defined in the same way as for graph-level
+tasks, except that now this is done independently at each node n:
+h i
+P r(y(n) = 1|X, A) = sig βK + ωKh( K n) . (13.3)
+Edge prediction tasks: The network predicts whether or not there should be an edge
+between nodes n and m. For example, in the social network setting, the network might
+predict whether two people know and like each other and suggest that they connect if
+that is the case. This is a binary classification task where the two node embeddings must
+be mapped to a single number representing the probability that the edge is present. One
+possibility is to take the dot product of the node embeddings and pass the result through
+a sigmoid function to create the probability:
+h i
+P r(y(mn) = 1|X, A) = sig h(m)T h(n) . (13.4)
+13.4 Graph convolutional networks
+There are many types of graph neural networks, but here we focus on spatial-based
+convolutional graph neural networks, or GCNs for short. These models are convolutional
+in that they update each node by aggregating information from nearby nodes. As such,
+they induce a relational inductive bias (i.e., a bias toward prioritizing information from
+neighbors). They are spatial-based because they use the original graph structure. This
+contrasts with spectral-based methods, which apply convolutions in the Fourier domain.
+Each layer of the GCN is a function F[•] with parameters Φ that takes the node
+embeddings and adjacency matrix and outputs new node embeddings. The network can
+hence be written as:
+H1 = F[X, A, ϕ0]
+H2 = F[H1, A, ϕ1]
+H3 = F[H2, A, ϕ2]
+...
+=
+...
+HK = F[HK−1, A, ϕK−1], (13.5)
+where X is the input, A is the adjacency matrix, Hk contains the modified node em-
+beddings at the kth layer, and ϕk denotes the parameters that map from layer k to
+layer k+1.
+
+
+===== PDF 263 / книга 249 =====
+13.4 Graph convolutional networks 249
+13.4.1 Equivariance and invariance
+We noted before that the indexing of the nodes in the graph is arbitrary, and any
+permutation of the node indices does not change the graph. It is hence imperative that
+any model respects this property. It follows that each layer must be equivariant (see
+section 10.1) with respect to permutations of the node indices. In other words, if we
+permute the node indices, the node embeddings at each stage will be permuted in the
+same way. In mathematical terms, if P is a permutation matrix, then we must have:
+Hk+1P = F[HkP, PT AP, ϕk]. (13.6)
+For node classification and edge prediction tasks, the output should also be equiv-
+ariant with respect to permutations of the node indices. However, for graph-level tasks,
+the final layer aggregates information from across the graph, so the output is invariant
+to the node order. In fact, the output layer from equation 13.2 achieves this because: Problem 13.6
+y = sig [βK + ωKHK1/N] = sig [βK + ωKHKP1/N] , (13.7)
+for any permutation matrix P (see problem 13.6).
+This mirrors the case for images, where segmentation should be equivariant to geo-
+metric transformations, and image classification should be invariant (figure 10.1). Here,
+convolutional and pooling layers partially achieve this with respect to translations, but
+there is no known way to guarantee these properties exactly for more general transfor-
+mations. However, for graphs, it is possible to define networks that ensure equivariance
+or invariance to permutations.
+13.4.2 Parameter sharing
+Chapter 10 argued applying fully connected networks to images isn’t sensible because
+this requires the network to learn how to recognize an object separately at every image
+position. Instead, we used convolutional layers that processed every position in the image
+identically. This reduced the number of parameters and introduced an inductive bias
+that forced the model to treat every part of the image in the same way.
+The same argument can be made about nodes in a graph. We could learn a model
+with separate parameters associated with each node. However, now the network must
+independently learn the meaning of the connections in the graph at each position, and
+training would require many graphs with the same topology. Instead, we build a model
+that uses the same parameters at every node, reducing the number of parameters and
+sharing what the network learns at each node across the entire graph.
+Recall that a convolution (equation 10.3) updates a variable by taking a weighted
+sum of information from its neighbors. One way to think of this is that each neighbor
+sends a message to the variable of interest, which aggregates these messages to form the
+update. When we considered images, the neighbors were pixels from a fixed-size square
+region around the current position, so the spatial relationships at each position are the
+same. However, in a graph, each node may have a different number of neighbors, and
+there are no consistent relationships; there is no sense that we can weight information
+
+
+===== PDF 264 / книга 250 =====
+250 13 Graph neural networks
+Figure 13.7 Simple Graph CNN layer. a) Input graph consists of structure (em-
+bodied in graph adjacency matrix A, not shown) and node embeddings (stored
+in columns of X). b) Each node in the first hidden layer is updated by (i) ag-
+gregating the neighboring nodes to form a single vector, (ii) applying a linear
+transformation Ω0 to the aggregated nodes, (iii) applying the same linear trans-
+f a o n r d m fi a n ti a o l n ly Ω (v 0 ) t a o pp th ly e in o g ri a gi n n o a n l l n in o e d a e r , a ( c i t v i ) va a t d io d n in f g un t c h t e i s o e n t a o [ g • e ] t l h ik e e r a w R ith eL a U. b c ia ) s T β h0is ,
+process is repeated at subsequent layers (but with different parameters for each
+layer) until we produce the final embeddings at the end of the network.
+from a node that is “above” the node of interest differently to information from a node
+that is “below” it.
+13.4.3 Example GCN layer
+These considerations lead to a simple GCN layer (figure 13.7). At each node n in layer k,
+we aggregate information from neighboring nodes by summing their node embeddings h•:
+X
+agg[n, k] = h( k m), (13.8)
+m∈ne[n]
+where ne[n] returns the set of indices of the neighbors of node n. Then we apply a
+linear transformation Ωk to the embedding h( k n) at the current node and to this ag-
+f g u r n eg c a ti t o e n d a v [ a • l ] u , e w , h a i d c d h a is b a i p a p s li t e e d rm in β de k p , e a n n d d en p t a ly ss t t o h e e v r e e r s y u m lt e t m hr b o e u r g o h f a its no v n ec li t n o e r a a r r a g c u t m iv e a n ti t o : n
+h i
+h( k n + ) 1 = a βk + Ωk · h( k n) + Ωk · agg[n, k] . (13.9)
+We can write this more succinctly by noting that post-multiplication of a matrix
+by a vector returns a weighted sum of its columns. The nth column of the adjacency
+matrix A contains ones at the positions of the neighbors. Hence, if we collect the node
+
+
+===== PDF 265 / книга 251 =====
+13.5 Example: graph classification 251
+embeddings into the D × N matrix Hk and post-multiply by the adjacency matrix A,
+the nth column of the result is agg[n, k]. The update for the nodes is now:
+(cid:2) (cid:3)
+Hk+1 = a
+(cid:2)
+βk1T + ΩkHk + ΩkH (cid:3)kA
+= a βk1T + ΩkHk(A + I) , (13.10)
+where 1 is an N ×1 vector containing ones. Here, the nonlinear activation function a[•]
+is applied independently to every member of its matrix argument.
+This layer satisfies the design considerations: it is equivariant to permutations of the
+node indices, can cope with any number of neighbors, exploits the graph structure to Problem 13.7
+provide a relational inductive bias, and shares parameters throughout the graph.
+13.5 Example: graph classification
+We now combine these ideas to describe a network that classifies molecules as toxic or
+harmless. The network inputs are the adjacency matrix and node embedding matrix X.
+T of h t e he ad n j o ac d e e n e c m y b m ed at d r i i n x g A ma ∈ tr R ix N X ×N ∈ d R e 1 r 1 iv 8× es N fr a o r m e o t n h e e -h m o o t le v c e u ct la o r rs st in ru d c ic t a u t r i e n . g T w h h e ic c h ol o u f m th n e s Gr N ap o h te c b l o as o s k ifi 1 c 3 a . t 2 ion
+118 elements of the periodic table are present. In other words, they are vectors of length
+118 where every position is zero except for the position corresponding to the relevant
+element, which is set to one. The node embeddings can be transformed to an arbitrary
+size D by the first weight matrix Ω0 ∈ RD×118.
+The network equations are:
+(cid:2) (cid:3)
+H1 = a
+(cid:2)
+β01T + Ω0X(A + I)
+(cid:3)
+H2 = a β11T + Ω1H1(A + I)
+...
+=
+...
+(cid:2) (cid:3)
+HK = a βK−11T + ΩK−1Hk−1(A + I)
+f[X, A, Φ] = sig [βK + ωKHK1/N] , (13.11)
+where the network output f[X, A, Φ] is a single value that determines the probability
+that the molecule is toxic (see equation 13.2).
+13.5.1 Training with batches
+Given I training graphs {Xi, Ai} and their labels yi, the parameters Φ = {βK, ΩK}K k=0
+can be learned using SGD and the binary cross-entropy loss (equation 5.19). Fully
+connected networks, convolutional networks, and transformers all exploit the parallelism
+of modern hardware to process an entire batch of training examples concurrently. To this
+end, the batch elements are concatenated into a higher-dimensional tensor (section 7.4.2).
+
+
+===== PDF 266 / книга 252 =====
+252 13 Graph neural networks
+Figure 13.8 Inductive vs. transductive problems. a) Node classification task in the
+inductive setting. We are given a set of I training graphs, where the node labels
+(orange and cyan colors) are known. After training, we are given a test graph
+and must assign labels to each node. b) Node classification in the transductive
+setting. There is one large graph in which some nodes have labels (orange and
+cyan colors), and others are unknown. We train the model to predict the known
+labels correctly and then examine the predictions at the unknown nodes.
+However, each graph may have a different number of nodes. Hence, the matrices Xi
+and Ai have different sizes, and there is no way to concatenate them into 3D tensors.
+Luckily, a simple trick allows us to process the whole batch in parallel. The graphs
+in the batch are treated as disjoint components of a single large graph. The network can
+then be run as a single instance of the network equations. The mean pooling is carried
+out only over the individual graphs to make a single representation per graph that can
+be fed into the loss function.
+13.6 Inductive vs. transductive models
+Until this point, all of the models in this book have been inductive: we exploit a training
+set of labeled data to learn the relation between the inputs and outputs. Then we apply
+this to new test data. One way to think of this is that we are learning the rule that maps
+inputs to outputs and then applying it elsewhere.
+By contrast, a transductive model considers both the labeled and unlabeled data
+
+
+===== PDF 267 / книга 253 =====
+13.7 Example: node classification 253
+at the same time. It does not produce a rule but merely a labeling for the unknown
+outputs. This is sometimes termed semi-supervised learning. It has the advantage that
+it can use patterns in the unlabeled data to help make its decisions. However, it has the
+disadvantage that the model needs to be retrained when extra unlabeled data are added.
+Both problem types are commonly encountered for graphs (figure 13.8). Sometimes,
+we have many labeled graphs and learn a mapping between the graph and the labels.
+For example, we might have many molecules, each labeled according to whether it is
+toxic to humans. We learn the rule that maps the graph to the toxic/non-toxic label and
+then apply this rule to new molecules. However, sometimes there is a single monolithic
+graph. In the graph of scientific paper citations, we might have labels indicating the field
+(physics, biology, etc.) for some nodes and wish to label the remaining nodes. Here, the
+training and test data are irrevocably connected.
+Graph-level tasks only occur in the inductive setting where there are training and test
+graphs. However, node-level tasks and edge prediction tasks can occur in either setting.
+In the transductive case, the loss function minimizes the mismatch between the model
+output and the ground truth where this is known. New predictions are computed by
+running the forward pass and retrieving the results where the ground truth is unknown.
+13.7 Example: node classification
+As a second example, consider a binary node classification task in a transductive setting.
+We start with a commercial-sized graph with millions of nodes. Some nodes have ground
+truth binary labels, and the goal is to label the remaining unlabeled nodes. The body
+of the network will be the same as in the previous example (equation 13.11) but with a
+different final layer that produces an output vector of size 1 × N:
+(cid:2) (cid:3)
+f[X, A, Φ] = sig βK1T + ωKHK , (13.12)
+where the function sig[•] applies the sigmoid function independently to every element
+of the row vector input. As usual, we use the binary cross-entropy loss, but now only
+at nodes where we know the ground truth label y. Note that equation 13.12 is just a
+vectorized version of the node classification loss from equation 13.3.
+Training this network raises two problems. First, it is logistically diﬀicult to train a
+graph neural network of this size. Consider that we must store the node embeddings at
+every network layer in the forward pass. This will involve both storing and processing
+a structure several times the size of the entire graph, and this may not be practical.
+Second, we have only a single graph, so it’s not obvious how to perform stochastic
+gradient descent. How can we form a batch if there is only a single object?
+13.7.1 Choosing batches
+One way to form a batch is to choose a random subset of labeled nodes at each training
+step. Each node depends on its neighbors in the previous layer. These, in turn, depend
+
+
+===== PDF 268 / книга 254 =====
+254 13 Graph neural networks
+Figure 13.9 Receptive fields in graph neural networks. Consider the orange node
+in hidden layer two (right). This receives input from the nodes in the 1-hop
+neighborhood in hidden layer one (shaded region in center). These nodes in
+hidden layer one receive inputs from their neighbors in turn, and the orange node
+in layer two receives inputs from all the input nodes in the 2-hop neighborhood
+(shaded area on left). The region of the graph that contributes to a given node
+is equivalent to the notion of a receptive field in convolutional neural networks.
+on their neighbors in the layer before, so each node has the equivalent of a receptive field
+(figure 13.9). The size of the receptive field is termed the k-hop neighborhood. We can
+hence perform a gradient descent step using the graph that forms the union of the k-hop
+neighborhoods of the batch nodes; the remaining inputs do not contribute.
+Unfortunately, if there are many layers and the graph is densely connected, every
+input node may be in the receptive field of every output, and this may not reduce the
+graph size at all. This is known as the graph expansion problem. Two approaches that
+tackle this problem are neighborhood sampling and graph partitioning.
+Neighborhood sampling: The full graph that feeds into the batch of nodes is sampled,
+thereby reducing the connections at each network layer (figure 13.10). For example, we
+might start with the batch nodes and randomly sample a fixed number of their neighbors
+N N o e t ig e h b b o o o r k h 1 o 3 o . d 3 in the previous layer. Then, we randomly sample a fixed number of their neighbors in
+sampling the layer before, and so on. The graph still increases in size with each layer but in
+a much more controlled way. This is done anew for each batch, so the contributing
+neighbors differ even if the same batch is drawn twice. This is also reminiscent of
+dropout (section 9.3.3) and adds some regularization.
+Graph partitioning: A second approach is to cluster the original graph into disjoint
+subsets of nodes (i.e., smaller graphs that are not connected to one another) before
+processing (figure 13.11). There are standard algorithms to choose these subsets to
+maximize the number of internal links. These smaller graphs can each be treated as
+batches, or a random subset of them can be combined to form a batch (reinstating any
+edges between them from the original graph).
+Given one of the above methods to form batches, we can now train the network
+parameters in the same way as for the inductive setting, dividing the labeled nodes into
+
+
+===== PDF 269 / книга 255 =====
+13.7 Example: node classification 255
+Figure 13.10 Neighborhood sampling. a) One way of forming batches on large
+graphs is to choose a subset of labeled nodes in the output layer (here, just one
+node in layer two, right) and then working back to find all of the nodes in the K-
+hop neighborhood (receptive field). Only this sub-graph is needed to train this
+batch. Unfortunately, if the graph is densely connected, this may retain a large
+proportion of the graph. b) One solution is neighborhood sampling. As we work
+back from the final layer, we select a subset of neighbors (here, three) in the
+layer before and a subset of the neighbors of these in the layer before that. This
+restricts the size of the graph for training the batch. In all panels, the brightness
+represents the distance from the original node.
+
+
+===== PDF 270 / книга 256 =====
+256 13 Graph neural networks
+Figure 13.11 Graph partitioning. a) Input graph. b) The input graph is parti-
+tioned into smaller subgraphs using a principled method that removes the fewest
+edges. c-d) We can now use these subgraphs as batches to train in a transductive
+setting, so here, there are four possible batches. e) Alternatively, we can use
+combinations of the subgraphs as batches, reinstating the edges between them.
+If we use pairs of subgraphs, there would be six possible batches here.
+train, test, and validation sets as desired; we have effectively converted a transductive
+problem to an inductive one. To perform inference, we compute predictions for the
+unknown nodes based on their k-hop neighborhood. Unlike training, this does not require
+storing the intermediate representations, so it is much more memory eﬀicient.
+13.8 Layers for graph convolutional networks
+In the previous examples, we combined messages from adjacent nodes by summing them
+together with the transformed current node. This was accomplished by post-multiplying
+the node embedding matrix H by the adjacency matrix plus the identity A + I. We now
+consider different approaches to both (i) the combination of the current embedding with
+the aggregated neighbors and (ii) the aggregation process itself.
+13.8.1 Combining current node and aggregated neighbors
+In the example GCN layer above, we combined the aggregated neighbors HA with the
+current nodes H by just summing them:
+
+
+===== PDF 271 / книга 257 =====
+13.8 Layers for graph convolutional networks 257
+h i
+Hk+1 = a βk1T + ΩkHk(A + I) . (13.13)
+In another variation, the current node is multiplied by a factor of (1 + ϵk) before con-
+tributing to the sum, where ϵk is a learned scalar that is different for each layer:
+h i
+Hk+1 = a βk1T + ΩkHk(A + (1 + ϵk)I) . (13.14)
+This is known as diagonal enhancement. A related variation applies a different linear
+transform Ψk to the current node:
+(cid:2) (cid:3)
+Hk+1
+=
+=
+a
+a
+(cid:20)
+(cid:20)β
+β
+k
+k
+1
+1
+T
+T
++
++
+Ω
+(cid:2) Ω
+kH
+k (cid:20)
+kA
+Ψk
++
+(cid:3) (cid:21)
+Ψ(cid:20)
+(cid:21) H
+k
+H
+H
+k k A
+k(cid:21)(cid:21)
+= a βk1T + Ω′ k H H kA k , (13.15)
+(cid:2) (cid:3)
+where we have defined Ω′ k = Ωk Ψk in the third line.
+13.8.2 Residual connections
+With residual connections, the aggregated representation from the neighbors is trans-
+formed and passed through the activation function before summation or concatenation
+with the current node. For the latter case, the associated network equations are:
+(cid:20) (cid:2) (cid:3)(cid:21)
+Hk+1 =
+a βk1T
+H
++
+k
+ΩkHkA
+. (13.16)
+13.8.3 Mean aggregation
+The above methods aggregate the neighbors by summing the node embeddings. However,
+it’s possible to combine the embeddings in different ways. Sometimes it’s better to take
+the average of the neighbors rather than the sum; this can be superior if the embedding
+information is more important and the structural information less so since the magnitude
+of the neighborhood contributions will not depend on the number of neighbors:
+1 X
+agg[n] = |ne[n]|
+m∈ne[n]
+hm, (13.17)
+where as before, ne[n] denotes a set containing the indices of the neighbors of the nth
+node. Equation 13.17 can be computed neatly in matrix form by introducing the diago-
+nal N × N degree matrix D. Each non-zero element of this matrix contains the number
+of neighbors for the associated node. It follows that each diagonal element in the inverse Problem 13.8
+
+
+===== PDF 272 / книга 258 =====
+258 13 Graph neural networks
+matrix D−1 contains the denominator that we need to compute the average. The new
+GCN layer can be written as:
+h i
+Hk+1 = a βk1T + ΩkHk(AD−1 + I) . (13.18)
+13.8.4 Kipf normalization
+There are many variations of graph neural networks based on mean aggregation. Some-
+times the current node is included with its neighbors in the mean computation rather
+than treated separately. In Kipf normalization, the sum of the node representations is
+Problem 13.9 normalized as:
+agg[n] = X p hm , (13.19)
+m∈ne[n]
+|ne[n]||ne[m]|
+with the logic that information coming from nodes with a very large number of neighbors
+should be down-weighted since there are many connections and they provide less unique
+information. This can also be expressed in matrix form using the degree matrix:
+h i
+Hk+1 = a βk1T + ΩkHk(D−1/2AD−1/2 + I) . (13.20)
+13.8.5 Max pooling aggregation
+An alternative operation that is also invariant to permutation is computing the maximum
+of a set of objects. The max pooling aggregation operator is:
+(cid:2) (cid:3)
+agg[n] =
+m
+m
+∈n
+a
+e
+x
+[n]
+hm , (13.21)
+where the operator max[•] returns the element-wise maximum of the vectors hm that
+are neighbors to the current node n.
+13.8.6 Aggregation by attention
+The aggregation methods discussed so far either weight the contribution of the neighbors
+equally or in a way that depends on the graph topology. Conversely, in graph attention
+layers, the weights depend on the data at the nodes. A linear transform is applied to
+the current node embeddings so that:
+H′ k = βk1T + ΩkH. (13.22)
+T no h d e e n e t m he be s d im di i n la g ri h ty ′ n i s s m c n om of pu ea te c d h b tr y a c n o s n fo c r a m te e n d at n i o n d g e th e e m p b a e i d r d s, in t g ak h in ′ m g t a o d t o h t e p t r r o a d n u s c fo t r w m i e t d h
+a column vector ϕk of learned parameters, and applying an activation function:
+
+
+===== PDF 273 / книга 259 =====
+13.8 Layers for graph convolutional networks 259
+Figure 13.12 Comparison of graph convolutional network, dot product attention,
+and graph attention network. In each case, the mechanism maps N embeddings
+of size D stored in a D × N matrix X to an output of the same size. a) The
+graph convolutional network applies a linear transformation X′ = ΩX to the
+data matrix. It then computes a weighted sum of the transformed data, where
+the weighting is based on the adjacency matrix. A bias β is added, and the result
+is passed through an activation function. b) The outputs of the self-attention
+mechanism are also weighted sums of the transformed inputs, but this time the
+weights depend on the data itself via the attention matrix. c) The graph attention
+network combines both of these mechanisms; the weights are both computed from
+the data and based on the adjacency matrix.
+
+
+===== PDF 274 / книга 260 =====
+260 13 Graph neural networks
+(cid:20) (cid:20) (cid:21)(cid:21)
+smn = a ϕT k h h ′ m′ n . (13.23)
+These variables are stored in an N × N matrix S, where each element represents the
+similarity of every node to every other. As in dot-product self-attention, the attention
+weights contributing to each output embedding are normalized to be positive and sum
+to one using the softmax operation. However, only those values corresponding to the
+current node and its neighbors should contribute. The attention weights are applied to
+the transformed embeddings:
+h i
+Hk+1 = a H′ k · Softmask[S, A + I] , (13.24)
+where a[•] is a second activation function. The function Softmask[•, •] computes the
+attention values by applying softmax operation separately to each column of its first
+argument S, but only after setting values where the second argument A + I is zero to
+negative infinity, so they do not contribute. This ensures that the attention to non-
+neighboring nodes is zero.
+This is very similar to the self-attention computation in transformers (see figure 13.12),
+Note G b r o a o p k h 13.4 except that (i) The keys, queries, and values are all the same, (ii) The measure of simi-
+attention larity is different, and (iii) The attentions are masked so that each node only attends to
+itself and its neighbors. As in transformers, this system can be extended to use multiple
+Problem 13.10 heads that are run in parallel and recombined.
+13.9 Edge graphs
+Until now, we have focused on processing node embeddings. These evolve as they are
+passed through the network so that by the end of the network, they represent both the
+node and its context in the graph. We now consider the case where the information is
+associated with the edges of the graph.
+It is easy to adapt the machinery for node embeddings to process edge embeddings
+using the edge graph (also known as the adjoint graph or line graph). This is a com-
+plementary graph, in which each edge in the original graph becomes a node, and every
+two edges with a common node in the original graph create an edge in the new graph
+(figure 13.13). In general, a graph can be recovered from its edge graph, so it’s possible
+to swap between these two representations.
+Problems 13.11–13.13 To process edge embeddings, the graph is translated to its edge graph. Then we
+use exactly the same techniques, aggregating information at each new node from its
+neighbors and combining this with the current representation. When both node and
+edge embeddings are present, we can translate back and forth between the two graphs.
+Now there are four possible updates (nodes update nodes, nodes update edges, edges
+update nodes, and edges update edges), and these can be alternated as desired, or with
+Problem 13.14 minor modifications, nodes can be updated simultaneously from both nodes and edges.
+
+
+===== PDF 275 / книга 261 =====
+13.10 Summary 261
+Figure 13.13 Edge graph. a) Graph with six nodes. b) To create the edge graph,
+we assign one node for each original edge (cyan circles), and c) connect the new
+nodes if the edges they represent connect to the same node in the original graph.
+13.10 Summary
+Graphs consist of a set of nodes, where pairs of these nodes are connected by edges. Both
+nodes and edges can have data attached, and these are referred to as node embeddings
+and edge embeddings, respectively. Many real-world problems can be framed in terms of
+graphs, where the goal is to establish a property of the entire graph, properties of each
+node or edge, or the presence of additional edges in the graph.
+Graph neural networks are deep learning models that are applied to graphs. Since the
+node order in graphs is arbitrary, the layers of graph neural networks must be equivariant
+to permutations of the node indices. Spatial-based convolutional networks are a family
+of graph neural networks that aggregate information from the neighbors of a node and
+then use this to update the node embeddings.
+One challenge of processing graphs is that they often occur in the transductive setting,
+where there is only one partially labeled graph rather than sets of training and test
+graphs. This graph can be extremely large, which adds further challenges in terms of
+training and has led to sampling and partitioning algorithms. The edge graph has a
+node for every edge in the original graph. By converting to this representation, graph
+neural networks can be used to update the edge embeddings.
+Notes
+Sanchez-Lengeling et al. (2021) and Daigavane et al. (2021) present good introductory articles
+on graph processing using neural networks. Recent surveys of research in graph neural networks
+can be found in articles by Zhou et al. (2020a), Wu et al. (2020c), and Veličković (2023), and
+the books of Hamilton (2020) and Ma & Tang (2021). GraphEDM (Chami et al., 2020) unifies
+
+
+===== PDF 276 / книга 262 =====
+262 13 Graph neural networks
+many existing graph algorithms into a single framework. In this chapter, we have related graphs
+to convolutional networks following Bruna et al. (2013), but there are also strong connections
+with belief propagation (Dai et al., 2016) and graph isomorphism tests (Hamilton et al., 2017a).
+Zhang et al. (2019c) provide a review focusing specifically on graph convolutional networks.
+Bronstein et al. (2021) provide a general overview of geometric deep learning, including learning
+on graphs. Loukas (2020) discusses what types of functions graph neural networks can learn.
+Applications: Applications include graph classification (e.g., Zhang et al., 2018b), node clas-
+sification (e.g., Kipf & Welling, 2017), edge prediction (e.g., Zhang & Chen, 2018), graph clus-
+tering (e.g., Tsitsulin et al., 2020), and recommender systems (e.g., Wu et al., 2023). Methods
+for node classification are reviewed by Xiao et al. (2022a), methods for graph classification by
+Errica et al. (2019), and methods for edge prediction by Mutlu et al. (2020) and Kumar et al.
+(2020a).
+Graph neural networks: Graph neural networks were introduced by Gori et al. (2005) and
+Scarselli et al. (2008), who formulated them as a generalization of recursive neural networks.
+The latter model used the iterative update:
+(cid:2) (cid:3)
+hn ← f xn, xm∈ne[n], ee∈nee[n], hm∈ne[n], ϕ , (13.25)
+in which each node embedding hn is updated from the initial embedding xn, initial embed-
+d ad in ja g c s e x n m t ∈ n n o e d [n e ] e a m t b t e h d e d a in d g ja s ce h n m t ∈ n n o e d [n e ] s . , i F n o it r ia c l o e n m ve b r e g d e d n i c n e g , s th ee e ∈n fu e n e c [n t ] io a n t f t [ h • e , • a , d • j , a • c , e ϕ nt ] e m d u g s e t s, b a e nd a
+contraction mapping (see figure 16.9). If we unroll this equation in time for K steps and allow
+v d o iff lu e t r i e o n n t a p l a n r e a t m w e o t r e k r . s ϕ Sukb a s t eq e u a e ch nt ti w m o e rk K e , x t t h e e n n de e d qu g a r t a i p on h 1 n 3 e . u 2 r 5 al be n c e o t m wo e r s k s s im to ila u r se to g t a h t e ed gr r a e p cu h r c r o en n t -
+units (Li et al., 2016b) and long short-term memory networks (Selsam et al., 2019).
+Spectral methods: Bruna et al. (2013) applied the convolution operation in the Fourier
+domain. The Fourier basis vectors can be found by taking the eigendecomposition of the graph
+Laplacian matrix, L = D − A where D is the degree matrix and A is the adjacency matrix.
+This has disadvantages: the filters are not localized, and the decomposition is prohibitively
+expensive for large graphs. Henaff et al. (2015) tackled the first problem by forcing the Fourier
+representation to be smooth (and hence the spatial domain to be localized). Defferrard et al.
+(2016) introduced ChebNet, which approximates the filters eﬀiciently by using the recursive
+properties of Chebyshev polynomials. This both provides spatially localized filters and reduces
+the computation. Kipf & Welling (2017) simplified this further to construct filters that use only
+a 1-hop neighborhood, resulting in a formulation similar to the spatial methods described in
+this chapter and providing a bridge between spectral and spatial methods.
+Spatial methods: Spectral methods are ultimately based on the Graph Laplacian, so if the
+graph changes, the model must be retrained. This problem spurred the development of spatial
+methods. Duvenaud et al. (2015) defined convolutions in the spatial domain, using a different
+weight matrix to combine the adjacent embeddings for each node degree. This has the disad-
+vantage that it becomes impractical if some nodes have a very large number of connections.
+Diffusion convolutional neural networks (Atwood & Towsley, 2016) use powers of the normal-
+ized adjacency matrix to blend features across different scales, sum these, pointwise multiply by
+weights, and pass through an activation function to create the node embeddings. Gilmer et al.
+(2017) introduced message-passing neural networks, which defined convolutions on the graph
+as propagating messages from spatial neighbors. The “aggregate and combine” formulation of
+GraphSAGE (Hamilton et al., 2017a) fits into this framework.
+
+
+===== PDF 277 / книга 263 =====
+Notes 263
+Aggregate and combine: Graph convolutional networks (Kipf & Welling, 2017) take a
+weighted average of the neighbors and current node and then apply a linear mapping and
+ReLU. GraphSAGE (Hamilton et al., 2017a) applies a neural network layer to each neighbor,
+taking the elementwise maximum to aggregate. Chiang et al. (2019) propose diagonal enhance-
+ment in which the previous embedding is weighted more than the neighbors. Kipf & Welling
+(2017) introduced Kipf normalization, which normalizes the sum of the neighboring embeddings
+based on the degrees of the current node and its neighbors (see equation 13.19).
+The mixture model network or MoNet (Monti et al., 2017) takes this one step further by learning
+a weighting based on the degrees of the current node and the neighbor. They associate a pseudo-
+coordinate system with each node, where the positions of the neighbors depend on these two
+quantities. They then learn a continuous function based on a mixture of Gaussians and sample
+this at the pseudo-coordinates of the neighbors to get the weights. In this way, they can learn
+the weightings for nodes and neighbors with arbitrary degrees. Pham et al. (2017) use a linear
+interpolation of the node embedding and neighbors with a different weighted combination for
+each dimension. The weight of this gating mechanism is generated as a function of the data.
+Higher-order convolutional layers: Zhou & Li (2017) used higher-order convolutions by
+replacing the adjacency matrix A with A˜ = Min[AL + I, 1] where L is the maximum walk-
+length, 1 is a matrix containing only ones, and Min[•] takes the pointwise minimum of its two
+matrix arguments; the updates now sum together contributions from any nodes where there is
+at least one walk of length L. Abu-El-Haija et al. (2019) proposed MixHop, which computes
+node updates from the neighbors (using the adjacency matrix A), the neighbors of the neighbors
+(using A2), and so on. They concatenate these updates at each layer. Lee et al. (2018) combined
+information from nodes beyond the immediate neighbors using geometric motifs, which are small
+local geometric patterns in the graph (e.g., a fully connected clique of five nodes).
+Residual connections: Kipf & Welling (2017) proposed a residual connection in which the
+original embeddings are added to the updated ones. Hamilton et al. (2017b) concatenate the
+previous embedding to the output of the next layer (see equation 13.16). Rossi et al. (2020)
+present an inception-style network where the node embedding is concatenated to not only the
+aggregation of its neighbors but also the aggregation of all neighbors within a walk of two (via
+computing powers of the adjacency matrix). Xu et al. (2018) introduced jump knowledge con-
+nections in which the final output at each node consists of the concatenated node embeddings
+throughout the network. Zhang & Meng (2019) present a general formulation of residual em-
+beddings called GResNet and investigate several variations in which the embeddings from the
+previous layer are added, the input embeddings are added, or versions of these that aggregate
+information from their neighbors (without further transformation) are added.
+Attention in graph neural networks: Veličković et al. (2019) developed the graph attention
+network (figure 13.12c). Their formulation uses multiple heads whose outputs are combined
+symmetrically. Gated Attention Networks (Zhang et al., 2018a) weight the output of the different
+heads in a way that depends on the data itself. Graph-BERT (Zhang et al., 2020) performs
+node classification using self-attention alone; the graph’s structure is captured by adding position
+embeddings to the data, similarly to how the absolute or relative position of words is captured
+in the transformer (chapter 12). For example, they add positional information that depends on
+the number of hops between nodes in the graph.
+Permutation invariance: In DeepSets, Zaheer et al. (2017) presented a general permutation
+invariant operator for processing sets. Janossy pooling (Murphy et al., 2018) accepts that many
+functions are not permutation equivariant and instead uses a permutation-sensitive function
+and averages the results across many permutations.
+
+
+===== PDF 278 / книга 264 =====
+264 13 Graph neural networks
+Edge graphs: The notation of the edge graph, line graph, or adjoint graph dates to Whitney
+(1932). The idea of “weaving” layers that update node embeddings from node embeddings,
+node embeddings from edge embeddings, edge embeddings from edge embeddings, and edge
+embeddings from node embeddings was proposed by Kearnes et al. (2016). However, here the
+node-node and edge-edge updates do not involve the neighbors. Monti et al. (2018) introduced
+the dual-primal graph CNN, a modern formulation in a CNN framework that alternates between
+updates in the original and edge graphs.
+Power of graph neural networks: Xu et al. (2019) argue that a neural network should
+be able to distinguish different graph structures; it is undesirable to map two graphs to the
+same output if they have the same initial node embeddings but different adjacency matrices.
+They identified graph structures that could not be distinguished by previous approaches such
+as GCNs (Kipf & Welling, 2017) and GraphSAGE (Hamilton et al., 2017a). They developed a
+more powerful architecture with the same discriminative power as the Weisfeiler-Lehman graph
+isomorphism test (Weisfeiler & Leman, 1968), which is known to discriminate a broad class of
+graphs. This resulting graph isomorphism network was based on the aggregation operation:
+2 3
+X
+h( k n + ) 1 = mlp 4(1 + ϵk) h( k n) + m∈ne[n] h( k m)5 . (13.26)
+Batches: The original paper on graph convolutional networks (Kipf & Welling, 2017) used full-
+batch gradient descent. This has memory requirements proportional to the number of nodes,
+embedding size, and number of layers during training. Since then, three types of methods
+have been proposed to reduce the memory requirements and create batches for SGD in the
+transductive setting: node sampling, layer sampling, and sub-graph sampling.
+Node sampling methods start by randomly selecting a subset of target nodes and then work
+back through the network, adding a subset of the nodes in the receptive field at each stage.
+GraphSAGE (Hamilton et al., 2017a) proposed a fixed number of neighborhood samples as
+in figure 13.10b. Chen et al. (2018b) introduce a variance reduction technique, but this uses
+historical activations of nodes and so still has a high memory requirement. PinSAGE (Ying
+et al., 2018a) uses random walks from the target nodes and chooses the K nodes with the highest
+visit count. This prioritizes ancestors that are more closely connected.
+Node sampling still requires increasing numbers of nodes as we pass back through the graph.
+Layer sampling methods address this by directly sampling the receptive field in each layer
+independently. Examples of layer sampling include FastGCN (Chen et al., 2018a), adaptive
+sampling (Huang et al., 2018b), and layer-dependent importance sampling (Zou et al., 2019).
+Subgraph sampling methods randomly draw subgraphs or divide the original graph into sub-
+graphs. These are then trained as independent data examples. Examples of these approaches
+include GraphSAINT (Zeng et al., 2020), which samples sub-graphs during training using ran-
+dom walks and then runs a full GCN on the subgraph while also correcting for the bias and
+variance of the minibatch. Cluster GCN (Chiang et al., 2019) partitions the graph into clusters
+(by maximizing the embedding utilization or number of within-batch edges) in a pre-processing
+stage and randomly selects clusters to form minibatches. To create more randomness, they train
+random subsets of these clusters plus the edges between them (see figure 13.11).
+Wolfe et al. (2021) proposed a distributed training method that both partitions the graph and
+trains narrower GCNs in parallel by partitioning the feature space at different layers. More
+information about sampling graphs can be found in Rozemberczki et al. (2020).
+Regularization and normalization: Rong et al. (2020) proposed DropEdge, which randomly
+drops edges from the graph during each training iteration by masking the adjacency matrix. This
+
+
+===== PDF 279 / книга 265 =====
+Notes 265
+can be done for the whole neural network or differently in each layer (layer-wise DropEdge). In a
+sense, this is similar to dropout in that it breaks connections in the flow of data, but it can also be
+considered an augmentation method since changing the graph is similar to perturbing the data.
+Schlichtkrull et al. (2018), Teru et al. (2020), and Veličković et al. (2019) also proposed randomly
+dropping edges from the graph as a form of regularization similar to dropout. Node sampling
+methods (Hamilton et al., 2017a; Huang et al., 2018b; Chen et al., 2018a) can also be considered
+regularizers. Hasanzadeh et al. (2020) present a general framework called DropConnect that
+unifies many of the above approaches.
+There are also many proposed normalization schemes for graph neural networks, including
+PairNorm (Zhao & Akoglu, 2020), weight normalization (Oono & Suzuki, 2019), differentiable
+group normalization (Zhou et al., 2020b), and GraphNorm (Cai et al., 2021).
+Multi-relational graphs: Schlichtkrull et al. (2018) proposed a variation of graph convolu-
+tional networks for multi-relational graphs (i.e., graphs with more than one edge type). Their
+scheme separately aggregates information from each edge type using different parameters. If
+there are many edge types, the number of parameters may become large, and to combat this,
+they propose that each edge type uses a different weighting of a basis set of parameters.
+Hierarchical representations and pooling: CNNs for image classification gradually de-
+crease the representation size but increase the number of channels as the network progresses.
+However, the GCNs for graph classification in this chapter maintain the entire graph until the
+last layer and then combine all the nodes to compute the final prediction. Ying et al. (2018b)
+proposed DiffPool, which clusters graph nodes to make a graph that gets progressively smaller
+as the depth increases in a way that is differentiable, and so can be learned. This can be done
+based on the graph structure alone or adaptively based on the graph structure and the embed-
+dings. Other pooling methods include SortPool (Zhang et al., 2018b) and self-attention graph
+pooling (Lee et al., 2019). A comparison of pooling layers for graph neural networks can be
+found in Grattarola et al. (2022). Gao & Ji (2019) propose an encoder-decoder structure for
+graphs based on the U-Net (see figure 11.10).
+Geometric graphs: The MoNet model (Monti et al., 2017) can exploit geometric information
+because neighboring nodes have well-defined spatial positions. They learn a mixture of Gaus-
+sians function and sample from this based on the relative coordinates of the neighbor. In this
+way, they can weight neighboring nodes based on their relative positions as in standard convolu-
+tional neural networks, even though these positions are not constant. The geodesic CNN (Masci
+et al., 2015) and anisotropic CNN (Boscaini et al., 2016) both adapt convolution to manifolds
+(i.e., surfaces) as represented by triangular meshes. They locally approximate the surface as a
+plane and define a coordinate system on this plane around the current node.
+Oversmoothing and suspended animation: Unlike other deep learning models, graph neu-
+ral networks did not, until recently, benefit significantly from increasing depth. Indeed, the orig-
+inal GCN paper (Kipf & Welling, 2017) and GraphSAGE (Hamilton et al., 2017a) both only
+use two layers, and Chiang et al. (2019) trained a five-layer Cluster-GCN to get state-of-the-art
+performance on the PPI dataset. One possible explanation is over-smoothing (Li et al., 2018c);
+at each layer, the network incorporates information from a larger neighborhood, and it may
+be that this ultimately results in the dissolution of (important) local information. Indeed (Xu
+et al., 2018) prove that the influence of one node on another is proportional to the probability
+of reaching that node in a K-step random walk. This approaches the stationary distribution of
+walks over the graph with increasing K, causing the local neighborhood to be washed out.
+Alon & Yahav (2021) proposed another explanation for why performance doesn’t improve with
+network depth. They argue that adding depth allows information to be aggregated from longer
+paths. However, in practice, the exponential growth in the number of neighbors means there is
+a bottleneck whereby too much information is “squashed” into the fixed-size node embeddings.
+
+
+===== PDF 280 / книга 266 =====
+266 13 Graph neural networks
+Figure 13.14 Graphs for problems 13.1, 13.3, and 13.8.
+Ying et al. (2018a) also note that when the depth of the network exceeds a certain limit, the
+gradients no longer propagate back, and learning fails for both the training and test data. They
+term this effect suspended animation. This is similar to when many layers are naïvely added to
+convolutional neural networks (figure 11.2). They propose a family of residual connections that
+allow deeper networks to be trained. Vanishing gradients (section 7.5) have also been identified
+as a limitation by Li et al. (2021b).
+It has recently become possible to train deeper graph neural networks using various forms of
+residual connection (Xu et al., 2018; Li et al., 2020a; Gong et al., 2020; Chen et al., 2020b; Xu
+et al., 2021a). Li et al. (2021a) train a state-of-the-art model with more than 1000 layers using
+an invertible network to reduce the memory requirements of training (see chapter 16).
+Problems
+Problem 13.1 Write out the adjacency matrices for the two graphs in figure 13.14.
+Problem 13.2∗ Draw graphs that correspond to the following adjacency matrices:
+2 3 2 3
+0 1 1 0 0 0 0 0 0 1 1 0 0 1
+A1 =
+666666664 1
+1
+0
+0
+0
+0
+0
+1
+1
+1
+0
+0
+0
+0
+1
+1
+0
+0
+0
+1
+1
+0
+0
+0
+0
+1
+1
+1
+0
+0
+0
+1
+1
+1
+0
+777777775
+and A2 =
+666666664 0
+1
+1
+0
+0
+0
+1
+1
+1
+0
+1
+0
+0
+0
+0
+1
+0
+0
+1
+1
+1
+0
+1
+0
+0
+0
+0
+1
+0
+0
+0
+0
+1
+1
+1
+777777775
+.
+0 0 1 1 1 0 0 1 0 0 1 1 1 0
+Problem 13.3∗ Consider the two graphs in figure 13.14. How many ways are there to walk from
+node one to node two in (i) three steps and (ii) seven steps?
+Problem 13.4 The diagonal of A2 in figure 13.4c contains the number of edges that connect to
+each corresponding node. Explain this phenomenon.
+Problem 13.5 What permutation matrix is responsible for the transformation between the
+A P pp er e m nd u i t x at B io .4 n .4 graphs in figures 13.5a–c and figure 13.5d–f?
+matrix
+Problem 13.6 Prove that:
+sig [βK + ωKHK1] = sig [βK + ωKHKP1] , (13.27)
+
+
+===== PDF 281 / книга 267 =====
+Notes 267
+Figure 13.15 Graphs for problems 13.11–13.13.
+where P is an N ×N permutation matrix (a matrix that is all zeros except for exactly one entry
+in each row and each column, which is one), and 1 is an N × 1 vector of ones.
+Problem 13.7∗ Consider the simple GNN layer:
+Hk+1 = G(cid:20)raphLayer[H(cid:20)k, A] (cid:21)(cid:21)
+= a βk1T + Ωk H H k k A , (13.28)
+where H is a D × N matrix containing the N node embeddings in its columns, A is the N × N
+adjacency matrix, β is the bias vector, and Ω is the weight matrix. Show that this layer is
+equivariant to permutations of the node order so that:
+GraphLayer[Hk, A]P = GraphLayer[HkP, PT AP], (13.29)
+where P is an N × N permutation matrix.
+Problem 13.8 What is the degree matrix D for each graph in figure 13.14?
+Problem 13.9 The authors of GraphSAGE (Hamilton et al., 2017a) propose a pooling method
+in which the node embedding is averaged together with its neighbors so that:
+0 1
+agg[n] = 1 + | 1 ne[n]| @hn + m∈ X ne[n] hm A . (13.30)
+Show how this operation can be computed simultaneously for all node embeddings in the D ×N
+embedding matrix H using linear algebra. You will need to use both the adjacency matrix A
+and the degree matrix D.
+Problem 13.10∗ Devise a graph attention mechanism based on dot-product self-attention and
+draw its mechanism in the style of figure 13.12.
+Problem 13.11∗ Draw the edge graph associated with the graph in figure 13.15a.
+Problem 13.12∗ Draw the node graph corresponding to the edge graph in figure 13.15b.
+Problem 13.13 For a general undirected graph, describe how the adjacency matrix of the node
+graph relates to the adjacency matrix of the corresponding edge graph.
+P no ro d b e le e m mb 1 e 3 d . d 1 i 4 n ∗ gs D { e h si m gn }m a ∈n la e y [n e ] r a t n h d at n u e p ig d h a b t o e r s in a g n e o d d g e e e e m m b b e e d d d d i i n n g gs h {n e b m a } s m ed ∈n o e n e[n it ] s . n Y e o ig u h s b h o o r u in ld g
+consider the possibility that the edge embeddings are not the same size as the node embeddings.
