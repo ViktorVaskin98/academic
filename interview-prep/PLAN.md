@@ -46,24 +46,23 @@
 - Задачи: Two Sum (1), Two Sum II — Input Array Is Sorted (167), Valid Palindrome (125), 3Sum (15), Container With Most Water (11), Sort Colors (75), Valid Anagram (242), Group Anagrams (49), Longest Consecutive Sequence (128)
 - Python internals: `dict`/`set` изнутри — хэширование, коллизии, средняя/худшая сложность, `collections.Counter`, `defaultdict`
 
-## Неделя 3 — Prefix sums (усиленный блок) + Binary Search
-**Сложность: средняя** — это твоя проседающая тема (было на реальном собесе), поэтому объём задач по префиксам увеличен вдвое против остальных недель, и они возвращаются в warm-up на всех последующих неделях.
+## Неделя 3 — Prefix sums (ядро) + Binary Search
+**Сложность: средняя** — это твоя проседающая тема (было на реальном собесе), поэтому объём задач по префиксам увеличен против остальных недель, и они возвращаются в warm-up на всех последующих неделях.
+**Разгружено по итогам ретро дня 2 недели 2** (неделя была перегружена — 7 новых концепций против 2-3 в среднем): 2D prefix sum и difference array вынесены в бонус/резерв недели 8 — они реже спрашиваются на intern-скрининге (нишевые), убирать их совсем смысла нет, но тащить обязательными в и без того плотную неделю — тоже.
 
 - Темы:
   - Базовый prefix sum 1D (`prefix[i] = prefix[i-1] + a[i]`), сумма на диапазоне за O(1)
-  - Prefix sum + hashmap (запоминаем, на каком префиксе какая сумма/остаток встречалась) — ключевой паттерн для "subarray с суммой/условием"
-  - Prefix XOR (тот же трюк, что и prefix sum, но с XOR)
-  - 2D prefix sum (сумма по прямоугольнику)
-  - Difference array — обратная операция к prefix sum, для серии range-update за O(1) на апдейт
+  - Prefix sum + hashmap (запоминаем, на каком префиксе какая сумма/остаток встречалась) — ключевой паттерн для "subarray с суммой/условием", самая частая часть темы на собесах
+  - Prefix XOR (тот же трюк, что и prefix sum, но с XOR — почти бесплатно после hashmap-варианта)
   - Явно проговорить связь: prefix sum — это "накопленное состояние слева", тот же принцип, что и running streak из недели 1, только с суммой вместо счётчика
 - Задачи:
   - База: Range Sum Query — Immutable (303), Running Sum of 1d Array (1480)
   - Prefix + hashmap: Subarray Sum Equals K (560), Continuous Subarray Sum (523), Subarray Sums Divisible by K (974)
-  - Prefix XOR: Find the XOR of Numbers Which Appear Twice (или аналог), XOR Queries of a Subarray (1310)
-  - 2D: Range Sum Query 2D — Immutable (304)
-  - Difference array: Corporate Flight Bookings (1109), Car Pooling (1094)
+  - Prefix XOR: XOR Queries of a Subarray (1310)
   - Binary search: Binary Search (704), Search in Rotated Sorted Array (33), Find Minimum in Rotated Sorted Array (153), Koko Eating Bananas (875) — binary search on answer
 - Python internals: итераторы и генераторы — протокол `__iter__`/`__next__`, `yield`, ленивые вычисления, `itertools` (accumulate — буквально prefix sum "из коробки", groupby, pairwise)
+
+**Бонус/резерв (перенесено в неделю 8, делать только если останется время):** 2D prefix sum — Range Sum Query 2D — Immutable (304); difference array — Corporate Flight Bookings (1109), Car Pooling (1094)
 
 ## Неделя 4 — Stack + Linked List
 **Сложность: средняя**
@@ -102,7 +101,7 @@
 - 3-4 мок-интервью в формате "45 минут, одна задача, вслух проговариваю решение" (таймер строго, задачи вперемешку по всем пройденным паттернам, без подсказок себе)
 - Повтор карточек/шпаргалки по паттернам (что-то вроде решающего дерева "по каким признакам в условии определить паттерн")
 - Python internals: контрольный прогон всех тем недель 1-7 + типичные вопросы-ловушки ("что выведет этот код", `__slots__`, GC/refcounting, mutable default arguments)
-- Резерв: догнать долги, если где-то раньше не успел
+- Резерв: догнать долги, если где-то раньше не успел + бонусные темы недели 3 (2D prefix sum LC304, difference array LC1109/1094), если есть время и запал
 
 ---
 
