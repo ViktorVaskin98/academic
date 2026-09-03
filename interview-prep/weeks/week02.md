@@ -51,13 +51,14 @@
 
 ## День 3 — Hash map: частоты, группировка
 
-- [ ] **Warm-up (холодно, 10 мин):** Minimum Size Subarray Sum (209)
-- [ ] 🔁 **Пересдача из `redo-list.md`: LC424 Longest Repeating Character Replacement** (холодно, с нуля, без подглядывания)
-- [ ] **Python internals 2.1:** dict/set внутренности — хэш-таблица, контракт `__hash__`/`__eq__`, почему mutable не хэшируемы, resize (см. [`PYTHON_PLAN.md`](../PYTHON_PLAN.md))
-- [ ] Valid Anagram (242) — Counter в чистом виде
-- [ ] Group Anagrams (49) — **ключевая**: hash map, где ключ надо ещё придумать (канонизация слова)
-- [ ] Top K Frequent Elements (347) — решить пока через сортировку по частоте (heap-версию разберём на неделе 5)
-- [ ] **Python quick-fire:** какая длина у `{1, True, 1.0}` и почему?
+- [x] **Warm-up (холодно, 10 мин):** Minimum Size Subarray Sum (209) — третий раз подряд идеально, паттерн закреплён
+- [x] 🔁 **Пересдача из `redo-list.md`: LC424** — пересдача 1/2 пройдена чисто (2026-09-01)
+- [x] **Python internals 2.1:** dict/set внутренности — хэш-таблица, контракт `__hash__`/`__eq__`, почему mutable не хэшируемы, resize (см. [`PYTHON_PLAN.md`](../PYTHON_PLAN.md))
+- [x] Valid Anagram (242) — Counter в чистом виде
+- [x] Group Anagrams (49) — канонизация через отсортированную строку, чисто
+- [x] Top K Frequent Elements (347) — через Counter.most_common(k)
+- [x] **Python quick-fire:** deque для BFS vs list для DFS — закрепилось после ошибки в дне 2
+- [x] **Python internals 2.2 (перенесено с дня 4 по запросу — захотелось больше питона):** collections — Counter, defaultdict, deque, OrderedDict (см. [`PYTHON_PLAN.md`](../PYTHON_PLAN.md))
 
 **Что должно щёлкнуть:** hash map решает задачи вида "быстро вспомнить, видел ли я это раньше / сколько раз". Главный творческий момент — **выбор ключа** (в Group Anagrams ключ это не само слово, а его канонический вид).
 
@@ -70,8 +71,8 @@
 - [ ] Longest Consecutive Sequence (128) — **самая интересная за неделю**: set + трюк "начинаю считать серию только с начала серии", даёт O(n) вместо O(n log n)
 - [ ] Contains Duplicate II (219) — hash map "значение → последний индекс"
 - [ ] Intersection of Two Arrays (349) — операции над множествами
-- [ ] **Python internals 2.2:** `collections` — Counter, defaultdict, deque, когда какой (см. [`PYTHON_PLAN.md`](../PYTHON_PLAN.md))
-- [ ] **Python quick-fire:** что выведет `Counter("aabbbc").most_common(2)`?
+- [x] ~~Python internals 2.2~~ — закрыто досрочно в день 3
+- [ ] **Python quick-fire**
 
 **Что должно щёлкнуть:** в Longest Consecutive Sequence — почему проверка `if num-1 not in num_set` превращает потенциально O(n²) в O(n). Это тот тип рассуждения (амортизация по всем сериям), который стоит уметь проговорить вслух.
 
