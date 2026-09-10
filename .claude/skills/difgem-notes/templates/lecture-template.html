@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лекция NN. НАЗВАНИЕ — дифгем</title>
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <a class="topbar__home" href="../index.html">Дифгем</a>
+  <span class="topbar__crumbs"><span>Лекция NN · КОРОТКОЕ НАЗВАНИЕ</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <a class="btn" href="../../data/lections/ИМЯ_ФАЙЛА.pdf">оригинал PDF</a>
+    <a class="btn" href="../cheatsheet.html">шпаргалка</a>
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc" data-toc>
+    <div class="toc__title">В этой лекции</div>
+  </aside>
+
+  <main id="main">
+    <header class="page-header">
+      <div class="page-header__eyebrow">Лекция NN</div>
+      <h1>НАЗВАНИЕ</h1>
+      <p class="lead">Одно-два предложения: на какой вопрос отвечает лекция и каков ответ.
+      Не пересказ оглавления, а суть.</p>
+      <p class="footnote">Формулировки, нумерация и обозначения совпадают с конспектом
+      преподавателя один в один. Всё добавленное помечено отдельными блоками: интуиция,
+      ловушка, контрпример, связь с ИИ.</p>
+    </header>
+
+    <!-- Раздел: data-section-id включает отметку «разобрано» и прогресс на главной -->
+    <section id="s-N-M" data-section-id="lecture-NN/N.M">
+      <h2 id="h-N-M" data-short="N.M КОРОТКО">N.M НАЗВАНИЕ РАЗДЕЛА</h2>
+
+      <div class="block block--def" id="def-N" data-label="Def. N" data-title="ЧТО ОПРЕДЕЛЯЕТСЯ">
+        <div class="block__label">Def. N <span class="block__title">ЧТО ОПРЕДЕЛЯЕТСЯ</span></div>
+        <p>Дословная формулировка из PDF.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Что это значит по-человечески. Не повтор определения другими словами, а ответ
+        на вопрос «зачем такая конструкция и что она ловит».</p>
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Где именно ошибаются в этом месте, с конкретным примером ошибки.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-N" data-label="Lm. N" data-title="ЧТО УТВЕРЖДАЕТСЯ">
+        <div class="block__label">Lm. N <span class="block__title">ЧТО УТВЕРЖДАЕТСЯ</span></div>
+        <p>Дословная формулировка из PDF.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Содержание шага.</div>
+            <div class="proof-step__why">почему: какая аксиома или определение здесь работает</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--example" id="ex-N" data-label="Ex. N" data-title="О ЧЁМ ПРИМЕР">
+        <div class="block__label">Ex. N <span class="block__title">О ЧЁМ ПРИМЕР</span></div>
+        <p>Дословная формулировка из PDF.</p>
+      </div>
+
+      <div class="block block--counter">
+        <div class="block__label">Контрпример</div>
+        <p>Где ломается наивная интуиция и почему.</p>
+      </div>
+
+      <!-- Виджет из каталога, см. SKILL.md -->
+      <div data-viz="ИМЯ_ВИДЖЕТА" data-viz-config='{"title":"ЗАГОЛОВОК"}'></div>
+
+      <!-- Статическая схема, если интерактив не нужен -->
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">ЧТО НА СХЕМЕ</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 620 250" preserveAspectRatio="xMidYMid meet"
+               role="img" aria-label="ОПИСАНИЕ ДЛЯ СКРИНРИДЕРА">
+            <!-- Цвета только через var(--role-*) и var(--text*), иначе сломается смена темы -->
+          </svg>
+          <p class="viz__caption">Что именно нужно увидеть на схеме.</p>
+        </div>
+      </div>
+
+      <div class="block block--nb" id="nb-N" data-label="NB N" data-title="О ЧЁМ ЗАМЕЧАНИЕ">
+        <div class="block__label">NB N <span class="block__title">О ЧЁМ ЗАМЕЧАНИЕ</span></div>
+        <p>Дословная формулировка из PDF.</p>
+      </div>
+
+      <div class="block block--ml" id="ml-ТЕМА" data-label="ИИ" data-title="КРАТКО О СВЯЗИ">
+        <div class="block__label">Связь с ИИ</div>
+        <p>Конкретное соответствие с ML, а не общие слова про пользу математики.
+        Если в практическом листе есть соответствующая задача — сослаться на её номер.</p>
+      </div>
+
+      <div class="block block--summary">
+        <div class="block__label">Сводка</div>
+        <p>Таблица, которой нет в PDF: сравнение объектов, типовые ответы, что нужно уметь.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Объект</th><th>Свойство</th></tr></thead>
+            <tbody><tr><td></td><td></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-ТЕМА">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Вопрос на воспроизведение формулировки или на понимание.</p>
+        <div class="card__answer" data-card-answer>
+          <p>Ответ, скрытый до клика.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

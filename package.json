@@ -1,0 +1,10 @@
+{
+  "name": "itmo-academic-conspect",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"conspect/tests/*.test.mjs\"",
+    "build": "node conspect/tools/build.mjs",
+    "serve": "node conspect/tools/serve.mjs"
+  }
+}
