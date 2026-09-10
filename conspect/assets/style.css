@@ -197,7 +197,7 @@ a:hover {
 
 .layout {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
   max-width: 1320px;
   margin: 0 auto;
@@ -212,7 +212,7 @@ a:hover {
 
 main {
   min-width: 0;
-  max-width: var(--content-width);
+  max-width: min(var(--content-width), 100%);
 }
 
 .page-header {
@@ -673,6 +673,7 @@ code {
 
 .table-wrap {
   overflow-x: auto;
+  max-width: 100%;
   margin: 1.5rem 0;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -1037,10 +1038,83 @@ mark {
   z-index: 100;
 }
 
+/* ---------- узкие экраны ---------- */
+
+@media (max-width: 720px) {
+  body {
+    font-size: 16px;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    row-gap: 0.45rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .topbar__crumbs {
+    display: none;
+  }
+
+  .topbar__actions .btn {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.82rem;
+  }
+
+  .layout {
+    padding: 1rem 1rem 4rem;
+    gap: 1.2rem;
+  }
+
+  .viz__readout dl {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .viz__readout dt {
+    margin-top: 0.5rem;
+  }
+
+  .viz__body,
+  .viz__head {
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+  }
+
+  .block,
+  .reveal__body,
+  .page-header,
+  main > p {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+    overflow-x: auto;
+  }
+
+  .block {
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+  }
+
+  .page-header,
+  main > p {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .viz__control input[type="range"] {
+    width: 6.5rem;
+  }
+
+  .proof-step {
+    grid-template-columns: 1.4rem 1fr;
+  }
+}
+
 /* ---------- печать ---------- */
 
 @media print {
-  :root {
+  :root,
+  :root[data-theme="dark"],
+  :root[data-theme="light"] {
     --bg: #ffffff;
     --bg-deep: #ffffff;
     --surface: #ffffff;
@@ -1050,6 +1124,20 @@ mark {
     --text: #000000;
     --text-muted: #333333;
     --text-faint: #666666;
+
+    --accent-def: #0a3d91;
+    --accent-lemma: #57249c;
+    --accent-theorem: #8d1049;
+    --accent-example: #14612a;
+    --accent-nb: #7a5100;
+    --accent-proof: #4d565f;
+    --accent-counter: #a5121c;
+    --accent-trap: #93390a;
+    --accent-ml: #0b5a54;
+    --accent-intuition: #6b4b00;
+    --accent-viz: #07529e;
+    --accent-card: #5c2bb8;
+    --accent-summary: #14612a;
   }
 
   body {
@@ -1077,11 +1165,24 @@ mark {
     max-width: none;
   }
 
-  .block {
+  .block,
+  .block--intuition,
+  .block--ml,
+  .block--trap,
+  .block--counter {
     break-inside: avoid;
     margin: 0.6rem 0;
     padding: 0.5rem 0.7rem;
-    background: none !important;
+    background: #ffffff !important;
+  }
+
+  .viz__canvas {
+    max-height: 8cm;
+  }
+
+  .viz__readout,
+  .viz__legend {
+    background: #ffffff !important;
   }
 
   .reveal {

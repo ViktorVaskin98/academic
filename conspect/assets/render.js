@@ -118,7 +118,7 @@ export function numberLine(parent, config) {
   }
 
   if (label) {
-    text(parent, label, left - 18, y + 4, { anchor: 'end', color: roleColor('faint'), size: 13 });
+    text(parent, label, left - 10, y - 14, { anchor: 'start', color: roleColor('faint'), size: 14 });
   }
 
   return { scale, unscale };
