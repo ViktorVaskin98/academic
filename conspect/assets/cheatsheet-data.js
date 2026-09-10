@@ -1,0 +1,1 @@
+window.DIFGEM_CHEATSHEET = [];

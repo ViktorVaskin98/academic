@@ -3,3 +3,4 @@ __pycache__/
 .venv/
 conspect/manim/media/
 node_modules/
+conspect/_smoke.html
