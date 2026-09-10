@@ -14,6 +14,7 @@ const BUNDLE_MODULES = [
 ];
 
 const CHEATSHEET_KINDS = new Set(['def', 'lemma', 'theorem', 'nb']);
+const INDEX_SKIP_KINDS = new Set(['card']);
 
 const stripModuleSyntax = (source) => source
   .replace(/import\s+[^;]*?from\s+['"][^'"]+['"];/g, '')
@@ -92,7 +93,7 @@ export function extractEntries(html, meta) {
     const kind = open[1];
     const attrs = open[2];
     const id = attribute(attrs, 'id');
-    if (!id) continue;
+    if (!id || INDEX_SKIP_KINDS.has(kind)) continue;
     const openTagEnd = open.index + open[0].length;
     const inner = html.slice(openTagEnd, matchingCloseIndex(html, openTagEnd));
     const withoutLabel = inner.replace(/<div class="block__label">[\s\S]*?<\/div>/, '');
