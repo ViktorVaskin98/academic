@@ -39,6 +39,44 @@ export async function buildBundle() {
   return bundle.length;
 }
 
+const SYMBOLS = {
+  varnothing: '∅', emptyset: '∅', subseteq: '⊆', subset: '⊂', supseteq: '⊇', supset: '⊃',
+  cup: '∪', cap: '∩', bigcup: '⋃', bigcap: '⋂', sqcup: '⊔', in: '∈', notin: '∉',
+  partial: '∂', times: '×', to: '→', infty: '∞', langle: '⟨', rangle: '⟩',
+  geqslant: '⩾', leqslant: '⩽', geq: '⩾', leq: '⩽', neq: '≠', Rightarrow: '⇒', iff: '⟺',
+  setminus: '\\', backslash: '\\', dots: '…', ldots: '…', quad: ' ', qquad: ' ',
+  sum: 'Σ', forall: '∀', exists: '∃', alpha: 'α', tau: 'τ', varepsilon: 'ε', delta: 'δ',
+  Delta: 'Δ', limits: '', textstyle: '', displaystyle: '', left: '', right: '', colon: ':',
+};
+
+const BLACKBOARD = {
+  R: 'ℝ', Q: 'ℚ', N: 'ℕ', Z: 'ℤ', C: 'ℂ',
+};
+
+const LITERAL_OPEN = '\u0001';
+const LITERAL_CLOSE = '\u0002';
+
+export function latexToPlain(source) {
+  return source
+    .replace(/\$\$([\s\S]*?)\$\$/g, ' $1 ')
+    .replace(/\$([^$]*)\$/g, '$1')
+    .replace(/\\\{/g, LITERAL_OPEN)
+    .replace(/\\\}/g, LITERAL_CLOSE)
+    .replace(/\\mathbb\{([A-Z])\}/g, (_, letter) => BLACKBOARD[letter] || letter)
+    .replace(/\\(?:mathrm|mathbf|text|operatorname)\{([^{}]*)\}/g, '$1')
+    .replace(/\\t?frac\{([^{}]*)\}\{([^{}]*)\}/g, '($1)/($2)')
+    .replace(/\\sqrt\{([^{}]*)\}/g, '√($1)')
+    .replace(/\\[,;:!]/g, ' ')
+    .replace(/\\([A-Za-z]+)/g, (_, name) => (name in SYMBOLS ? SYMBOLS[name] : name))
+    .replace(/[{}]/g, '')
+    .replace(new RegExp(LITERAL_OPEN, 'g'), '{')
+    .replace(new RegExp(LITERAL_CLOSE, 'g'), '}')
+    .replace(/\s+/g, ' ')
+    .replace(/([⟨([{])\s+/g, '$1')
+    .replace(/\s+([⟩)\]}，,.;])/g, '$1')
+    .trim();
+}
+
 const stripTags = (html) => html
   .replace(/<[^>]*>/g, ' ')
   .replace(/&nbsp;/g, ' ')
@@ -46,6 +84,7 @@ const stripTags = (html) => html
   .replace(/&lt;/g, '<')
   .replace(/&gt;/g, '>')
   .replace(/\s+/g, ' ')
+  .replace(/\s+([,.;:!?)])/g, '$1')
   .trim();
 
 const attribute = (tag, name) => {
@@ -97,7 +136,8 @@ export function extractEntries(html, meta) {
     const openTagEnd = open.index + open[0].length;
     const inner = html.slice(openTagEnd, matchingCloseIndex(html, openTagEnd));
     const withoutLabel = inner.replace(/<div class="block__label">[\s\S]*?<\/div>/, '');
-    const body = stripTags(withoutLabel);
+    const latex = stripTags(withoutLabel);
+    const body = latexToPlain(latex);
     entries.push({
       id,
       url: `${meta.url}#${id}`,
@@ -105,6 +145,7 @@ export function extractEntries(html, meta) {
       label: attribute(attrs, 'data-label') || id,
       title: attribute(attrs, 'data-title'),
       text: body.length > 320 ? `${body.slice(0, 317)}…` : body,
+      latex,
       section: sectionAt(open.index),
       source: meta.source,
     });
@@ -148,14 +189,15 @@ async function main() {
   console.log(`assets/bundle.js: ${(bundleSize / 1024).toFixed(1)} КБ`);
 
   const entries = await collectEntries();
+  const searchable = entries.map(({ latex, ...rest }) => rest);
   await writeFile(
     path.join(root, 'assets/search-index.json'),
-    `${JSON.stringify(entries, null, 2)}\n`,
+    `${JSON.stringify(searchable, null, 2)}\n`,
     'utf8',
   );
   await writeFile(
     path.join(root, 'assets/search-index.js'),
-    `window.DIFGEM_INDEX = ${JSON.stringify(entries)};\n`,
+    `window.DIFGEM_INDEX = ${JSON.stringify(searchable)};\n`,
     'utf8',
   );
   const cheatsheet = entries.filter((entry) => CHEATSHEET_KINDS.has(entry.kind));

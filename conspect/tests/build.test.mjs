@@ -1,6 +1,25 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { extractEntries } from '../tools/build.mjs';
+import { extractEntries, latexToPlain } from '../tools/build.mjs';
+
+test('latexToPlain переводит формулы в читаемый юникод', () => {
+  assert.equal(latexToPlain('система $\\tau = \\{T_\\alpha\\} \\subseteq 2^X$'), 'система τ = {T_α} ⊆ 2^X');
+  assert.equal(latexToPlain('$\\mathrm{Int}_X(S)$'), 'Int_X(S)');
+  assert.equal(latexToPlain('$\\mathbb{R}$ и $\\mathbb{Q}$'), 'ℝ и ℚ');
+  assert.equal(latexToPlain('$$X = \\mathrm{Int}(S) \\cup \\partial S$$'), 'X = Int(S) ∪ ∂ S');
+  assert.equal(latexToPlain('$\\varnothing$, $X$, лучи $(a, +\\infty)$'), '∅, X, лучи (a, +∞)');
+  assert.equal(latexToPlain('$\\left(-\\tfrac{1}{n}, \\tfrac{1}{n}\\right)$'), '(-(1)/(n), (1)/(n))');
+  assert.equal(latexToPlain('$S^c = X \\backslash S$'), 'S^c = X \\ S');
+  assert.equal(latexToPlain('текст без формул'), 'текст без формул');
+});
+
+test('latexToPlain не оставляет служебных символов LaTeX', () => {
+  const plain = latexToPlain('$\\langle X, \\tau \\rangle$ и $\\bigcup\\limits_\\alpha T_\\alpha \\in \\tau$');
+  assert.ok(!plain.includes('\\'));
+  assert.ok(!plain.includes('$'));
+  assert.ok(!plain.includes('{'));
+  assert.equal(plain, '⟨X, τ⟩ и ⋃_α T_α ∈ τ');
+});
 
 const html = `
 <main>

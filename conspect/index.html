@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дифференциальная геометрия — конспект курса</title>
+<link rel="stylesheet" href="assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/style.css">
+<script defer src="assets/vendor/katex/katex.min.js"></script>
+<script defer src="assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="assets/search-index.js"></script>
+<script defer src="assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <span class="topbar__home">Дифгем</span>
+  <span class="topbar__crumbs"><span>ИТМО · Инженерия ИИ · 2 курс</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <a class="btn" href="cheatsheet.html">шпаргалка</a>
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc">
+    <div class="toc__title">Разделы</div>
+    <ul>
+      <li><a href="#map">Карта курса</a></li>
+      <li><a href="#search">Поиск по курсу</a></li>
+      <li><a href="#how">Как читать конспект</a></li>
+      <li><a href="#why">Зачем это всё</a></li>
+    </ul>
+  </aside>
+
+  <main id="main">
+    <header class="hero">
+      <div class="page-header__eyebrow">Конспект курса</div>
+      <h1>Дифференциальная геометрия</h1>
+      <p class="lead">Конспект преподавателя даёт строгий скелет: определения, леммы, примеры без
+      пояснений. Здесь тот же скелет сохранён дословно и с той же нумерацией, а поверх добавлены
+      интуиция, разбор доказательств по шагам, контрпримеры, интерактивные визуализации и связи
+      с задачами машинного обучения.</p>
+      <p class="footnote">Работает офлайн: KaTeX, шрифты и видео лежат локально, интернет не нужен.
+      Прогресс и карточки хранятся в этом браузере.</p>
+    </header>
+
+    <h2 id="map">Карта курса</h2>
+    <div class="card-grid">
+      <a class="course-card" href="lectures/lecture-01.html">
+        <span class="course-card__kicker">Лекция 1</span>
+        <span class="course-card__title">Топологическая структура на множестве</span>
+        <span class="course-card__meta">Открытые множества и три аксиомы, индуцированная топология
+        и топология произведения, окрестности, внутренность, граница, замыкание.
+        34 формулировки, 8 интерактивных виджетов.</span>
+        <span class="tags">
+          <span class="tag">$\tau_{\mathrm{st}}$</span>
+          <span class="tag">$\tau_{\to}$</span>
+          <span class="tag">$\tau_{\mathrm{CF}}$</span>
+          <span class="tag">$\mathrm{Int}$</span>
+          <span class="tag">$\mathrm{Cl}$</span>
+          <span class="tag">$\partial S$</span>
+        </span>
+        <span class="progress-bar" data-progress-for="lecture-01/" data-progress-total="4"></span>
+        <span class="footnote" data-progress-caption="lecture-01/">разобрано 0 из 4 разделов</span>
+      </a>
+
+      <div class="course-card course-card--pending">
+        <span class="course-card__kicker">Практика 1</span>
+        <span class="course-card__title">Листок с задачами № 1</span>
+        <span class="course-card__meta">19 задач по топологическим пространствам, из них три
+        со звёздочкой. Разбор с тремя уровнями подсказок — следующая итерация.</span>
+        <span class="tags">
+          <span class="tag">в работе</span>
+        </span>
+      </div>
+    </div>
+
+    <h2 id="search">Поиск по курсу</h2>
+    <div class="search">
+      <input class="search__input" type="search" data-search
+             placeholder="Int, стрелка, замыкание, граница решения, симплекс…"
+             aria-label="Поиск по формулировкам курса">
+      <p class="search__hint" data-search-hint></p>
+      <ul class="search__results" data-search-results></ul>
+    </div>
+    <p class="footnote">Поиск идёт по всем определениям, леммам, примерам, замечаниям и блокам
+    «связь с ИИ» всех лекций и практик. Индекс пересобирается командой
+    <code>node tools/build.mjs</code> — вручную ничего править не нужно.</p>
+
+    <h2 id="how">Как читать конспект</h2>
+    <p>Материал разбит на блоки. Цвет и метка блока говорят, откуда он взялся: формулировки
+    преподавателя отделены от добавленных пояснений, чтобы на экзамене не перепутать.</p>
+    <div class="legend-key">
+      <div style="--key-accent: var(--accent-def)"><b>Def</b><span>определение из PDF, дословно</span></div>
+      <div style="--key-accent: var(--accent-lemma)"><b>Lm</b><span>лемма из PDF</span></div>
+      <div style="--key-accent: var(--accent-example)"><b>Ex</b><span>пример из PDF</span></div>
+      <div style="--key-accent: var(--accent-nb)"><b>NB</b><span>замечание из PDF</span></div>
+      <div style="--key-accent: var(--accent-intuition)"><b>Интуиция</b><span>что это значит по-человечески</span></div>
+      <div style="--key-accent: var(--accent-proof)"><b>Доказательство</b><span>свёрнуто, разбор по шагам</span></div>
+      <div style="--key-accent: var(--accent-counter)"><b>Контрпример</b><span>где интуиция ломается</span></div>
+      <div style="--key-accent: var(--accent-trap)"><b>Ловушка</b><span>где именно тут ошибаются</span></div>
+      <div style="--key-accent: var(--accent-ml)"><b>Связь с ИИ</b><span>как это работает в ML</span></div>
+      <div style="--key-accent: var(--accent-viz)"><b>Интерактив</b><span>виджет, который можно потрогать</span></div>
+      <div style="--key-accent: var(--accent-card)"><b>Карточка</b><span>самопроверка, ответ скрыт</span></div>
+      <div style="--key-accent: var(--accent-summary)"><b>Сводка</b><span>таблица, которой нет в PDF</span></div>
+    </div>
+    <p>Внизу каждого раздела есть отметка «разобрано» — она запоминается в браузере и показывается
+    здесь на карточке лекции. Кнопка «тема» переключает тёмное и светлое оформление; печать
+    (<code>Ctrl+P</code>) даёт версию без интерфейса, с раскрытыми доказательствами и ответами карточек.</p>
+
+    <h2 id="why">Зачем это всё</h2>
+    <p>Первая лекция выглядит как набор формальных упражнений, пока не увидишь, зачем понадобилась
+    такая точность. Эти два примера — из будущих разделов курса, и они показывают, как наглядная
+    интуиция про «границу» и «форму» перестаёт работать.</p>
+
+    <div class="video">
+      <video controls preload="metadata" playsinline src="media/video/alexander-horned-sphere.mp4"></video>
+      <p class="video__caption"><b>Рогатая сфера Александера.</b> Топологически это обычная сфера,
+      вложенная в $\mathbb{R}^3$. Но её дополнение устроено дико, и утверждение «граница делит
+      пространство на понятное внутри и понятное снаружи» оказывается неверным. Именно поэтому
+      границу определяют через окрестности (<a href="lectures/lecture-01.html#def-9">Def. 9</a>),
+      а не через рисунок.</p>
+    </div>
+
+    <div class="video">
+      <video controls preload="metadata" playsinline src="media/video/unknotting-in-4d.mp4"></video>
+      <p class="video__caption"><b>Развязывание узла в 4D.</b> Узел, который нельзя развязать
+      в $\mathbb{R}^3$, свободно развязывается в $\mathbb{R}^4$. Свойство объекта зависит
+      от объемлющего пространства — тот же сюжет, что в
+      <a href="lectures/lecture-01.html#nb-1">NB 1</a>, только на два измерения выше.</p>
+    </div>
+
+    <p class="footnote">Видео взяты как пример визуализаций такого класса, авторство не наше.</p>
+  </main>
+</div>
+</body>
+</html>

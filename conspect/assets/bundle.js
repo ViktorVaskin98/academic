@@ -2092,7 +2092,7 @@ function initCheatsheet() {
       row.innerHTML = `
         <span class="cheat-item__label">${item.label}</span>
         <span class="cheat-item__title">${item.title}</span>
-        <p class="cheat-item__text">${item.text}</p>`;
+        <p class="cheat-item__text">${item.latex || item.text}</p>`;
       group.appendChild(row);
     }
     host.appendChild(group);
