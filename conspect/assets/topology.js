@@ -107,3 +107,74 @@ export function complement(s, ambient = [REAL_LINE]) {
 
 export const contains = (s, x) => s.some((c) =>
   (c.lo < x || (c.lo === x && c.loClosed)) && (x < c.hi || (c.hi === x && c.hiClosed)));
+
+export const ARROW_SPACE = [interval(0, Infinity, true, false)];
+
+const openComponents = (s) => normalize(
+  s.filter((c) => c.lo !== c.hi).map((c) => interval(c.lo, c.hi, false, false)),
+);
+
+const closeComponents = (s) => normalize(
+  s.map((c) => interval(c.lo, c.hi, true, true)),
+);
+
+const largestRayInside = (s) => {
+  const last = s[s.length - 1];
+  if (!last || last.hi !== Infinity) return EMPTY;
+  return [interval(last.lo, Infinity, false, false)];
+};
+
+const supremum = (s) => (isEmpty(s) ? -Infinity : s[s.length - 1].hi);
+
+const complementIsFinite = (s) => complement(s).every((c) => c.lo === c.hi);
+
+const consistsOfPoints = (s) => s.every((c) => c.lo === c.hi);
+
+export const TOPOLOGIES = {
+  st: {
+    id: 'st',
+    label: '\\tau_{st}',
+    name: 'стандартная',
+    space: [REAL_LINE],
+    interior: openComponents,
+    closure: closeComponents,
+  },
+  arrow: {
+    id: 'arrow',
+    label: '\\tau_{\\to}',
+    name: 'стрелка',
+    space: ARROW_SPACE,
+    interior: (s) => (equals(s, ARROW_SPACE) ? ARROW_SPACE : largestRayInside(s)),
+    closure: (s) => {
+      if (isEmpty(s)) return EMPTY;
+      const top = supremum(s);
+      return top === Infinity ? ARROW_SPACE : [interval(0, top, true, true)];
+    },
+  },
+  cofinite: {
+    id: 'cofinite',
+    label: '\\tau_{CF}',
+    name: 'конечных дополнений',
+    space: [REAL_LINE],
+    interior: (s) => (complementIsFinite(s) ? normalize(s) : EMPTY),
+    closure: (s) => (consistsOfPoints(s) ? normalize(s) : [REAL_LINE]),
+  },
+};
+
+export const interior = (s, topology = TOPOLOGIES.st) =>
+  intersect(topology.interior(normalize(s)), topology.space);
+
+export const closure = (s, topology = TOPOLOGIES.st) =>
+  intersect(topology.closure(normalize(s)), topology.space);
+
+export const boundary = (s, topology = TOPOLOGIES.st) => {
+  const inside = interior(s, topology);
+  const outside = interior(complement(s, topology.space), topology);
+  return complement(union(inside, outside), topology.space);
+};
+
+export function classifyPoint(s, x, topology = TOPOLOGIES.st) {
+  if (contains(interior(s, topology), x)) return 'interior';
+  if (contains(boundary(s, topology), x)) return 'boundary';
+  return 'exterior';
+}
