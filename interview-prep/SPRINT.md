@@ -50,7 +50,7 @@
 `prog` с 25.09 живёт в отдельном worktree — `C:\itmo\academic-prog\` — чтобы не конфликтовать с `avito_sob`/`ml_sobes` в общей папке `C:\itmo\academic\`.
 
 ## Дни 5-8 — 25-28.09, ЛЁГКИЙ РЕЖИМ (по 1 небольшой задаче/день, до 30 мин)
-- [ ] 25.09: Daily Temperatures (739) — monotonic stack, быстро и знакомо
+- [x] 25.09: Daily Temperatures (739) — monotonic stack, чисто с первого раза
 - [ ] 26.09: String Compression (443)
 - [ ] 27.09: холодная пересдача из `redo-list.md` (что подошло по сроку) ИЛИ Яндекс-трек С-14
 - [ ] 28.09: 1 лёгкая задача на выбор + Python quick-fire (без новой темы)
