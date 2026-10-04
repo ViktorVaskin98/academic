@@ -139,3 +139,24 @@ export function finiteIntersections(subbase) {
   }
   return [...intersections];
 }
+
+const separatedByOpen = (family, inside, outside) =>
+  family.some((open) => (open & inside) && !(open & outside));
+
+const separatedByDisjointOpens = (family, first, second) =>
+  family.some((left) => (left & first) && family.some((right) => (right & second) && !(left & right)));
+
+export function separationFailure(family, size, kind) {
+  for (let first = 0; first < size; first += 1) {
+    for (let second = 0; second < size; second += 1) {
+      if (first === second) continue;
+      const firstBit = 1 << first;
+      const secondBit = 1 << second;
+      const separated = kind === 'T1'
+        ? separatedByOpen(family, firstBit, secondBit)
+        : separatedByDisjointOpens(family, firstBit, secondBit);
+      if (!separated) return { first, second };
+    }
+  }
+  return null;
+}

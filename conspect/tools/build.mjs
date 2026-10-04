@@ -8,9 +8,12 @@ const root = path.resolve(here, '..');
 const BUNDLE_MODULES = [
   'assets/topology.js',
   'assets/finite-topology.js',
+  'assets/metric.js',
   'assets/render.js',
   'assets/viz.js',
   'assets/widgets-bases.js',
+  'assets/widgets-covers.js',
+  'assets/widgets-separation.js',
   'assets/app.js',
 ];
 
@@ -185,13 +188,12 @@ export function extractEntries(html, meta) {
   return entries;
 }
 
-const SOURCE_TITLES = {
-  'lecture-01.html': 'Лекция 1',
-  'pract-01.html': 'Практика 1',
-};
+const SOURCE_KINDS = { lecture: 'Лекция', pract: 'Практика' };
 
-const sourceTitle = (file) => SOURCE_TITLES[file]
-  || file.replace('.html', '').replace('lecture-', 'Лекция ').replace('pract-', 'Практика ');
+export function sourceTitle(file) {
+  const match = file.match(/^(lecture|pract)-(\d+)\.html$/);
+  return match ? `${SOURCE_KINDS[match[1]]} ${Number(match[2])}` : file.replace('.html', '');
+}
 
 async function collectEntries() {
   const entries = [];

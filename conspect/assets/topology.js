@@ -178,3 +178,10 @@ export function classifyPoint(s, x, topology = TOPOLOGIES.st) {
   if (contains(boundary(s, topology), x)) return 'boundary';
   return 'exterior';
 }
+
+export const unionAll = (sets) => normalize(sets.flat());
+
+export const uncovered = (target, family) => intersect(normalize(target), complement(unionAll(family)));
+
+export const meetingCount = (neighbourhood, family) =>
+  family.filter((member) => !isEmpty(intersect(neighbourhood, member))).length;

@@ -4,6 +4,7 @@ import {
   isTopology, allTopologies, describeTopology, describeSubset,
   interiorIn, closureIn, boundaryIn, isStronger, blockTopology,
   generatedByUnions, checkBase, isBaseOf, finiteIntersections,
+  separationFailure,
 } from '../assets/finite-topology.js';
 
 test('Задача 1: на множестве из двух точек ровно 4 топологии', () => {
@@ -152,4 +153,31 @@ test('Def. 14: конечные пересечения предбазы обра
   const base = finiteIntersections(subbase);
   assert.deepEqual([...base].sort((x, y) => x - y), [A, A | B, A | C]);
   assert.equal(checkBase(base, 3).ok, true);
+});
+
+test('Ex. 6 лекции 2: связанное двоеточие не T₁', () => {
+  const failure = separationFailure([0b00, 0b01, 0b11], 2, 'T1');
+  assert.deepEqual(failure, { first: 1, second: 0 });
+});
+
+test('Def. 15: дискретная топология хаусдорфова', () => {
+  assert.equal(separationFailure([0, 1, 2, 3], 2, 'T2'), null);
+});
+
+test('на конечном множестве T₁ равносильно дискретности', () => {
+  const t1 = allTopologies(3).filter((family) => separationFailure(family, 3, 'T1') === null);
+  assert.equal(t1.length, 1);
+  assert.equal(t1[0].length, 8);
+});
+
+test('NB 4: на конечном множестве T₁ и T₂ совпадают', () => {
+  for (const family of allTopologies(3)) {
+    const t1 = separationFailure(family, 3, 'T1') === null;
+    const t2 = separationFailure(family, 3, 'T2') === null;
+    assert.equal(t1, t2);
+  }
+});
+
+test('антидискретная топология не T₁', () => {
+  assert.notEqual(separationFailure([0, 0b111], 3, 'T1'), null);
 });

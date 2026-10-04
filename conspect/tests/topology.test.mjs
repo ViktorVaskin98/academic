@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   set, point, interval, normalize, format, equals, union, intersect, complement,
   interior, closure, boundary, classifyPoint, TOPOLOGIES, ARROW_SPACE,
+  unionAll, uncovered, meetingCount, REAL_LINE,
 } from '../assets/topology.js';
 
 test('normalize сливает соприкасающиеся компоненты, когда стык покрыт', () => {
@@ -142,4 +143,46 @@ test('classifyPoint различает внутреннюю, граничную 
   assert.equal(classifyPoint(s, 5, TOPOLOGIES.st), 'boundary');
   assert.equal(classifyPoint(s, 7, TOPOLOGIES.st), 'boundary');
   assert.equal(classifyPoint(s, 6, TOPOLOGIES.st), 'exterior');
+});
+
+const tailCover = (count, right = 1) => Array.from({ length: count }, (_, index) =>
+  set(interval(1 / (index + 2), right, false, false)));
+
+test('Def. 10: конечная часть покрытия (1/n, 1) не покрывает (0, 1)', () => {
+  const target = set(interval(0, 1, false, false));
+  assert.equal(format(uncovered(target, tailCover(9))), '(0, 0.1]');
+});
+
+test('Def. 10: у [0,1] с добавленной окрестностью нуля есть конечное подпокрытие', () => {
+  const target = set(interval(0, 1, true, true));
+  const finite = [set(interval(-0.1, 0.1, false, false)), set(interval(0.05, 1.1, false, false))];
+  assert.equal(format(uncovered(target, finite)), '∅');
+});
+
+test('Def. 10: без окрестности нуля точка 0 остаётся непокрытой', () => {
+  const target = set(interval(0, 1, true, true));
+  assert.equal(format(uncovered(target, tailCover(50, 1.1))), '[0, 0.02]');
+});
+
+test('Ex. 4: (−n, n) при n ≤ 5 не покрывают прямую', () => {
+  const finite = Array.from({ length: 5 }, (_, index) => set(interval(-(index + 1), index + 1, false, false)));
+  assert.equal(format(uncovered([REAL_LINE], finite)), '(-∞, -5] ∪ [5, +∞)');
+});
+
+test('unionAll пустого семейства пусто', () => {
+  assert.equal(format(unionAll([])), '∅');
+});
+
+test('Ex. 5: окрестность (x−1, x+1) задевает лишь конечное число U_n', () => {
+  const cover = Array.from({ length: 41 }, (_, index) => {
+    const n = index - 20;
+    return set(interval(n - 1, n + 1, false, false));
+  });
+  assert.equal(meetingCount(set(interval(-0.5, 1.5, false, false)), cover), 4);
+  assert.equal(meetingCount(set(interval(2, 4, false, false)), cover), 3);
+});
+
+test('покрытие (−n, n) не локально конечно: окрестность нуля задевает все', () => {
+  const cover = Array.from({ length: 30 }, (_, index) => set(interval(-(index + 1), index + 1, false, false)));
+  assert.equal(meetingCount(set(interval(-0.01, 0.01, false, false)), cover), 30);
 });

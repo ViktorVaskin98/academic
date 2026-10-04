@@ -5,10 +5,10 @@ import {
   readout, legend,
 } from './render.js';
 
-const LABELS = ['a', 'b', 'c'];
-const POSITIONS = [[190, 225], [450, 225], [320, 85]];
-const SUBSETS = [0b001, 0b010, 0b100, 0b011, 0b101, 0b110, 0b111];
-const HULL_COLORS = [
+export const LABELS = ['a', 'b', 'c'];
+export const POSITIONS = [[190, 225], [450, 225], [320, 85]];
+export const SUBSETS = [0b001, 0b010, 0b100, 0b011, 0b101, 0b110, 0b111];
+export const HULL_COLORS = [
   '--accent-def', '--accent-example', '--accent-nb', '--accent-lemma',
   '--accent-ml', '--accent-card', '--accent-theorem',
 ];
@@ -21,11 +21,11 @@ const PRESETS = [
   { label: 'только X → τ_a', members: [0b111] },
 ];
 
-const pointsOf = (mask) => LABELS.map((_, index) => index).filter((index) => mask & (1 << index));
+export const pointsOf = (mask) => LABELS.map((_, index) => index).filter((index) => mask & (1 << index));
 
-const sizeOf = (mask) => pointsOf(mask).length;
+export const sizeOf = (mask) => pointsOf(mask).length;
 
-function drawHull(parent, mask, color, emphasis) {
+export function drawHull(parent, mask, color, emphasis) {
   const members = pointsOf(mask).map((index) => POSITIONS[index]);
   const opacity = emphasis ? 0.38 : 0.16;
   const outline = emphasis ? roleColor('highlight') : color;

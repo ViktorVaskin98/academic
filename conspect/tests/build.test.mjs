@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { extractEntries, latexToPlain, bundleModules } from '../tools/build.mjs';
+import {
+  extractEntries, latexToPlain, bundleModules, sourceTitle,
+} from '../tools/build.mjs';
 
 test('latexToPlain переводит формулы в читаемый юникод', () => {
   assert.equal(latexToPlain('система $\\tau = \\{T_\\alpha\\} \\subseteq 2^X$'), 'система τ = {T_α} ⊆ 2^X');
@@ -113,4 +115,11 @@ test('bundleModules отказывается от неподдерживаемо
     () => bundleModules([{ name: 'bad', source: "import thing from './core.js';" }]),
     /неподдерживаемый импорт/,
   );
+});
+
+test('sourceTitle снимает ведущие нули с номера', () => {
+  assert.equal(sourceTitle('lecture-02.html'), 'Лекция 2');
+  assert.equal(sourceTitle('lecture-12.html'), 'Лекция 12');
+  assert.equal(sourceTitle('pract-01.html'), 'Практика 1');
+  assert.equal(sourceTitle('notes.html'), 'notes');
 });
