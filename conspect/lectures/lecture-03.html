@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лекция 3. Отображения топологических пространств — дифгем</title>
+<meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-title" content="Дифгем">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <a class="topbar__home" href="../index.html">Дифгем</a>
+  <span class="topbar__crumbs"><span>Лекция 3 · Отображения</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <a class="btn" href="../../data/lections/lecture_3_Cont_mappings.pdf">оригинал PDF</a>
+    <a class="btn" href="../cheatsheet.html">шпаргалка</a>
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc" data-toc>
+    <div class="toc__title">В этой лекции</div>
+  </aside>
+
+  <main id="main">
+    <header class="page-header">
+      <div class="page-header__eyebrow">Лекция 3</div>
+      <h1>Отображения топологических пространств</h1>
+      <p class="lead">Две лекции мы изучали пространства по отдельности. Теперь — отображения между ними.
+      Главная идея лекции умещается в одну строку: непрерывность — это когда прообраз открытого открыт.
+      Из неё следует всё остальное: композиции, образы компактов, гомеоморфизмы и, наконец, способ
+      доказывать, что два пространства <b>не</b> гомеоморфны.</p>
+      <p class="footnote">Формулировки, нумерация и обозначения совпадают с конспектом
+      преподавателя. Всё добавленное помечено отдельными блоками: интуиция, ловушка, контрпример,
+      связь с ИИ.</p>
+    </header>
+
+    <!-- ================================================================= -->
+    <section id="s-3-1" data-section-id="lecture-03/3.1">
+      <h2 id="h-3-1" data-short="3.1 Прообразы">3.1 Свойства прообразов отображения</h2>
+
+      <p>Для отображения $f : X \to Y$ определим</p>
+      $$\forall A \subseteq Y \quad f^{-1}(A) = \{x \in X : f(x) \in A\}, \qquad
+        f^{-1}(\varnothing) = \varnothing, \qquad f^{-1}(Y) = X.$$
+      <p>Далее, для подмножеств $U, V \subseteq Y$ имеем:</p>
+      $$f^{-1}(U \cup V) = f^{-1}(U) \cup f^{-1}(V), \qquad f^{-1}(U \cap V) = f^{-1}(U) \cap f^{-1}(V),
+        \qquad f^{-1}(Y \backslash U) = X \backslash f^{-1}(U).$$
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Прообраз $f^{-1}(A)$ — это ответ на вопрос «какие входы дают выход из $A$?». Он определён
+        для <b>любого</b> отображения, даже необратимого: символ $f^{-1}$ здесь не обратная функция,
+        а операция над множествами.</p>
+        <p>Почему прообраз так хорошо уживается с $\cup$, $\cap$ и дополнением: условие
+        «$x \in f^{-1}(U \cap V)$» читается как «$f(x) \in U$ и $f(x) \in V$», а это ровно
+        «$x \in f^{-1}(U)$ и $x \in f^{-1}(V)$». Каждая точка $x$ даёт одно значение $f(x)$, и
+        логические связки просто переносятся. Именно поэтому непрерывность в
+        <a href="#th-3-1">Th. 3.1</a> формулируется через прообразы, а не через образы.</p>
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>С <b>образами</b> так не получается. Для объединений всё в порядке:
+        $f(A \cup B) = f(A) \cup f(B)$. Но для пересечений верно только включение
+        $f(A \cap B) \subseteq f(A) \cap f(B)$, и оно бывает строгим. Пример с $f(x) = x^2$:
+        $A = (-2, -1)$, $B = (1, 2)$. Тогда $A \cap B = \varnothing$ и $f(A \cap B) = \varnothing$,
+        а $f(A) = f(B) = (1, 4)$, так что $f(A) \cap f(B) = (1, 4)$. Причина — неинъективность:
+        разные точки $-1.5$ и $1.5$ склеились в одну.</p>
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Прообраз уважает пересечения, образ — нет</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 620 300" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Парабола: два непересекающихся интервала имеют один и тот же образ">
+            <line x1="40" y1="250" x2="580" y2="250" stroke="var(--border-strong)" stroke-width="1.5"/>
+            <line x1="310" y1="20" x2="310" y2="270" stroke="var(--border-strong)" stroke-width="1.5"/>
+            <path d="M 130 25 Q 310 475 490 25" fill="none" stroke="var(--text)" stroke-width="2.5"/>
+            <line x1="175" y1="250" x2="243" y2="250" stroke="var(--role-set)" stroke-width="8"/>
+            <line x1="377" y1="250" x2="445" y2="250" stroke="var(--role-interior)" stroke-width="8"/>
+            <text x="209" y="276" text-anchor="middle" font-size="15" font-weight="700" fill="var(--role-set)">A</text>
+            <text x="411" y="276" text-anchor="middle" font-size="15" font-weight="700" fill="var(--role-interior)">B</text>
+            <line x1="310" y1="194" x2="310" y2="81" stroke="var(--role-highlight)" stroke-width="8"/>
+            <text x="322" y="140" font-size="15" font-weight="700" fill="var(--role-highlight)">f(A) = f(B)</text>
+            <g stroke="var(--text-faint)" stroke-dasharray="4 4">
+              <line x1="175" y1="250" x2="175" y2="81"/><line x1="243" y1="250" x2="243" y2="194"/>
+              <line x1="377" y1="250" x2="377" y2="194"/><line x1="445" y1="250" x2="445" y2="81"/>
+              <line x1="175" y1="81" x2="445" y2="81"/><line x1="243" y1="194" x2="377" y2="194"/>
+            </g>
+            <text x="540" y="40" text-anchor="end" font-size="14" fill="var(--text-muted)">A ∩ B = ∅, но f(A) ∩ f(B) ≠ ∅</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="block block--ml" id="ml-preimage" data-label="ИИ" data-title="Прообраз — это область решений">
+        <div class="block__label">Связь с ИИ</div>
+        <p>Прообраз — естественный язык для описания того, что делает модель. Если классификатор —
+        отображение $f : \mathbb{R}^n \to \{\text{кошка}, \text{собака}\}$, то область, которую модель
+        считает кошками, — это прообраз $f^{-1}(\{\text{кошка}\})$. Свойства из этого раздела дают
+        полезные тождества: область «кошка или собака» — объединение прообразов, а область, где
+        модель не говорит «кошка», — дополнение прообраза.</p>
+        <p>А вот ловушка с образами объясняет, почему восстановить вход по выходу нельзя: модель
+        склеивает разные входы в один выход, и информация о том, из какого именно входа он пришёл,
+        теряется. Это та же неинъективность, что у $x^2$.</p>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-3-2" data-section-id="lecture-03/3.2">
+      <h2 id="h-3-2" data-short="3.2 Непрерывные отображения">3.2 Непрерывные отображения</h2>
+
+      <p>Пусть $X$ и $Y$ — топологические пространства.</p>
+
+      <div class="block block--def" id="def-1" data-label="Def. 1" data-title="Непрерывность в точке">
+        <div class="block__label">Def. 1 <span class="block__title">Непрерывность в точке</span></div>
+        <p>Отображение $f : X \to Y$ <b>непрерывно в точке</b> $x \in X$, если для любой окрестности
+        $V$ точки $f(x)$ существует окрестность $U$ точки $x$, такая что</p>
+        $$f(U) \subseteq V.$$
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Это знакомое из матанализа «$\varepsilon$–$\delta$» без чисел. Окрестность $V$ значения —
+        это «допуск $\varepsilon$ на выходе», окрестность $U$ аргумента — это «$\delta$ на входе».
+        Определение говорит: какой бы допуск на выходе ни потребовали, найдётся достаточно маленькое
+        шевеление входа, которое его не нарушит.</p>
+        <p>Порядок кванторов важен: <b>сначала</b> выбирают $V$, потом подбирают $U$. Выход
+        диктует требования, вход под них подстраивается.</p>
+      </div>
+
+      <div class="block block--nb" id="nb-1" data-label="NB 1" data-title="Непрерывность на всём пространстве">
+        <div class="block__label">NB 1 <span class="block__title">Непрерывность на всём пространстве</span></div>
+        <p>Отображение непрерывно на $X$, если оно непрерывно в каждой точке пространства $X$.</p>
+      </div>
+
+      <div class="block block--theorem" id="th-3-1" data-label="Th. 3.1" data-title="Критерий непрерывности через прообразы">
+        <div class="block__label">Th. 3.1 <span class="block__title">Критерий непрерывности через прообразы</span></div>
+        <p>Отображение $f : X \to Y$ непрерывно тогда и только тогда, когда прообраз каждого
+        открытого множества в $Y$ открыт в $X$.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>$(\Rightarrow)$ Пусть $f$ непрерывно, а $V$ открыто в $Y$. Для каждой точки
+            $x \in f^{-1}(V)$ множество $V$ — окрестность $f(x)$, поэтому найдётся открытая
+            окрестность $U_x$ с условием $f(U_x) \subseteq V$, то есть $U_x \subseteq f^{-1}(V)$.</div>
+            <div class="proof-step__why">почему: <a href="#def-1">Def. 1</a> в точке $x$ с окрестностью $V$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Поэтому прообраз открыт как объединение открытых множеств:</div>
+            <div class="proof-step__why">почему: каждая точка прообраза лежит в своём $U_x$, а все $U_x$ лежат в прообразе; дальше аксиома 2</div>
+          </div>
+          $$f^{-1}(V) = \bigcup_{x \in f^{-1}(V)} U_x.$$
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>$(\Leftarrow)$ Если прообразы открытых множеств открыты, то для любой окрестности $V$
+            точки $f(x)$ множество $U = f^{-1}(V)$ является искомой окрестностью точки $x$: оно открыто,
+            содержит $x$ и $f(U) \subseteq V$.</div>
+            <div class="proof-step__why">почему: $x \in f^{-1}(V)$, так как $f(x) \in V$, и образ прообраза всегда лежит в исходном множестве</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Th. 3.1 переводит непрерывность с языка точек на язык множеств, и это главный рабочий
+        инструмент лекции. Проверять «для каждой точки и каждой окрестности» долго, проверять
+        «прообраз каждого открытого открыт» — быстро, а если известна база топологии $Y$, то
+        достаточно проверить только элементы базы: прообраз сохраняет объединения.</p>
+        <p>Как поймать разрыв: найти одно открытое $V$, прообраз которого не открыт. Виджет ниже
+        делает это для ступеньки $H$: при $V = (0.5, 1.5)$ прообраз — луч $[0, +\infty)$ с
+        включённым нулём, а он не открыт.</p>
+      </div>
+
+      <div data-viz="PreimageExplorer"></div>
+
+      <div class="block block--example" id="ex-1" data-label="Ex. 1" data-title="Примеры непрерывных отображений">
+        <div class="block__label">Ex. 1 <span class="block__title">Примеры непрерывных отображений</span></div>
+        <p>Примеры непрерывных отображений (множество $V$ открыто в $Y$):</p>
+        <ol>
+          <li>тождественное отображение $\mathrm{id}_X$: $\ \mathrm{id}_X^{-1}(V) = V$;</li>
+          <li>постоянное отображение $\mathrm{const}_{y_0} : x \mapsto y_0$,
+          $\ \mathrm{const}_{y_0}^{-1}(V) = \begin{cases} X, &amp; y_0 \in V, \\ \varnothing, &amp; y_0 \notin V; \end{cases}$</li>
+          <li>вложение в подпространство $j : A \hookrightarrow X$, $\ j^{-1}(V) = A \cap V$;</li>
+          <li>проекция на сомножитель $\mathrm{pr}_1 : X \times Y \to X$, $\ \mathrm{pr}_1^{-1}(V) = V \times Y$.</li>
+        </ol>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Каждый пункт — проверка по <a href="#th-3-1">Th. 3.1</a>, и каждый опирается на что-то
+        из лекции 1. Константа: $X$ и $\varnothing$ открыты всегда, это аксиома 1. Вложение:
+        $A \cap V$ открыто в $A$ — это в точности <a href="lecture-01.html#def-3">определение
+        индуцированной топологии</a>. Проекция: $V \times Y$ — произведение открытых, то есть открыто
+        в <a href="lecture-01.html#lm-2">топологии произведения</a>.</p>
+        <p>Получается, что индуцированная топология и топология произведения — <b>самые слабые</b>
+        топологии, при которых вложение и проекции непрерывны. Это их современное определение, и к
+        нему ведёт <a href="#nb-3">NB 3</a>.</p>
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Непрерывность зависит от топологий <b>обоих</b> пространств, а не от формулы. Тождественное
+        отображение $x \mapsto x$ — самая «гладкая» функция на свете, но из $(\mathbb{R}, \tau_{\mathrm{st}})$
+        в $(\mathbb{R}, \tau_{\mathrm{d}})$ оно разрывно: $\{0\}$ открыто справа, а его прообраз
+        $\{0\}$ не открыт слева. Правило: отображение тем легче сделать непрерывным, чем сильнее
+        топология на $X$ и слабее на $Y$.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-1" data-label="Lm. 1" data-title="Композиция непрерывных непрерывна">
+        <div class="block__label">Lm. 1 <span class="block__title">Композиция непрерывных непрерывна</span></div>
+        <p>Композиция непрерывных отображений $f : X \to Y$ и $g : Y \to Z$ непрерывна.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Пусть $W$ открыто в $Z$. Тогда правая часть выражения</div>
+            <div class="proof-step__why">почему: прообраз композиции — это прообраз прообраза, проверяется поэлементно</div>
+          </div>
+          $$(g \circ f)^{-1}(W) = f^{-1}\big(g^{-1}(W)\big)$$
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>открыта в $X$: $g^{-1}(W)$ открыто в $Y$ по непрерывности $g$, а его прообраз при $f$
+            открыт в $X$ по непрерывности $f$.</div>
+            <div class="proof-step__why">почему: <a href="#th-3-1">Th. 3.1</a> дважды</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--lemma" id="cor-1" data-label="Следствие 1" data-title="Критерий через замкнутые множества">
+        <div class="block__label">Следствие 1 <span class="block__title">Критерий через замкнутые множества</span></div>
+        <p>Отображение $f : X \to Y$ непрерывно тогда и только тогда, когда прообраз каждого
+        замкнутого множества в $Y$ замкнут в $X$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Доказательство в одну строку из третьего тождества раздела 3.1:
+        $f^{-1}(Y \backslash F) = X \backslash f^{-1}(F)$. Замкнутое $F$ — дополнение открытого,
+        его прообраз — дополнение прообраза открытого. Открытость и замкнутость меняются местами
+        синхронно, и критерий переносится.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-2" data-label="Lm. 2" data-title="Критерий через замыкания">
+        <div class="block__label">Lm. 2 <span class="block__title">Критерий через замыкания</span></div>
+        <p>Отображение $f : X \to Y$ непрерывно тогда и только тогда, когда</p>
+        $$\forall A \subseteq X \quad f\big(\mathrm{Cl}_X(A)\big) \subseteq \mathrm{Cl}_Y\big(f(A)\big).$$
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>$(\Rightarrow)$ Пусть $f$ непрерывно и $C = \mathrm{Cl}_Y(f(A))$. Тогда $f^{-1}(C)$
+            замкнуто и содержит $A$.</div>
+            <div class="proof-step__why">почему: <a href="#cor-1">Следствие 1</a>; содержит $A$, потому что $f(A) \subseteq C$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>По определению замыкания</div>
+            <div class="proof-step__why">почему: замыкание — наименьшее замкнутое, содержащее $A$ (<a href="lecture-01.html#def-11">Def. 11 лекции 1</a>)</div>
+          </div>
+          $$\mathrm{Cl}_X(A) \subseteq f^{-1}(C) \ \Longrightarrow\ f\big(\mathrm{Cl}_X(A)\big) \subseteq C.$$
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>$(\Leftarrow)$ Для замкнутого множества $F \subseteq Y$ положим $A = f^{-1}(F)$. Тогда
+            $f(A) \subseteq F$, и</div>
+            <div class="proof-step__why">почему: условие леммы плюс то, что замыкание замкнутого $F$ — оно само</div>
+          </div>
+          $$f\big(\mathrm{Cl}_X(A)\big) \subseteq \mathrm{Cl}_Y\big(f(A)\big) \subseteq F, \qquad
+            \mathrm{Cl}_X(A) \subseteq f^{-1}(F) = A.$$
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Значит $\mathrm{Cl}_X(A) = A$, то есть прообраз $A$ замкнут. По
+            <a href="#cor-1">Следствию 1</a> $f$ непрерывно.</div>
+            <div class="proof-step__why">почему: обратное включение $A \subseteq \mathrm{Cl}_X(A)$ верно всегда</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Lm. 2 говорит: <b>непрерывное отображение не отрывает точки от множеств, к которым они
+        прилипают</b>. Если $x$ прикасается к $A$, то $f(x)$ прикасается к $f(A)$.</p>
+        <p>Ступенька $H$ из виджета нарушает это ровно так. Возьмём $A = (-1, 0)$: точка $0$ к нему
+        прикасается, $0 \in \mathrm{Cl}(A)$. Но $H(A) = \{0\}$, $\mathrm{Cl}(H(A)) = \{0\}$, а
+        $H(0) = 1$ в это замыкание не попадает. Точка «оторвалась» при скачке.</p>
+      </div>
+
+      <div class="block block--nb" id="nb-2" data-label="NB 2" data-title="Непрерывное не обязано быть открытым">
+        <div class="block__label">NB 2 <span class="block__title">Непрерывное не обязано быть открытым</span></div>
+        <p>Непрерывное отображение не обязательно переводит открытые множества в открытые.
+        Например, непрерывно отображение</p>
+        $$j : \mathbb{R}_{\mathrm{st}} \to \mathbb{R}^2_{\mathrm{st}}, \qquad j(x) = (x, 0).$$
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Образ $j(\mathbb{R}) = \mathbb{R} \times \{0\}$ — прямая в плоскости, а прямая в
+        $\mathbb{R}^2$ не открыта: любой диск вокруг её точки вылезает за неё. Это уже знакомая
+        картинка из <a href="lecture-01.html#nb-1">NB 1 лекции 1</a>. Непрерывность смотрит на
+        прообразы, а не на образы, поэтому ничего не обязана говорить об открытости образов.</p>
+      </div>
+
+      <div class="block block--nb" id="nb-3" data-label="NB 3" data-title="Прообраз топологии">
+        <div class="block__label">NB 3 <span class="block__title">Прообраз топологии</span></div>
+        <p>Для отображения множеств $f : X \to Y$ и топологии $\tau_Y$ семейство</p>
+        $$f^{-1}(\tau_Y) = \{f^{-1}(V) : V \in \tau_Y\}$$
+        <p>является топологией на $X$. Если на $X$ задана топология $\tau_X$, то по критерию
+        непрерывность $f$ равносильна условию</p>
+        $$f^{-1}(\tau_Y) \subseteq \tau_X.$$
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>$f^{-1}(\tau_Y)$ — самая слабая топология на $X$, при которой $f$ непрерывно. Она
+        топология потому, что прообраз сохраняет объединения и пересечения (раздел 3.1). А условие
+        непрерывности читается на языке <a href="lecture-01.html#def-4">Def. 4 лекции 1</a>:
+        <b>$\tau_X$ должна быть сильнее притянутой топологии</b>.</p>
+        <p>Это утверждение проверено программно для всех отображений и всех пар топологий на двух
+        точках, а в виджете ниже последняя строка показывает притянутую топологию живьём.</p>
+      </div>
+
+      <div data-viz="FiniteMapChecker"></div>
+
+      <div class="block block--theorem" id="th-3-2" data-label="Th. 3.2" data-title="Непрерывный образ компакта компактен">
+        <div class="block__label">Th. 3.2 <span class="block__title">Непрерывный образ компакта компактен</span></div>
+        <p>Пусть $f : X \to Y$ непрерывно, а $K \subseteq X$ — компактно. Тогда образ $f(K)$ компактен
+        в топологии подпространства.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Пусть $\{U_\alpha\}$ — открытое покрытие $f(K)$, тогда $\{V_\alpha\} = \{U_\alpha \cap f(K)\}$
+            — открытое покрытие $f(K)$ в топологии подпространства.</div>
+            <div class="proof-step__why">почему: следы открытых множеств открыты в подпространстве (<a href="lecture-01.html#def-3">Def. 3 лекции 1</a>)</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>$\{f^{-1}(V_\alpha)\}$ — покрытие $K$, и его элементы открыты в $K$.</div>
+            <div class="proof-step__why">почему: каждая точка $K$ переходит в какое-то $V_\alpha$; открытость — <a href="#th-3-1">Th. 3.1</a> для сужения $f$ на $K$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>По компактности $K$ конечное число подмножеств из $\{f^{-1}(V_\alpha)\}$ покрывает $K$.</div>
+            <div class="proof-step__why">почему: <a href="lecture-02.html#def-10">Def. 10 лекции 2</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Тогда соответствующее конечное число подмножеств из $\{V_\alpha\}$ покрывает $f(K)$.</div>
+            <div class="proof-step__why">почему: если $K \subseteq \bigcup_{i=1}^{n} f^{-1}(V_{\alpha_i})$, то $f(K) \subseteq \bigcup_{i=1}^{n} V_{\alpha_i}$</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--counter">
+        <div class="block__label">Контрпример</div>
+        <p>Обратное неверно: прообраз компакта не обязан быть компактом. Постоянное отображение
+        $\mathbb{R} \to \mathbb{R}$, $x \mapsto 0$, непрерывно, $\{0\}$ компактно, а его прообраз — вся
+        некомпактная прямая. Непрерывность хорошо переносит компактность <b>вперёд</b>, по направлению
+        отображения, а открытость и замкнутость — <b>назад</b>, через прообразы.</p>
+      </div>
+
+      <div class="block block--ml" id="ml-continuity" data-label="ИИ" data-title="Непрерывность моделей и почему argmax разрывен">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Сети непрерывны по Lm. 1.</b> Каждый слой — композиция аффинного отображения и
+        поэлементной нелинейности вроде ReLU, обе непрерывны, значит непрерывна и вся сеть. По
+        Th. 3.2 на компактном множестве входов (например, картинки с пикселями в $[0,1]$) выходы сети
+        ограничены, а непрерывный лосс достигает минимума — это закрывает вопрос из
+        <a href="lecture-02.html#ml-compact">лекции 2</a>: на компакте минимум существует.</p>
+        <p><b>А жёсткий классификатор непрерывным быть не может.</b> Пусть
+        $f : \mathbb{R}^n \to \{0, 1\}$ с дискретной топологией на выходе. По Th. 3.1 оба прообраза
+        $f^{-1}(\{0\})$ и $f^{-1}(\{1\})$ открыты, а в сумме дают $\mathbb{R}^n$. Значит каждый из них
+        и открыт, и замкнут. Прямую или $\mathbb{R}^n$ так не разрезать (это связность — следующие
+        темы курса), поэтому непрерывный жёсткий классификатор константен.</p>
+        <p>Отсюда устройство любой модели классификации: непрерывные логиты и разрывный $\arg\max$
+        поверх них. Разрыв живёт ровно на границе решения — это множество $\partial A$ из
+        <a href="lecture-01.html#ml-boundary">лекции 1</a>. Требование робастности — количественная
+        версия <a href="#def-1">Def. 1</a>: вместо «существует окрестность $U$» хотят явную оценку
+        её размера, например через константу Липшица.</p>
+      </div>
+
+      <div class="block block--card" id="card-continuity">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Дай определение непрерывности в точке и сформулируй критерий
+        Th. 3.1. Как с его помощью доказать разрывность?</p>
+        <div class="card__answer" data-card-answer>
+          <p>$f$ непрерывно в $x$, если для любой окрестности $V \ni f(x)$ есть окрестность $U \ni x$ с
+          $f(U) \subseteq V$. Критерий: $f$ непрерывно $\iff$ прообраз каждого открытого открыт. Для
+          разрывности достаточно предъявить одно открытое $V$ с неоткрытым $f^{-1}(V)$, например
+          $H^{-1}((0.5, 1.5)) = [0, +\infty)$ для ступеньки.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-closure-criterion">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Сформулируй критерий непрерывности через замкнутые множества и
+        через замыкания. Что из них следует для ступеньки?</p>
+        <div class="card__answer" data-card-answer>
+          <p>$f$ непрерывно $\iff$ прообраз каждого замкнутого замкнут $\iff$
+          $f(\mathrm{Cl}_X(A)) \subseteq \mathrm{Cl}_Y(f(A))$ для всех $A$. Для ступеньки и
+          $A = (-1, 0)$: $H(\mathrm{Cl}\,A) = \{0, 1\} \not\subseteq \{0\} = \mathrm{Cl}\,H(A)$.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-compact-image">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Что сохраняется при непрерывном отображении: компактность образа
+        или компактность прообраза? Приведи контрпример ко второму.</p>
+        <div class="card__answer" data-card-answer>
+          <p>Образ компакта компактен (<a href="#th-3-2">Th. 3.2</a>). Прообраз — нет: константа
+          $\mathbb{R} \to \mathbb{R}$, $x \mapsto 0$, переводит некомпактную прямую в компакт $\{0\}$.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-3-3" data-section-id="lecture-03/3.3">
+      <h2 id="h-3-3" data-short="3.3 Гомеоморфизмы">3.3 Гомеоморфизмы</h2>
+
+      <div class="block block--def" id="def-2" data-label="Def. 2" data-title="Гомеоморфизм">
+        <div class="block__label">Def. 2 <span class="block__title">Гомеоморфизм</span></div>
+        <p>Биекция $f : X \to Y$ называется <b>гомеоморфизмом</b>, если $f$ и $f^{-1} : Y \to X$
+        непрерывны. Пространства $X$ и $Y$, между которыми существует хотя бы один гомеоморфизм,
+        называются <b>гомеоморфными</b>. При этом пишут $X \simeq Y$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Гомеоморфизм — это переименование точек, при котором открытые множества переходят ровно в
+        открытые. Для топологии гомеоморфные пространства <b>неразличимы</b>: любое утверждение,
+        сформулированное через открытые множества, верно в одном тогда и только тогда, когда верно в
+        другом. Отсюда расхожая фраза про кружку и бублик.</p>
+        <p>Биекции мало, нужна непрерывность в обе стороны. Непрерывность $f$ значит, что $f$ не
+        рвёт; непрерывность $f^{-1}$ — что $f$ не склеивает «далёкое» в «близкое».</p>
+      </div>
+
+      <div class="block block--example" id="ex-2" data-label="Ex. 2" data-title="Непрерывной биекции недостаточно">
+        <div class="block__label">Ex. 2 <span class="block__title">Непрерывной биекции недостаточно</span></div>
+        <p>Непрерывной биекции недостаточно. Для $X = \{p, q\}$ тождественное отображение</p>
+        $$f : (X, \tau_{\mathrm{d}}) \to (X, \tau_{\mathrm{a}}), \qquad f(x) = x,$$
+        <p>непрерывно. Однако обратное отображение $g = f^{-1}$ не является непрерывным: множество
+        $\{p\}$ открыто в дискретной топологии, но его прообраз не открыт в антидискретной топологии.</p>
+        $$g^{-1}(\{p\}) = \{p\}$$
+      </div>
+
+      <div data-viz="FiniteMapChecker" data-viz-config='{"preset":0,"title":"Ex. 2 руками: переключи на обратное отображение"}'></div>
+
+      <div class="block block--counter">
+        <div class="block__label">Контрпример</div>
+        <p>Ex. 2 выглядит искусственно, но то же самое случается и в «нормальных» пространствах.
+        Отображение $f : [0, 2\pi) \to S^1$, $f(t) = (\cos t, \sin t)$, — непрерывная биекция
+        полуинтервала на окружность. Обратное к нему разрывно в точке $(1, 0)$: точки окружности чуть
+        ниже $(1,0)$ переходят в углы, близкие к $2\pi$, а сама $(1,0)$ — в $0$. Окружность
+        «разрезана» в одной точке. И гомеоморфизма нет вовсе: окружность компактна, а полуинтервал —
+        нет, это <a href="#lm-4">Lm. 4</a>.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-3" data-label="Lm. 3" data-title="Гомеоморфизм — непрерывная открытая биекция">
+        <div class="block__label">Lm. 3 <span class="block__title">Гомеоморфизм — непрерывная открытая биекция</span></div>
+        <p>Непрерывная биекция $f : X \to Y$ является гомеоморфизмом тогда и только тогда, когда образы
+        открытых множеств открыты.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Условие леммы равносильно непрерывности $f^{-1}$. Действительно, для обратного
+            отображения прообраз множества $U \subseteq X$ — это $(f^{-1})^{-1}(U) = f(U)$.</div>
+            <div class="proof-step__why">почему: у биекции прообраз при обратном отображении совпадает с образом при прямом</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>По <a href="#th-3-1">Th. 3.1</a> $f^{-1}$ непрерывно тогда и только тогда, когда
+            $f(U)$ открыто для каждого открытого $U$. Вместе с непрерывностью самого $f$ это и есть
+            <a href="#def-2">Def. 2</a>.</div>
+            <div class="proof-step__why">почему: критерий непрерывности, применённый к $f^{-1}$</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--nb" id="nb-4" data-label="NB 4" data-title="Гомеоморфность — эквивалентность">
+        <div class="block__label">NB 4 <span class="block__title">Гомеоморфность — эквивалентность</span></div>
+        <p>Гомеоморфность — отношение эквивалентности.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Три свойства проверяются тем, что у нас уже есть. Рефлексивность: $\mathrm{id}_X$ —
+        гомеоморфизм (<a href="#ex-1">Ex. 1</a>). Симметричность: если $f$ — гомеоморфизм, то и
+        $f^{-1}$, определение симметрично. Транзитивность: композиция гомеоморфизмов — биекция,
+        непрерывная по <a href="#lm-1">Lm. 1</a>, с непрерывной обратной
+        $(g \circ f)^{-1} = f^{-1} \circ g^{-1}$, снова по Lm. 1. Значит все топологические
+        пространства распадаются на классы гомеоморфных, и топология изучает именно классы.</p>
+      </div>
+
+      <div class="block block--example" id="ex-3" data-label="Ex. 3" data-title="Интервал гомеоморфен прямой">
+        <div class="block__label">Ex. 3 <span class="block__title">Интервал гомеоморфен прямой</span></div>
+        <p>Гомеоморфизм интервала и прямой задаётся отображением</p>
+        $$\mathrm{tg} : \left(-\frac{\pi}{2}, \frac{\pi}{2}\right) \to \mathbb{R}_{\mathrm{st}}.$$
+        <p>При $a &lt; b$ линейная замена переменной даёт $(a, b) \simeq \mathbb{R}_{\mathrm{st}}$.</p>
+      </div>
+
+      <div data-viz="TangentStretch"></div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Длина, ограниченность и расстояние — <b>не</b> топологические свойства. Интервал длины $1$ и
+        бесконечная прямая гомеоморфны, хотя у одного длина конечна, а у другой нет. Гомеоморфизм
+        имеет право как угодно растягивать и сжимать — он не имеет права только рвать и склеивать.
+        Поэтому «ограниченность» ничего не говорит о гомеоморфности, а «компактность» говорит.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-4" data-label="Lm. 4" data-title="Компактность сохраняется гомеоморфизмами">
+        <div class="block__label">Lm. 4 <span class="block__title">Компактность сохраняется гомеоморфизмами</span></div>
+        <p>Гомеоморфные пространства одновременно компактны или некомпактны.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <p class="footnote">В PDF доказательства нет, оно следует из Th. 3.2 в два шага.</p>
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Пусть $h : X \to Y$ — гомеоморфизм и $X$ компактно. Тогда $Y = h(X)$ компактно как
+            непрерывный образ компакта.</div>
+            <div class="proof-step__why">почему: <a href="#th-3-2">Th. 3.2</a> с $K = X$ и сюръективность $h$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Если компактно $Y$, то $X = h^{-1}(Y)$ компактно по тому же рассуждению для
+            непрерывного $h^{-1}$.</div>
+            <div class="proof-step__why">почему: непрерывность обратного — часть <a href="#def-2">Def. 2</a></div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--example" id="ex-4" data-label="Ex. 4" data-title="Отрезок не гомеоморфен интервалу">
+        <div class="block__label">Ex. 4 <span class="block__title">Отрезок не гомеоморфен интервалу</span></div>
+        <p>При $a &lt; b$ отрезок $[a, b]$ не гомеоморфен интервалу $(a, b)$. Отрезок компактен по
+        теореме Гейне–Бореля. Если бы интервал был компактен, его непрерывный образ при указанном выше
+        гомеоморфизме — вся $\mathbb{R}$ — тоже был бы компактен, что противоречит доказанной в
+        предыдущей лекции некомпактности $\mathbb{R}$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Это шаблон всех доказательств негомеоморфности: найти свойство, которое гомеоморфизмы
+        сохраняют, и показать, что у одного пространства оно есть, а у другого нет. Здесь таким
+        свойством стала компактность, а цепочка рассуждений пробегает три лекции: Ex. 4 лекции 2
+        даёт некомпактность прямой, Ex. 3 переносит её на интервал, Lm. 4 запрещает гомеоморфизм
+        с компактным отрезком.</p>
+      </div>
+
+      <div class="block block--def" id="def-3" data-label="Def. 3" data-title="Топологический инвариант">
+        <div class="block__label">Def. 3 <span class="block__title">Топологический инвариант</span></div>
+        <p><b>Топологический инвариант</b> — свойство пространства, сохраняющееся при гомеоморфизмах.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-5" data-label="Lm. 5" data-title="Список инвариантов">
+        <div class="block__label">Lm. 5 <span class="block__title">Список инвариантов</span></div>
+        <p>Топологическими инвариантами являются компактность, первая и вторая аксиомы счётности и
+        аксиомы отделимости $T_1$ и $T_2$.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <p class="footnote">Для компактности это уже доказано (<a href="#lm-4">Lm. 4</a>). Пусть
+          $h : X \to Y$ — гомеоморфизм.</p>
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div><b>Аксиомы счётности.</b> Отображение $h$ переводит открытые множества в открытые.
+            Пусть в $X$ выбрана база $\beta$ или локальная база точки $x$. Тогда семейство
+            $\{h(B) : B \in \beta\}$ является соответствующей базой пространства $Y$ (в точке $h(x)$).</div>
+            <div class="proof-step__why">почему: открытость образов — <a href="#lm-3">Lm. 3</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Действительно, для открытого множества $V$, содержащего $h(x)$, существует элемент
+            $B \in \beta$, такой что</div>
+            <div class="proof-step__why">почему: $h^{-1}(V)$ — окрестность $x$ по непрерывности $h$, дальше определение базы</div>
+          </div>
+          $$x \in B \subseteq h^{-1}(V) \ \Longrightarrow\ h(x) \in h(B) \subseteq V.$$
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Число элементов базы не увеличивается, что даёт обе аксиомы счётности.</div>
+            <div class="proof-step__why">почему: семейство образов не больше исходного семейства</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div><b>Аксиомы отделимости.</b> Для $T_2$ возьмём различные точки $y_i = h(x_i)$ и
+            непересекающиеся окрестности $U_i$ точек $x_i$. Их образы являются открытыми окрестностями
+            точек $y_i$, причём по инъективности $h$</div>
+            <div class="proof-step__why">почему: у инъекции образ пересечения равен пересечению образов — ловушка из 3.1 здесь не срабатывает</div>
+          </div>
+          $$h(U_1) \cap h(U_2) = \varnothing.$$
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Для $T_1$ выберем окрестности $U_i$, не содержащие другую точку; их образы $h(U_i)$
+            обладают тем же свойством. Обратный перенос свойств доказывается тем же способом для
+            $h^{-1}$.</div>
+            <div class="proof-step__why">почему: $h^{-1}$ тоже гомеоморфизм (<a href="#nb-4">NB 4</a>)</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--ml" id="ml-flows" data-label="ИИ" data-title="Нормализующие потоки — гомеоморфизмы">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Обратимые сети — это гомеоморфизмы, и у них есть топологические ограничения.</b>
+        Нормализующие потоки и neural ODE переводят простое распределение, обычно гауссовское на
+        $\mathbb{R}^n$, в распределение данных обратимым непрерывным отображением с непрерывным
+        обратным, то есть гомеоморфизмом. По Lm. 5 такое отображение сохраняет топологические
+        инварианты. Поэтому поток не может идеально перевести $\mathbb{R}^n$ в распределение,
+        сосредоточенное на окружности или на двух несвязанных облаках: топология носителя другая. На
+        практике потоки «размазывают» данные тонкими перемычками между модами. Исправление из работы
+        об augmented neural ODE — добавить лишние измерения, где нужное преобразование уже
+        становится возможным.</p>
+        <p><b>Ex. 2 и кодирование углов.</b> Периодические признаки (час суток, угол поворота) кодируют
+        парой $(\cos t, \sin t)$ — это отображение полуинтервала на окружность из контрпримера выше.
+        Оно непрерывно, а обратное, функция $\mathrm{atan2}$, разрывно на разрезе. Поэтому регрессировать
+        сам угол плохо — модель штрафуется за «скачок» между $359^\circ$ и $0^\circ$, — а регрессировать
+        пару $(\cos, \sin)$ хорошо: на окружности разреза нет.</p>
+        <p><b>NB 3 и энкодеры.</b> Энкодер $f$ притягивает на пространство входов топологию
+        $f^{-1}(\tau)$: открыты ровно те множества входов, которые энкодер «видит» как открытые. Если
+        энкодер склеивает два входа, никакое открытое множество из $f^{-1}(\tau)$ их не разделит — это
+        коллапс представлений из <a href="lecture-02.html#ml-hausdorff">лекции 2</a>, увиденный с
+        другой стороны.</p>
+      </div>
+
+      <div class="block block--card" id="card-homeomorphism">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Определи гомеоморфизм. Почему непрерывной биекции недостаточно?
+        Приведи два примера.</p>
+        <div class="card__answer" data-card-answer>
+          <p>Биекция, непрерывная вместе с обратной. Непрерывной биекции мало, потому что обратная
+          может быть разрывна: $\mathrm{id} : (X, \tau_{\mathrm{d}}) \to (X, \tau_{\mathrm{a}})$
+          (<a href="#ex-2">Ex. 2</a>) и $[0, 2\pi) \to S^1$, $t \mapsto (\cos t, \sin t)$.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-invariants">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Что такое топологический инвариант? Как доказать, что $[a,b]$ и
+        $(a,b)$ не гомеоморфны?</p>
+        <div class="card__answer" data-card-answer>
+          <p>Свойство, сохраняющееся при гомеоморфизмах: компактность, I и II аксиомы счётности, $T_1$,
+          $T_2$ (<a href="#lm-5">Lm. 5</a>). Отрезок компактен, интервал гомеоморфен $\mathbb{R}$
+          через $\mathrm{tg}$ и потому некомпактен; по <a href="#lm-4">Lm. 4</a> гомеоморфизма нет.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-3-sum" data-section-id="lecture-03/summary">
+      <h2 id="h-3-sum" data-short="Итоги лекции">Итоги лекции</h2>
+
+      <div class="block block--summary">
+        <div class="block__label">Сводка</div>
+        <p>Что переносится отображениями и в какую сторону. Эта таблица — ответ на половину
+        теоретических вопросов по лекции.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Свойство</th><th>Непрерывное $f$</th><th>Гомеоморфизм</th></tr></thead>
+            <tbody>
+              <tr><td>открытость</td><td>назад: прообраз открытого открыт</td><td>в обе стороны</td></tr>
+              <tr><td>замкнутость</td><td>назад: прообраз замкнутого замкнут</td><td>в обе стороны</td></tr>
+              <tr><td>замыкание</td><td>$f(\mathrm{Cl}\,A) \subseteq \mathrm{Cl}\,f(A)$</td><td>$h(\mathrm{Cl}\,A) = \mathrm{Cl}\,h(A)$</td></tr>
+              <tr><td>компактность</td><td>вперёд: образ компакта компактен</td><td>в обе стороны</td></tr>
+              <tr><td>I, II аксиомы счётности</td><td>не обязаны</td><td>сохраняются</td></tr>
+              <tr><td>$T_1$, $T_2$</td><td>не обязаны</td><td>сохраняются</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="footnote">Равенство для замыканий у гомеоморфизма получается применением Lm. 2 к $h$
+        и к $h^{-1}$.</p>
+      </div>
+
+      <div class="block block--summary">
+        <div class="block__label">Сводка</div>
+        <p>Что нужно уметь после этой лекции:</p>
+        <ol>
+          <li>проверять непрерывность через прообразы открытых или замкнутых множеств;</li>
+          <li>ловить разрыв, предъявив одно открытое множество с неоткрытым прообразом;</li>
+          <li>отличать непрерывную биекцию от гомеоморфизма и приводить контрпример;</li>
+          <li>доказывать негомеоморфность через инвариант: компактность, счётность, отделимость;</li>
+          <li>помнить, что длина и ограниченность — не инварианты: $(a,b) \simeq \mathbb{R}$.</li>
+        </ol>
+      </div>
+
+      <div class="block block--summary">
+        <div class="block__label">Сводка</div>
+        <p>Три лекции как одна цепочка.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Лекция</th><th>Вопрос</th><th>Главный инструмент</th></tr></thead>
+            <tbody>
+              <tr><td><a href="lecture-01.html">1</a></td><td>как задать «близость» без расстояния</td><td>открытые множества, база</td></tr>
+              <tr><td><a href="lecture-02.html">2</a></td><td>какие пространства «хорошие»</td><td>счётность, компактность, $T_1$ и $T_2$</td></tr>
+              <tr><td>3</td><td>какие отображения уважают структуру</td><td>прообраз открытого открыт, инварианты</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

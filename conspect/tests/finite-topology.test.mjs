@@ -4,7 +4,8 @@ import {
   isTopology, allTopologies, describeTopology, describeSubset,
   interiorIn, closureIn, boundaryIn, isStronger, blockTopology,
   generatedByUnions, checkBase, isBaseOf, finiteIntersections,
-  separationFailure,
+  separationFailure, preimageMask, imageMask, continuityFailure, isBijection,
+  inverseMap, composeMaps, pullbackTopology,
 } from '../assets/finite-topology.js';
 
 test('Задача 1: на множестве из двух точек ровно 4 топологии', () => {
@@ -180,4 +181,60 @@ test('NB 4: на конечном множестве T₁ и T₂ совпада
 
 test('антидискретная топология не T₁', () => {
   assert.notEqual(separationFailure([0, 0b111], 3, 'T1'), null);
+});
+
+const DISCRETE_2 = [0, 1, 2, 3];
+const ANTIDISCRETE_2 = [0, 3];
+const IDENTITY_2 = [0, 1];
+
+test('preimageMask и imageMask для отображения конечных множеств', () => {
+  const swap = [1, 0];
+  assert.equal(preimageMask(swap, 0b01), 0b10);
+  assert.equal(imageMask([0, 0], 0b11), 0b01);
+});
+
+test('Ex. 2 лекции 3: id: (X, τ_d) → (X, τ_a) непрерывно', () => {
+  assert.equal(continuityFailure(IDENTITY_2, DISCRETE_2, ANTIDISCRETE_2), null);
+});
+
+test('Ex. 2 лекции 3: обратное id: (X, τ_a) → (X, τ_d) не непрерывно', () => {
+  const failure = continuityFailure(inverseMap(IDENTITY_2), ANTIDISCRETE_2, DISCRETE_2);
+  assert.notEqual(failure, null);
+  assert.equal(describeSubset(failure.open, ['p', 'q']), '{p}');
+  assert.equal(describeSubset(failure.preimage, ['p', 'q']), '{p}');
+});
+
+test('Ex. 1 лекции 3: постоянное отображение непрерывно при любых топологиях', () => {
+  for (const source of allTopologies(2)) {
+    for (const target of allTopologies(2)) {
+      assert.equal(continuityFailure([1, 1], source, target), null);
+    }
+  }
+});
+
+test('isBijection и inverseMap', () => {
+  assert.equal(isBijection([1, 0], 2), true);
+  assert.equal(isBijection([0, 0], 2), false);
+  assert.deepEqual(inverseMap([2, 0, 1]), [1, 2, 0]);
+});
+
+test('Lm. 1 лекции 3: композиция непрерывных непрерывна (перебор на двух точках)', () => {
+  const maps = [[0, 0], [0, 1], [1, 0], [1, 1]];
+  const topologies = allTopologies(2);
+  for (const tx of topologies) for (const ty of topologies) for (const tz of topologies) {
+    for (const f of maps) for (const g of maps) {
+      if (continuityFailure(f, tx, ty) || continuityFailure(g, ty, tz)) continue;
+      assert.equal(continuityFailure(composeMaps(g, f), tx, tz), null);
+    }
+  }
+});
+
+test('NB 3 лекции 3: прообраз топологии — топология, непрерывность ⇔ включение', () => {
+  const maps = [[0, 0], [0, 1], [1, 0], [1, 1]];
+  const topologies = allTopologies(2);
+  for (const f of maps) for (const tx of topologies) for (const ty of topologies) {
+    const pulled = pullbackTopology(f, ty);
+    assert.equal(isTopology(pulled, 2), true);
+    assert.equal(continuityFailure(f, tx, ty) === null, isStronger(tx, pulled));
+  }
 });

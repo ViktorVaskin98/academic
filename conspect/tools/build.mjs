@@ -8,12 +8,14 @@ const root = path.resolve(here, '..');
 const BUNDLE_MODULES = [
   'assets/topology.js',
   'assets/finite-topology.js',
+  'assets/mappings.js',
   'assets/metric.js',
   'assets/render.js',
   'assets/viz.js',
   'assets/widgets-bases.js',
   'assets/widgets-covers.js',
   'assets/widgets-separation.js',
+  'assets/widgets-maps.js',
   'assets/app.js',
 ];
 

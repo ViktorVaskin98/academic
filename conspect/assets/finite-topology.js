@@ -160,3 +160,34 @@ export function separationFailure(family, size, kind) {
   }
   return null;
 }
+
+export const preimageMask = (map, mask) => map.reduce(
+  (accumulated, target, source) => (mask & (1 << target) ? accumulated | (1 << source) : accumulated),
+  0,
+);
+
+export const imageMask = (map, mask) => map.reduce(
+  (accumulated, target, source) => (mask & (1 << source) ? accumulated | (1 << target) : accumulated),
+  0,
+);
+
+export function continuityFailure(map, topologyX, topologyY) {
+  for (const open of topologyY) {
+    const pulled = preimageMask(map, open);
+    if (!topologyX.includes(pulled)) return { open, preimage: pulled };
+  }
+  return null;
+}
+
+export const isBijection = (map, sizeY) => map.length === sizeY && new Set(map).size === sizeY;
+
+export function inverseMap(map) {
+  const inverse = [];
+  map.forEach((target, source) => { inverse[target] = source; });
+  return inverse;
+}
+
+export const composeMaps = (outer, inner) => inner.map((target) => outer[target]);
+
+export const pullbackTopology = (map, topologyY) =>
+  [...new Set(topologyY.map((open) => preimageMask(map, open)))].sort((x, y) => x - y);
