@@ -122,11 +122,11 @@
         <a href="#nb-2">NB 2</a>.</p>
       </div>
 
-      <div class="block block--example" id="ex-2" data-label="Ex. 2" data-title="Связное двоеточие">
-        <div class="block__label">Ex. 2 <span class="block__title">Связное двоеточие</span></div>
+      <div class="block block--example" id="ex-2" data-label="Ex. 2" data-title="Связанное двоеточие">
+        <div class="block__label">Ex. 2 <span class="block__title">Связанное двоеточие</span></div>
         <p>Пусть $X = \{a, b\}$ — множество из двух точек. Топологическое пространство
         $\langle X, \tau \rangle$, где $\tau = \{\varnothing, X, \{b\}\}$, называется
-        <b>связным двоеточием</b>.</p>
+        <b>связанным двоеточием</b>.</p>
       </div>
 
       <div class="block block--intuition">
@@ -163,7 +163,8 @@
         $(a_1, b_1) \cap (a_2, b_2) = (\max(a_1,a_2),\ \min(b_1,b_2))$. Конечные пересечения не выводят
         нас из семейства, а бесконечные объединения — выводят, поэтому их приходится добавлять явно.
         Семейство, из которого объединениями получается вся топология, называется <b>базой</b>;
-        интервалы — база $\tau_{\mathrm{st}}$. Этот термин появится в задачах 8b и 13.</p>
+        интервалы — база $\tau_{\mathrm{st}}$. Строго это понятие вводится в разделе 1.4
+        (<a href="#def-13">Def. 13</a>), а на практике нужно в задачах 8b и 13.</p>
       </div>
 
       <div class="block block--example" id="ex-4" data-label="Ex. 4" data-title="Топология стрелки">
@@ -1048,7 +1049,355 @@
 
     <!-- ================================================================= -->
     <section id="s-1-4" data-section-id="lecture-01/1.4">
-      <h2 id="h-1-4" data-short="1.4 Сводка и что дальше">1.4 Сводка и что дальше</h2>
+      <h2 id="h-1-4" data-short="1.4 База и предбаза">1.4 База и предбаза топологии</h2>
+
+      <p>Топология — огромный объект. Даже на прямой открытых множеств несчётно много, и перечислять
+      их бессмысленно. Нужен способ задать топологию экономно: указать небольшой набор «кирпичей»,
+      из которых всё остальное собирается стандартными операциями. Этот раздел про такие наборы.</p>
+
+      <div class="block block--def" id="def-13" data-label="Def. 13" data-title="База топологии">
+        <div class="block__label">Def. 13 <span class="block__title">База топологии</span></div>
+        <p>Семейство $\beta$ подмножеств $X$ называется <b>базой топологии</b> $\tau$, если $\beta$
+        содержится в $\tau$ и для каждой точки $P \in X$ и любой её окрестности $O_P$ существует
+        элемент $V \in \beta$, такой что $P \in V \subseteq O_P$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>База — это набор <b>эталонных окрестностей</b>, достаточно мелких, чтобы протиснуться
+        внутрь любой окрестности любой точки. В метрическом пространстве так работают маленькие
+        открытые шары: чтобы проверить, что точка внутренняя, никто не перебирает все открытые
+        множества, достаточно найти шарик вокруг неё.</p>
+        <p>Сравни с <a href="#def-6">Def. 6</a>. Там внутренняя точка определялась через
+        «существует окрестность $O_P \subseteq S$». С базой это условие можно проверять только на
+        элементах базы: $P$ внутренняя тогда и только тогда, когда найдётся $V \in \beta$ с
+        $P \in V \subseteq S$. Перебор сужается от всей топологии до базы, и именно поэтому базы
+        удобны в доказательствах.</p>
+        <p>Важная деталь: база — свойство <b>пары</b> «семейство и топология». Одно и то же
+        семейство может быть базой одной топологии и не быть базой другой.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-6" data-label="Lm. 6" data-title="Критерий базы через объединения">
+        <div class="block__label">Lm. 6 <span class="block__title">Критерий базы через объединения</span></div>
+        <p>Пусть $\beta \subseteq \tau$. Семейство $\beta$ является <b>базой топологии</b> $\tau$
+        тогда и только тогда, когда каждый элемент из $\tau$ является объединением элементов
+        из $\beta$.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <p class="footnote">Две стороны эквивалентности: локальное определение
+          (<a href="#def-13">Def. 13</a>, «вокруг каждой точки») равносильно глобальному
+          («каждое открытое множество собирается из кирпичей»).</p>
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>$(\Rightarrow)$ Пусть $\beta$ — база и $O \in \tau$. Обозначим через $U$ объединение
+            всех элементов базы, которые лежат в $O$. По построению $U \subseteq O$.</div>
+            <div class="proof-step__why">почему: каждый слагаемый элемент содержится в $O$, значит и их объединение</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Возьмём любую точку $P \in O$. Множество $O$ открыто и содержит $P$, то есть служит её
+            окрестностью $O_P$. По определению базы найдётся $V \in \beta$ с $P \in V \subseteq O$.</div>
+            <div class="proof-step__why">почему: <a href="#def-13">Def. 13</a>, применённое к окрестности $O_P = O$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Такое $V$ лежит в $O$, значит участвует в объединении $U$, и поэтому $P \in U$.
+            Точка была произвольной, так что $O \subseteq U$. Вместе с шагом 1 получаем $U = O$:
+            открытое множество собрано из элементов базы.</div>
+            <div class="proof-step__why">почему: два включения дают равенство множеств</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>$(\Leftarrow)$ Пусть $\beta \subseteq \tau$ и каждый элемент $\tau$ — объединение
+            элементов $\beta$. Возьмём точку $P$ и её окрестность $O_P = \bigcup_i V_i$, где
+            $V_i \in \beta$. Точка $P$ лежит хотя бы в одном $V_i$, и это $V_i \subseteq O_P$.
+            Это ровно условие <a href="#def-13">Def. 13</a>.</div>
+            <div class="proof-step__why">почему: точка объединения лежит хотя бы в одном из слагаемых</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Условие $\beta \subseteq \tau$ в Lm. 6 не украшение. Без него критерий ломается:
+        если разрешить в базе неоткрытые множества, то из полуинтервалов $[a,b)$ объединениями
+        тоже собирается любое открытое множество прямой, но полуинтервалы не открыты в
+        $\tau_{\mathrm{st}}$, поэтому базой стандартной топологии не являются. Они служат базой
+        <b>другой</b>, более сильной топологии — топологии Зоргенфрея, где $[a,b)$ объявлены
+        открытыми.</p>
+      </div>
+
+      <div class="block block--example" id="ex-12" data-label="Ex. 12" data-title="Интервалы с рациональными концами">
+        <div class="block__label">Ex. 12 <span class="block__title">Интервалы с рациональными концами</span></div>
+        <p>Множество $\beta_{\mathrm{st}} = \{(a, b) : a, b \in \mathbb{Q}\}$ — база топологического
+        пространства $\langle \mathbb{R}, \tau_{\mathrm{st}} \rangle$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Проверим по <a href="#def-13">Def. 13</a>. Пусть $P$ лежит в открытом множестве $O$.
+        Тогда вокруг $P$ есть интервал $(c,d) \subseteq O$. Между $c$ и $P$ найдётся рациональное
+        $a$, между $P$ и $d$ — рациональное $b$, потому что рациональные числа всюду плотны
+        (вспомни <a href="#ex-9">Ex. 9</a>). Получаем $P \in (a,b) \subseteq (c,d) \subseteq O$.</p>
+        <p>Зачем этот пример в лекции: интервалов с рациональными концами <b>счётное</b> число,
+        ведь пар рациональных чисел столько же, сколько рациональных. Значит у прямой есть
+        счётная база. Это ровно вторая аксиома счётности из следующей лекции, и Ex. 12 — её
+        главный пример.</p>
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Почему рациональных интервалов хватает</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 620 170" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Между границей окрестности и точкой всегда найдётся рациональное число">
+            <line x1="30" y1="95" x2="590" y2="95" stroke="var(--border-strong)" stroke-width="1.5"/>
+            <line x1="120" y1="95" x2="500" y2="95" stroke="var(--role-neighborhood)" stroke-width="10" stroke-opacity="0.35"/>
+            <circle cx="120" cy="95" r="6" fill="var(--bg-deep)" stroke="var(--role-neighborhood)" stroke-width="2"/>
+            <circle cx="500" cy="95" r="6" fill="var(--bg-deep)" stroke="var(--role-neighborhood)" stroke-width="2"/>
+            <text x="120" y="125" text-anchor="middle" font-size="15" fill="var(--role-neighborhood)">c</text>
+            <text x="500" y="125" text-anchor="middle" font-size="15" fill="var(--role-neighborhood)">d</text>
+            <text x="310" y="40" text-anchor="middle" font-size="14" fill="var(--role-neighborhood)">окрестность (c, d) ⊆ O</text>
+            <line x1="215" y1="95" x2="420" y2="95" stroke="var(--role-interior)" stroke-width="6"/>
+            <circle cx="215" cy="95" r="6" fill="var(--bg-deep)" stroke="var(--role-interior)" stroke-width="2"/>
+            <circle cx="420" cy="95" r="6" fill="var(--bg-deep)" stroke="var(--role-interior)" stroke-width="2"/>
+            <text x="215" y="125" text-anchor="middle" font-size="15" fill="var(--role-interior)">a ∈ ℚ</text>
+            <text x="420" y="125" text-anchor="middle" font-size="15" fill="var(--role-interior)">b ∈ ℚ</text>
+            <circle cx="300" cy="95" r="7" fill="var(--role-highlight)"/>
+            <text x="300" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="var(--role-highlight)">P</text>
+            <text x="310" y="155" text-anchor="middle" font-size="14" fill="var(--text-muted)">P ∈ (a, b) ⊆ (c, d) — элемент β_st протиснулся в окрестность</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="block block--nb" id="nb-7" data-label="NB 7" data-title="Не всякое семейство — база">
+        <div class="block__label">NB 7 <span class="block__title">Не всякое семейство — база</span></div>
+        <p>Не всякое семейство множеств $\beta$ является базой некоторой топологии $\tau$.
+        В качестве контрпримера рассмотрим множество $X = \{a, b, c\}$ и систему
+        $\beta = \{\varnothing, X, \{a, b\}, \{a, c\}\}$.</p>
+      </div>
+
+      <div class="block block--counter">
+        <div class="block__label">Контрпример</div>
+        <p>Препод даёт контрпример без объяснения, разберём. Если бы $\beta$ была базой какой-то
+        топологии $\tau$, то $\{a,b\}$ и $\{a,c\}$ были бы открыты, а значит открыто и их
+        пересечение $\{a\}$ по аксиоме 3. Тогда по <a href="#def-13">Def. 13</a> внутри
+        окрестности $\{a\}$ точки $a$ должен лежать элемент $\beta$, содержащий $a$. Но таких нет:
+        все элементы $\beta$, содержащие $a$, — это $X$, $\{a,b\}$, $\{a,c\}$, и ни один не
+        помещается в $\{a\}$.</p>
+        <p>Мораль: из кирпичей $\beta$ объединениями нельзя получить их же пересечение. Семейство
+        выглядит разумно, в нём есть даже $\varnothing$ и $X$, но оно не замкнуто «достаточно
+        хорошо» относительно пересечений. В виджете ниже это первый пример, а второй показывает,
+        что одного добавленного $\{a\}$ хватает, чтобы всё починить.</p>
+      </div>
+
+      <div class="block block--theorem" id="th-1-1" data-label="Th. 1.1" data-title="Когда семейство порождает топологию">
+        <div class="block__label">Th. 1.1 <span class="block__title">Когда семейство порождает топологию</span></div>
+        <p>Семейство $\beta$ подмножеств $X$ является базой некоторой топологии на $X$ тогда и только
+        тогда, когда $\bigcup_{V \in \beta} V = X$ и для любых двух элементов $V_1, V_2 \in \beta$
+        и каждой точки $P \in V_1 \cap V_2$ существует элемент $W \in \beta$, такой что
+        $P \in W \subseteq V_1 \cap V_2$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Разница с <a href="#lm-6">Lm. 6</a> принципиальная. Lm. 6 отвечает на вопрос «является
+        ли $\beta$ базой <b>данной</b> топологии $\tau$». Th. 1.1 отвечает на вопрос «существует ли
+        вообще топология, базой которой $\beta$ является» — топологии заранее нет, её нужно
+        построить. И строится она единственным образом: как все объединения элементов $\beta$.</p>
+        <p>Два условия — это ровно то, что нужно, чтобы такие объединения прошли три аксиомы
+        <a href="#def-1">Def. 1</a>. Аксиома 2 выполнена даром, объединение объединений — снова
+        объединение. Первое условие обеспечивает $X$ из аксиомы 1. А второе условие — это
+        «локальная» версия аксиомы 3: пересечение двух кирпичей не обязано быть кирпичом, но
+        обязано складываться из кирпичей.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>$(\Rightarrow)$ Пусть $\beta$ — база топологии $\tau$. Множество $X$ открыто и
+            является окрестностью каждой своей точки, поэтому каждая точка лежит в некотором
+            элементе $\beta$, то есть $\bigcup_{V \in \beta} V = X$.</div>
+            <div class="proof-step__why">почему: <a href="#def-13">Def. 13</a> с окрестностью $O_P = X$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Если $V_1, V_2 \in \beta$ и $P \in V_1 \cap V_2$, то $V_1 \cap V_2$ открыто как
+            пересечение двух открытых и содержит $P$. По определению базы есть
+            $W \in \beta$ с $P \in W \subseteq V_1 \cap V_2$.</div>
+            <div class="proof-step__why">почему: $\beta \subseteq \tau$ и аксиома 3, затем снова Def. 13</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>$(\Leftarrow)$ Пусть оба условия выполнены. Обозначим через $\tau$ семейство всех
+            объединений элементов $\beta$. Тогда $\varnothing \in \tau$ как объединение пустого
+            семейства, а $X \in \tau$ по первому условию. Аксиома объединения очевидна.</div>
+            <div class="proof-step__why">почему: аксиомы 1 и 2 из <a href="#def-1">Def. 1</a> проверяются прямо по построению</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Аксиома пересечения. Пусть $O_1, O_2 \in \tau$ и $P \in O_1 \cap O_2$. Так как $O_1$
+            и $O_2$ — объединения элементов $\beta$, найдутся $V_1, V_2 \in \beta$ с
+            $P \in V_1 \subseteq O_1$ и $P \in V_2 \subseteq O_2$.</div>
+            <div class="proof-step__why">почему: точка объединения лежит хотя бы в одном слагаемом</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>По второму условию есть $W \in \beta$ с $P \in W \subseteq V_1 \cap V_2 \subseteq
+            O_1 \cap O_2$. Такой $W$ находится для каждой точки пересечения, и объединение всех этих
+            $W$ даёт ровно $O_1 \cap O_2$. Значит $O_1 \cap O_2 \in \tau$, а по индукции и любое
+            конечное пересечение.</div>
+            <div class="proof-step__why">почему: второе условие теоремы, затем приём из шагов 1–3 <a href="#lm-6">Lm. 6</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">6.</div>
+            <div>Итак, $\tau$ — топология. Поскольку $\beta \subseteq \tau$ и каждый элемент $\tau$ —
+            объединение элементов $\beta$, по <a href="#lm-6">Lm. 6</a> семейство $\beta$ — её база.</div>
+            <div class="proof-step__why">почему: Lm. 6 в направлении $(\Leftarrow)$</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div data-viz="BaseBuilder"></div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Второе условие Th. 1.1 часто читают как «пересечение двух элементов базы снова лежит в
+        базе». Это слишком сильно и неверно. Классический пример — открытые круги на плоскости:
+        пересечение двух кругов — линза, а не круг. Тем не менее круги образуют базу, потому что
+        вокруг <b>каждой точки</b> линзы помещается маленький круг. Условие поточечное, а не
+        поэлементное.</p>
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Пересечение кругов — не круг, но условие Th. 1.1 выполнено</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 620 250" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Два пересекающихся круга, в их пересечении вокруг точки помещается маленький круг">
+            <circle cx="250" cy="125" r="95" fill="var(--role-set)" fill-opacity="0.14"
+                    stroke="var(--role-set)" stroke-width="2"/>
+            <circle cx="370" cy="125" r="95" fill="var(--role-interior)" fill-opacity="0.14"
+                    stroke="var(--role-interior)" stroke-width="2"/>
+            <text x="175" y="60" font-size="16" font-weight="700" fill="var(--role-set)">V₁</text>
+            <text x="430" y="60" font-size="16" font-weight="700" fill="var(--role-interior)">V₂</text>
+            <circle cx="320" cy="98" r="13" fill="var(--role-highlight)" fill-opacity="0.25"
+                    stroke="var(--role-highlight)" stroke-width="2"/>
+            <circle cx="320" cy="98" r="4" fill="var(--role-highlight)"/>
+            <text x="338" y="94" font-size="15" font-weight="700" fill="var(--role-highlight)">P</text>
+            <text x="310" y="242" text-anchor="middle" font-size="14" fill="var(--text-muted)">
+              маленький круг W: P ∈ W ⊆ V₁ ∩ V₂ — хотя сама линза V₁ ∩ V₂ кругом не является
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="block block--def" id="def-14" data-label="Def. 14" data-title="Предбаза">
+        <div class="block__label">Def. 14 <span class="block__title">Предбаза</span></div>
+        <p>Набор $\sigma$ открытых множеств топологического пространства $\langle X, \tau \rangle$
+        называется <b>предбазой</b>, если следующий набор является базой топологии $\tau$:</p>
+        $$\beta = \left\{ V : \ V = \bigcap_{i=1}^{k} W_i, \quad W_i \in \sigma, \quad k \in \mathbb{N} \right\}.$$
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Предбаза — ещё более экономный набор генераторов. Разрешено две операции подряд: сначала
+        конечные пересечения (получаем базу), потом произвольные объединения (получаем топологию).
+        За экономию платим тем, что элементы предбазы могут быть совсем «грубыми».</p>
+        <p>Главный пример: лучи $(a, +\infty)$ и $(-\infty, b)$ образуют предбазу
+        $\tau_{\mathrm{st}}$. Ни один луч не похож на маленькую окрестность, но пересечение двух
+        лучей $(a, +\infty) \cap (-\infty, b) = (a, b)$ — уже интервал, а интервалы — база.</p>
+        <p>Отсюда же видно, почему в <a href="#ex-4">Ex. 4</a> топология стрелки устроена так
+        бедно: если взять только правые лучи $(a, +\infty)$, их пересечения снова дают правые лучи,
+        интервалов не возникает, и получается более слабая топология.</p>
+      </div>
+
+      <div class="block block--summary">
+        <div class="block__label">Сводка</div>
+        <p>Три уровня описания одной топологии и что с ними разрешено делать.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Объект</th><th>Как получить топологию</th><th>Пример для $\tau_{\mathrm{st}}$</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>топология $\tau$</td><td>уже готова</td><td>все открытые множества прямой</td></tr>
+              <tr><td>база $\beta$</td><td>произвольные объединения</td><td>интервалы $(a,b)$, $a, b \in \mathbb{Q}$</td></tr>
+              <tr><td>предбаза $\sigma$</td><td>конечные пересечения, затем объединения</td><td>лучи $(a,+\infty)$ и $(-\infty,b)$</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="footnote">Проверка, что семейство — база: если топология дана, то
+        <a href="#lm-6">Lm. 6</a>; если её ещё нет, то <a href="#th-1-1">Th. 1.1</a>.</p>
+      </div>
+
+      <div class="block block--ml" id="ml-trees" data-label="ИИ" data-title="Решающие деревья строят множества из предбазы">
+        <div class="block__label">Связь с ИИ</div>
+        <p>Решающее дерево буквально проходит все три уровня этой иерархии. Каждое разбиение в узле —
+        полупространство вида $\{x : x_j &gt; t\}$ или $\{x : x_j &lt; t\}$, то есть луч по одной
+        координате. Это элементы предбазы стандартной топологии $\mathbb{R}^n$.</p>
+        <p>Путь от корня до листа — конечное пересечение таких лучей, то есть параллелепипед
+        $(a_1,b_1) \times \dots \times (a_n,b_n)$. Это элементы базы из <a href="#ex-7">Ex. 7</a>.
+        Область, где дерево отвечает «класс 1», — объединение листьев этого класса, то есть
+        объединение элементов базы.</p>
+        <p>Отсюда понятна и главная слабость деревьев: их «кирпичи» — только прямоугольники,
+        выровненные по осям. Наклонную границу решения дерево собирает лесенкой из множества
+        мелких прямоугольников, хотя топологически эта граница ничем не хуже. Модели с
+        наклонными разбиениями (oblique trees, линейные слои нейросети) используют другие
+        полупространства и другую предбазу той же самой топологии.</p>
+        <p>Ещё одно наблюдение — про рациональные пороги из <a href="#ex-12">Ex. 12</a>. Любой
+        порог разбиения можно заменить рациональным, не изменив ни одной точки данных, потому что
+        между любыми двумя различными значениями признака найдётся рациональное число.</p>
+      </div>
+
+      <div class="block block--card" id="card-base">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Дай определение базы топологии и сформулируй критерий из Lm. 6.</p>
+        <div class="card__answer" data-card-answer>
+          <p>$\beta \subseteq \tau$ — база, если для каждой точки $P$ и любой её окрестности $O_P$
+          есть $V \in \beta$ с $P \in V \subseteq O_P$. Критерий: при $\beta \subseteq \tau$ это
+          равносильно тому, что каждый элемент $\tau$ — объединение элементов $\beta$.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-th11">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Сформулируй Th. 1.1 и объясни, почему семейство из NB 7
+        не является базой.</p>
+        <div class="card__answer" data-card-answer>
+          <p>$\beta$ — база некоторой топологии тогда и только тогда, когда $\bigcup \beta = X$ и для
+          любых $V_1, V_2 \in \beta$ и $P \in V_1 \cap V_2$ есть $W \in \beta$ с
+          $P \in W \subseteq V_1 \cap V_2$. В NB 7 $\{a,b\} \cap \{a,c\} = \{a\}$, а элемента
+          $\beta$, содержащего $a$ и лежащего в $\{a\}$, нет.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-subbase">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Чем предбаза отличается от базы? Приведи предбазу стандартной
+        топологии прямой.</p>
+        <div class="card__answer" data-card-answer>
+          <p>Из базы топология получается объединениями, из предбазы — сначала конечными
+          пересечениями (получается база), потом объединениями. Предбаза $\tau_{\mathrm{st}}$ —
+          лучи $(a,+\infty)$ и $(-\infty,b)$: их пересечения дают интервалы $(a,b)$.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-1-sum" data-section-id="lecture-01/summary">
+      <h2 id="h-1-sum" data-short="Итоги лекции">Итоги лекции и что дальше</h2>
 
       <div class="block block--summary">
         <div class="block__label">Сводка</div>
@@ -1139,7 +1488,7 @@
         </div>
       </div>
 
-      <h3 id="h-1-4-zoo">Зоопарк контрпримеров: куда мы идём</h3>
+      <h3 id="h-1-sum-zoo">Зоопарк контрпримеров: куда мы идём</h3>
       <p>Определения этой лекции выглядят избыточно формальными, пока не увидишь, как ломается
       наглядная интуиция. Два примера ниже — из будущих разделов курса, смотреть их сейчас
       полезно именно как мотивацию.</p>

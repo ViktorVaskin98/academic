@@ -10,31 +10,62 @@ const BUNDLE_MODULES = [
   'assets/finite-topology.js',
   'assets/render.js',
   'assets/viz.js',
+  'assets/widgets-bases.js',
   'assets/app.js',
 ];
 
 const CHEATSHEET_KINDS = new Set(['def', 'lemma', 'theorem', 'nb']);
 const INDEX_SKIP_KINDS = new Set(['card']);
 
-const stripModuleSyntax = (source) => source
-  .replace(/import\s+[^;]*?from\s+['"][^'"]+['"];/g, '')
-  .replace(/export\s*\{[^}]*\}\s*;?/g, '')
-  .replace(/^export\s+/gm, '');
+const IMPORT_PATTERN = /import\s*\{([^}]*)\}\s*from\s*['"]\.\/([\w-]+)\.js['"];/g;
+const DECLARED_EXPORT_PATTERN = /^export\s+(?:async\s+)?(?:const|let|function\*?|class)\s+([A-Za-z_$][\w$]*)/gm;
+const LISTED_EXPORT_PATTERN = /^export\s*\{([^}]*)\}\s*;?/gm;
 
-export async function buildBundle() {
-  const parts = [];
-  for (const relative of BUNDLE_MODULES) {
-    const source = await readFile(path.join(root, relative), 'utf8');
-    parts.push(`/* ---- ${relative} ---- */\n${stripModuleSyntax(source).trim()}`);
+const splitNames = (list) => list.split(',').map((name) => name.trim()).filter(Boolean);
+
+function wrapModule({ name, source }) {
+  const exported = [
+    ...[...source.matchAll(DECLARED_EXPORT_PATTERN)].map((match) => match[1]),
+    ...[...source.matchAll(LISTED_EXPORT_PATTERN)].flatMap((match) => splitNames(match[1])),
+  ];
+  const body = source
+    .replace(IMPORT_PATTERN, (_, names, file) => `const { ${splitNames(names).join(', ')} } = __modules['${file}'];`)
+    .replace(LISTED_EXPORT_PATTERN, '')
+    .replace(/^export\s+/gm, '');
+  if (/^\s*import\s/m.test(body)) {
+    throw new Error(`${name}: неподдерживаемый импорт, используй import { ... } from './file.js'`);
   }
-  const bundle = [
+  return [
+    `/* ---- ${name} ---- */`,
+    `__modules['${name}'] = (() => {`,
+    body.trim(),
+    `return { ${exported.join(', ')} };`,
+    '})();',
+  ].join('\n');
+}
+
+export function bundleModules(modules) {
+  return [
     '/* Собрано автоматически: node tools/build.mjs. Правь модули в assets/, не этот файл. */',
     '(function () {',
     '"use strict";',
-    parts.join('\n\n'),
+    'const __modules = {};',
+    modules.map(wrapModule).join('\n\n'),
+    '/*EXPOSE*/',
     '})();',
     '',
   ].join('\n');
+}
+
+export async function buildBundle() {
+  const modules = [];
+  for (const relative of BUNDLE_MODULES) {
+    modules.push({
+      name: path.basename(relative, '.js'),
+      source: await readFile(path.join(root, relative), 'utf8'),
+    });
+  }
+  const bundle = bundleModules(modules);
   await writeFile(path.join(root, 'assets/bundle.js'), bundle, 'utf8');
   return bundle.length;
 }

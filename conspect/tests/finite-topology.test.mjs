@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   isTopology, allTopologies, describeTopology, describeSubset,
   interiorIn, closureIn, boundaryIn, isStronger, blockTopology,
+  generatedByUnions, checkBase, isBaseOf, finiteIntersections,
 } from '../assets/finite-topology.js';
 
 test('Задача 1: на множестве из двух точек ровно 4 топологии', () => {
@@ -90,4 +91,65 @@ test('Задача 2: в топологии {∅,{0},{0,1}} множество {
   const subsetOne = 0b10;
   assert.equal(describeSubset(interiorIn(topology, subsetOne), labels), '∅');
   assert.equal(describeSubset(closureIn(topology, subsetOne, 2), labels), '{1}');
+});
+
+const ABC = ['a', 'b', 'c'];
+const A = 0b001;
+const B = 0b010;
+const C = 0b100;
+const ALL = 0b111;
+
+test('generatedByUnions замыкает семейство по объединениям и добавляет пустое', () => {
+  const generated = generatedByUnions([A, A | B, A | C], 3);
+  assert.equal(describeTopology(generated, ABC), '{∅, {a}, {a, b}, {a, c}, {a, b, c}}');
+});
+
+test('NB 7: β = {∅, X, {a,b}, {a,c}} не база никакой топологии', () => {
+  const verdict = checkBase([0, ALL, A | B, A | C], 3);
+  assert.equal(verdict.ok, false);
+  assert.equal(verdict.reason, 'intersection');
+  assert.equal(describeSubset(verdict.point, ABC), '{a}');
+  assert.equal(describeSubset(verdict.first & verdict.second, ABC), '{a}');
+});
+
+test('Th. 1.1: семейство, не покрывающее X, не база', () => {
+  const verdict = checkBase([A, B], 3);
+  assert.equal(verdict.ok, false);
+  assert.equal(verdict.reason, 'cover');
+  assert.equal(describeSubset(verdict.missing, ABC), '{c}');
+});
+
+test('Th. 1.1: добавление {a} чинит контрпример из NB 7', () => {
+  const verdict = checkBase([A, A | B, A | C], 3);
+  assert.equal(verdict.ok, true);
+  assert.equal(isTopology(verdict.topology, 3), true);
+});
+
+test('Lm. 6: одноточечные множества — база дискретной топологии', () => {
+  const discrete = allTopologies(3).find((family) => family.length === 8);
+  assert.equal(isBaseOf([A, B, C], discrete, 3), true);
+});
+
+test('Lm. 6: база обязана лежать в топологии', () => {
+  const sierpinski = [0, A, ALL];
+  assert.equal(isBaseOf([A, B, ALL], sierpinski, 3), false);
+});
+
+test('Lm. 6: семейство из топологии, не порождающее её, не база', () => {
+  const discrete = allTopologies(3).find((family) => family.length === 8);
+  assert.equal(isBaseOf([A | B, ALL], discrete, 3), false);
+});
+
+test('блоки неразличимых объектов — база блочной топологии', () => {
+  const labels = ['a', 'b', 'c', 'd', 'e', 'f'];
+  const blocks = [['a', 'b'], ['c', 'd'], ['e', 'f']];
+  const topology = blockTopology(blocks, labels);
+  assert.equal(isBaseOf([0b000011, 0b001100, 0b110000], topology, 6), true);
+});
+
+test('Def. 14: конечные пересечения предбазы образуют базу', () => {
+  const subbase = [A | B, A | C];
+  const base = finiteIntersections(subbase);
+  assert.deepEqual([...base].sort((x, y) => x - y), [A, A | B, A | C]);
+  assert.equal(checkBase(base, 3).ok, true);
 });

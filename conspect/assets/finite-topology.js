@@ -84,3 +84,58 @@ export const coveringEdges = (families) => {
   }
   return edges;
 };
+
+export function generatedByUnions(family) {
+  const unions = new Set([0]);
+  for (const member of family) {
+    for (const existing of [...unions]) unions.add(existing | member);
+  }
+  return [...unions].sort((x, y) => x - y);
+}
+
+const hasBaseWitness = (family, point, overlap) =>
+  family.some((candidate) => (candidate & point) && (candidate & ~overlap) === 0);
+
+export function checkBase(family, size) {
+  const universe = fullMask(size);
+  const covered = family.reduce((accumulated, member) => accumulated | member, 0);
+  if (covered !== universe) {
+    return { ok: false, reason: 'cover', missing: universe & ~covered };
+  }
+  for (const first of family) {
+    for (const second of family) {
+      const overlap = first & second;
+      for (let bit = 0; bit < size; bit += 1) {
+        const point = 1 << bit;
+        if ((overlap & point) && !hasBaseWitness(family, point, overlap)) {
+          return { ok: false, reason: 'intersection', first, second, point };
+        }
+      }
+    }
+  }
+  return { ok: true, topology: generatedByUnions(family) };
+}
+
+export function isBaseOf(family, topology) {
+  if (!family.every((member) => topology.includes(member))) return false;
+  const generated = generatedByUnions(family);
+  return generated.length === topology.length
+    && generated.every((member) => topology.includes(member));
+}
+
+export function finiteIntersections(subbase) {
+  const intersections = new Set(subbase);
+  let grew = true;
+  while (grew) {
+    grew = false;
+    for (const first of [...intersections]) {
+      for (const second of [...intersections]) {
+        if (!intersections.has(first & second)) {
+          intersections.add(first & second);
+          grew = true;
+        }
+      }
+    }
+  }
+  return [...intersections];
+}

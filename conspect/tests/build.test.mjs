@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { extractEntries, latexToPlain } from '../tools/build.mjs';
+import { extractEntries, latexToPlain, bundleModules } from '../tools/build.mjs';
 
 test('latexToPlain переводит формулы в читаемый юникод', () => {
   assert.equal(latexToPlain('система $\\tau = \\{T_\\alpha\\} \\subseteq 2^X$'), 'система τ = {T_α} ⊆ 2^X');
@@ -83,4 +83,34 @@ test('extractEntries переживает вложенные div внутри б
   assert.ok(entries[0].text.includes('Шаг.'));
   assert.equal(entries[1].id, 'ex-1');
   assert.equal(entries[1].text, 'После вложенного блока.');
+});
+
+const runBundle = (modules) => {
+  const sink = {};
+  new Function('sink', bundleModules(modules).replace('/*EXPOSE*/', 'sink.modules = __modules;'))(sink);
+  return sink.modules;
+};
+
+test('bundleModules изолирует приватные имена модулей друг от друга', () => {
+  const modules = runBundle([
+    { name: 'left', source: 'const clamp = (x) => x + 1;\nexport const useLeft = (x) => clamp(x);' },
+    { name: 'right', source: 'const clamp = (x) => x * 10;\nexport function useRight(x) { return clamp(x); }' },
+  ]);
+  assert.equal(modules.left.useLeft(1), 2);
+  assert.equal(modules.right.useRight(1), 10);
+});
+
+test('bundleModules связывает импорты с экспортами другого модуля', () => {
+  const modules = runBundle([
+    { name: 'core', source: 'export const double = (x) => 2 * x;\nconst registry = new Map();\nexport { registry };' },
+    { name: 'user', source: "import {\n  double,\n  registry,\n} from './core.js';\nregistry.set('k', double(21));\nexport const read = () => registry.get('k');" },
+  ]);
+  assert.equal(modules.user.read(), 42);
+});
+
+test('bundleModules отказывается от неподдерживаемого синтаксиса импорта', () => {
+  assert.throws(
+    () => bundleModules([{ name: 'bad', source: "import thing from './core.js';" }]),
+    /неподдерживаемый импорт/,
+  );
 });

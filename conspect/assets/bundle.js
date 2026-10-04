@@ -1,7 +1,9 @@
 /* Собрано автоматически: node tools/build.mjs. Правь модули в assets/, не этот файл. */
 (function () {
 "use strict";
-/* ---- assets/topology.js ---- */
+const __modules = {};
+/* ---- topology ---- */
+__modules['topology'] = (() => {
 const interval = (lo, hi, loClosed, hiClosed) => ({ lo, hi, loClosed, hiClosed });
 
 const point = (x) => interval(x, x, true, true);
@@ -182,8 +184,11 @@ function classifyPoint(s, x, topology = TOPOLOGIES.st) {
   if (contains(boundary(s, topology), x)) return 'boundary';
   return 'exterior';
 }
+return { interval, point, REAL_LINE, EMPTY, normalize, set, isEmpty, format, equals, union, intersect, complement, contains, ARROW_SPACE, TOPOLOGIES, interior, closure, boundary, classifyPoint };
+})();
 
-/* ---- assets/finite-topology.js ---- */
+/* ---- finite-topology ---- */
+__modules['finite-topology'] = (() => {
 const fullMask = (size) => (1 << size) - 1;
 
 const universeOf = (family, size) => (size === undefined ? Math.max(...family) : fullMask(size));
@@ -271,7 +276,65 @@ const coveringEdges = (families) => {
   return edges;
 };
 
-/* ---- assets/render.js ---- */
+function generatedByUnions(family) {
+  const unions = new Set([0]);
+  for (const member of family) {
+    for (const existing of [...unions]) unions.add(existing | member);
+  }
+  return [...unions].sort((x, y) => x - y);
+}
+
+const hasBaseWitness = (family, point, overlap) =>
+  family.some((candidate) => (candidate & point) && (candidate & ~overlap) === 0);
+
+function checkBase(family, size) {
+  const universe = fullMask(size);
+  const covered = family.reduce((accumulated, member) => accumulated | member, 0);
+  if (covered !== universe) {
+    return { ok: false, reason: 'cover', missing: universe & ~covered };
+  }
+  for (const first of family) {
+    for (const second of family) {
+      const overlap = first & second;
+      for (let bit = 0; bit < size; bit += 1) {
+        const point = 1 << bit;
+        if ((overlap & point) && !hasBaseWitness(family, point, overlap)) {
+          return { ok: false, reason: 'intersection', first, second, point };
+        }
+      }
+    }
+  }
+  return { ok: true, topology: generatedByUnions(family) };
+}
+
+function isBaseOf(family, topology) {
+  if (!family.every((member) => topology.includes(member))) return false;
+  const generated = generatedByUnions(family);
+  return generated.length === topology.length
+    && generated.every((member) => topology.includes(member));
+}
+
+function finiteIntersections(subbase) {
+  const intersections = new Set(subbase);
+  let grew = true;
+  while (grew) {
+    grew = false;
+    for (const first of [...intersections]) {
+      for (const second of [...intersections]) {
+        if (!intersections.has(first & second)) {
+          intersections.add(first & second);
+          grew = true;
+        }
+      }
+    }
+  }
+  return [...intersections];
+}
+return { isTopology, allTopologies, describeSubset, describeTopology, interiorIn, closureIn, boundaryIn, isStronger, blockTopology, coveringEdges, generatedByUnions, checkBase, isBaseOf, finiteIntersections };
+})();
+
+/* ---- render ---- */
+__modules['render'] = (() => {
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 const svgNode = (name, attrs = {}) => {
@@ -663,8 +726,15 @@ const dragHandler = (svg, onMove) => {
   svg.addEventListener('pointerup', () => { active = false; });
   svg.addEventListener('pointercancel', () => { active = false; });
 };
+return { svgNode, clear, themeColor, ROLE_VARS, roleColor, createCanvas, pointerPosition, text, numberLine, drawSetOnLine, plane, legend, shell, controlRow, buttonGroup, slider, toggle, readout, clearElement, mathText, dragHandler };
+})();
 
-/* ---- assets/viz.js ---- */
+/* ---- viz ---- */
+__modules['viz'] = (() => {
+const { set, point, interval, format, equals, union, intersect, interior, closure, boundary, TOPOLOGIES, isEmpty } = __modules['topology'];
+const { allTopologies, coveringEdges, describeTopology, describeSubset, interiorIn, closureIn, boundaryIn, blockTopology } = __modules['finite-topology'];
+const { svgNode, createCanvas, clearElement, roleColor, themeColor, text, numberLine, drawSetOnLine, plane, legend, shell, controlRow, buttonGroup, slider, toggle, readout, pointerPosition } = __modules['render'];
+
 const registry = new Map();
 
 const register = (name, factory) => registry.set(name, factory);
@@ -1816,8 +1886,188 @@ register('ArrowTopology', (host, config) => {
   host.addEventListener('difgem:redraw', draw);
   draw();
 });
+return { register, mountAll, registry };
+})();
 
-/* ---- assets/app.js ---- */
+/* ---- widgets-bases ---- */
+__modules['widgets-bases'] = (() => {
+const { register } = __modules['viz'];
+const { checkBase, describeSubset, describeTopology } = __modules['finite-topology'];
+const { svgNode, createCanvas, clearElement, roleColor, themeColor, text, shell, controlRow, readout, legend } = __modules['render'];
+
+const LABELS = ['a', 'b', 'c'];
+const POSITIONS = [[190, 225], [450, 225], [320, 85]];
+const SUBSETS = [0b001, 0b010, 0b100, 0b011, 0b101, 0b110, 0b111];
+const HULL_COLORS = [
+  '--accent-def', '--accent-example', '--accent-nb', '--accent-lemma',
+  '--accent-ml', '--accent-card', '--accent-theorem',
+];
+
+const PRESETS = [
+  { label: 'NB 7: не база', members: [0b111, 0b011, 0b101] },
+  { label: 'NB 7 + {a}: база', members: [0b001, 0b011, 0b101] },
+  { label: 'одноточечные → τ_d', members: [0b001, 0b010, 0b100] },
+  { label: 'цепочка {a} ⊂ {a,b} ⊂ X', members: [0b001, 0b011, 0b111] },
+  { label: 'только X → τ_a', members: [0b111] },
+];
+
+const pointsOf = (mask) => LABELS.map((_, index) => index).filter((index) => mask & (1 << index));
+
+const sizeOf = (mask) => pointsOf(mask).length;
+
+function drawHull(parent, mask, color, emphasis) {
+  const members = pointsOf(mask).map((index) => POSITIONS[index]);
+  const opacity = emphasis ? 0.38 : 0.16;
+  const outline = emphasis ? roleColor('highlight') : color;
+  const outlineWidth = emphasis ? 3 : 1.5;
+
+  if (members.length === 1) {
+    const [[x, y]] = members;
+    parent.appendChild(svgNode('circle', {
+      cx: x, cy: y, r: 30, fill: color, 'fill-opacity': opacity,
+      stroke: outline, 'stroke-width': outlineWidth,
+    }));
+    return;
+  }
+
+  const width = members.length === 2 ? 78 : 112;
+  const pathData = members.map(([x, y], index) => `${index ? 'L' : 'M'} ${x} ${y}`).join(' ')
+    + (members.length > 2 ? ' Z' : '');
+  parent.appendChild(svgNode('path', {
+    d: pathData,
+    fill: members.length > 2 ? color : 'none',
+    'fill-opacity': opacity,
+    stroke: color,
+    'stroke-opacity': opacity,
+    'stroke-width': width,
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+  }));
+  if (emphasis) {
+    parent.appendChild(svgNode('path', {
+      d: pathData, fill: 'none', stroke: outline, 'stroke-width': outlineWidth,
+      'stroke-dasharray': '6 5',
+    }));
+  }
+}
+
+register('BaseBuilder', (host, config) => {
+  const width = 640;
+  const height = 310;
+  const state = { members: new Set(PRESETS[config.preset ?? 0].members) };
+
+  const { body, captionNode } = shell(host, {
+    badge: 'Интерактив',
+    title: config.title || 'Сборщик базы: проверка условий Th. 1.1',
+    caption: config.caption || 'Включай и выключай множества семейства β. Виджет проверяет оба условия Th. 1.1: '
+      + 'β покрывает X, и в каждом пересечении двух элементов вокруг каждой его точки помещается '
+      + 'элемент β. Если условия выполнены, ниже появляется порождённая топология — все объединения '
+      + 'элементов β.',
+  });
+
+  const svg = createCanvas(body, width, height);
+  const chips = controlRow(body);
+  const presets = controlRow(body);
+  const view = readout(body);
+
+  const chipButtons = new Map();
+
+  const draw = () => {
+    clearElement(svg);
+    const family = [...state.members].sort((x, y) => sizeOf(y) - sizeOf(x) || x - y);
+    const verdict = checkBase(family, 3);
+    const failingPair = verdict.reason === 'intersection' ? [verdict.first, verdict.second] : [];
+
+    for (const mask of family) {
+      drawHull(svg, mask, themeColor(HULL_COLORS[SUBSETS.indexOf(mask)]), failingPair.includes(mask));
+    }
+
+    const troubled = verdict.ok ? 0 : (verdict.reason === 'cover' ? verdict.missing : verdict.point);
+    for (const [index, [x, y]] of POSITIONS.entries()) {
+      const isTroubled = Boolean(troubled & (1 << index));
+      svg.appendChild(svgNode('circle', {
+        cx: x, cy: y, r: isTroubled ? 11 : 8,
+        fill: isTroubled ? roleColor('boundary') : themeColor('--text'),
+        stroke: themeColor('--bg-deep'), 'stroke-width': 2,
+      }));
+      text(svg, LABELS[index], x, y - 18, {
+        color: isTroubled ? roleColor('boundary') : themeColor('--text'), size: 18, weight: 700,
+      });
+    }
+
+    for (const [mask, button] of chipButtons) {
+      button.classList.toggle('btn--active', state.members.has(mask));
+    }
+
+    const coverOk = verdict.ok || verdict.reason !== 'cover';
+    const intersectionOk = verdict.ok;
+    const rows = [
+      ['β', family.length ? `{${family.map((mask) => describeSubset(mask, LABELS)).join(', ')}}` : '∅'],
+      ['⋃β = X?', coverOk ? 'да' : `нет: не покрыта точка ${describeSubset(verdict.missing, LABELS)}`,
+        `viz__verdict viz__verdict--${coverOk ? 'yes' : 'no'}`],
+    ];
+    if (coverOk) {
+      rows.push(['условие пересечений', intersectionOk
+        ? 'выполнено'
+        : `нарушено: ${describeSubset(verdict.first, LABELS)} ∩ ${describeSubset(verdict.second, LABELS)} `
+          + `= ${describeSubset(verdict.first & verdict.second, LABELS)}, а элемента β, содержащего `
+          + `${LABELS[Math.log2(verdict.point)]} и лежащего внутри, нет`,
+      `viz__verdict viz__verdict--${intersectionOk ? 'yes' : 'no'}`]);
+    }
+    rows.push(['β — база?', verdict.ok ? 'да' : 'нет', `viz__verdict viz__verdict--${verdict.ok ? 'yes' : 'no'}`]);
+    if (verdict.ok) {
+      rows.push(['порождённая τ', describeTopology(verdict.topology, LABELS)]);
+      rows.push(['открытых множеств', String(verdict.topology.length)]);
+    }
+    view.set(rows);
+  };
+
+  const chipLabel = document.createElement('span');
+  chipLabel.className = 'viz__control';
+  chipLabel.textContent = 'элементы β:';
+  chips.appendChild(chipLabel);
+  for (const mask of SUBSETS) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn';
+    button.textContent = describeSubset(mask, LABELS);
+    button.addEventListener('click', () => {
+      if (state.members.has(mask)) state.members.delete(mask);
+      else state.members.add(mask);
+      draw();
+    });
+    chipButtons.set(mask, button);
+    chips.appendChild(button);
+  }
+
+  const presetLabel = document.createElement('span');
+  presetLabel.className = 'viz__control';
+  presetLabel.textContent = 'примеры:';
+  presets.appendChild(presetLabel);
+  for (const preset of PRESETS) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn';
+    button.textContent = preset.label;
+    button.addEventListener('click', () => {
+      state.members = new Set(preset.members);
+      draw();
+    });
+    presets.appendChild(button);
+  }
+
+  legend(body, [['пара, нарушающая условие', 'highlight'], ['проблемная точка', 'boundary']]);
+  if (captionNode) body.appendChild(captionNode);
+  host.addEventListener('difgem:redraw', draw);
+  draw();
+});
+return {  };
+})();
+
+/* ---- app ---- */
+__modules['app'] = (() => {
+const { mountAll } = __modules['viz'];
+
 const THEME_KEY = 'difgem-theme';
 const PROGRESS_KEY = 'difgem-progress';
 const CARDS_KEY = 'difgem-cards';
@@ -2117,4 +2367,7 @@ if (document.readyState === 'loading') {
 } else {
   boot();
 }
+return { readProgress, readCards };
+})();
+/*EXPOSE*/
 })();
