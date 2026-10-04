@@ -2,7 +2,7 @@ name: Публикация конспекта
 
 on:
   push:
-    branches: [main]
+    branches: [difgem]
   workflow_dispatch:
 
 permissions:
