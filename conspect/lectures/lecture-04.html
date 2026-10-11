@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лекция 4. Топологическое многообразие — дифгем</title>
+<meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-title" content="Дифгем">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <a class="topbar__home" href="../index.html">Дифгем</a>
+  <span class="topbar__crumbs"><span>Лекция 4 · Топологическое многообразие</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <a class="btn" href="../../data/lections/lecture_4_TOP_manifolds.pdf">оригинал PDF</a>
+    <a class="btn" href="../cheatsheet.html">шпаргалка</a>
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc" data-toc>
+    <div class="toc__title">В этой лекции</div>
+  </aside>
+
+  <main id="main">
+    <header class="page-header">
+      <div class="page-header__eyebrow">Лекция 4</div>
+      <h1>Топологическое многообразие</h1>
+      <p class="lead">Две последние идеи топологической части курса. Первая — связность: пространство
+      «из одного куска», которое нельзя разрезать на два открытых. Вторая — многообразие: пространство,
+      которое вблизи каждой точки выглядит как $\mathbb{R}^n$. С многообразий начинается собственно
+      дифференциальная геометрия.</p>
+      <p class="footnote">Формулировки, нумерация и обозначения — как у преподавателя. Значок $\sqcup$
+      означает объединение непересекающихся множеств.</p>
+    </header>
+
+    <!-- ================================================================= -->
+    <section id="s-4-1" data-section-id="lecture-04/4.1">
+      <h2 id="h-4-1" data-short="4.1 Связность">4.1 Связность и линейная связность</h2>
+
+      <div class="block block--def" id="def-1" data-label="Def. 1" data-title="Связное пространство">
+        <div class="block__label">Def. 1 <span class="block__title">Связное пространство</span></div>
+        <p>Топологическое пространство $X$ называется <b>связным</b>, если его нельзя представить в виде
+        объединения двух непустых непересекающихся открытых множеств.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Связность — это «нельзя разрезать». Разрез здесь особенный: обе половины должны быть
+        <b>открытыми</b>. Две половины $[0,1]$ вида $[0,\tfrac12)$ и $[\tfrac12, 1]$ разрезом не
+        считаются: вторая не открыта. А у $(0,1) \cup (2,3)$ разрез есть — каждый кусок открыт.</p>
+        <p>Почему именно открытость: открытое множество — это «у каждой точки есть запас». Разрез на два
+        открытых куска означает, что между кусками нет точки, которая прилипала бы к обоим. Пространство
+        распадается на части, которые друг друга «не чувствуют».</p>
+      </div>
+
+      <div class="block block--example" id="ex-1" data-label="Ex. 1" data-title="Связные пространства">
+        <div class="block__label">Ex. 1 <span class="block__title">Связные пространства</span></div>
+        <p>Примеры связных пространств:</p>
+        <ul>
+          <li>$\langle X, \tau_{\mathrm{a}} \rangle$ — антидискретное пространство;</li>
+          <li>$\mathbb{R}_{\mathrm{st}}$ — прямая со стандартной топологией;</li>
+          <li>$\langle (0,1), \tau_{\mathrm{CF}} \rangle$ — коконечная топология на $(0,1)$;</li>
+          <li>$\langle [0, +\infty), \tau_\to \rangle$ — луч с топологией «стрелка».</li>
+        </ul>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Три из четырёх примеров связны по одной и той же причине: <b>любые два непустых открытых
+        множества пересекаются</b>, и разрез невозможен. В $\tau_{\mathrm{a}}$ непустое открытое одно —
+        всё $X$. В $\tau_{\mathrm{CF}}$ на бесконечном множестве два «почти всех» пересекаются. В стрелке
+        два луча $(a,+\infty)$ и $(b,+\infty)$ пересекаются по лучу.</p>
+        <p>Связность $\mathbb{R}_{\mathrm{st}}$ — настоящая теорема, она держится на полноте вещественных
+        чисел. Доказательство через точную верхнюю грань — в
+        <a href="../pract/pract-04.html#task-4-1-2">разборе задачи 4.1.2</a>. Для $\mathbb{Q}$ то же
+        рассуждение ломается, и $\mathbb{Q}$ несвязно: его режет иррациональная точка.</p>
+      </div>
+
+      <div class="block block--def" id="def-2" data-label="Def. 2" data-title="Связное подмножество">
+        <div class="block__label">Def. 2 <span class="block__title">Связное подмножество</span></div>
+        <p>Подмножество $A \subseteq X$ называется <b>связным</b>, если оно связно как пространство с
+        индуцированной топологией. В его разделении открытость частей понимается относительно $A$.</p>
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Части разреза открыты в $A$, а не в $X$. Для $A = [0,1] \cup [2,3] \subseteq \mathbb{R}$ разрез —
+        $[0,1]$ и $[2,3]$. Они не открыты в $\mathbb{R}$, но открыты в $A$:
+        $[0,1] = A \cap (-1, \tfrac32)$. Это снова сюжет <a href="lecture-01.html#nb-1">NB 1 лекции 1</a>.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-1" data-label="Lm. 1" data-title="Связность через открыто-замкнутые множества">
+        <div class="block__label">Lm. 1 <span class="block__title">Связность через открыто-замкнутые множества</span></div>
+        <p>Топологическое пространство связно тогда и только тогда, когда единственными множествами,
+        открытыми и замкнутыми одновременно, являются $\varnothing$ и $X$.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>$(\Rightarrow)$ Пусть $X$ связно и $U$ открыто и замкнуто. Тогда $V = X \setminus U$
+            тоже открыто и замкнуто, и $X = U \sqcup V$.</div>
+            <div class="proof-step__why">почему: дополнение замкнутого открыто, дополнение открытого замкнуто</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>По связности одна из частей пуста: $X = U$ или $X = V$, то есть $U = X$ или $U = \varnothing$.</div>
+            <div class="proof-step__why">почему: <a href="#def-1">Def. 1</a> запрещает разрез на два непустых открытых</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>$(\Leftarrow)$ Если $X = U \sqcup V$ с непустыми открытыми $U$, $V$, то $U = X \setminus V$
+            замкнуто, причём $U \neq \varnothing$ и $U \neq X$.</div>
+            <div class="proof-step__why">почему: нетривиальное открыто-замкнутое множество, противоречие с условием</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--example" id="ex-2" data-label="Ex. 2" data-title="Несвязные пространства">
+        <div class="block__label">Ex. 2 <span class="block__title">Несвязные пространства</span></div>
+        <p>Примеры несвязных топологических пространств:</p>
+        <ul>
+          <li>$\langle X, \tau_{\mathrm{d}} \rangle$ — дискретное пространство;</li>
+          <li>$\mathbb{R}_{\mathrm{st}} \setminus \{0\}$ — прямая с выколотой точкой;</li>
+          <li>$X = A \sqcup B$, где $A, B \in \tau_X$ непусты.</li>
+        </ul>
+      </div>
+
+      <div data-viz="ComponentCounter"></div>
+
+      <div class="block block--def" id="def-3" data-label="Def. 3" data-title="Компонента связности">
+        <div class="block__label">Def. 3 <span class="block__title">Компонента связности</span></div>
+        <p><b>Компонентой связности</b> пространства $X$ называется всякое его непустое связное
+        подмножество, не содержащееся (строго) ни в каком другом связном подмножестве пространства $X$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Компонента — максимальный «кусок». Из <a href="#lm-3">Lm. 3</a> следует, что компоненты не
+        пересекаются: если бы две пересеклись, их объединение было бы связным и строго большим. Так что
+        компоненты разбивают пространство. Ещё одно полезное следствие (задача 4.2.2 листка): замыкание
+        связного множества связно, поэтому компоненты всегда замкнуты.</p>
+        <p>Число компонент — топологический инвариант. Это главный новый инструмент для доказательств
+        негомеоморфности.</p>
+      </div>
+
+      <div class="block block--theorem" id="th-4-1" data-label="Th. 4.1" data-title="Непрерывный образ связного связен">
+        <div class="block__label">Th. 4.1 <span class="block__title">Непрерывный образ связного связен</span></div>
+        <p>Пусть $X$ и $Y$ — топологические пространства и $\sigma : X \to Y$ — непрерывное отображение.
+        Тогда, если $X$ связно, то и $\sigma(X)$ также связно.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Пусть $\sigma(X)$ несвязно: $\sigma(X) = U \sqcup V$, где $U$, $V$ непусты и открыты в $\sigma(X)$.</div>
+            <div class="proof-step__why">почему: доказательство от противного по <a href="#def-2">Def. 2</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Тогда $X = \sigma^{-1}(U) \sqcup \sigma^{-1}(V)$, где обе части непусты и открыты в $X$.</div>
+            <div class="proof-step__why">почему: прообраз сохраняет дизъюнктные объединения (лекция 3, раздел 3.1); открытость — <a href="lecture-03.html#th-3-1">Th. 3.1</a> для $\sigma : X \to \sigma(X)$; непустота — потому что $U, V \subseteq \sigma(X)$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Они образуют разделение $X$, что противоречит его связности.</div>
+            <div class="proof-step__why">почему: <a href="#def-1">Def. 1</a></div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Это обобщение теоремы о промежуточном значении. Непрерывная $f : [a,b] \to \mathbb{R}$ переводит
+        связный отрезок в связное подмножество $\mathbb{R}$, то есть в промежуток. Значит она принимает
+        все значения между $f(a)$ и $f(b)$.</p>
+        <p>И то же самое — с самым частым приложением на КР: непрерывное отображение связного пространства
+        в дискретное постоянно. Его образ связен, а связные подмножества дискретного пространства — это
+        одноточечные множества.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-2" data-label="Lm. 2" data-title="Связное множество не разрезать">
+        <div class="block__label">Lm. 2 <span class="block__title">Связное множество не разрезать</span></div>
+        <p>Пусть $X$ — топологическое пространство, а $U$ и $V$ — два непересекающихся открытых
+        подмножества $X$. Если $A$ — связное подмножество $X$, лежащее в $U \sqcup V$, тогда или
+        $A \subseteq U$, или $A \subseteq V$.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Пусть $A$ имеет непустое пересечение и с $U$, и с $V$. Тогда
+            $A = (A \cap U) \sqcup (A \cap V)$ — дизъюнктное объединение двух непустых открытых в $A$ множеств.</div>
+            <div class="proof-step__why">почему: следы открытых множеств открыты в $A$ (<a href="lecture-01.html#def-3">Def. 3 лекции 1</a>)</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Это противоречит связности $A$.</div>
+            <div class="proof-step__why">почему: <a href="#def-2">Def. 2</a></div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--lemma" id="lm-3" data-label="Lm. 3" data-title="Объединение связных с общей точкой">
+        <div class="block__label">Lm. 3 <span class="block__title">Объединение связных с общей точкой</span></div>
+        <p>Пусть $\{S_\alpha\}$ — непустое семейство связных подмножеств топологического пространства $X$,
+        имеющих общую точку $P$. Тогда $\bigcup_\alpha S_\alpha$ связно.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Пусть $A = \bigcup_\alpha S_\alpha = U \sqcup V$, где $U$, $V$ непусты и открыты в $A$.
+            Можно считать, что $P \in U$.</div>
+            <div class="proof-step__why">почему: от противного; $P$ лежит в одной из частей</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>По <a href="#lm-2">Lm. 2</a>, применённой в пространстве $A$, каждое $S_\alpha$ целиком
+            лежит в $U$ или в $V$, а поскольку $P \in S_\alpha \cap U$ — в $U$.</div>
+            <div class="proof-step__why">почему: каждое $S_\alpha$ связно и содержит $P$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Тогда $A \subseteq U$ и $V = \varnothing$ — противоречие.</div>
+            <div class="proof-step__why">почему: $A$ — объединение всех $S_\alpha$</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--nb" id="nb-1" data-label="NB 1" data-title="Связность — инвариант">
+        <div class="block__label">NB 1 <span class="block__title">Связность — инвариант</span></div>
+        <p>Пространство, гомеоморфное связному пространству, связно.</p>
+      </div>
+
+      <div class="block block--counter">
+        <div class="block__label">Контрпример</div>
+        <p>NB 1 вместе с выкалыванием точки даёт главный приём доказательства негомеоморфности. Почему
+        $\mathbb{R} \not\simeq \mathbb{R}^2$? Пусть $h : \mathbb{R} \to \mathbb{R}^2$ — гомеоморфизм. Тогда
+        его сужение — гомеоморфизм $\mathbb{R} \setminus \{0\} \to \mathbb{R}^2 \setminus \{h(0)\}$. Но
+        $\mathbb{R}^2 \setminus \{h(0)\}$ связно (даже линейно связно: задача 4.3.3), а
+        $\mathbb{R} \setminus \{0\}$ — нет. Противоречие.</p>
+        <p>Тем же способом: $[0,1) \not\simeq (0,1)$ (выколоть $0$ из первого — связность остаётся;
+        выколоть любую точку из второго — пропадает), буквы «Т» и «С» негомеоморфны, и так далее.</p>
+      </div>
+
+      <div class="block block--def" id="def-4" data-label="Def. 4" data-title="Кривая (путь)">
+        <div class="block__label">Def. 4 <span class="block__title">Кривая (путь)</span></div>
+        <p><b>Кривой</b> (или <b>путём</b>) на $X$ из точки $P$ в точку $Q$ называется непрерывное
+        отображение $\gamma : I = [0,1] \to X$, такое что $\gamma(0) = P$ и $\gamma(1) = Q$.</p>
+      </div>
+
+      <div class="block block--def" id="def-5" data-label="Def. 5" data-title="Линейная связность">
+        <div class="block__label">Def. 5 <span class="block__title">Линейная связность</span></div>
+        <p>Топологическое пространство $X$ называется <b>линейно связным</b>, если для любых точек
+        $P, Q \in X$ существует кривая в $X$, соединяющая эти точки.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-4" data-label="Lm. 4" data-title="Линейно связное связно">
+        <div class="block__label">Lm. 4 <span class="block__title">Линейно связное связно</span></div>
+        <p>Если топологическое пространство $X$ линейно связно, то оно связно.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Для $X = \varnothing$ утверждение очевидно. Иначе зафиксируем $P \in X$ и для каждого
+            $Q \in X$ выберем путь $\gamma_Q$ из $P$ в $Q$.</div>
+            <div class="proof-step__why">почему: <a href="#def-5">Def. 5</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Его образ $S_Q = \gamma_Q([0,1])$ связен как непрерывный образ связного отрезка.</div>
+            <div class="proof-step__why">почему: <a href="#th-4-1">Th. 4.1</a> и связность $[0,1]$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Все $S_Q$ содержат $P$, поэтому по лемме об объединении $X = \bigcup_{Q \in X} S_Q$ связно.</div>
+            <div class="proof-step__why">почему: <a href="#lm-3">Lm. 3</a>; и $Q \in S_Q$, так что объединение — всё $X$</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Обратное неверно. Классический контрпример — «синусоида тополога» из задачи 4.3.4* листка:
+        график $\sin(1/x)$ при $0 &lt; x \leqslant 1$ вместе с отрезком $\{0\} \times [-1,1]$. Он связен
+        (это замыкание связного графика), но путь из $(0,0)$ к точкам графика провести нельзя: график
+        бесконечно колеблется около оси. На КР чаще всего доказывают связность именно через линейную
+        связность — это проще. Но несвязность так не доказать: из «нет пути» несвязность не следует.</p>
+      </div>
+
+      <div class="block block--ml" id="ml-connected" data-label="ИИ" data-title="Связность и генеративные модели">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Непрерывный классификатор с дискретным выходом постоянен.</b> Пространство входов
+        $\mathbb{R}^n$ связно, а значит по Th. 4.1 непрерывное $f : \mathbb{R}^n \to \{0, 1\}$ принимает одно
+        значение. Это закрывает вопрос, оставленный в лекции 3: разрывы $\arg\max$ неизбежны, и живут они
+        на границе решения (задачи 4.2.4 и 4.2.6* листка).</p>
+        <p><b>Генератор не может нарисовать два отдельных кластера.</b> Латентное пространство GAN или VAE
+        обычно $\mathbb{R}^d$ — связное. Образ непрерывного генератора связен, поэтому он не может лежать в
+        двух разделённых областях и задевать обе (задача 4.2.5). На практике генератор либо теряет моду
+        (mode collapse), либо рисует «перемычку» из неправдоподобных объектов между кластерами. Это ровно
+        те ограничения, которые обсуждались для нормализующих потоков в лекции 3.</p>
+      </div>
+
+      <div class="block block--card" id="card-connected">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Дай определение связности и сформулируй критерий из Lm. 1. Почему
+        $\mathbb{R}\setminus\{0\}$ несвязно, а $\mathbb{R}^2\setminus\{0\}$ связно?</p>
+        <div class="card__answer" data-card-answer>
+          <p>Связно — нельзя разбить на два непустых непересекающихся открытых; эквивалентно, открыто-замкнуты
+          только $\varnothing$ и $X$. $\mathbb{R}\setminus\{0\} = (-\infty,0) \sqcup (0,+\infty)$ — разрез.
+          $\mathbb{R}^2\setminus\{0\}$ линейно связно (любые две точки соединяются ломаной в обход нуля), а
+          значит связно по Lm. 4.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-image-connected">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Что утверждает Th. 4.1? Выведи из неё, что непрерывное отображение
+        связного пространства в дискретное постоянно.</p>
+        <div class="card__answer" data-card-answer>
+          <p>Непрерывный образ связного связен. Образ связного $X$ в дискретном $Y$ связен, а в дискретном
+          пространстве любое множество из двух и более точек разрезается на одноточечные открытые куски.
+          Значит образ — одна точка.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-4-2" data-section-id="lecture-04/4.2">
+      <h2 id="h-4-2" data-short="4.2 Многообразие">4.2 Топологическое многообразие</h2>
+
+      <div class="block block--def" id="def-6" data-label="Def. 6" data-title="Локально евклидово пространство">
+        <div class="block__label">Def. 6 <span class="block__title">Локально евклидово пространство</span></div>
+        <p>Топологическое пространство $\langle X, \tau \rangle$ называется <b>локально евклидовым
+        пространством размерности</b> $n$, если каждая точка $P \in X$ имеет открытую окрестность в $X$,
+        гомеоморфную $\mathbb{R}^n_{\mathrm{st}}$.</p>
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Окружность локально — это прямая</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 620 230" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Дуга окружности вокруг точки гомеоморфна интервалу и значит прямой">
+            <circle cx="150" cy="115" r="80" fill="none" stroke="var(--border-strong)" stroke-width="2"/>
+            <path d="M 93 58 A 80 80 0 0 1 207 58" fill="none" stroke="var(--role-set)" stroke-width="8"
+                  stroke-linecap="round"/>
+            <circle cx="150" cy="35" r="6" fill="var(--role-highlight)"/>
+            <text x="150" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="var(--role-highlight)">P</text>
+            <text x="150" y="215" text-anchor="middle" font-size="14" fill="var(--text-muted)">S¹ и окрестность точки P</text>
+            <line x1="250" y1="115" x2="330" y2="115" stroke="var(--text-muted)" stroke-width="1.6"/>
+            <path d="M 330 115 L 320 109 L 320 121 Z" fill="var(--text-muted)"/>
+            <text x="290" y="102" text-anchor="middle" font-size="16" fill="var(--text-muted)">≅</text>
+            <line x1="360" y1="115" x2="590" y2="115" stroke="var(--role-set)" stroke-width="8"/>
+            <circle cx="475" cy="115" r="6" fill="var(--role-highlight)"/>
+            <text x="475" y="145" text-anchor="middle" font-size="14" fill="var(--text-muted)">интервал ≅ ℝ</text>
+            <text x="475" y="185" text-anchor="middle" font-size="13" fill="var(--text-faint)">
+              открытая дуга распрямляется в интервал, интервал — в прямую (Ex. 3 лекции 3)
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="block block--theorem" id="th-4-2" data-label="Th. 4.2" data-title="Теорема Брауэра об инвариантности размерности">
+        <div class="block__label">Th. 4.2 <span class="block__title">Теорема Брауэра об инвариантности размерности</span></div>
+        <p>(Брауэр.) Если непустые открытые множества $U \subseteq \mathbb{R}^n_{\mathrm{st}}$ и
+        $V \subseteq \mathbb{R}^m_{\mathrm{st}}$ гомеоморфны, то $m = n$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Теорема даётся без доказательства — оно требует алгебраической топологии. Её роль простая:
+        без неё «размерность» в Def. 6 была бы не определена однозначно. Для $n = 1$ против $m \geqslant 2$
+        её частный случай доказывается выкалыванием точки, как в контрпримере выше. Для больших размерностей
+        выколотая точка не помогает: $\mathbb{R}^2 \setminus \{0\}$ и $\mathbb{R}^3 \setminus \{0\}$ оба
+        связны, нужны более тонкие инварианты.</p>
+      </div>
+
+      <div class="block block--def" id="def-7" data-label="Def. 7" data-title="Топологическое многообразие">
+        <div class="block__label">Def. 7 <span class="block__title">Топологическое многообразие</span></div>
+        <p><b>Топологическим многообразием размерности</b> $n$ называется паракомпактное хаусдорфово
+        пространство, локально евклидово размерности $n$. Многообразия рассматриваются без края.</p>
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Локальной евклидовости мало — обе дополнительные аксиомы нужны всерьёз. Хаусдорфовость
+        исключает «прямую с двумя нулями» из <a href="#ex-4">Ex. 4</a>, которая локально выглядит как
+        прямая. Паракомпактность исключает экзотические «слишком длинные» пространства и нужна для
+        разбиения единицы (<a href="lecture-02.html#def-13">лекция 2</a>), без которого не построить
+        интеграл и метрику на многообразии.</p>
+        <p>«Без края» значит: у точек нет окрестностей вида полупространства. Отрезок $[0,1]$ —
+        многообразие с краем, в смысле Def. 7 он многообразием не является: у точки $0$ нет окрестности,
+        гомеоморфной $\mathbb{R}$.</p>
+      </div>
+
+      <div class="block block--example" id="ex-3" data-label="Ex. 3" data-title="Первые примеры многообразий">
+        <div class="block__label">Ex. 3 <span class="block__title">Первые примеры многообразий</span></div>
+        <p>Первые примеры топологических многообразий:</p>
+        <ol>
+          <li>конечные пространства с дискретной топологией — нульмерные многообразия;</li>
+          <li>$\mathbb{R}$ и $S^1$ — одномерные топологические многообразия.</li>
+        </ol>
+      </div>
+
+      <div class="block block--nb" id="nb-2" data-label="NB 2" data-title="Выборка — нульмерное многообразие">
+        <div class="block__label">NB 2 <span class="block__title">Выборка — нульмерное многообразие</span></div>
+        <p>Конечная выборка различных точек в $\mathbb{R}^d$ с индуцированной топологией дискретна и потому
+        является нульмерным многообразием. Положительная «размерность многообразия данных» относится к
+        предполагаемой непрерывной модели, которую приближает выборка.</p>
+      </div>
+
+      <div class="block block--example" id="ex-4" data-label="Ex. 4" data-title="Не многообразия">
+        <div class="block__label">Ex. 4 <span class="block__title">Не многообразия</span></div>
+        <p>Примеры пространств, не являющихся топологическими многообразиями:</p>
+        <ol>
+          <li>$\{(x, y) \in \mathbb{R}^2 \mid xy = 0\}$ — нарушена локальная евклидовость в точке $(0,0)$;</li>
+          <li>$S^1 \vee S^1$ («восьмёрка») не является локально евклидовым пространством;</li>
+          <li>$\mathbb{R} \times \{0\}$ и $\mathbb{R} \times \{1\}$ — два экземпляра прямой, склеенных
+          отождествлением $(t, 0) \sim (t, 1)$ $\forall t &lt; 0$. Данное пространство является локально
+          евклидовым, но точки $(0,0)$ и $(0,1)$ не имеют непересекающихся открытых окрестностей.</li>
+        </ol>
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Три способа не быть многообразием</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 660 250" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Крест, восьмёрка и прямая с двумя нулями">
+            <g stroke="var(--role-set)" stroke-width="4" fill="none">
+              <line x1="30" y1="110" x2="190" y2="110"/>
+              <line x1="110" y1="30" x2="110" y2="190"/>
+            </g>
+            <circle cx="110" cy="110" r="22" fill="var(--role-boundary)" fill-opacity="0.18" stroke="var(--role-boundary)" stroke-dasharray="4 3"/>
+            <circle cx="110" cy="110" r="5" fill="var(--role-boundary)"/>
+            <text x="110" y="222" text-anchor="middle" font-size="14" fill="var(--text-muted)">xy = 0</text>
+            <text x="110" y="242" text-anchor="middle" font-size="12" fill="var(--text-faint)">без центра — 4 куска, у интервала — 2</text>
+
+            <g stroke="var(--role-set)" stroke-width="4" fill="none">
+              <circle cx="290" cy="110" r="45"/>
+              <circle cx="380" cy="110" r="45"/>
+            </g>
+            <circle cx="335" cy="110" r="5" fill="var(--role-boundary)"/>
+            <text x="335" y="222" text-anchor="middle" font-size="14" fill="var(--text-muted)">S¹ ∨ S¹</text>
+            <text x="335" y="242" text-anchor="middle" font-size="12" fill="var(--text-faint)">в точке касания сходятся 4 луча</text>
+
+            <line x1="455" y1="120" x2="555" y2="120" stroke="var(--role-set)" stroke-width="4"/>
+            <line x1="555" y1="120" x2="640" y2="95" stroke="var(--role-set)" stroke-width="4"/>
+            <line x1="555" y1="120" x2="640" y2="145" stroke="var(--role-interior)" stroke-width="4"/>
+            <circle cx="560" cy="99" r="5" fill="var(--bg-deep)" stroke="var(--role-boundary)" stroke-width="2"/>
+            <circle cx="560" cy="141" r="5" fill="var(--bg-deep)" stroke="var(--role-boundary)" stroke-width="2"/>
+            <text x="555" y="80" text-anchor="middle" font-size="12" fill="var(--role-boundary)">(0,0) и (0,1)</text>
+            <text x="548" y="222" text-anchor="middle" font-size="14" fill="var(--text-muted)">прямая с двумя нулями</text>
+            <text x="548" y="242" text-anchor="middle" font-size="12" fill="var(--text-faint)">локально ℝ, но не хаусдорфова</text>
+          </svg>
+          <p class="viz__caption">Как доказывать первый пункт: если бы у начала координат была окрестность,
+          гомеоморфная интервалу, то, выколов центр, мы получили бы слева две компоненты, а справа — четыре
+          (у маленькой окрестности креста). Число компонент — инвариант, противоречие. Это задача 4.4.6*
+          листка. Для третьего пункта: любые окрестности двух нулей содержат общие точки $(t,0) \sim (t,1)$
+          при малых отрицательных $t$.</p>
+        </div>
+      </div>
+
+      <div class="block block--lemma" id="lm-5" data-label="Lm. 5" data-title="Произведение многообразий">
+        <div class="block__label">Lm. 5 <span class="block__title">Произведение многообразий</span></div>
+        <p>Произведение $n$-мерного многообразия $X$ и $m$-мерного многообразия $Y$ с топологией
+        произведения является $(n+m)$-мерным многообразием.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Пусть $P \in U \subset X$ и $Q \in V \subset Y$, так что окрестности $U$ и $V$ гомеоморфны
+            открытым множествам $A \subset \mathbb{R}^n$ и $B \subset \mathbb{R}^m$ соответственно.</div>
+            <div class="proof-step__why">почему: <a href="#def-6">Def. 6</a> для $X$ и $Y$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Тогда $U \times V$ — окрестность точки $(P,Q) \in X \times Y$, гомеоморфная открытому
+            множеству $A \times B \subset \mathbb{R}^n \times \mathbb{R}^m = \mathbb{R}^{n+m}$.</div>
+            <div class="proof-step__why">почему: произведение гомеоморфизмов — гомеоморфизм (покоординатно, задача 3.2.2 листка)</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Хаусдорфовость наследуется произведением.</div>
+            <div class="proof-step__why">почему: задача 2.3.3 листка. Паракомпактность в PDF не проверяется,
+            и в общем случае она произведением не наследуется (квадрат прямой Зоргенфрея не паракомпактен). Для
+            многообразий она верна: каждая компонента паракомпактного многообразия удовлетворяет второй аксиоме
+            счётности, произведения компонент — тоже, а отсюда следует паракомпактность. Это факт за пределами лекции.</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--example" id="ex-5" data-label="Ex. 5" data-title="Торы и сферы">
+        <div class="block__label">Ex. 5 <span class="block__title">Торы и сферы</span></div>
+        <p>Ещё примеры топологических многообразий:</p>
+        <ul>
+          <li>$T^n = S^1 \times S^1 \times \dots \times S^1$ — тор — $n$-мерное топологическое многообразие;</li>
+          <li>$S^{n-1} = \{x \in \mathbb{R}^n : \|x\| = 1\}$ — $(n-1)$-мерное топологическое многообразие.</li>
+        </ul>
+      </div>
+
+      <div class="block block--def" id="def-8" data-label="Def. 8" data-title="Подмногообразие">
+        <div class="block__label">Def. 8 <span class="block__title">Подмногообразие</span></div>
+        <p>Подмножество $S$ $n$-мерного многообразия $X$ называется <b>подмногообразием</b> размерности
+        $m &lt; n$, если $S$ само является топологическим многообразием размерности $m$.</p>
+      </div>
+
+      <div class="block block--example" id="ex-6" data-label="Ex. 6" data-title="Примеры подмногообразий">
+        <div class="block__label">Ex. 6 <span class="block__title">Примеры подмногообразий</span></div>
+        <p>Примеры подмногообразий (всюду $m &lt; n$):</p>
+        $$\mathbb{R}^m \leqslant \mathbb{R}^n, \qquad S^m \leqslant S^n, \qquad T^m \leqslant T^n.$$
+      </div>
+
+      <div class="block block--ml" id="ml-manifold" data-label="ИИ" data-title="Гипотеза многообразия и узкое горлышко автоэнкодера">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Гипотеза многообразия</b>: данные высокой размерности (картинки $256 \times 256 \times 3$)
+        на самом деле лежат около многообразия гораздо меньшей размерности. NB 2 уточняет формулировку:
+        сама выборка — нульмерное многообразие, а «размерность данных» — свойство непрерывной модели, к
+        которой мы выборку приближаем.</p>
+        <p><b>Теорема Брауэра и автоэнкодеры.</b> Из инвариантности размерности следует, что нельзя
+        непрерывно и инъективно уложить открытое множество $\mathbb{R}^n$ в $\mathbb{R}^m$ при $m &lt; n$. Значит,
+        если данные действительно образуют $d$-мерное многообразие, энкодер с узким горлышком
+        размерности меньше $d$ обязан склеивать разные точки данных — терять информацию. Размер горлышка
+        ниже внутренней размерности данных — не вопрос подбора гиперпараметров, а топологическое
+        ограничение.</p>
+      </div>
+
+      <div class="block block--card" id="card-manifold">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Дай определение топологического многообразия. Зачем нужна каждая из
+        трёх аксиом? Приведи пространство, нарушающее каждую.</p>
+        <div class="card__answer" data-card-answer>
+          <p>Паракомпактное хаусдорфово локально евклидово пространство. Локальная евклидовость нарушена у
+          креста $xy = 0$ и восьмёрки; хаусдорфовость — у прямой с двумя нулями; паракомпактность нужна для
+          разбиения единицы.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-dimension">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Почему $\mathbb{R} \not\simeq \mathbb{R}^2$? Что утверждает теорема Брауэра?</p>
+        <div class="card__answer" data-card-answer>
+          <p>Выколем точку: $\mathbb{R}\setminus\{0\}$ несвязно, а $\mathbb{R}^2\setminus\{p\}$ связно, при этом
+          гомеоморфизм переводил бы одно в другое. Брауэр: гомеоморфные непустые открытые подмножества
+          $\mathbb{R}^n$ и $\mathbb{R}^m$ бывают только при $m = n$.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-4-sum" data-section-id="lecture-04/summary">
+      <h2 id="h-4-sum" data-short="Итоги лекции">Итоги лекции</h2>
+
+      <div class="block block--summary">
+        <div class="block__label">Сводка</div>
+        <p>Как на КР доказывать связность и несвязность.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Нужно доказать</th><th>Приём</th><th>Пример</th></tr></thead>
+            <tbody>
+              <tr><td>связность</td><td>соединить любые две точки путём (Lm. 4)</td><td>$\mathbb{R}^n\setminus\{0\}$ при $n \geqslant 2$, сфера</td></tr>
+              <tr><td>связность</td><td>непрерывный образ связного (Th. 4.1)</td><td>окружность — образ отрезка</td></tr>
+              <tr><td>связность</td><td>объединение связных с общей точкой (Lm. 3)</td><td>крест $xy = 0$</td></tr>
+              <tr><td>несвязность</td><td>предъявить разрез на два открытых (Def. 1)</td><td>$\mathbb{Q}$ режется точкой $\sqrt2$</td></tr>
+              <tr><td>непрерывное $\Rightarrow$ постоянное</td><td>образ связного в дискретном — точка</td><td>классификатор $\mathbb{R}^n \to \{0,1\}$</td></tr>
+              <tr><td>негомеоморфность</td><td>выколоть точку и сравнить число компонент</td><td>$\mathbb{R} \not\simeq \mathbb{R}^2$, $[0,1) \not\simeq (0,1)$</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

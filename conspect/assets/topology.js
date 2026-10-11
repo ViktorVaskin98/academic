@@ -185,3 +185,9 @@ export const uncovered = (target, family) => intersect(normalize(target), comple
 
 export const meetingCount = (neighbourhood, family) =>
   family.filter((member) => !isEmpty(intersect(neighbourhood, member))).length;
+
+export const componentsOf = (s) => normalize(s).map((component) => [component]);
+
+export const isConnectedInLine = (s) => normalize(s).length <= 1;
+
+export const puncture = (s, x) => intersect(normalize(s), complement([point(x)]));

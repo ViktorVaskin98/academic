@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Пробная КР по листкам 1–3 — дифгем</title>
+<title>Пробная КР по листкам 1–4 — дифгем</title>
 <meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
 <meta name="apple-mobile-web-app-title" content="Дифгем">
@@ -36,19 +36,18 @@
   <main id="main">
     <header class="page-header">
       <div class="page-header__eyebrow">Тренировка перед контрольной</div>
-      <h1>Пробная КР по листкам 1–3</h1>
-      <p class="lead">Два варианта по шесть задач — по одной на каждый тип, который почти наверняка
+      <h1>Пробная КР по листкам 1–4</h1>
+      <p class="lead">Два варианта по семь задач — по одной на каждый тип, который почти наверняка
       будет на контрольной. Задачи новые, не из листков, но решаются теми же приёмами.</p>
       <div class="block block--summary">
         <div class="block__label">Как проходить</div>
         <ol>
-          <li>Засеки 90 минут. Решай на бумаге, без конспекта и без раскрытия решений.</li>
+          <li>Засеки 100 минут. Решай на бумаге, без конспекта и без раскрытия решений.</li>
           <li>Пиши полностью, как на КР: указывай объемлющее пространство, у гомеоморфизма выписывай
           обратное отображение, у контрпримера проверяй обе стороны.</li>
           <li>После времени открой решения и оцени себя по тому, что написано в блоке «Ответ».</li>
           <li>Задачу, где ошибся, перерешай по разбору соответствующего листка — ссылка в каждом решении.</li>
         </ol>
-        <p class="footnote">Задачи по листку 4 (связность и многообразия) добавлю, когда будет лекция 4.</p>
       </div>
     </header>
 
@@ -94,6 +93,11 @@
         <div class="block__label">6 <span class="block__title">Полоса и квадрат; цилиндры</span></div>
         <p>(a) Постройте гомеоморфизм полосы $\mathbb{R} \times (-1, 1)$ на открытый квадрат $(0,1)^2$.
         (b) Докажите, что $S^1 \times [0,1]$ и $S^1 \times \mathbb{R}$ не гомеоморфны.</p>
+      </div>
+      <div class="block block--task" id="v1-7" data-label="В1 · 7" data-title="Прямая и плоскость">
+        <div class="block__label">7 <span class="block__title">Прямая и плоскость</span></div>
+        <p>(a) Докажите, что $\mathbb{R}$ и $\mathbb{R}^2$ не гомеоморфны. (b) Пусть $f : \mathbb{R} \to \mathbb{R}$
+        непрерывна и $f(x)^2 = 1$ для всех $x$. Докажите, что $f$ постоянна.</p>
       </div>
     </section>
 
@@ -171,6 +175,16 @@
         <p class="footnote">Если ошибся — <a href="pract-03.html#task-3-4-1">листок 3, задача 3.4.1</a> и
         <a href="pract-03.html#task-3-5-3">3.5.3</a>.</p>
       </div></details>
+      <details class="reveal reveal--solution"><summary>7. Прямая и плоскость</summary><div class="reveal__body">
+        <p>(a) Пусть $h : \mathbb{R} \to \mathbb{R}^2$ — гомеоморфизм. Его сужение — гомеоморфизм
+        $\mathbb{R}\setminus\{0\} \to \mathbb{R}^2\setminus\{h(0)\}$. Справа — связное (линейно связное,
+        задача 4.3.3), слева — несвязное $(-\infty,0) \sqcup (0,+\infty)$. Связность — инвариант (NB 1), противоречие.</p>
+        <p>(b) $f(\mathbb{R}) \subseteq \{-1, 1\}$. Образ связного $\mathbb{R}$ связен (Th. 4.1), а
+        $\{-1,1\}$ несвязно: $\{-1\}$ и $\{1\}$ открыты в нём. Значит образ — одна точка.</p>
+        <p class="answer-line"><b>Ответ:</b> выкалывание точки + число компонент; образ связного в двухточечном множестве — точка.</p>
+        <p class="footnote">Если ошибся — <a href="pract-04.html#task-4-2-4">листок 4, задача 4.2.4</a> и
+        <a href="../lectures/lecture-04.html#nb-1">контрпример к NB 1</a>.</p>
+      </div></details>
     </section>
 
     <!-- ===================== ВАРИАНТ 2 ===================== -->
@@ -214,6 +228,11 @@
         <div class="block__label">6 <span class="block__title">Полуплоскость и инварианты</span></div>
         <p>(a) Постройте гомеоморфизм открытой полуплоскости $\{y &gt; 0\}$ на $\mathbb{R}^2$.
         (b) Докажите, что $\mathbb{R}_{st}$, $\mathbb{R}_{CF}$ и $[0,1]_{st}$ попарно негомеоморфны.</p>
+      </div>
+      <div class="block block--task" id="v2-7" data-label="В2 · 7" data-title="Полуинтервал и интервал; крест">
+        <div class="block__label">7 <span class="block__title">Полуинтервал и интервал; крест</span></div>
+        <p>(a) Докажите, что $[0,1)$ и $(0,1)$ не гомеоморфны. (b) Докажите, что крест
+        $C = \{(x,y) \in \mathbb{R}^2 : xy = 0\}$ связен.</p>
       </div>
     </section>
 
@@ -284,6 +303,16 @@
         $[0,1]$ компактен, $\mathbb{R}_{st}$ — нет: они различаются компактностью. $T_2$ и компактность —
         инварианты (Lm. 5 лекции 3).</p>
         <p class="footnote">Аккуратно: $\mathbb{R}_{CF}$ тоже компактно, поэтому его отделяем именно по $T_2$.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>7. Полуинтервал и интервал; крест</summary><div class="reveal__body">
+        <p>(a) Пусть $h : [0,1) \to (0,1)$ — гомеоморфизм, $p = h(0)$. Тогда
+        $[0,1)\setminus\{0\} = (0,1)$ гомеоморфно $(0,1)\setminus\{p\} = (0,p) \sqcup (p,1)$. Первое связно,
+        второе — нет. Противоречие с NB 1.</p>
+        <p>(b) $C$ — объединение осей $\mathbb{R}\times\{0\}$ и $\{0\}\times\mathbb{R}$. Каждая ось связна
+        (гомеоморфна $\mathbb{R}$), у них общая точка $(0,0)$ — по Lm. 3 объединение связно. Или: $C$ линейно
+        связно — любые две точки соединяются ломаной через начало координат.</p>
+        <p class="answer-line"><b>Ответ:</b> выкалываем образ конца; объединение двух связных с общей точкой.</p>
+        <p class="footnote">Если ошибся — <a href="pract-04.html#task-4-2-1">листок 4, задача 4.2.1</a>.</p>
       </div></details>
     </section>
   </main>

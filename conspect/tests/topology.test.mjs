@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {
   set, point, interval, normalize, format, equals, union, intersect, complement,
   interior, closure, boundary, classifyPoint, TOPOLOGIES, ARROW_SPACE,
-  unionAll, uncovered, meetingCount, REAL_LINE,
+  unionAll, uncovered, meetingCount, REAL_LINE, componentsOf, isConnectedInLine, puncture,
 } from '../assets/topology.js';
 
 test('normalize сливает соприкасающиеся компоненты, когда стык покрыт', () => {
@@ -185,4 +185,28 @@ test('Ex. 5: окрестность (x−1, x+1) задевает лишь ко�
 test('покрытие (−n, n) не локально конечно: окрестность нуля задевает все', () => {
   const cover = Array.from({ length: 30 }, (_, index) => set(interval(-(index + 1), index + 1, false, false)));
   assert.equal(meetingCount(set(interval(-0.01, 0.01, false, false)), cover), 30);
+});
+
+test('Задача 4.1.2: компоненты подмножества прямой — максимальные промежутки', () => {
+  const two = set(interval(-2, -1, false, false), interval(1, 2, false, false));
+  assert.equal(componentsOf(two).length, 2);
+  assert.equal(isConnectedInLine(two), false);
+  assert.equal(isConnectedInLine(set(interval(0, 1, true, false), interval(1, 2, true, true))), true);
+});
+
+test('Ex. 2 лекции 4: прямая с выколотой точкой несвязна', () => {
+  const punctured = puncture([REAL_LINE], 0);
+  assert.equal(format(punctured), '(-∞, 0) ∪ (0, +∞)');
+  assert.equal(componentsOf(punctured).length, 2);
+});
+
+test('выкалывание конца отрезка связность не ломает, внутренней точки — ломает', () => {
+  const segment = set(interval(0, 1, true, true));
+  assert.equal(isConnectedInLine(puncture(segment, 0)), true);
+  assert.equal(isConnectedInLine(puncture(segment, 0.5)), false);
+});
+
+test('пустое множество связно, у него нет компонент', () => {
+  assert.equal(isConnectedInLine(set()), true);
+  assert.equal(componentsOf(set()).length, 0);
 });

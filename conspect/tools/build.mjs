@@ -16,6 +16,7 @@ const BUNDLE_MODULES = [
   'assets/widgets-covers.js',
   'assets/widgets-separation.js',
   'assets/widgets-maps.js',
+  'assets/widgets-connectedness.js',
   'assets/app.js',
 ];
 

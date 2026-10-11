@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Листок 4. Многообразия и связность — разбор</title>
+<meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-title" content="Дифгем">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <a class="topbar__home" href="../index.html">Дифгем</a>
+  <span class="topbar__crumbs"><span>Листок 4 · Многообразия и связность</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <a class="btn" href="../../data/pract/list_4_manifolds_connectedness.pdf">условия PDF</a>
+    <a class="btn" href="../lectures/lecture-04.html">лекция 4</a>
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc" data-toc>
+    <div class="toc__title">Листок 4</div>
+  </aside>
+
+  <main id="main">
+    <header class="page-header">
+      <div class="page-header__eyebrow">Разбор практики</div>
+      <h1>Листок 4. Многообразия и связность</h1>
+      <p class="lead">Основные задачи, звёздочки пропущены. Почти всё решается четырьмя фактами:
+      Lm. 1 (связность ⟺ нет нетривиальных открыто-замкнутых), Th. 4.1 (образ связного связен),
+      Lm. 2–3 (связное не разрезать; объединение с общей точкой связно), Lm. 4 (линейно связное связно).
+      Теория — <a href="../lectures/lecture-04.html">лекция 4</a>.</p>
+    </header>
+
+    <section id="s-p4-1" data-section-id="pract-04/4.1">
+      <h2 id="h-p4-1" data-short="4.1 Критерии связности">4.1 Критерии и примеры связности</h2>
+
+      <div class="block block--task" id="task-4-1-1" data-label="Задача 4.1.1" data-title="Три формулировки связности">
+        <div class="block__label">Задача 4.1.1 <span class="block__title">Три формулировки связности</span></div>
+        <p>Докажите эквивалентность: (a) нельзя разбить на два непустых непересекающихся открытых;
+        (b) то же с замкнутыми; (c) открыто-замкнутые только $\varnothing$ и $X$.</p>
+        <div class="task-meta"><span class="tag">определения</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a)⟺(b): если $X = U \sqcup V$, то $U = X \setminus V$ и $V = X \setminus U$, поэтому $U$, $V$
+        открыты ⟺ они замкнуты. Разрезы на открытые и на замкнутые — одно и то же. (a)⟺(c) — Lm. 1
+        лекции 4: нетривиальное открыто-замкнутое $U$ даёт разрез $U \sqcup (X\setminus U)$, и обратно.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-1-2" data-label="Задача 4.1.2" data-title="Связные подмножества прямой — промежутки">
+        <div class="block__label">Задача 4.1.2 <span class="block__title">Связные подмножества прямой — промежутки</span></div>
+        <p>Докажите: $A \subseteq \mathbb{R}$ связно ⟺ вместе с любыми $a &lt; b$ из $A$ содержит $[a,b]$.</p>
+        <div class="task-meta"><span class="tag">связность ℝ</span><span class="tag">сложность 3/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>(⇒) — разрез по выпавшей точке. (⇐) — рассмотри $s = \sup\big(U \cap [a,b]\big)$ и спроси, в
+        какой части разреза лежит $s$.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(⇒) Пусть $a &lt; c &lt; b$, $a, b \in A$, $c \notin A$. Тогда
+        $A = \big(A \cap (-\infty, c)\big) \sqcup \big(A \cap (c, +\infty)\big)$ — разрез на два непустых
+        открытых в $A$.</p>
+        <p>(⇐) Пусть $A$ — промежуток, но $A = U \sqcup V$ с непустыми открытыми в $A$ частями. Возьмём
+        $a \in U$, $b \in V$, пусть $a &lt; b$ (иначе поменяем роли). Положим
+        $s = \sup\big(U \cap [a, b]\big)$, $s \in [a,b] \subseteq A$.</p>
+        <ul>
+          <li>Если $s \in U$: $U$ открыто в $A$, значит $(s - \varepsilon, s+\varepsilon) \cap A \subseteq U$;
+          так как $b \in V$, то $s &lt; b$, и точки чуть правее $s$ лежат в $U \cap [a,b]$ — противоречие с
+          тем, что $s$ — верхняя грань.</li>
+          <li>Если $s \in V$: $(s-\varepsilon, s] \cap A \subseteq V$, и $s &gt; a$; тогда на $(s-\varepsilon, s]$
+          нет точек $U$, и $s - \varepsilon$ — тоже верхняя грань $U \cap [a,b]$, меньшая $s$, — противоречие.</li>
+        </ul>
+        <p class="footnote">Здесь работает полнота $\mathbb{R}$ — существование супремума. Для $\mathbb{Q}$
+        его нет, и $\mathbb{Q}$ несвязно. Потрогать — <a href="../lectures/lecture-04.html#ex-2">виджет компонент</a>.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-1-3" data-label="Задача 4.1.3" data-title="Какие подмножества прямой связны">
+        <div class="block__label">Задача 4.1.3 <span class="block__title">Какие подмножества прямой связны</span></div>
+        <p>Связны ли $\{0,1\}$, $[0,1]$, $(-2,-1)\cup(1,2)$, $\mathbb{Q}$, $\mathbb{R}\setminus\mathbb{Q}$?
+        Для несвязных предъявите разрез.</p>
+        <div class="task-meta"><span class="tag">связность</span><span class="tag">сложность 1/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Связно только $[0,1]$ (промежуток, задача 4.1.2). Разрезы:
+        $\{0\} \sqcup \{1\}$ (оба открыты в $\{0,1\}$: $\{0\} = \{0,1\} \cap (-\tfrac12, \tfrac12)$);
+        $(-2,-1) \sqcup (1,2)$;
+        $\mathbb{Q} = \big(\mathbb{Q} \cap (-\infty, \sqrt2)\big) \sqcup \big(\mathbb{Q} \cap (\sqrt2, +\infty)\big)$;
+        $\mathbb{R}\setminus\mathbb{Q} = \big((\mathbb{R}\setminus\mathbb{Q}) \cap (-\infty,0)\big) \sqcup
+        \big((\mathbb{R}\setminus\mathbb{Q}) \cap (0,+\infty)\big)$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-1-4" data-label="Задача 4.1.4" data-title="Несвязность через отделённые множества">
+        <div class="block__label">Задача 4.1.4 <span class="block__title">Несвязность через отделённые множества</span></div>
+        <p>$A \subseteq X$ несвязно ⟺ $A = B \cup C$ с непустыми $B$, $C$, $B \cap \overline C = \varnothing$,
+        $C \cap \overline B = \varnothing$ (замыкания в $X$).</p>
+        <div class="task-meta"><span class="tag">связность подмножеств</span><span class="tag">сложность 3/5</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Ключевой факт: $\mathrm{Cl}_A(B) = \overline B \cap A$ — замыкание в подпространстве есть след
+        замыкания.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(⇒) Пусть $A = B \sqcup C$, $B$, $C$ непусты и открыты в $A$. Тогда они и замкнуты в $A$:
+        $\mathrm{Cl}_A B = \overline B \cap A = B$. Значит $C \cap \overline B = C \cap A \cap \overline B = C \cap B = \varnothing$;
+        симметрично $B \cap \overline C = \varnothing$.</p>
+        <p>(⇐) Из условий $A \cap \overline C = (B \cup C) \cap \overline C = C$. Поэтому
+        $B = A \setminus C = A \cap (X \setminus \overline C)$ — открыто в $A$; симметрично $C$ открыто в $A$.
+        $B \cap C \subseteq B \cap \overline C = \varnothing$. Получили разрез.</p>
+      </div></details>
+    </section>
+
+    <section id="s-p4-2" data-section-id="pract-04/4.2">
+      <h2 id="h-p4-2" data-short="4.2 Связность и отображения">4.2 Связные множества и непрерывные отображения</h2>
+
+      <div class="block block--task" id="task-4-2-1" data-label="Задача 4.2.1" data-title="Объединение пересекающихся связных">
+        <div class="block__label">Задача 4.2.1 <span class="block__title">Объединение пересекающихся связных</span></div>
+        <p>Объединение двух связных множеств с непустым пересечением связно. Обобщите.</p>
+        <div class="task-meta"><span class="tag">Lm. 3</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Возьми общую точку $P$ и примени Lm. 3 лекции 4. Обобщение — сама Lm. 3: любое непустое семейство
+        связных множеств с общей точкой.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-2-2" data-label="Задача 4.2.2" data-title="Между связным и его замыканием">
+        <div class="block__label">Задача 4.2.2 <span class="block__title">Между связным и его замыканием</span></div>
+        <p>$A$ связно и $A \subseteq B \subseteq \overline A$. Докажите, что $B$ связно. Связно ли замыкание
+        связного множества?</p>
+        <div class="task-meta"><span class="tag">связность</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Пусть $B = U \sqcup V$, части открыты в $B$ и непусты. По Lm. 2 (в пространстве $B$) связное $A$
+        лежит целиком в одной части, скажем $A \subseteq U$. Возьмём $v \in V$; $V = B \cap O$ для
+        открытого в $X$ множества $O \ni v$. Так как $v \in \overline A$, окрестность $O$ пересекает $A$, а
+        $O \cap A \subseteq O \cap B = V$. Но $A \subseteq U$ — противоречие. Значит $B$ связно; при
+        $B = \overline A$ — замыкание связного связно.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-2-3" data-label="Задача 4.2.3" data-title="Граница в связном пространстве непуста">
+        <div class="block__label">Задача 4.2.3 <span class="block__title">Граница в связном пространстве непуста</span></div>
+        <p>(a) $X$ связно, $\varnothing \neq A \neq X$ ⇒ $\partial_X A \neq \varnothing$. (b) Связное $F$
+        пересекает $A$ и $X\setminus A$ ⇒ $F \cap \partial_X A \neq \varnothing$.</p>
+        <div class="task-meta"><span class="tag">связность + граница</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a) Если $\partial A = \varnothing$, то $\mathrm{Cl}A = A \cup \partial A = A$ — замкнуто, и
+        $\mathrm{Int}A = \mathrm{Cl}A \setminus \partial A = A$ — открыто. Нетривиальное открыто-замкнутое
+        множество в связном $X$ противоречит Lm. 1.</p>
+        <p>(b) Если $F \cap \partial A = \varnothing$, то по Lm. 4 лекции 1
+        $F \subseteq \mathrm{Int}A \sqcup \mathrm{Int}(X\setminus A)$ — два непересекающихся открытых. По Lm. 2
+        лекции 4 $F$ лежит в одном из них, например в $\mathrm{Int}A \subseteq A$, — но $F$ пересекает
+        $X\setminus A$. Противоречие.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-2-4" data-label="Задача 4.2.4" data-title="Непрерывные оценки и дискретные метки">
+        <div class="block__label">Задача 4.2.4 <span class="block__title">Непрерывные оценки и дискретные метки</span></div>
+        <p>$X$ непусто и связно, $Y$ — конечное множество меток с дискретной топологией. Докажите, что
+        непрерывное $f : X \to Y$ постоянно. А если $Y = [0,1]$?</p>
+        <div class="task-meta"><span class="tag">Th. 4.1</span><span class="tag">сложность 1/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$f(X)$ связно (Th. 4.1). В дискретном $Y$ множество из двух и более точек несвязно: $\{y\}$ и
+        остаток открыты. Значит $f(X)$ — одна точка. С $Y = [0,1]$ вывод неверен: $[0,1]$ связно, и
+        непрерывная оценка может принимать любые значения, например $f(x) = \tfrac{1}{1+e^{-x}}$ на
+        $\mathbb{R}$. Её образ — промежуток.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-2-5" data-label="Задача 4.2.5" data-title="Генератор и разделённые кластеры">
+        <div class="block__label">Задача 4.2.5 <span class="block__title">Генератор и разделённые кластеры</span></div>
+        <p>$Z$ связно, $G : Z \to \mathbb{R}^d$ непрерывно. Может ли $G(Z)$ лежать в
+        $\{x_1 \leqslant -1\} \cup \{x_1 \geqslant 1\}$ и пересекать обе части?</p>
+        <div class="task-meta"><span class="tag">Th. 4.1, Lm. 2</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Нет. $G(Z)$ связно и лежит в $U \sqcup V$, где $U = \{x_1 &lt; 0\}$, $V = \{x_1 &gt; 0\}$ —
+        непересекающиеся открытые. По Lm. 2 $G(Z)$ целиком в одном из них, а значит не может пересекать обе
+        части. Вывод: генератор со связным латентным пространством не рисует ровно два отдельных кластера —
+        его образ обязательно содержит «мостик» точек между ними или теряет один кластер.</p>
+      </div></details>
+    </section>
+
+    <section id="s-p4-3" data-section-id="pract-04/4.3">
+      <h2 id="h-p4-3" data-short="4.3 Линейная связность">4.3 Пути и линейная связность</h2>
+
+      <div class="block block--task" id="task-4-3-1" data-label="Задача 4.3.1" data-title="Линейно связное связно">
+        <div class="block__label">Задача 4.3.1 <span class="block__title">Линейно связное связно</span></div>
+        <p>Докажите, что линейно связное пространство связно.</p>
+        <div class="task-meta"><span class="tag">Lm. 4</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Это Lm. 4 лекции 4: образы путей из фиксированной точки $P$ связны (Th. 4.1, отрезок связен по
+        задаче 4.1.2), все содержат $P$, их объединение — всё $X$, связно по Lm. 3.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-3-2" data-label="Задача 4.3.2" data-title="Нормированная интерполяция на сфере">
+        <div class="block__label">Задача 4.3.2 <span class="block__title">Нормированная интерполяция на сфере</span></div>
+        <p>$\gamma(t) = \dfrac{(1-t)x + ty}{\|(1-t)x + ty\|}$, $x, y \in S^{n-1}$, $n \geqslant 2$. Когда это
+        путь? Случай $y = -x$. Выведите линейную связность $S^{n-1}$.</p>
+        <div class="task-meta"><span class="tag">пути</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Знаменатель обращается в ноль, только если отрезок $[x,y]$ проходит через $0$, то есть при
+        $y = -x$ (в точке $t = \tfrac12$). Иначе $\gamma$ непрерывна как частное непрерывных, $\gamma(0) = x$,
+        $\gamma(1) = y$. Для $y = -x$ возьмём $z \in S^{n-1}$, ортогональный $x$ (существует при $n \geqslant 2$):
+        $z \neq \pm x$, и пути $x \to z \to -x$ строятся той же формулой; склейка двух путей — путь.
+        Значит любые две точки сферы соединимы.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-3-3" data-label="Задача 4.3.3" data-title="Пространство без точки">
+        <div class="block__label">Задача 4.3.3 <span class="block__title">Пространство без точки</span></div>
+        <p>Докажите, что $\mathbb{R}^n\setminus\{0\}$ линейно связно при $n \geqslant 2$. Что при $n = 1$?</p>
+        <div class="task-meta"><span class="tag">пути</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Если отрезок $[x, y]$ не проходит через $0$ — он и есть путь. Иначе $x$, $y$, $0$ лежат на одной
+        прямой; возьмём точку $z$ вне этой прямой (есть при $n \geqslant 2$). Отрезки $[x,z]$ и $[z,y]$
+        пересекают эту прямую только в $x$ и в $y$ соответственно, поэтому $0$ на них не лежит. Ломаная
+        $x \to z \to y$ — путь.</p>
+        <p>При $n = 1$: $\mathbb{R}\setminus\{0\} = (-\infty,0) \sqcup (0,+\infty)$ несвязно; компоненты —
+        два луча.</p>
+      </div></details>
+    </section>
+
+    <section id="s-p4-4" data-section-id="pract-04/4.4">
+      <h2 id="h-p4-4" data-short="4.4 Карты и компоненты">4.4 Карты и компоненты многообразий</h2>
+
+      <div class="block block--task" id="task-4-4-1" data-label="Задача 4.4.1" data-title="Открытое подмножество ℝⁿ — многообразие">
+        <div class="block__label">Задача 4.4.1 <span class="block__title">Открытое подмножество $\mathbb{R}^n$ — многообразие</span></div>
+        <p>Любое непустое открытое $U \subseteq \mathbb{R}^n$ — $n$-мерное многообразие. Как устроены
+        координатные окрестности?</p>
+        <div class="task-meta"><span class="tag">определение многообразия</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Хаусдорфовость наследуется от $\mathbb{R}^n$ (задача 2.3.3). Локальная евклидовость: для $x \in U$
+        есть шар $B(x, r) \subseteq U$, а открытый шар гомеоморфен $\mathbb{R}^n$ через
+        $y \mapsto \frac{y - x}{r - \|y - x\|}$ (задача 3.4.1c). Паракомпактность: подпространства
+        $\mathbb{R}^n$ метризуемы, а метрические пространства паракомпактны (теорема Стоуна) — можно
+        сослаться как на известный факт. Координатные окрестности — шары внутри $U$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-4-2" data-label="Задача 4.4.2" data-title="Выборка — нульмерное многообразие">
+        <div class="block__label">Задача 4.4.2 <span class="block__title">Выборка — нульмерное многообразие</span></div>
+        <p>Конечная выборка $D \subseteq \mathbb{R}^n$ — нульмерное многообразие. Сколько компонент?
+        Сравните размерность с числом признаков.</p>
+        <div class="task-meta"><span class="tag">многообразия</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$D$ дискретно (задача 1.6), хаусдорфово, конечно — значит паракомпактно. Окрестность $\{x\}$
+        гомеоморфна $\mathbb{R}^0$ (точке). Компонент $m$ — по одной на точку. Размерность $0$ не зависит от
+        числа признаков $n$: это NB 2 лекции 4.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-4-3" data-label="Задача 4.4.3" data-title="Локально конечный атлас">
+        <div class="block__label">Задача 4.4.3 <span class="block__title">Локально конечный атлас</span></div>
+        <p>Покрытие областями карт допускает локально конечное уточнение областями карт; у компактного
+        многообразия — конечный податлас.</p>
+        <div class="task-meta"><span class="tag">паракомпактность</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>По паракомпактности есть открытое локально конечное уточнение $\{W_\beta\}$. Каждое
+        $W_\beta \subseteq U_i$ для некоторой карты $\varphi_i : U_i \to \mathbb{R}^n$, и сужение
+        $\varphi_i|_{W_\beta}$ — гомеоморфизм на открытое $\varphi_i(W_\beta) \subseteq \mathbb{R}^n$, то есть
+        $W_\beta$ — тоже область карты. У компакта из покрытия областями карт выбирается конечное
+        подпокрытие — это конечный податлас.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-4-4" data-label="Задача 4.4.4" data-title="Связное многообразие линейно связно">
+        <div class="block__label">Задача 4.4.4 <span class="block__title">Связное многообразие линейно связно</span></div>
+        <p>У каждой точки многообразия есть линейно связная открытая окрестность. Выведите, что связность
+        равносильна линейной связности, а компоненты открыты и замкнуты.</p>
+        <div class="task-meta"><span class="tag">компоненты</span><span class="tag">сложность 3/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Рассмотри множество точек, до которых можно дойти путём из фиксированной $P$, и покажи, что оно
+        открыто и замкнуто.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Окрестность, гомеоморфная $\mathbb{R}^n$, линейно связна (прямые отрезки). Пусть $C_P$ — точки,
+        соединимые путём с $P$. $C_P$ открыто: вместе с $Q$ оно содержит линейно связную окрестность $Q$
+        (путь до $Q$ продолжаем внутри окрестности). Дополнение открыто: если $Q \notin C_P$, то и вся
+        окрестность $Q$ не в $C_P$ (иначе через неё дошли бы до $Q$). Значит $C_P$ открыто-замкнуто и непусто.
+        В связном многообразии $C_P = M$ (Lm. 1) — оно линейно связно. Обратное — Lm. 4. Компоненты линейной
+        связности открыты и замкнуты, каждая связна, поэтому они и есть компоненты связности.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-4-4-5" data-label="Задача 4.4.5" data-title="Компоненты компактного многообразия">
+        <div class="block__label">Задача 4.4.5 <span class="block__title">Компоненты компактного многообразия</span></div>
+        <p>Число компонент компактного многообразия конечно. Пример паракомпактного многообразия с
+        несчётным числом компонент.</p>
+        <div class="task-meta"><span class="tag">компактность + компоненты</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Компоненты открыты (задача 4.4.4), не пересекаются и покрывают $M$ — это открытое покрытие без
+        лишних элементов. Конечное подпокрытие по компактности возможно только если компонент конечное число.
+        Пример: $\mathbb{R}$ с дискретной топологией — хаусдорфово, локально евклидово размерности $0$,
+        паракомпактно (уточнение одноточечными множествами локально конечно); компонент — континуум.</p>
+      </div></details>
+    </section>
+  </main>
+</div>
+</body>
+</html>
