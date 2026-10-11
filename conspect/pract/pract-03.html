@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Листок 3. Непрерывные отображения и гомеоморфизмы — разбор</title>
+<meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-title" content="Дифгем">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <a class="topbar__home" href="../index.html">Дифгем</a>
+  <span class="topbar__crumbs"><span>Листок 3 · Отображения и гомеоморфизмы</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <a class="btn" href="../../data/pract/list_3_homs_of_tops.pdf">условия PDF</a>
+    <a class="btn" href="../lectures/lecture-03.html">лекция 3</a>
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc" data-toc>
+    <div class="toc__title">Листок 3</div>
+  </aside>
+
+  <main id="main">
+    <header class="page-header">
+      <div class="page-header__eyebrow">Разбор практики</div>
+      <h1>Листок 3. Непрерывные отображения и гомеоморфизмы</h1>
+      <p class="lead">Основные задачи всех пяти разделов, звёздочки пропущены. Три рабочих
+      инструмента на весь листок: критерий непрерывности через прообразы (Th. 3.1), композиция
+      непрерывных (Lm. 1) и непрерывный образ компакта (Th. 3.2). Теория —
+      <a href="../lectures/lecture-03.html">лекция 3</a>.</p>
+      <div class="block block--summary">
+        <div class="block__label">Шпаргалка к листку</div>
+        <ul>
+          <li><b>Непрерывность:</b> прообраз каждого открытого (или каждого элемента базы) открыт.</li>
+          <li><b>Разрыв в $x_0$:</b> предъяви открытое $V \ni f(x_0)$, прообраз которого не содержит никакой окрестности $x_0$.</li>
+          <li><b>Отображение в $\mathbb{R}^n$</b> непрерывно ⟺ непрерывны все координаты (задача 3.2.2).</li>
+          <li><b>Гомеоморфизм:</b> биекция + непрерывность в обе стороны. Обратное выписывай явно.</li>
+          <li><b>Приёмы построения:</b> линейная замена; $\mathrm{tg}$ или $\frac{x}{1-|x|}$ для интервала → $\mathbb{R}$;
+          $\ln$ для $(0,+\infty) \to \mathbb{R}$; полярные координаты и замена радиуса $r \mapsto \varphi(r)$.</li>
+          <li><b>Негомеоморфность:</b> найди инвариант — компактность, мощность, изолированные точки, $T_1$, $T_2$.</li>
+        </ul>
+      </div>
+    </header>
+
+    <section id="s-p3-1" data-section-id="pract-03/3.1">
+      <h2 id="h-p3-1" data-short="3.1 Непрерывность и топология">3.1 Непрерывность и выбор топологии</h2>
+
+      <div class="block block--task" id="task-3-1-1" data-label="Задача 3.1.1" data-title="Инъективность и сюръективность композиции">
+        <div class="block__label">Задача 3.1.1 <span class="block__title">Инъективность и сюръективность композиции</span></div>
+        <p>Докажите: $g \circ f$ инъективно ⇒ $f$ инъективно; $g \circ f$ сюръективно ⇒ $g$ сюръективно.
+        Верны ли обратные утверждения?</p>
+        <div class="task-meta"><span class="tag">отображения множеств</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Если $f(x_1) = f(x_2)$, то $g(f(x_1)) = g(f(x_2))$, и по инъективности $g\circ f$ получаем
+        $x_1 = x_2$. Если $g \circ f$ сюръективно, то каждое $z = g(f(x))$ — значение $g$.</p>
+        <p>Обратные неверны. $f$ инъективно, но $g \circ f$ нет: $f = \mathrm{id}_{\{1,2\}}$, $g$ — константа.
+        $g$ сюръективно, но $g \circ f$ нет: $g = \mathrm{id}_{\{1,2\}}$, $f$ — константа.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-1-2" data-label="Задача 3.1.2" data-title="Непрерывные отображения между ℝ_d, ℝ_a, ℝ_st">
+        <div class="block__label">Задача 3.1.2 <span class="block__title">Непрерывные отображения между $\mathbb{R}_d$, $\mathbb{R}_a$, $\mathbb{R}_{st}$</span></div>
+        <p>Примеры непрерывных $\mathbb{R}_d \to \mathbb{R}_{st}$, $\mathbb{R}_a \to \mathbb{R}_{st}$,
+        $\mathbb{R}_{st} \to \mathbb{R}_d$, $\mathbb{R}_{st} \to \mathbb{R}_a$. Когда непрерывно тождественное?</p>
+        <div class="task-meta"><span class="tag">непрерывность</span><span class="tag">сложность 1/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Из дискретного всё непрерывно (любой прообраз открыт), в антидискретное — тоже (прообразы
+        $\varnothing$ и $X$). Константа непрерывна всегда.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\mathbb{R}_d \to \mathbb{R}_{st}$: любое отображение, например $\mathrm{id}$.
+        $\mathbb{R}_{st} \to \mathbb{R}_a$: любое, например $\mathrm{id}$.
+        $\mathbb{R}_a \to \mathbb{R}_{st}$ и $\mathbb{R}_{st} \to \mathbb{R}_d$: например константа
+        (непостоянные здесь непрерывными не бывают).</p>
+        <p>$\mathrm{id}$ непрерывно ровно в случаях $\mathbb{R}_d \to \mathbb{R}_{st}$ и
+        $\mathbb{R}_{st} \to \mathbb{R}_a$, то есть когда топология на области сильнее, чем на образе.
+        В $\mathbb{R}_a \to \mathbb{R}_{st}$ прообраз $(0,1)$ — это $(0,1)$, не открыт в $\mathbb{R}_a$;
+        в $\mathbb{R}_{st} \to \mathbb{R}_d$ прообраз $\{0\}$ не открыт в $\mathbb{R}_{st}$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-1-3" data-label="Задача 3.1.3" data-title="Найти точки разрыва">
+        <div class="block__label">Задача 3.1.3 <span class="block__title">Найти точки разрыва</span></div>
+        <p>$f : [0,2] \to [0,2]$, $f(x) = x$ при $0 \leqslant x &lt; 1$, $f(x) = 3 - x$ при
+        $1 \leqslant x \leqslant 2$. Найдите точки разрыва и для каждой предъявите открытую окрестность
+        $f(x_0)$, прообраз которой не содержит окрестности $x_0$.</p>
+        <div class="task-meta"><span class="tag">разрыв по Th. 3.1</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Нарисуй график: слева от $1$ значения подходят к $1$, а $f(1) = 2$. Возьми окрестность
+        значения $2$, не задевающую значений около $1$.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>На $[0,1)$ и $(1,2]$ — непрерывные куски, открытые в $[0,2]$; разрыв возможен только в $1$.
+        $f(1) = 2$. Возьмём $V = (\tfrac32, 2]$ — открыто в $[0,2]$. Прообраз:
+        $\{x &lt; 1 : x &gt; \tfrac32\} \cup \{1 \leqslant x \leqslant 2 : 3 - x &gt; \tfrac32\} = [1, \tfrac32)$.
+        Он не содержит ни одной окрестности $[0,2] \cap (1-\delta, 1+\delta)$ — нет точек левее $1$.</p>
+        <p class="answer-line"><b>Ответ:</b> единственная точка разрыва $x_0 = 1$, свидетель $V = (\tfrac32, 2]$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-1-4" data-label="Задача 3.1.4" data-title="Скачок вверх в стрелку">
+        <div class="block__label">Задача 3.1.4 <span class="block__title">Скачок вверх в стрелку</span></div>
+        <p>$f : [0,2] \to X_\to$, $f(x) = x$ при $x \leqslant 1$, $f(x) = x + 1$ при $x &gt; 1$. Непрерывно ли?
+        А если на $[0,+\infty)$ стандартная топология?</p>
+        <div class="task-meta"><span class="tag">непрерывность</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Открытые в стрелке — лучи $(a,+\infty)$. Достаточно проверить прообразы $\{x : f(x) &gt; a\}$.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$f$ возрастает: на $[0,1]$ значения $[0,1]$, на $(1,2]$ значения $(2,3]$.
+        При $a &lt; 1$: $\{f &gt; a\} = (a,2] \cap [0,2]$. При $1 \leqslant a &lt; 2$: $\{f &gt; a\} = (1,2]$.
+        При $2 \leqslant a &lt; 3$: $(a-1, 2]$. При $a \geqslant 3$: $\varnothing$. Все открыты в $[0,2]$ —
+        <b>$f$ непрерывно</b>.</p>
+        <p>В стандартной топологии — <b>разрыв в $1$</b>: прообраз $(\tfrac12, \tfrac32)$ равен
+        $(\tfrac12, 1]$, он не открыт в $[0,2]$. Стрелка «не замечает» скачок вверх: её окрестности —
+        только лучи вправо, и точкам справа от $1$ уже не нужно быть близко к $f(1)$.</p>
+      </div></details>
+    </section>
+
+    <section id="s-p3-2" data-section-id="pract-03/3.2">
+      <h2 id="h-p3-2" data-short="3.2 Координаты и матрицы">3.2 Координаты, матрицы и преобразования признаков</h2>
+
+      <div class="block block--task" id="task-3-2-1" data-label="Задача 3.2.1" data-title="Проекция квадрата на сторону">
+        <div class="block__label">Задача 3.2.1 <span class="block__title">Проекция квадрата на сторону</span></div>
+        <p>Докажите непрерывность $p : [0,1]^2 \to [0,1]\times\{0\}$, $p(x,y) = (x, 0)$.</p>
+        <div class="task-meta"><span class="tag">непрерывность</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Открытые в $[0,1]\times\{0\}$ имеют вид $U \times \{0\}$, $U$ открыто в $[0,1]$. Прообраз —
+        $U \times [0,1]$, открыт в квадрате как след произведения открытых. По Th. 3.1 $p$ непрерывно.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-2-2" data-label="Задача 3.2.2" data-title="Непрерывность по координатам">
+        <div class="block__label">Задача 3.2.2 <span class="block__title">Непрерывность по координатам</span></div>
+        <p>$f = (f^1, \dots, f^n) : X \to \mathbb{R}^n$ непрерывно ⟺ непрерывны все $f^j$.</p>
+        <div class="task-meta"><span class="tag">база произведения</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Проверять прообразы достаточно на элементах базы — открытых прямоугольниках.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(⇒) $f^j = \mathrm{pr}_j \circ f$ — композиция непрерывных (Ex. 1 и Lm. 1 лекции 3).
+        (⇐) Для прямоугольника $\prod_j (a_j,b_j)$:
+        $f^{-1}\big(\prod_j (a_j,b_j)\big) = \bigcap_j (f^j)^{-1}(a_j,b_j)$ — конечное пересечение
+        открытых. Прямоугольники — база, прообраз сохраняет объединения, значит прообраз любого
+        открытого открыт.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-2-3" data-label="Задача 3.2.3" data-title="Произведение матриц непрерывно">
+        <div class="block__label">Задача 3.2.3 <span class="block__title">Произведение матриц непрерывно</span></div>
+        <p>$f : X \to \mathrm{Mat}(p,q)$, $g : X \to \mathrm{Mat}(q,r)$ непрерывны. Докажите непрерывность
+        $x \mapsto f(x)g(x)$.</p>
+        <div class="task-meta"><span class="tag">непрерывность</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Элемент $(fg)_{ik} = \sum_j f_{ij} g_{jk}$. Каждая $f_{ij}$, $g_{jk}$ непрерывна по задаче 3.2.2;
+        сложение и умножение $\mathbb{R}^2 \to \mathbb{R}$ непрерывны, поэтому $(fg)_{ik}$ непрерывна как
+        композиция. Все координаты непрерывны — значит непрерывно и отображение в $\mathbb{R}^{pr}$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-2-4" data-label="Задача 3.2.4" data-title="Множество решений замкнуто">
+        <div class="block__label">Задача 3.2.4 <span class="block__title">Множество решений замкнуто</span></div>
+        <p>$f^1, \dots, f^n : X \to \mathbb{R}$ непрерывны. Докажите, что $\{f^1 = \dots = f^n = 0\}$
+        замкнуто. А $\{f^j \leqslant 0\ \forall j\}$?</p>
+        <div class="task-meta"><span class="tag">Следствие 1</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\{f^1 = \dots = 0\} = \bigcap_j (f^j)^{-1}(\{0\})$; $\{0\}$ замкнуто, прообраз замкнутого
+        замкнут (Следствие 1), пересечение замкнутых замкнуто. Неравенства — то же самое с замкнутым
+        лучом $(-\infty, 0]$: множество тоже замкнуто.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-2-5" data-label="Задача 3.2.5" data-title="Непрерывность нейросети">
+        <div class="block__label">Задача 3.2.5 <span class="block__title">Непрерывность нейросети</span></div>
+        <p>$h_0 = x$, $h_j = \rho(W_j h_{j-1} + b_j)$, $\rho = \mathrm{ReLU}$. Докажите непрерывность $h_L$
+        по $x$, а также совместную по $x$ и всем $W_j$, $b_j$.</p>
+        <div class="task-meta"><span class="tag">композиция</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\rho(t) = \max\{0,t\}$ непрерывна, покоординатное применение непрерывно по задаче 3.2.2.
+        Индукция по $j$: если $h_{j-1}$ непрерывна, то $W_j h_{j-1} + b_j$ непрерывна (произведение и
+        сумма — задача 3.2.3), и после $\rho$ — тоже (Lm. 1). Для совместной непрерывности считаем
+        аргументом весь набор $(x, W_1, b_1, \dots)$: каждая координата $W_j h_{j-1} + b_j$ — многочлен
+        от координат этого набора и координат $h_{j-1}$, дальше та же индукция.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-2-6" data-label="Задача 3.2.6" data-title="Нормировка вектора">
+        <div class="block__label">Задача 3.2.6 <span class="block__title">Нормировка вектора</span></div>
+        <p>$N(x) = x/\|x\|$, $\mathbb{R}^n\setminus\{0\} \to S^{n-1}$. Непрерывность, сюръективность,
+        $N^{-1}(\{u\})$, можно ли доопределить в нуле?</p>
+        <div class="task-meta"><span class="tag">непрерывность</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Координаты $x_i/\|x\|$ — частное непрерывных с ненулевым знаменателем, непрерывны.
+        Сюръективно: $N(u) = u$ для $u \in S^{n-1}$. $N^{-1}(\{u\}) = \{tu : t &gt; 0\}$ — открытый луч:
+        нормировка теряет длину вектора. Доопределить нельзя: $N(tu) = u$ и $N(-tu) = -u$ при $t \to 0$,
+        у $N$ нет предела в нуле.</p>
+      </div></details>
+    </section>
+
+    <section id="s-p3-3" data-section-id="pract-03/3.3">
+      <h2 id="h-p3-3" data-short="3.3 Гомеоморфизмы и компактность">3.3 Гомеоморфизмы, графики и компактность</h2>
+
+      <div class="block block--task" id="task-3-3-1" data-label="Задача 3.3.1" data-title="Гомеоморфизм сохраняет Cl, Int, ∂">
+        <div class="block__label">Задача 3.3.1 <span class="block__title">Гомеоморфизм сохраняет Cl, Int, ∂</span></div>
+        <p>$f$ — гомеоморфизм. Докажите $f(\mathrm{Cl}A) = \mathrm{Cl}f(A)$, $f(\mathrm{Int}A) = \mathrm{Int}f(A)$,
+        $f(\partial A) = \partial f(A)$.</p>
+        <div class="task-meta"><span class="tag">гомеоморфизм</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Одно включение даёт Lm. 2 лекции 3 для $f$, другое — та же лемма для $f^{-1}$.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p><b>Cl.</b> По Lm. 2: $f(\mathrm{Cl}A) \subseteq \mathrm{Cl}f(A)$. Для $f^{-1}$ и множества $f(A)$:
+        $f^{-1}(\mathrm{Cl}f(A)) \subseteq \mathrm{Cl}A$, то есть $\mathrm{Cl}f(A) \subseteq f(\mathrm{Cl}A)$.</p>
+        <p><b>Int.</b> $f(\mathrm{Int}A)$ открыто (Lm. 3) и лежит в $f(A)$, значит $\subseteq \mathrm{Int}f(A)$.
+        Симметрично для $f^{-1}$: $f^{-1}(\mathrm{Int}f(A)) \subseteq \mathrm{Int}A$.</p>
+        <p><b>∂.</b> $\partial A = \mathrm{Cl}A \setminus \mathrm{Int}A$, а биекция переводит разность в
+        разность образов.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-3-2" data-label="Задача 3.3.2" data-title="График непрерывной функции">
+        <div class="block__label">Задача 3.3.2 <span class="block__title">График непрерывной функции</span></div>
+        <p>$f : X \to Y$ непрерывно, $\Gamma_f = \{(x, f(x))\} \subseteq X \times Y$. (a) $\Gamma_f \simeq X$.
+        (b) При хаусдорфовом $Y$ график замкнут.</p>
+        <div class="task-meta"><span class="tag">гомеоморфизм, T₂</span><span class="tag">сложность 3/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a) $h(x) = (x, f(x))$ — биекция на $\Gamma_f$, непрерывна: координаты $\mathrm{id}$ и $f$
+        непрерывны, прообраз прямоугольника $U \times V$ равен $U \cap f^{-1}(V)$. Обратное — $\mathrm{pr}_1|_{\Gamma_f}$,
+        непрерывно как сужение проекции.</p>
+        <p>(b) Покажем, что дополнение открыто. Пусть $y \neq f(x)$. Разделим: $U \ni y$, $V \ni f(x)$,
+        $U \cap V = \varnothing$. Окрестность $f^{-1}(V) \times U$ точки $(x,y)$ не пересекает график:
+        для $(x', y')$ из неё $f(x') \in V$, $y' \in U$, значит $y' \neq f(x')$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-3-3" data-label="Задача 3.3.3" data-title="Минимум лосса на компакте">
+        <div class="block__label">Задача 3.3.3 <span class="block__title">Минимум лосса на компакте</span></div>
+        <p>$\Theta \subseteq \mathbb{R}^d$ — непустой компакт, $f_j$ непрерывны,
+        $L(\theta) = \sum_j (f_j(\theta) - y_j)^2$. Докажите, что минимум достигается, а множество
+        минимизаторов непусто и компактно. Пример без минимума при некомпактном $\Theta$.</p>
+        <div class="task-meta"><span class="tag">Th. 3.2</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>$L(\Theta)$ — компакт в $\mathbb{R}$, значит замкнут и ограничен и содержит свой инфимум.
+        Минимизаторы — прообраз точки.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$L$ непрерывна (суммы, разности, квадраты непрерывных). По Th. 3.2 $L(\Theta)$ компактно в
+        $\mathbb{R}$, по Гейне–Борелю замкнуто и ограничено, поэтому $m = \inf L(\Theta) \in L(\Theta)$ —
+        минимум достигается. Множество минимизаторов $L^{-1}(\{m\})$ непусто, замкнуто (прообраз
+        замкнутого) и лежит в ограниченном $\Theta$ — компактно.</p>
+        <p>Без компактности: $\Theta = (0, 1]$, $L(\theta) = \theta^2$ — инфимум $0$ не достигается.
+        Или $\Theta = \mathbb{R}$, $L(\theta) = e^{\theta}$.</p>
+      </div></details>
+    </section>
+
+    <section id="s-p3-4" data-section-id="pract-03/3.4">
+      <h2 id="h-p3-4" data-short="3.4 Построение гомеоморфизмов">3.4 Построение гомеоморфизмов</h2>
+
+      <div class="block block--task" id="task-3-4-1" data-label="Задача 3.4.1" data-title="Шесть областей, гомеоморфных плоскости">
+        <div class="block__label">Задача 3.4.1 <span class="block__title">Шесть областей, гомеоморфных плоскости</span></div>
+        <p>Постройте гомеоморфизм с $\mathbb{R}^2$: (a) $(0,1)^2$; (b) $(0,+\infty)\times(0,1)$;
+        (c) $\{x^2+y^2 &lt; 1\}$; (d) $\{x &gt; y &gt; 0\}$; (e) $\{x^2+y^2&lt;1, x&gt;y&gt;0\}$;
+        (f) $\{x^2+y^2&lt;1, y&gt;0\}$.</p>
+        <div class="task-meta"><span class="tag">построение гомеоморфизма</span><span class="tag">сложность 3/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Интервал → $\mathbb{R}$: $t \mapsto \mathrm{tg}\big(\pi(t - \tfrac12)\big)$ для $(0,1)$;
+        $(0,+\infty) \to \mathbb{R}$: $\ln$. Произведение гомеоморфизмов — гомеоморфизм. Для угловых
+        областей перейди в полярные координаты $(r, \varphi)$: тогда область — прямоугольник.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Обозначим $T(t) = \mathrm{tg}\big(\pi(t - \tfrac12)\big) : (0,1) \to \mathbb{R}$, обратное
+        $\tfrac12 + \tfrac1\pi \mathrm{arctg}$.</p>
+        <p>(a) $(x,y) \mapsto (T(x), T(y))$ — покоординатно, обратное покоординатно.</p>
+        <p>(b) $(x,y) \mapsto (\ln x, T(y))$.</p>
+        <p>(c) $x \mapsto \frac{x}{1 - \|x\|}$, обратное $y \mapsto \frac{y}{1 + \|y\|}$; оба непрерывны
+        (знаменатели не обращаются в ноль), проверка композиций — прямое вычисление радиуса:
+        $r \mapsto \frac{r}{1-r}$ — возрастающая биекция $[0,1) \to [0,+\infty)$.</p>
+        <p>(d) Полярные координаты — гомеоморфизм области на $(0,+\infty) \times (0, \tfrac\pi4)$
+        (обратное $r = \sqrt{x^2+y^2}$, $\varphi = \mathrm{arctg}(y/x)$ непрерывны при $x &gt; 0$). Дальше
+        $(r, \varphi) \mapsto \big(\ln r,\ \mathrm{tg}(4\varphi - \tfrac\pi2)\big)$.</p>
+        <p>(e) В полярных: $(0,1) \times (0, \tfrac\pi4)$, затем $\big(T(r),\ \mathrm{tg}(4\varphi - \tfrac\pi2)\big)$.</p>
+        <p>(f) В полярных: $(0,1) \times (0, \pi)$, затем $\big(T(r),\ \mathrm{tg}(\varphi - \tfrac\pi2)\big)$.</p>
+        <p class="footnote">На КР обязательно напиши обратное отображение и одну фразу, почему оба
+        непрерывны: «композиция непрерывных функций с ненулевыми знаменателями».</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-4-2" data-label="Задача 3.4.2" data-title="Круг в квадрат">
+        <div class="block__label">Задача 3.4.2 <span class="block__title">Круг в квадрат</span></div>
+        <p>Постройте гомеоморфизм $D^2 \to Q = [-1,1]^2$, переводящий $S^1$ в $\partial Q$. Проверьте
+        непрерывность в нуле.</p>
+        <div class="task-meta"><span class="tag">построение гомеоморфизма</span><span class="tag">сложность 3/5</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Растягивай вдоль лучей из нуля: точке с евклидовой нормой $1$ нужна sup-норма $1$.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$h(x) = \dfrac{\|x\|_2}{\|x\|_\infty}\, x$ при $x \neq 0$, $h(0) = 0$. Тогда
+        $\|h(x)\|_\infty = \|x\|_2$: круг $\|x\|_2 \leqslant 1$ переходит в квадрат $\|y\|_\infty \leqslant 1$,
+        окружность — в контур. Обратное $g(y) = \dfrac{\|y\|_\infty}{\|y\|_2}\, y$, $g(0) = 0$.</p>
+        <p>Вне нуля оба непрерывны как произведения непрерывных функций. В нуле:
+        $\|h(x)\|_2 = \|x\|_2^2/\|x\|_\infty \leqslant \sqrt2\,\|x\|_2 \to 0$, поскольку
+        $\|x\|_\infty \geqslant \|x\|_2/\sqrt2$; и $\|g(y)\|_2 = \|y\|_\infty \to 0$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-4-3" data-label="Задача 3.4.3" data-title="Цилиндры и кольца">
+        <div class="block__label">Задача 3.4.3 <span class="block__title">Цилиндры и кольца</span></div>
+        <p>Постройте $S^1\times\mathbb{R} \to \{1 &lt; \|x\| &lt; 2\}$ и $S^1\times[0,1] \to \{1 \leqslant \|x\| \leqslant 2\}$.
+        Чем различаются построения?</p>
+        <div class="task-meta"><span class="tag">построение гомеоморфизма</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Открытое: $(u, t) \mapsto \big(\tfrac32 + \tfrac1\pi\mathrm{arctg}\,t\big)\, u$; обратное
+        $x \mapsto \big(\tfrac{x}{\|x\|},\ \mathrm{tg}\big(\pi(\|x\| - \tfrac32)\big)\big)$.
+        Замкнутое: $(u,t) \mapsto (1+t)\,u$; обратное $x \mapsto \big(\tfrac{x}{\|x\|}, \|x\| - 1\big)$.</p>
+        <p>Различие: в первом нужно нелинейно сжать бесконечную прямую в интервал $(1,2)$, во втором
+        хватает линейной замены $[0,1] \to [1,2]$. И второе — гомеоморфизм компактов.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-4-4" data-label="Задача 3.4.4" data-title="Проколотая плоскость, проколотый круг, внешность круга">
+        <div class="block__label">Задача 3.4.4 <span class="block__title">Проколотая плоскость, проколотый круг, внешность круга</span></div>
+        <p>Докажите, что $\mathbb{R}^2\setminus\{0\}$, $\{0 &lt; x^2+y^2 &lt; 1\}$, $\{x^2+y^2&gt;1\}$
+        гомеоморфны. Укажите замену радиуса.</p>
+        <div class="task-meta"><span class="tag">построение гомеоморфизма</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Все отображения вида $x \mapsto \varphi(\|x\|)\, \frac{x}{\|x\|}$ с возрастающей (или убывающей)
+        непрерывной биекцией $\varphi$ радиусов.
+        $\mathbb{R}^2\setminus\{0\} \to$ проколотый круг: $\varphi(r) = \frac{r}{1+r}$, обратное $\frac{s}{1-s}$.
+        Проколотый круг → внешность: инверсия $\varphi(r) = \frac1r$, то есть $x \mapsto x/\|x\|^2$, она
+        обратна сама себе.</p>
+      </div></details>
+    </section>
+
+    <section id="s-p3-5" data-section-id="pract-03/3.5">
+      <h2 id="h-p3-5" data-short="3.5 Негомеоморфность">3.5 Инварианты и негомеоморфность</h2>
+
+      <div class="block block--task" id="task-3-5-1" data-label="Задача 3.5.1" data-title="Окружность и прямая">
+        <div class="block__label">Задача 3.5.1 <span class="block__title">Окружность и прямая</span></div>
+        <p>Докажите, что $S^1 \not\simeq \mathbb{R}_{st}$. А в дискретных топологиях?</p>
+        <div class="task-meta"><span class="tag">инварианты</span><span class="tag">сложность 1/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$S^1$ компактна (замкнута и ограничена в $\mathbb{R}^2$), $\mathbb{R}$ — нет (Ex. 4 лекции 2);
+        компактность — инвариант (Lm. 4). В дискретных топологиях — гомеоморфны: оба множества мощности
+        континуум, а любая биекция между дискретными пространствами — гомеоморфизм (всё открыто).</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-5-2" data-label="Задача 3.5.2" data-title="Пять попарно негомеоморфных пространств">
+        <div class="block__label">Задача 3.5.2 <span class="block__title">Пять попарно негомеоморфных пространств</span></div>
+        <p>Покажите, что $\mathbb{Z}_{st}$, $\mathbb{Q}_{st}$, $\mathbb{R}_{st}$, $\mathbb{R}_{CF}$, $X_\to$
+        попарно негомеоморфны.</p>
+        <div class="task-meta"><span class="tag">инварианты</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Три инварианта: мощность, наличие изолированных точек ($\{p\}$ открыто), аксиомы $T_1$ и $T_2$.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <div class="table-wrap"><table>
+          <thead><tr><th>Пространство</th><th>Мощность</th><th>Изолированные точки</th><th>$T_1$</th><th>$T_2$</th></tr></thead>
+          <tbody>
+            <tr><td>$\mathbb{Z}_{st}$</td><td>счётно</td><td>все</td><td>да</td><td>да</td></tr>
+            <tr><td>$\mathbb{Q}_{st}$</td><td>счётно</td><td>нет</td><td>да</td><td>да</td></tr>
+            <tr><td>$\mathbb{R}_{st}$</td><td>континуум</td><td>нет</td><td>да</td><td>да</td></tr>
+            <tr><td>$\mathbb{R}_{CF}$</td><td>континуум</td><td>нет</td><td>да</td><td>нет</td></tr>
+            <tr><td>$X_\to$</td><td>континуум</td><td>нет</td><td>нет</td><td>нет</td></tr>
+          </tbody>
+        </table></div>
+        <p>Любые две строки различаются хотя бы в одном столбце, а все столбцы — инварианты:
+        гомеоморфизм — биекция (мощность), переводит открытые $\{p\}$ в открытые $\{h(p)\}$
+        (изолированные точки), сохраняет $T_1$ и $T_2$ (Lm. 5).</p>
+      </div></details>
+
+      <div class="block block--task" id="task-3-5-3" data-label="Задача 3.5.3" data-title="Цилиндр и лента Мёбиуса">
+        <div class="block__label">Задача 3.5.3 <span class="block__title">Цилиндр и лента Мёбиуса</span></div>
+        <p>Гомеоморфны ли $S^1\times\mathbb{R}$ и компактная лента Мёбиуса с краем?</p>
+        <div class="task-meta"><span class="tag">инварианты</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Нет. Проекция $S^1 \times \mathbb{R} \to \mathbb{R}$ непрерывна и сюръективна; будь цилиндр
+        компактен, $\mathbb{R}$ был бы компактен по Th. 3.2. Лента Мёбиуса с краем компактна —
+        непрерывный образ квадрата $[0,1]^2$ при склейке. Компактность — инвариант.</p>
+      </div></details>
+    </section>
+  </main>
+</div>
+</body>
+</html>

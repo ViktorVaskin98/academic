@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Листок 2. Базы, счётность, отделимость — разбор</title>
+<meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-title" content="Дифгем">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <a class="topbar__home" href="../index.html">Дифгем</a>
+  <span class="topbar__crumbs"><span>Листок 2 · Базы, счётность, отделимость</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <a class="btn" href="../../data/pract/list_2_base_counts_seps.pdf">условия PDF</a>
+    <a class="btn" href="../lectures/lecture-02.html">лекция 2</a>
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc" data-toc>
+    <div class="toc__title">Листок 2</div>
+  </aside>
+
+  <main id="main">
+    <header class="page-header">
+      <div class="page-header__eyebrow">Разбор практики</div>
+      <h1>Листок 2. Базы, счётность, отделимость</h1>
+      <p class="lead">Основные задачи всех трёх разделов, звёздочки пропущены. Сначала подсказка,
+      потом решение. Теория — <a href="../lectures/lecture-01.html#h-1-4">база и предбаза</a>
+      в лекции 1 и вся <a href="../lectures/lecture-02.html">лекция 2</a>; таблица-зоопарк
+      пространств в её итогах закрывает половину ответов.</p>
+    </header>
+
+    <section id="s-p2-1" data-section-id="pract-02/2.1">
+      <h2 id="h-p2-1" data-short="2.1 Базы и предбазы">2.1 Базы и предбазы</h2>
+
+      <div class="block block--task" id="task-2-1-1" data-label="Задача 2.1.1" data-title="Одна база — одна топология">
+        <div class="block__label">Задача 2.1.1 <span class="block__title">Одна база — одна топология</span></div>
+        <p>Могут ли различные топологии иметь одну и ту же базу? Приведите две разные базы одной топологии.</p>
+        <div class="task-meta"><span class="tag">базы</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Нет. По Lm. 6 топология — это ровно все объединения элементов базы, поэтому база
+        однозначно её определяет. Две базы $\tau_{\mathrm{st}}$: все интервалы $(a,b)$ и интервалы с
+        рациональными концами (Ex. 12).</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-1-2" data-label="Задача 2.1.2" data-title="Базы дискретной и антидискретной">
+        <div class="block__label">Задача 2.1.2 <span class="block__title">Базы дискретной и антидискретной</span></div>
+        <p>Найдите базы $\tau_{\mathrm{d}}$ и $\tau_{\mathrm{a}}$. Какие множества входят в любую базу $\tau_{\mathrm{d}}$?</p>
+        <div class="task-meta"><span class="tag">базы</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\tau_{\mathrm{d}}$: все одноточечные $\{x\}$. $\tau_{\mathrm{a}}$: $\{X\}$. В любую базу $\tau_{\mathrm{d}}$
+        входят все $\{x\}$: окрестность $\{x\}$ точки $x$ должна содержать элемент базы $V \ni x$, а
+        тогда $V = \{x\}$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-1-3" data-label="Задача 2.1.3" data-title="Какие семейства интервалов — базы">
+        <div class="block__label">Задача 2.1.3 <span class="block__title">Какие семейства интервалов — базы</span></div>
+        <p>Базы ли $\tau_{\mathrm{st}}$: (a) $\{(a,b) : a,b \in \mathbb{Q}\}$; (b) $\{(x - \tfrac1n, x + \tfrac1n)\}$;
+        (c) $\{(x-1, x+1) : x \in \mathbb{R}\}$?</p>
+        <div class="task-meta"><span class="tag">базы</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Def. 13: элементы должны протискиваться в <b>сколь угодно маленькие</b> окрестности.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a) Да — Ex. 12 лекции 1. (b) Да: если $x \in O$, то $(x-\varepsilon, x+\varepsilon) \subseteq O$
+        и $(x - \tfrac1n, x+\tfrac1n) \subseteq O$ при $\tfrac1n \leqslant \varepsilon$. (c) Нет: все
+        элементы длины 2, и ни один не влезет в окрестность $(0, 1)$ точки $\tfrac12$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-1-4" data-label="Задача 2.1.4" data-title="След базы — база подпространства">
+        <div class="block__label">Задача 2.1.4 <span class="block__title">След базы — база подпространства</span></div>
+        <p>$\beta$ — база топологии на $X$, $A \subseteq X$. Докажите: $\{A \cap B : B \in \beta\}$ —
+        база индуцированной топологии на $A$.</p>
+        <div class="task-meta"><span class="tag">база + подпространство</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Элементы $A \cap B$ открыты в $A$ (Def. 3). Открытое в $A$ множество имеет вид $A \cap O$, $O$
+        открыто в $X$. Для $a \in A\cap O$ есть $B \in \beta$ с $a \in B \subseteq O$, тогда
+        $a \in A \cap B \subseteq A \cap O$. Это Def. 13.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-1-5" data-label="Задача 2.1.5" data-title="База произведения">
+        <div class="block__label">Задача 2.1.5 <span class="block__title">База произведения</span></div>
+        <p>$\beta_X$, $\beta_Y$ — базы. Докажите, что $\{B \times C\}$ — база топологии произведения.
+        Опишите базу на матрицах $p \times q$.</p>
+        <div class="task-meta"><span class="tag">база + произведение</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$B \times C$ открыты (Lm. 2). Если $(x,y) \in W$, $W$ открыто, то по Lm. 2 есть открытые
+        $U \ni x$, $V \ni y$ с $U \times V \subseteq W$. Берём $B \in \beta_X$, $x \in B \subseteq U$, и
+        $C \in \beta_Y$, $y \in C \subseteq V$: $(x,y) \in B \times C \subseteq W$.</p>
+        <p>Матрицы — это $\mathbb{R}^{pq}$, база — «матричные кубы»
+        $\{M : a_{ij} &lt; M_{ij} &lt; b_{ij}\ \forall i,j\}$, можно с рациональными $a_{ij}, b_{ij}$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-1-6" data-label="Задача 2.1.6" data-title="Конечный набор порогов">
+        <div class="block__label">Задача 2.1.6 <span class="block__title">Конечный набор порогов</span></div>
+        <p>Пороги $a_1 &lt; \dots &lt; a_m$, предбаза $\sigma = \{\mathbb{R}\} \cup \{(-\infty, a_i), (a_i, +\infty)\}$.
+        Минимальная окрестность $x \in (a_i, a_{i+1})$? Почему топология строго слабее стандартной?
+        Что будет со всеми рациональными порогами?</p>
+        <div class="task-meta"><span class="tag">предбаза</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Минимальная окрестность — $(a_i, +\infty) \cap (-\infty, a_{i+1}) = (a_i, a_{i+1})$: любой
+        элемент предбазы, содержащий $x$, содержит весь этот интервал. Все элементы $\sigma$ открыты в
+        $\tau_{\mathrm{st}}$, поэтому порождённая топология слабее. Строго: $(a_i, \tfrac{a_i + a_{i+1}}{2})$
+        стандартно открыто, но любое открытое в новой топологии множество, содержащее точку из
+        $(a_i, a_{i+1})$, содержит весь $(a_i, a_{i+1})$. С рациональными порогами пересечения дают
+        интервалы с рациональными концами — базу $\tau_{\mathrm{st}}$, и топологии совпадают.</p>
+        <p class="footnote">Это решающее дерево с конечным числом порогов: оно не различает точки
+        между соседними порогами.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-1-7" data-label="Задача 2.1.7" data-title="Прямая Зоргенфрея">
+        <div class="block__label">Задача 2.1.7 <span class="block__title">Прямая Зоргенфрея</span></div>
+        <p>Докажите, что $\{[a,b) : a &lt; b\}$ — база некоторой топологии. Сравните со стандартной.</p>
+        <div class="task-meta"><span class="tag">Th. 1.1</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Проверь два условия Th. 1.1. Для сравнения: можно ли собрать $(a,b)$ из полуинтервалов?</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Полуинтервалы покрывают $\mathbb{R}$, а $[a,b) \cap [c,d) = [\max(a,c), \min(b,d))$ — снова
+        полуинтервал или $\varnothing$. Оба условия Th. 1.1 выполнены.</p>
+        <p>Топология Зоргенфрея <b>строго сильнее</b> стандартной: $(a,b) = \bigcup_n [a + \tfrac1n, b)$,
+        так что каждое стандартно открытое множество открыто; но $[0,1)$ в $\tau_{\mathrm{st}}$ не открыто.</p>
+      </div></details>
+    </section>
+
+    <section id="s-p2-2" data-section-id="pract-02/2.2">
+      <h2 id="h-p2-2" data-short="2.2 Счётность и покрытия">2.2 Счётность и покрытия</h2>
+
+      <div class="block block--task" id="task-2-2-1" data-label="Задача 2.2.1" data-title="Сходимость в τ_d и τ_a">
+        <div class="block__label">Задача 2.2.1 <span class="block__title">Сходимость в $\tau_{\mathrm{d}}$ и $\tau_{\mathrm{a}}$</span></div>
+        <p>Опишите все сходящиеся последовательности и их пределы в дискретной и антидискретной топологиях.</p>
+        <div class="task-meta"><span class="tag">сходимость</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\tau_{\mathrm{d}}$: $P_n \to Q$ ⟺ с некоторого номера $P_n = Q$ (окрестность $\{Q\}$);
+        предел единственен. $\tau_{\mathrm{a}}$: единственная окрестность — $X$, поэтому <b>каждая</b>
+        последовательность сходится к <b>каждой</b> точке.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-2-2" data-label="Задача 2.2.2" data-title="Аксиомы счётности для τ_d, τ_a и стрелки">
+        <div class="block__label">Задача 2.2.2 <span class="block__title">Аксиомы счётности для $\tau_{\mathrm{d}}$, $\tau_{\mathrm{a}}$ и стрелки</span></div>
+        <p>Исследуйте I и II аксиомы счётности для $\tau_{\mathrm{d}}$, $\tau_{\mathrm{a}}$ и стрелки на $[0, +\infty)$.</p>
+        <div class="task-meta"><span class="tag">счётность</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\tau_{\mathrm{d}}$: I всегда (локальная база $\{\{x\}\}$); II ⟺ $X$ не более чем счётно
+        (любая база содержит все $\{x\}$, задача 2.1.2).</p>
+        <p>$\tau_{\mathrm{a}}$: обе всегда, база $\{X\}$.</p>
+        <p>Стрелка: обе выполнены. Счётная база — $X$ и лучи $(q, +\infty)$, $q \in \mathbb{Q}$,
+        $q \geqslant 0$: если $x \in (a, +\infty)$, берём рациональное $q \in (a, x)$, тогда
+        $x \in (q,+\infty) \subseteq (a,+\infty)$; точку $0$ обслуживает $X$. II влечёт I.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-2-3" data-label="Задача 2.2.3" data-title="II ⇒ I и наследование подпространствами">
+        <div class="block__label">Задача 2.2.3 <span class="block__title">II ⇒ I и наследование подпространствами</span></div>
+        <p>Докажите, что II влечёт I. Наследуются ли аксиомы подпространствами?</p>
+        <div class="task-meta"><span class="tag">счётность</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Если $\beta$ — счётная база, то $\{V \in \beta : x \in V\}$ — счётная локальная база в $x$:
+        для окрестности $O \ni x$ есть $V \in \beta$, $x \in V \subseteq O$. Наследуются обе: следы счётной
+        базы (локальной базы) на $A$ — счётная база (локальная база) подпространства, как в задаче 2.1.4.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-2-4" data-label="Задача 2.2.4" data-title="Счётное плотное в ℝⁿ">
+        <div class="block__label">Задача 2.2.4 <span class="block__title">Счётное плотное в $\mathbb{R}^n$</span></div>
+        <p>Предъявите счётное всюду плотное подмножество $\mathbb{R}^n$. Может ли конечная выборка быть
+        всюду плотной?</p>
+        <div class="task-meta"><span class="tag">плотность</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\mathbb{Q}^n$: в любом открытом кубе есть точка с рациональными координатами. Конечное $D$
+        замкнуто, $\mathrm{Cl}D = D \neq \mathbb{R}^n$ — не плотно.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-2-5" data-label="Задача 2.2.5" data-title="ε-сеть на компакте">
+        <div class="block__label">Задача 2.2.5 <span class="block__title">ε-сеть на компакте</span></div>
+        <p>$K \subseteq \mathbb{R}^n$ — непустой компакт, $\varepsilon &gt; 0$. Докажите, что есть конечное
+        $D_\varepsilon \subseteq K$, такое что каждая точка $K$ ближе $\varepsilon$ к какой-то точке
+        $D_\varepsilon$. Может ли одно конечное $D$ подойти для всех $\varepsilon$ при бесконечном $K$?</p>
+        <div class="task-meta"><span class="tag">компактность</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Шары $B(x, \varepsilon)$, $x \in K$, — открытое покрытие $K$. По компактности хватает
+        конечного числа; их центры — $D_\varepsilon$. Нет: если $D$ конечно, а $K$ бесконечно, возьмём
+        $y \in K \setminus D$ и $\varepsilon = \mathrm{dist}(y, D) &gt; 0$ — для него $D$ не годится.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-2-6" data-label="Задача 2.2.6" data-title="Два покрытия прямой">
+        <div class="block__label">Задача 2.2.6 <span class="block__title">Два покрытия прямой</span></div>
+        <p>$\mathcal{U} = \{(-n,n)\}$, $\mathcal{V} = \{(k-1, k+1) : k \in \mathbb{Z}\}$. Локальная
+        конечность? Конечные подпокрытия? Уточнения друг друга?</p>
+        <div class="task-meta"><span class="tag">покрытия</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\mathcal{U}$ не локально конечно: окрестность нуля задевает все $(-n,n)$. $\mathcal{V}$
+        локально конечно (Ex. 5). Конечных подпокрытий нет ни у одного: конечное объединение
+        ограничено. $\mathcal{V}$ — уточнение $\mathcal{U}$: $(k-1,k+1) \subseteq (-n,n)$ при
+        $n \geqslant |k|+1$. Обратное неверно: $(-2,2)$ не лежит ни в одном интервале длины 2.</p>
+        <p>Оба покрытия счётны — значит счётность ничего не говорит о локальной конечности: важно,
+        сколько элементов видно <b>около точки</b>, а не сколько их всего. Потрогай в
+        <a href="../lectures/lecture-02.html#ex-5">виджете LocallyFinite</a>.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-2-7" data-label="Задача 2.2.7" data-title="Плотные множества в τ_CF и τ_CC">
+        <div class="block__label">Задача 2.2.7 <span class="block__title">Плотные множества в $\tau_{\mathrm{CF}}$ и $\tau_{CC}$</span></div>
+        <p>Какие подмножества $\mathbb{R}$ всюду плотны в топологиях конечных и счётных дополнений?
+        Сепарабельность? Аксиомы счётности?</p>
+        <div class="task-meta"><span class="tag">плотность, счётность</span><span class="tag">сложность 3/5</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Замкнутые в $\tau_{\mathrm{CF}}$ — конечные и $\mathbb{R}$; в $\tau_{CC}$ — счётные и $\mathbb{R}$.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\tau_{\mathrm{CF}}$: $A$ плотно ⟺ $A$ бесконечно (конечное само замкнуто; у бесконечного
+        единственное замкнутое надмножество — $\mathbb{R}$). Сепарабельно ($\mathbb{N}$ плотно).
+        Ни I, ни II: рассуждение Ex. 2 лекции 2 исключает даже счётную локальную базу.</p>
+        <p>$\tau_{CC}$: $A$ плотно ⟺ $A$ несчётно. Не сепарабельно: счётное множество замкнуто и
+        равно своему замыканию. Ни I (по Ex. 1 и Lm. 1 лекции 2: предельная точка без сходящейся
+        последовательности), ни II.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-2-8" data-label="Задача 2.2.8" data-title="Замыкание через последовательности">
+        <div class="block__label">Задача 2.2.8 <span class="block__title">Замыкание через последовательности</span></div>
+        <p>$X$ удовлетворяет I. Докажите: $x \in \overline{A}$ ⟺ есть последовательность из $A$,
+        сходящаяся к $x$. Выведите критерий замкнутости.</p>
+        <div class="task-meta"><span class="tag">I аксиома</span><span class="tag">сложность 3/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Повтори доказательство Lm. 1 лекции 2, только выбирай точки из $A$, а не из $A \setminus \{x\}$.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(⇐) Если $a_n \to x$, $a_n \in A$, то каждая окрестность $x$ содержит хвост, а значит точку
+        $A$: $x \in \overline{A}$. (⇒) Пусть $\{O_n\}$ — счётная локальная база в $x$,
+        $B_n = O_1 \cap \dots \cap O_n$ — вложенные окрестности. Так как $x \in \overline A$, выберем
+        $a_n \in B_n \cap A$. Для окрестности $U$ есть $O_m \subseteq U$, и при $n \geqslant m$
+        $a_n \in B_n \subseteq O_m \subseteq U$: $a_n \to x$.</p>
+        <p>Критерий: $A$ замкнуто ⟺ пределы всех сходящихся последовательностей из $A$ лежат в $A$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-2-9" data-label="Задача 2.2.9" data-title="Дизъюнктные открытые в сепарабельном">
+        <div class="block__label">Задача 2.2.9 <span class="block__title">Дизъюнктные открытые в сепарабельном</span></div>
+        <p>Докажите: в сепарабельном пространстве семейство попарно непересекающихся непустых открытых
+        множеств не более чем счётно.</p>
+        <div class="task-meta"><span class="tag">плотность</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Пусть $D$ — счётное плотное. Каждое непустое открытое $U_\alpha$ пересекает $D$ (Def. 6);
+        выберем $d_\alpha \in U_\alpha \cap D$. Так как $U_\alpha$ не пересекаются, точки $d_\alpha$ различны:
+        отображение $\alpha \mapsto d_\alpha$ инъективно в счётное $D$.</p>
+      </div></details>
+    </section>
+
+    <section id="s-p2-3" data-section-id="pract-02/2.3">
+      <h2 id="h-p2-3" data-short="2.3 Отделимость">2.3 Аксиомы отделимости</h2>
+
+      <div class="block block--task" id="task-2-3-1" data-label="Задача 2.3.1" data-title="T₁ и T₂ для стандартных примеров">
+        <div class="block__label">Задача 2.3.1 <span class="block__title">T₁ и T₂ для стандартных примеров</span></div>
+        <p>Проверьте $T_1$, $T_2$ для $\tau_{\mathrm{d}}$, $\tau_{\mathrm{a}}$ (не менее двух точек),
+        связанного двоеточия и стрелки.</p>
+        <div class="task-meta"><span class="tag">отделимость</span><span class="tag">сложность 1/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\tau_{\mathrm{d}}$: обе, окрестности $\{P\}$, $\{Q\}$. $\tau_{\mathrm{a}}$: ни одной, единственная
+        окрестность $X$. Двоеточие: ни одной (Ex. 6). Стрелка: ни одной — при $x &lt; y$ любая окрестность
+        $x$ — луч $(a, +\infty)$ с $a &lt; x$ или $X$, она содержит $y$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-3-2" data-label="Задача 2.3.2" data-title="T₁ ⟺ точки замкнуты">
+        <div class="block__label">Задача 2.3.2 <span class="block__title">T₁ ⟺ точки замкнуты</span></div>
+        <p>Докажите: $X$ — $T_1$ ⟺ одноточечные множества замкнуты. Если в $T_1$ у каждой точки есть
+        конечная открытая окрестность, то пространство дискретно.</p>
+        <div class="task-meta"><span class="tag">отделимость</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(⇒) Lm. 2 лекции 2. (⇐) $X \setminus \{Q\}$ открыто, содержит $P$ и не содержит $Q$; симметрично.</p>
+        <p>Пусть $U = \{x, y_1, \dots, y_k\}$ — открытая окрестность $x$. Множества $X \setminus \{y_i\}$
+        открыты, поэтому $\{x\} = U \cap \bigcap_i (X \setminus \{y_i\})$ открыто как конечное
+        пересечение. Все точки открыты — топология дискретна.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-3-3" data-label="Задача 2.3.3" data-title="Хаусдорфовость наследуется">
+        <div class="block__label">Задача 2.3.3 <span class="block__title">Хаусдорфовость наследуется</span></div>
+        <p>Подпространство и произведение хаусдорфовых пространств хаусдорфовы.</p>
+        <div class="task-meta"><span class="tag">отделимость</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Подпространство: разделяем $p, q \in A$ в $X$ окрестностями $U$, $V$, берём следы $U \cap A$,
+        $V \cap A$ — открыты в $A$ и не пересекаются. Произведение: $(x_1,y_1) \neq (x_2,y_2)$ отличаются
+        в какой-то координате, скажем $x_1 \neq x_2$; разделяем $U_1 \ni x_1$, $U_2 \ni x_2$, тогда
+        $U_1 \times Y$ и $U_2 \times Y$ — непересекающиеся открытые окрестности.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-3-4" data-label="Задача 2.3.4" data-title="Единственность предела">
+        <div class="block__label">Задача 2.3.4 <span class="block__title">Единственность предела</span></div>
+        <p>Докажите единственность предела в хаусдорфовом пространстве. К чему сходится
+        последовательность различных чисел в $\tau_{\mathrm{CF}}$? Хватает ли $T_1$?</p>
+        <div class="task-meta"><span class="tag">отделимость, сходимость</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Если $P_n \to P$ и $P_n \to Q \neq P$, возьмём непересекающиеся $O_P$, $O_Q$: с некоторого номера
+        все $P_n$ лежат в обеих — противоречие.</p>
+        <p>В $\tau_{\mathrm{CF}}$ последовательность попарно различных чисел сходится к <b>любой</b> точке:
+        окрестность — это $\mathbb{R}$ без конечного множества, а различные члены попадают в это конечное
+        множество лишь конечное число раз. $\tau_{\mathrm{CF}}$ — $T_1$, так что $T_1$ для единственности не
+        хватает.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-3-5" data-label="Задача 2.3.5" data-title="τ_CC: предел единственен без T₂">
+        <div class="block__label">Задача 2.3.5 <span class="block__title">$\tau_{CC}$: предел единственен без T₂</span></div>
+        <p>Проверьте $T_1$, $T_2$ для $\tau_{CC}$ на $\mathbb{R}$. Докажите единственность предела. Почему
+        это не противоречит предыдущей задаче?</p>
+        <div class="task-meta"><span class="tag">отделимость</span><span class="tag">сложность 3/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$T_1$ — да (дополнение точки открыто), $T_2$ — нет (непустые открытые пересекаются: дополнение
+        пересечения счётно). Сходятся только стационарные последовательности (Ex. 1 лекции 2): если
+        $P_n \to P$, то окрестность $X \setminus \{P_n : P_n \neq P\}$ точки $P$ требует $P_n = P$ с
+        некоторого номера. Значит предел единственен.</p>
+        <p>Противоречия нет: задача 2.3.4 говорит, что $T_2$ <b>достаточно</b> для единственности, но не
+        что оно <b>необходимо</b>.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-2-3-6" data-label="Задача 2.3.6" data-title="Видны только первые k признаков">
+        <div class="block__label">Задача 2.3.6 <span class="block__title">Видны только первые $k$ признаков</span></div>
+        <p>$U(a,r) = \{x \in \mathbb{R}^n : \sum_{j=1}^k (x_j - a_j)^2 &lt; r^2\}$, $k &lt; n$. База ли это?
+        Какие точки неразличимы? $T_1$, $T_2$? Что при $k = n$?</p>
+        <div class="task-meta"><span class="tag">база, отделимость</span><span class="tag">сложность 3/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Пусть $\pi : \mathbb{R}^n \to \mathbb{R}^k$ — первые $k$ координат. Тогда $U(a,r) = \pi^{-1}(B(\pi a, r))$.
+        Th. 1.1: множества покрывают $\mathbb{R}^n$; если $x \in U(a,r) \cap U(b,s)$, то вокруг $\pi x$ есть
+        шар $B(\pi x, \rho)$ внутри обоих шаров в $\mathbb{R}^k$, и $x \in U(x, \rho) \subseteq U(a,r)\cap U(b,s)$.</p>
+        <p>Точки с одинаковыми первыми $k$ координатами имеют одни и те же окрестности. Поэтому при $k &lt; n$
+        нарушены и $T_1$, и $T_2$. При $k = n$ это обычные шары — стандартная топология, хаусдорфова.</p>
+        <p class="footnote">Это модель, которая видит не все признаки: объекты, совпадающие на видимых
+        признаках, топологически неразличимы — как коллапс представлений из лекции 2.</p>
+      </div></details>
+    </section>
+  </main>
+</div>
+</body>
+</html>

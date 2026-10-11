@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Пробная КР по листкам 1–3 — дифгем</title>
+<meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-title" content="Дифгем">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <a class="topbar__home" href="../index.html">Дифгем</a>
+  <span class="topbar__crumbs"><span>Пробная КР</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc" data-toc>
+    <div class="toc__title">Пробная КР</div>
+  </aside>
+
+  <main id="main">
+    <header class="page-header">
+      <div class="page-header__eyebrow">Тренировка перед контрольной</div>
+      <h1>Пробная КР по листкам 1–3</h1>
+      <p class="lead">Два варианта по шесть задач — по одной на каждый тип, который почти наверняка
+      будет на контрольной. Задачи новые, не из листков, но решаются теми же приёмами.</p>
+      <div class="block block--summary">
+        <div class="block__label">Как проходить</div>
+        <ol>
+          <li>Засеки 90 минут. Решай на бумаге, без конспекта и без раскрытия решений.</li>
+          <li>Пиши полностью, как на КР: указывай объемлющее пространство, у гомеоморфизма выписывай
+          обратное отображение, у контрпримера проверяй обе стороны.</li>
+          <li>После времени открой решения и оцени себя по тому, что написано в блоке «Ответ».</li>
+          <li>Задачу, где ошибся, перерешай по разбору соответствующего листка — ссылка в каждом решении.</li>
+        </ol>
+        <p class="footnote">Задачи по листку 4 (связность и многообразия) добавлю, когда будет лекция 4.</p>
+      </div>
+    </header>
+
+    <!-- ===================== ВАРИАНТ 1 ===================== -->
+    <section id="s-kr-v1" data-section-id="kr-01/v1">
+      <h2 id="h-kr-v1" data-short="Вариант 1">Вариант 1</h2>
+
+      <div class="block block--task" id="v1-1" data-label="В1 · 1" data-title="Int, Cl и ∂ в двух топологиях">
+        <div class="block__label">1 <span class="block__title">Int, Cl и ∂ в двух топологиях</span></div>
+        <p>На $X = [0, +\infty)$ рассмотрим $A = \{2\} \cup (3, 4)$. Найдите $\mathrm{Int}_X A$,
+        $\mathrm{Cl}_X A$, $\partial_X A$ (a) в топологии стрелки $\tau_\to$; (b) в стандартной топологии.</p>
+      </div>
+
+      <div class="block block--task" id="v1-2" data-label="В1 · 2" data-title="Граница объединения">
+        <div class="block__label">2 <span class="block__title">Граница объединения</span></div>
+        <p>(a) Докажите, что в любом топологическом пространстве $\partial(A \cup B) \subseteq \partial A \cup \partial B$.
+        (b) Верно ли $\mathrm{Int}(\mathrm{Cl}\,A) = \mathrm{Cl}(\mathrm{Int}\,A)$? Докажите или приведите
+        контрпример.</p>
+      </div>
+
+      <div class="block block--task" id="v1-3" data-label="В1 · 3" data-title="Лучи: база или предбаза">
+        <div class="block__label">3 <span class="block__title">Лучи: база или предбаза</span></div>
+        <p>Является ли семейство $\sigma = \{(a, +\infty) : a \in \mathbb{R}\} \cup \{(-\infty, b) : b \in \mathbb{R}\}$
+        базой какой-нибудь топологии на $\mathbb{R}$? Является ли оно предбазой стандартной топологии?</p>
+      </div>
+
+      <div class="block block--task" id="v1-4" data-label="В1 · 4" data-title="Топология выделенной точки">
+        <div class="block__label">4 <span class="block__title">Топология выделенной точки</span></div>
+        <p>На $\mathbb{R}$ рассмотрим $\tau = \{\varnothing\} \cup \{U \subseteq \mathbb{R} : 0 \in U\}$.
+        (a) Докажите, что это топология. (b) Проверьте $T_1$ и $T_2$. (c) Сепарабельно ли пространство?
+        (d) Проверьте первую и вторую аксиомы счётности.</p>
+      </div>
+
+      <div class="block block--task" id="v1-5" data-label="В1 · 5" data-title="Разрыв и стрелка">
+        <div class="block__label">5 <span class="block__title">Разрыв и стрелка</span></div>
+        <p>$f : \mathbb{R} \to [0, +\infty)$, $f(x) = x^2$ при $x &lt; 1$ и $f(x) = 2x$ при $x \geqslant 1$.
+        (a) Найдите точки разрыва при стандартной топологии на $[0,+\infty)$ и предъявите свидетеля
+        разрыва. (b) Непрерывно ли $f$ как отображение в стрелку $X_\to$? (c) Что изменится, если
+        положить $f(1) = 1$?</p>
+      </div>
+
+      <div class="block block--task" id="v1-6" data-label="В1 · 6" data-title="Полоса и квадрат; цилиндры">
+        <div class="block__label">6 <span class="block__title">Полоса и квадрат; цилиндры</span></div>
+        <p>(a) Постройте гомеоморфизм полосы $\mathbb{R} \times (-1, 1)$ на открытый квадрат $(0,1)^2$.
+        (b) Докажите, что $S^1 \times [0,1]$ и $S^1 \times \mathbb{R}$ не гомеоморфны.</p>
+      </div>
+    </section>
+
+    <section id="s-kr-v1-sol" data-section-id="kr-01/v1-solutions">
+      <h2 id="h-kr-v1-sol" data-short="Решения варианта 1">Решения варианта 1</h2>
+      <p class="footnote">Открывай только после того, как закончил вариант целиком.</p>
+
+      <details class="reveal reveal--solution"><summary>1. Int, Cl и ∂ в двух топологиях</summary><div class="reveal__body">
+        <p>(a) В стрелке открыты только лучи, $X$ и $\varnothing$; ни один луч не лежит в ограниченном $A$:
+        $\mathrm{Int}_X A = \varnothing$. Замкнутые — $[0, a]$, $X$, $\varnothing$; наименьший отрезок,
+        содержащий $A$, — $[0, 4]$. Значит $\partial_X A = [0,4]$.</p>
+        <p>(b) $\mathrm{Int} = (3,4)$, $\mathrm{Cl} = \{2\} \cup [3,4]$, $\partial = \{2, 3, 4\}$.</p>
+        <p class="answer-line"><b>Ответ:</b> (a) $\varnothing$, $[0,4]$, $[0,4]$; (b) $(3,4)$,
+        $\{2\}\cup[3,4]$, $\{2,3,4\}$. Проверено модулем <code>topology.js</code>.</p>
+        <p class="footnote">Если ошибся — <a href="pract-01.html#task-9">листок 1, задача 9</a>.</p>
+      </div></details>
+
+      <details class="reveal reveal--solution"><summary>2. Граница объединения</summary><div class="reveal__body">
+        <p>(a) Пусть $x \notin \partial A \cup \partial B$. По Lm. 4 лекции 1 тогда $x \in \mathrm{Int}A$ или
+        $x \in \mathrm{Int}A^c$, и так же для $B$. Если $x \in \mathrm{Int}A$ или $x \in \mathrm{Int}B$, то
+        $x \in \mathrm{Int}(A\cup B)$. Иначе $x \in \mathrm{Int}A^c \cap \mathrm{Int}B^c = \mathrm{Int}(A^c \cap B^c)
+        = \mathrm{Int}\big((A\cup B)^c\big)$. В обоих случаях $x \notin \partial(A \cup B)$.</p>
+        <p>(b) Неверно. $A = [0,1]$: $\mathrm{Int}(\mathrm{Cl}A) = (0,1)$, а $\mathrm{Cl}(\mathrm{Int}A) = [0,1]$.</p>
+        <p class="answer-line"><b>Ответ:</b> (a) доказано контрапозицией через разложение $X$ на три
+        части; (b) нет, контрпример $[0,1]$.</p>
+        <p class="footnote">Похожая техника — <a href="pract-01.html#task-4">листок 1, задача 4</a>.</p>
+      </div></details>
+
+      <details class="reveal reveal--solution"><summary>3. Лучи: база или предбаза</summary><div class="reveal__body">
+        <p>Не база: проверяем Th. 1.1. Точка $0$ лежит в $(-1, +\infty) \cap (-\infty, 1) = (-1, 1)$, но ни
+        один луч не помещается в ограниченный интервал. Второе условие нарушено.</p>
+        <p>Предбаза стандартной топологии — да: все лучи открыты, а конечные пересечения дают интервалы
+        $(a, +\infty) \cap (-\infty, b) = (a,b)$, которые образуют базу $\tau_{\mathrm{st}}$ (Def. 14).</p>
+        <p class="answer-line"><b>Ответ:</b> не база никакой топологии; предбаза стандартной.</p>
+        <p class="footnote">Теория — <a href="../lectures/lecture-01.html#th-1-1">Th. 1.1</a> и
+        <a href="../lectures/lecture-01.html#def-14">Def. 14</a>.</p>
+      </div></details>
+
+      <details class="reveal reveal--solution"><summary>4. Топология выделенной точки</summary><div class="reveal__body">
+        <p>(a) $\varnothing$ и $\mathbb{R}$ входят. Объединение множеств, содержащих $0$, содержит $0$;
+        конечное пересечение — тоже.</p>
+        <p>(b) Не $T_1$: у точки $x \neq 0$ все окрестности содержат $0$, отгородиться от $0$ она не может.
+        Значит и не $T_2$.</p>
+        <p>(c) Сепарабельно: $\{0\}$ всюду плотно, ведь каждое непустое открытое множество содержит $0$.</p>
+        <p>(d) Первая — да: у $x$ есть наименьшая окрестность $\{x, 0\}$, локальная база из одного
+        множества. Вторая — нет: любая база содержит все $\{x, 0\}$ (иначе в эту окрестность $x$ ничего
+        не протиснется), а их несчётно много.</p>
+        <p class="answer-line"><b>Ответ:</b> не $T_1$, не $T_2$, сепарабельно, I — да, II — нет. Это ещё
+        один пример «сепарабельно, но без счётной базы».</p>
+        <p class="footnote">Если ошибся — <a href="pract-02.html#task-2-2-2">листок 2, задача 2.2.2</a>.</p>
+      </div></details>
+
+      <details class="reveal reveal--solution"><summary>5. Разрыв и стрелка</summary><div class="reveal__body">
+        <p>(a) Разрыв только в $x = 1$: слева значения стремятся к $1$, а $f(1) = 2$. Свидетель:
+        $V = (\tfrac32, \tfrac52) \ni 2$. Прообраз $= (-\sqrt{2.5}, -\sqrt{1.5}) \cup [1, 1.25)$ — не
+        содержит окрестности точки $1$, слева от неё нет точек.</p>
+        <p>(b) Нет. Для $a \in [1, 2)$: $\{f &gt; a\} = (-\infty, -\sqrt a) \cup [1, +\infty)$ — точка $1$
+        входит, а точек сразу левее нет (там $f = x^2 &lt; 1 \leqslant a$). Не открыто.</p>
+        <p>(c) С $f(1) = 1$ — да: при $a \in [1,2)$ получаем $(-\infty, -\sqrt a) \cup (1, +\infty)$, при
+        $a \geqslant 2$ — $(-\infty, -\sqrt a) \cup (a/2, +\infty)$, при $a \in [0,1)$ —
+        $(-\infty,-\sqrt a) \cup (\sqrt a, +\infty)$. Все открыты. В стандартной топологии разрыв остаётся.</p>
+        <p class="answer-line"><b>Ответ:</b> разрыв в $1$; в стрелку не непрерывно; после замены
+        $f(1) = 1$ — непрерывно в стрелку, но не в стандартную. Стрелка прощает скачок вверх, только если
+        в точке скачка берётся <b>нижнее</b> значение.</p>
+        <p class="footnote">Сравни с <a href="pract-03.html#task-3-1-4">листком 3, задача 3.1.4</a>.</p>
+      </div></details>
+
+      <details class="reveal reveal--solution"><summary>6. Полоса и квадрат; цилиндры</summary><div class="reveal__body">
+        <p>(a) $h(x,y) = \big(\tfrac12 + \tfrac1\pi \mathrm{arctg}\,x,\ \tfrac{y+1}{2}\big)$, обратное
+        $h^{-1}(u,v) = \big(\mathrm{tg}\,\pi(u - \tfrac12),\ 2v - 1\big)$. Оба непрерывны покоординатно.</p>
+        <p>(b) $S^1 \times [0,1]$ компактно (произведение компактов, замкнуто и ограничено в
+        $\mathbb{R}^3$). $S^1 \times \mathbb{R}$ некомпактно: проекция на $\mathbb{R}$ непрерывна и
+        сюръективна, и компактность цилиндра дала бы компактность $\mathbb{R}$ (Th. 3.2). Компактность —
+        инвариант.</p>
+        <p class="footnote">Если ошибся — <a href="pract-03.html#task-3-4-1">листок 3, задача 3.4.1</a> и
+        <a href="pract-03.html#task-3-5-3">3.5.3</a>.</p>
+      </div></details>
+    </section>
+
+    <!-- ===================== ВАРИАНТ 2 ===================== -->
+    <section id="s-kr-v2" data-section-id="kr-01/v2">
+      <h2 id="h-kr-v2" data-short="Вариант 2">Вариант 2</h2>
+
+      <div class="block block--task" id="v2-1" data-label="В2 · 1" data-title="Int, Cl и ∂ в τ_CF и τ_st">
+        <div class="block__label">1 <span class="block__title">Int, Cl и ∂ в $\tau_{\mathrm{CF}}$ и $\tau_{\mathrm{st}}$</span></div>
+        <p>На $\mathbb{R}$ найдите $\mathrm{Int}$, $\mathrm{Cl}$, $\partial$ множеств $B = \mathbb{R}\setminus\{0,1\}$,
+        $C = [0,1] \cup \{5\}$ и $D = \{1,2,3\}$ в топологии конечных дополнений. Совпадают ли ответы для
+        $B$ со стандартной топологией?</p>
+      </div>
+
+      <div class="block block--task" id="v2-2" data-label="В2 · 2" data-title="Замыкание разности">
+        <div class="block__label">2 <span class="block__title">Замыкание разности</span></div>
+        <p>Докажите, что $\mathrm{Cl}A \setminus \mathrm{Cl}B \subseteq \mathrm{Cl}(A \setminus B)$. Верно
+        ли обратное включение?</p>
+      </div>
+
+      <div class="block block--task" id="v2-3" data-label="В2 · 3" data-title="Семейство на трёх точках">
+        <div class="block__label">3 <span class="block__title">Семейство на трёх точках</span></div>
+        <p>$X = \{a, b, c\}$, $\beta = \{\{a\}, \{a,b\}, \{b,c\}\}$. Является ли $\beta$ базой какой-нибудь
+        топологии? Если нет, добавьте одно множество так, чтобы стало базой, и выпишите порождённую
+        топологию.</p>
+      </div>
+
+      <div class="block block--task" id="v2-4" data-label="В2 · 4" data-title="Пределы одной последовательности в трёх топологиях">
+        <div class="block__label">4 <span class="block__title">Пределы одной последовательности в трёх топологиях</span></div>
+        <p>Найдите все пределы последовательности $x_n = \tfrac1n$ (a) в $\mathbb{R}_{st}$; (b) в
+        $\mathbb{R}_{CF}$; (c) в стрелке $X_\to$. Для каждого пространства скажите, выполнена ли $T_2$,
+        и согласуйте это с ответом.</p>
+      </div>
+
+      <div class="block block--task" id="v2-5" data-label="В2 · 5" data-title="Многочлены в топологию конечных дополнений">
+        <div class="block__label">5 <span class="block__title">Многочлены в топологию конечных дополнений</span></div>
+        <p>(a) Докажите, что любой многочлен $p : \mathbb{R}_{st} \to \mathbb{R}_{CF}$ непрерывен.
+        (b) Непрерывно ли тождественное $\mathbb{R}_{CF} \to \mathbb{R}_{st}$?</p>
+      </div>
+
+      <div class="block block--task" id="v2-6" data-label="В2 · 6" data-title="Полуплоскость и инварианты">
+        <div class="block__label">6 <span class="block__title">Полуплоскость и инварианты</span></div>
+        <p>(a) Постройте гомеоморфизм открытой полуплоскости $\{y &gt; 0\}$ на $\mathbb{R}^2$.
+        (b) Докажите, что $\mathbb{R}_{st}$, $\mathbb{R}_{CF}$ и $[0,1]_{st}$ попарно негомеоморфны.</p>
+      </div>
+    </section>
+
+    <section id="s-kr-v2-sol" data-section-id="kr-01/v2-solutions">
+      <h2 id="h-kr-v2-sol" data-short="Решения варианта 2">Решения варианта 2</h2>
+      <p class="footnote">Открывай только после того, как закончил вариант целиком.</p>
+
+      <details class="reveal reveal--solution"><summary>1. Int, Cl и ∂ в τ_CF и τ_st</summary><div class="reveal__body">
+        <p>$B$: дополнение конечно — открыто, $\mathrm{Int}B = B$; бесконечно — $\mathrm{Cl}B = \mathbb{R}$;
+        $\partial B = \{0, 1\}$. В $\tau_{\mathrm{st}}$ ответы те же.</p>
+        <p>$C$: дополнение бесконечно — внутренность пуста; $C$ бесконечно — замыкание $\mathbb{R}$;
+        $\partial C = \mathbb{R}$.</p>
+        <p>$D$: конечно — замкнуто, $\mathrm{Cl}D = D$; $\mathrm{Int}D = \varnothing$; $\partial D = D$.</p>
+        <p class="answer-line"><b>Ответ:</b> $B$: $B$, $\mathbb{R}$, $\{0,1\}$ (как в $\tau_{\mathrm{st}}$);
+        $C$: $\varnothing$, $\mathbb{R}$, $\mathbb{R}$; $D$: $\varnothing$, $D$, $D$. Проверено модулем
+        <code>topology.js</code>.</p>
+      </div></details>
+
+      <details class="reveal reveal--solution"><summary>2. Замыкание разности</summary><div class="reveal__body">
+        <p>Пусть $x \in \mathrm{Cl}A$, $x \notin \mathrm{Cl}B$. Тогда $U_0 = X \setminus \mathrm{Cl}B$ —
+        окрестность $x$, не пересекающая $B$. Для любой окрестности $U$ точки $x$ множество $U \cap U_0$ —
+        тоже окрестность, она пересекает $A$ (так как $x \in \mathrm{Cl}A$), а найденная точка не лежит в
+        $B$. Значит $U$ пересекает $A \setminus B$, и $x \in \mathrm{Cl}(A\setminus B)$.</p>
+        <p>Обратное неверно: $A = [0,2]$, $B = [1,2]$. $\mathrm{Cl}(A \setminus B) = [0,1]$, а
+        $\mathrm{Cl}A \setminus \mathrm{Cl}B = [0, 1)$.</p>
+        <p class="answer-line"><b>Ответ:</b> включение доказано через критерий «каждая окрестность
+        пересекает»; обратное неверно.</p>
+      </div></details>
+
+      <details class="reveal reveal--solution"><summary>3. Семейство на трёх точках</summary><div class="reveal__body">
+        <p>Покрытие есть. Но $\{a,b\} \cap \{b,c\} = \{b\}$, и элемента $\beta$, содержащего $b$ и лежащего
+        в $\{b\}$, нет — второе условие Th. 1.1 нарушено. Не база.</p>
+        <p>Добавим $\{b\}$. Порождённая топология — все объединения:
+        $\{\varnothing, \{a\}, \{b\}, \{a,b\}, \{b,c\}, X\}$.</p>
+        <p class="answer-line"><b>Ответ:</b> не база; после добавления $\{b\}$ получается
+        $\{\varnothing, \{a\}, \{b\}, \{a,b\}, \{b,c\}, \{a,b,c\}\}$. Проверено модулем
+        <code>finite-topology.js</code>; то же можно собрать в
+        <a href="../lectures/lecture-01.html#th-1-1">виджете BaseBuilder</a>.</p>
+      </div></details>
+
+      <details class="reveal reveal--solution"><summary>4. Пределы одной последовательности</summary><div class="reveal__body">
+        <p>(a) Только $0$; $\mathbb{R}_{st}$ хаусдорфово, предел и должен быть единственным.</p>
+        <p>(b) Все точки $\mathbb{R}$: члены попарно различны, а окрестность — это $\mathbb{R}$ без конечного
+        множества, которое содержит лишь конечное число членов. $\mathbb{R}_{CF}$ не $T_2$ —
+        противоречия нет.</p>
+        <p>(c) Только $0$. Окрестность $0$ в стрелке одна — всё $X$, она содержит всё. Для $Q &gt; 0$
+        окрестность $(\tfrac{Q}{2}, +\infty)$ не содержит членов $\tfrac1n &lt; \tfrac Q2$, то есть всего
+        хвоста. Стрелка не $T_2$ (и даже не $T_1$), но у этой последовательности предел единственный.</p>
+        <p class="answer-line"><b>Ответ:</b> $\{0\}$; $\mathbb{R}$; $\{0\}$. $T_2$ даёт единственность,
+        но её отсутствие не обязано её ломать.</p>
+        <p class="footnote">Если ошибся — <a href="pract-02.html#task-2-3-4">листок 2, задачи 2.3.4–2.3.5</a>.</p>
+      </div></details>
+
+      <details class="reveal reveal--solution"><summary>5. Многочлены в топологию конечных дополнений</summary><div class="reveal__body">
+        <p>(a) Открытые в $\mathbb{R}_{CF}$ — $\varnothing$ и $\mathbb{R} \setminus F$, $F$ конечно.
+        $p^{-1}(\mathbb{R}\setminus F) = \mathbb{R} \setminus p^{-1}(F)$. Если $p$ непостоянен, у каждого
+        значения не больше $\deg p$ прообразов, так что $p^{-1}(F)$ конечно и замкнуто в
+        $\mathbb{R}_{st}$, а его дополнение открыто. Если $p$ — константа, он непрерывен всегда.</p>
+        <p>(b) Нет: прообраз $(0,1)$ — это $(0,1)$, а в $\tau_{\mathrm{CF}}$ оно не открыто (дополнение
+        бесконечно).</p>
+        <p class="answer-line"><b>Ответ:</b> (a) непрерывен — у прообраза конечного множества конечно
+        много точек; (b) нет.</p>
+      </div></details>
+
+      <details class="reveal reveal--solution"><summary>6. Полуплоскость и инварианты</summary><div class="reveal__body">
+        <p>(a) $(x, y) \mapsto (x, \ln y)$, обратное $(u, v) \mapsto (u, e^v)$ — оба непрерывны.</p>
+        <p>(b) $\mathbb{R}_{st}$ и $[0,1]_{st}$ хаусдорфовы, $\mathbb{R}_{CF}$ — нет: он отличается от обоих.
+        $[0,1]$ компактен, $\mathbb{R}_{st}$ — нет: они различаются компактностью. $T_2$ и компактность —
+        инварианты (Lm. 5 лекции 3).</p>
+        <p class="footnote">Аккуратно: $\mathbb{R}_{CF}$ тоже компактно, поэтому его отделяем именно по $T_2$.</p>
+      </div></details>
+    </section>
+  </main>
+</div>
+</body>
+</html>

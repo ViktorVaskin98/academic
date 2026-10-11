@@ -190,10 +190,10 @@ export function extractEntries(html, meta) {
   return entries;
 }
 
-const SOURCE_KINDS = { lecture: 'Лекция', pract: 'Практика' };
+const SOURCE_KINDS = { lecture: 'Лекция', pract: 'Листок', kr: 'Пробная КР' };
 
 export function sourceTitle(file) {
-  const match = file.match(/^(lecture|pract)-(\d+)\.html$/);
+  const match = file.match(/^(lecture|pract|kr)-(\d+)\.html$/);
   return match ? `${SOURCE_KINDS[match[1]]} ${Number(match[2])}` : file.replace('.html', '');
 }
 

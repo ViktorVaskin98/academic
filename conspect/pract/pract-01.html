@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Листок 1. Топологическое пространство — разбор</title>
+<meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-title" content="Дифгем">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <a class="topbar__home" href="../index.html">Дифгем</a>
+  <span class="topbar__crumbs"><span>Листок 1 · Топологическое пространство</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <a class="btn" href="../../data/pract/list_1_Topology_definition.pdf">условия PDF</a>
+    <a class="btn" href="../lectures/lecture-01.html">лекция 1</a>
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc" data-toc>
+    <div class="toc__title">Листок 1</div>
+  </aside>
+
+  <main id="main">
+    <header class="page-header">
+      <div class="page-header__eyebrow">Разбор практики</div>
+      <h1>Листок 1. Топологическое пространство</h1>
+      <p class="lead">У каждой задачи три уровня: подсказка, идея и полное решение. Открывай по
+      одному и сначала пробуй сам — на КР подсказок не будет. Задачи со звёздочкой пропущены:
+      на контрольной их обычно нет.</p>
+      <p class="footnote">Если не оговорено иное, на $\mathbb{R}^n$ стандартная топология, на
+      подмножествах — индуцированная. Теория — <a href="../lectures/lecture-01.html">лекция 1</a>.</p>
+    </header>
+
+    <section id="s-p1-main" data-section-id="pract-01/main">
+      <h2 id="h-p1-main" data-short="Основные задачи">Основные задачи</h2>
+
+      <!-- 1 -->
+      <div class="block block--task" id="task-1" data-label="Задача 1" data-title="Все топологии на двух точках">
+        <div class="block__label">Задача 1 <span class="block__title">Все топологии на двух точках</span></div>
+        <p>Найдите все топологии на множестве $X = \{a, b\}$.</p>
+        <div class="task-meta"><span class="tag">перебор</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>$\varnothing$ и $X$ входят обязательно. Остаются два кандидата: $\{a\}$ и $\{b\}$.
+        Переберите все четыре способа их добавить и проверьте аксиомы.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Любая топология содержит $\varnothing$ и $X$. Из оставшихся подмножеств $\{a\}$, $\{b\}$
+        можно добавить любой набор: объединения и пересечения внутри $\{\varnothing, \{a\}, \{b\}, X\}$
+        не выводят из этого семейства. Получаем четыре топологии.</p>
+        <p class="answer-line"><b>Ответ:</b> $\{\varnothing, X\}$, $\{\varnothing, \{a\}, X\}$,
+        $\{\varnothing, \{b\}, X\}$, $\{\varnothing, \{a\}, \{b\}, X\}$.</p>
+        <p class="footnote">Проверь в <a href="../lectures/lecture-01.html#ex-2">виджете решётки топологий</a>.</p>
+      </div></details>
+
+      <!-- 2 -->
+      <div class="block block--task" id="task-2" data-label="Задача 2" data-title="Связанное двоеточие: Cl и Int точки">
+        <div class="block__label">Задача 2 <span class="block__title">Связанное двоеточие: Cl и Int точки</span></div>
+        <p>$X = \{0, 1\}$, $\tau = \{\varnothing, \{0\}, \{0,1\}\}$. (a) Замкнуто ли $\{1\}$?
+        (b) Найдите $\mathrm{Cl}(\{1\})$. (c) Найдите $\mathrm{Int}(\{1\})$.</p>
+        <div class="task-meta"><span class="tag">Int / Cl по определению</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Замкнутость — открытость дополнения. Внутренность — наибольшее открытое внутри множества.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a) Дополнение $X \setminus \{1\} = \{0\} \in \tau$ — открыто, значит $\{1\}$ замкнуто.</p>
+        <p>(b) $\{1\}$ уже замкнуто, поэтому $\mathrm{Cl}(\{1\}) = \{1\}$.</p>
+        <p>(c) Открытые подмножества $\{1\}$: только $\varnothing$ (ведь $\{1\} \notin \tau$). Значит
+        $\mathrm{Int}(\{1\}) = \varnothing$.</p>
+        <p class="answer-line"><b>Ответ:</b> да; $\{1\}$; $\varnothing$.</p>
+      </div></details>
+
+      <!-- 3 -->
+      <div class="block block--task" id="task-3" data-label="Задача 3" data-title="Int и Cl на прямой">
+        <div class="block__label">Задача 3 <span class="block__title">Int и Cl на прямой</span></div>
+        <p>В $\langle \mathbb{R}, \tau_{\mathrm{st}} \rangle$ найдите
+        $\mathrm{Int}\big((0,1] \cup \{2\}\big)$ и $\mathrm{Cl}\big(\{1/n : n \in \mathbb{N}\}\big)$.</p>
+        <div class="task-meta"><span class="tag">Int / Cl на прямой</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Изолированная точка и замкнутый конец не внутренние. Для замыкания ищите точки, к которым
+        множество подходит сколь угодно близко: критерий «каждая окрестность пересекает $S$».</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p><b>Внутренность.</b> Точки $(0,1)$ внутренние: вокруг $x \in (0,1)$ есть интервал внутри.
+        Точка $1$: любой интервал $(1-\varepsilon, 1+\varepsilon)$ содержит точки $&gt;1$, не лежащие
+        в множестве (если $\varepsilon &lt; 1$). Точка $2$ изолирована — тоже не внутренняя.</p>
+        <p><b>Замыкание.</b> $S = \{1, \tfrac12, \tfrac13, \dots\}$. Точка $0$ — точка прикосновения:
+        в $(-\varepsilon, \varepsilon)$ лежит $1/n$ при $n &gt; 1/\varepsilon$. Любая другая точка
+        $x \notin S$ имеет окрестность без точек $S$: при $x &lt; 0$ или $x &gt; 1$ это очевидно,
+        а при $\tfrac{1}{n+1} &lt; x &lt; \tfrac1n$ подходит $\big(\tfrac{1}{n+1}, \tfrac1n\big)$.</p>
+        <p class="answer-line"><b>Ответ:</b> $\mathrm{Int} = (0,1)$;
+        $\mathrm{Cl} = \{1/n : n \in \mathbb{N}\} \cup \{0\}$.</p>
+      </div></details>
+
+      <!-- 4 -->
+      <div class="block block--task" id="task-4" data-label="Задача 4" data-title="Тождества для Int и Cl">
+        <div class="block__label">Задача 4 <span class="block__title">Тождества для Int и Cl</span></div>
+        <p>Верно ли: (a) $A \subseteq B \Rightarrow \mathrm{Int}A \subseteq \mathrm{Int}B$;
+        (b) $\mathrm{Int}(\mathrm{Int}A) = \mathrm{Int}A$; (c) $\mathrm{Int}(A\cap B) = \mathrm{Int}A \cap \mathrm{Int}B$;
+        (d) $\mathrm{Int}(A\cup B) = \mathrm{Int}A \cup \mathrm{Int}B$; (e) $\mathrm{Cl}(A\cup B) = \mathrm{Cl}A \cup \mathrm{Cl}B$;
+        (f) $\mathrm{Cl}(A\cap B) = \mathrm{Cl}A \cap \mathrm{Cl}B$? Для неверных — контрпример и
+        включение, верное всегда.</p>
+        <div class="task-meta"><span class="tag">доказательство / контрпример</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Два рабочих факта: $\mathrm{Int}A$ — наибольшее открытое внутри $A$; $\mathrm{Cl}A$ —
+        наименьшее замкнутое, содержащее $A$. Для контрпримеров хватает лучей $(-\infty,0]$,
+        $[0,+\infty)$ и пары $\mathbb{Q}$, $\mathbb{R}\setminus\mathbb{Q}$.</p>
+      </div></details>
+      <details class="reveal reveal--idea"><summary>Идея решения</summary><div class="reveal__body">
+        <p>Верны (a), (b), (c), (e); неверны (d), (f). Пересечения дружат с $\mathrm{Int}$,
+        объединения — с $\mathrm{Cl}$. Это двойственность: $\mathrm{Cl}A = X \setminus \mathrm{Int}(X\setminus A)$,
+        поэтому (e) получается из (c), а (f) из (d).</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a) $\mathrm{Int}A$ открыто и $\mathrm{Int}A \subseteq A \subseteq B$. Наибольшее открытое
+        в $B$ содержит его: $\mathrm{Int}A \subseteq \mathrm{Int}B$. <b>Верно.</b></p>
+        <p>(b) $\mathrm{Int}A$ открыто, а внутренность открытого множества — оно само. <b>Верно.</b></p>
+        <p>(c) $\subseteq$: по (a), так как $A \cap B \subseteq A$ и $\subseteq B$. $\supseteq$:
+        $\mathrm{Int}A \cap \mathrm{Int}B$ открыто (аксиома 3) и лежит в $A \cap B$, значит лежит в
+        $\mathrm{Int}(A\cap B)$. <b>Верно.</b></p>
+        <p>(d) <b>Неверно.</b> $A = (-\infty, 0]$, $B = [0, +\infty)$: $\mathrm{Int}(A\cup B) = \mathbb{R}$,
+        а $\mathrm{Int}A \cup \mathrm{Int}B = \mathbb{R} \setminus \{0\}$. Всегда верно
+        $\mathrm{Int}A \cup \mathrm{Int}B \subseteq \mathrm{Int}(A \cup B)$ — по (a).</p>
+        <p>(e) $\supseteq$: по монотонности замыкания. $\subseteq$: $\mathrm{Cl}A \cup \mathrm{Cl}B$
+        замкнуто (конечное объединение замкнутых) и содержит $A \cup B$. <b>Верно.</b></p>
+        <p>(f) <b>Неверно.</b> $A = \mathbb{Q}$, $B = \mathbb{R}\setminus\mathbb{Q}$:
+        $\mathrm{Cl}(A \cap B) = \mathrm{Cl}\,\varnothing = \varnothing$, а
+        $\mathrm{Cl}A \cap \mathrm{Cl}B = \mathbb{R}$. Попроще: $A = (0,1)$, $B = (1,2)$ — слева $\varnothing$,
+        справа $\{1\}$. Всегда верно $\mathrm{Cl}(A \cap B) \subseteq \mathrm{Cl}A \cap \mathrm{Cl}B$.</p>
+        <p class="answer-line"><b>Ответ:</b> (a), (b), (c), (e) верны; (d), (f) неверны,
+        выполняются только включения $\mathrm{Int}A \cup \mathrm{Int}B \subseteq \mathrm{Int}(A\cup B)$ и
+        $\mathrm{Cl}(A\cap B) \subseteq \mathrm{Cl}A \cap \mathrm{Cl}B$.</p>
+      </div></details>
+
+      <!-- 5 -->
+      <div class="block block--task" id="task-5" data-label="Задача 5" data-title="Int, Cl, граница относительно разных пространств">
+        <div class="block__label">Задача 5 <span class="block__title">Int, Cl, граница относительно разных пространств</span></div>
+        <p>$X = [0,1) \times [0,1) \subseteq \mathbb{R}^2$,
+        $S = \{(x^1, x^2) : 0 \leqslant x^1 \leqslant \tfrac12,\ \tfrac12 &lt; x^2 &lt; 1\}$. Найдите
+        внутренность, замыкание и границу $S$ относительно $\mathbb{R}^2$, $X$ и самого $S$.</p>
+        <div class="task-meta"><span class="tag">индуцированная топология</span><span class="tag">сложность 3/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Нарисуй квадрат $X$ и прямоугольник $S$ в его левом верхнем углу. В $X$ окрестность — это
+        диск, обрезанный по $X$: у точек на левой стороне $x^1 = 0$ «левой половины» диска просто нет.
+        Верхняя сторона $x^2 = 1$ в $X$ не входит вовсе.</p>
+      </div></details>
+      <details class="reveal reveal--idea"><summary>Идея решения</summary><div class="reveal__body">
+        <p>Относительно $\mathbb{R}^2$ — обычная геометрия прямоугольника. Относительно $X$:
+        $\mathrm{Cl}_X S = \mathrm{Cl}_{\mathbb{R}^2} S \cap X$, а внутренними становятся точки левой
+        стороны, потому что в $X$ слева от них ничего нет. Относительно $S$ — всё пространство:
+        $\mathrm{Int} = \mathrm{Cl} = S$, граница пуста. Можно потрогать в
+        <a href="../lectures/lecture-01.html#def-6">виджете PointProber</a> с переключателем «в X».</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p><b>В $\mathbb{R}^2$:</b>
+        $\mathrm{Int}_{\mathbb{R}^2} S = (0, \tfrac12) \times (\tfrac12, 1)$,
+        $\mathrm{Cl}_{\mathbb{R}^2} S = [0, \tfrac12] \times [\tfrac12, 1]$,
+        $\partial_{\mathbb{R}^2} S$ — весь контур прямоугольника $[0,\tfrac12]\times[\tfrac12,1]$.</p>
+        <p><b>В $X$:</b> $\mathrm{Cl}_X S = \mathrm{Cl}_{\mathbb{R}^2} S \cap X = [0, \tfrac12] \times [\tfrac12, 1)$.
+        Внутренность: точки $(0, x^2)$ при $\tfrac12 &lt; x^2 &lt; 1$ — внутренние, ведь диск вокруг них,
+        обрезанный по $X$ (где $x^1 \geqslant 0$), лежит в $S$. Точки на $x^1 = \tfrac12$ — нет:
+        правее них лежат точки $X \setminus S$. Итого $\mathrm{Int}_X S = [0, \tfrac12) \times (\tfrac12, 1)$.
+        Граница $\partial_X S = \mathrm{Cl}_X S \setminus \mathrm{Int}_X S =
+        \big(\{\tfrac12\} \times [\tfrac12, 1)\big) \cup \big([0, \tfrac12] \times \{\tfrac12\}\big)$ —
+        правая и нижняя стороны без верхних концов.</p>
+        <p><b>В $S$:</b> $\mathrm{Int}_S S = \mathrm{Cl}_S S = S$, $\partial_S S = \varnothing$ — всё
+        пространство всегда открыто и замкнуто.</p>
+        <p class="answer-line"><b>Главное:</b> одно и то же $S$, три разных ответа — всё решает
+        объемлющее пространство. Пиши его в индексе всегда.</p>
+      </div></details>
+
+      <!-- 6 -->
+      <div class="block block--task" id="task-6" data-label="Задача 6" data-title="Конечная выборка дискретна">
+        <div class="block__label">Задача 6 <span class="block__title">Конечная выборка дискретна</span></div>
+        <p>$D = \{x_1, \dots, x_m\} \subseteq \mathbb{R}^n$, точки различны. (a) Докажите, что
+        топология на $D$ дискретна. (b) Найдите $\mathrm{Int}_D A$, $\mathrm{Cl}_D A$, $\partial_D A$
+        и сравните с теми же в $\mathbb{R}^n$. (c) Что изменится при движении точек?</p>
+        <div class="task-meta"><span class="tag">индуцированная топология</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Покажи, что каждая точка $\{x_i\}$ открыта в $D$: подбери шар, который не задевает соседей.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a) Пусть $r = \tfrac12 \min_{i \neq j} \|x_i - x_j\| &gt; 0$. Тогда
+        $B(x_i, r) \cap D = \{x_i\}$ — открыто в $D$. Одноточечные множества открыты, значит
+        открыто любое объединение точек, то есть любое подмножество: топология дискретна.</p>
+        <p>(b) В дискретной топологии всё открыто и замкнуто: $\mathrm{Int}_D A = \mathrm{Cl}_D A = A$,
+        $\partial_D A = \varnothing$. В $\mathbb{R}^n$ конечное $A$ имеет пустую внутренность (ни один
+        шар не влезает в конечное множество), замкнуто, поэтому $\mathrm{Int}_{\mathbb{R}^n}A = \varnothing$,
+        $\mathrm{Cl}_{\mathbb{R}^n}A = A$, $\partial_{\mathbb{R}^n}A = A$.</p>
+        <p>(c) Ничего: при любом расположении различных точек топология дискретна. Топология
+        выборки не видит геометрию — для этого нужна метрика.</p>
+      </div></details>
+
+      <!-- 7 -->
+      <div class="block block--task" id="task-7" data-label="Задача 7" data-title="Локальная устойчивость классификатора">
+        <div class="block__label">Задача 7 <span class="block__title">Локальная устойчивость классификатора</span></div>
+        <p>Классификатор относит $A$ к классу 1, $X \setminus A$ — к классу 0. Решение локально
+        устойчиво в $x$, если есть открытая $U \ni x$ одного класса с $x$. (a) Докажите, что множество
+        точек устойчивости равно $\mathrm{Int}_X A \cup \mathrm{Int}_X(X\setminus A)$, а остальные точки —
+        $\partial_X A$. (b) $X = \mathbb{R}^2$, $A = \{x_1 \geqslant 0\}$.</p>
+        <div class="task-meta"><span class="tag">определения Int и ∂</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Разбери два случая: $x \in A$ и $x \notin A$. Для остатка используй разложение
+        $X = \mathrm{Int}A \sqcup \mathrm{Int}A^c \sqcup \partial A$ (Lm. 4).</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a) Если $x \in A$, устойчивость означает $U \subseteq A$ для некоторой открытой $U \ni x$,
+        то есть $x \in \mathrm{Int}A$. Если $x \notin A$ — аналогично $x \in \mathrm{Int}(X\setminus A)$.
+        Обратно, точка из $\mathrm{Int}A$ лежит в $A$, и $U = \mathrm{Int}A$ годится. По Lm. 4 оставшиеся
+        точки — это $\partial A$.</p>
+        <p>(b) $\mathrm{Int}A = \{x_1 &gt; 0\}$, $\mathrm{Int}(X\setminus A) = \{x_1 &lt; 0\}$,
+        $\partial A = \{x_1 = 0\}$. На прямой $x_1 = 0$ любая окрестность содержит точки обоих классов:
+        сколь угодно малое шевеление меняет ответ.</p>
+      </div></details>
+
+      <!-- 8 -->
+      <div class="block block--task" id="task-8" data-label="Задача 8" data-title="Шары B₂ и B∞ задают одну топологию">
+        <div class="block__label">Задача 8 <span class="block__title">Шары $B_2$ и $B_\infty$ задают одну топологию</span></div>
+        <p>(a) Докажите $B_2(x,r) \subseteq B_\infty(x,r) \subseteq B_2(x, \sqrt n\, r)$.
+        (b) Докажите, что оба семейства — базы стандартной топологии $\mathbb{R}^n$.
+        (c) Равносильны ли при $n \geqslant 2$ условия $B_2(x,r) \subseteq A$ и $B_\infty(x,r) \subseteq A$?</p>
+        <div class="task-meta"><span class="tag">базы</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>(a) — неравенства $\max_i |y_i| \leqslant \|y\|_2 \leqslant \sqrt n \max_i |y_i|$.
+        (b) — по определению базы (Def. 13): вложить шар одной нормы в шар другой.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a) Если $\|y-x\|_2 &lt; r$, то каждая $|y_i - x_i| \leqslant \|y-x\|_2 &lt; r$. Если
+        $\max_i |y_i-x_i| &lt; r$, то $\sum_i (y_i-x_i)^2 &lt; n r^2$, то есть $\|y-x\|_2 &lt; \sqrt n\, r$.</p>
+        <p>(b) Оба вида шаров открыты в стандартной топологии. Пусть $x \in O$, $O$ открыто; есть
+        куб $B_\infty(x, r) \subseteq O$ (кубы — произведения интервалов, база по Ex. 7). Тогда
+        $B_2(x,r) \subseteq B_\infty(x,r) \subseteq O$. И наоборот, если $B_2(x,r) \subseteq O$, то
+        $B_\infty(x, r/\sqrt n) \subseteq B_2(x, r) \subseteq O$. Значит оба семейства удовлетворяют
+        Def. 13 для одной и той же топологии.</p>
+        <p>(c) Нет. $B_\infty(x,r) \subseteq A \Rightarrow B_2(x,r) \subseteq A$ (из включения (a)),
+        обратное неверно: $A = B_2(x,r)$. Круг не содержит углов квадрата $B_\infty(x,r)$: точка
+        $y = x + 0.9r\,(1, 1, 0, \dots, 0)$ лежит в кубе ($\max|y_i - x_i| = 0.9r &lt; r$), но не в шаре
+        ($\|y - x\|_2 = 0.9\sqrt2\, r &gt; r$).</p>
+      </div></details>
+
+      <!-- 9 -->
+      <div class="block block--task" id="task-9" data-label="Задача 9" data-title="τ_CF и стрелка">
+        <div class="block__label">Задача 9 <span class="block__title">$\tau_{\mathrm{CF}}$ и стрелка</span></div>
+        <p>(a) В $\tau_{\mathrm{CF}}$ на $\mathbb{R}$ найдите $\mathrm{Cl}\{1,2,3\}$, $\mathrm{Cl}\,\mathbb{N}$,
+        $\mathrm{Int}(0,1)$, $\partial[0,1]$. (b) В стрелке на $[0,+\infty)$ найдите $\mathrm{Cl}\{1\}$,
+        $\mathrm{Int}[0,1]$. Открыто ли $[0,5)$?</p>
+        <div class="task-meta"><span class="tag">нестандартные топологии</span><span class="tag">сложность 2/5</span><span class="tag">частый тип на КР</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Выпиши замкнутые множества. В $\tau_{\mathrm{CF}}$ это $\mathbb{R}$ и конечные множества. В
+        стрелке — $X$, $\varnothing$ и отрезки $[0,a]$. Замыкание — наименьшее замкнутое надмножество.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a) $\{1,2,3\}$ конечно, значит замкнуто: $\mathrm{Cl} = \{1,2,3\}$. $\mathbb{N}$ бесконечно,
+        единственное замкнутое надмножество — $\mathbb{R}$: $\mathrm{Cl}\,\mathbb{N} = \mathbb{R}$.
+        Открытые множества — дополнения конечных, а $(0,1)$ не содержит ни одного такого (кроме
+        $\varnothing$): $\mathrm{Int}(0,1) = \varnothing$. Для $[0,1]$: $\mathrm{Int} = \varnothing$,
+        $\mathrm{Cl} = \mathbb{R}$, поэтому $\partial[0,1] = \mathbb{R}$.</p>
+        <p>(b) Наименьший отрезок $[0,a]$, содержащий $1$, — $[0,1]$: $\mathrm{Cl}\{1\} = [0,1]$. Ни один
+        луч $(a,+\infty)$ не лежит в $[0,1]$: $\mathrm{Int}[0,1] = \varnothing$. $[0,5)$ — не луч,
+        не $\varnothing$ и не $X$: <b>не открыто</b>.</p>
+        <p class="footnote">Проверка: <a href="../lectures/lecture-01.html#ex-4">виджет стрелки</a> и
+        SetInspector в режиме $\tau_{\mathrm{CF}}$.</p>
+      </div></details>
+
+      <!-- 10 -->
+      <div class="block block--task" id="task-10" data-label="Задача 10" data-title="Граница рациональных из (0,1)">
+        <div class="block__label">Задача 10 <span class="block__title">Граница рациональных из $(0,1)$</span></div>
+        <p>$S = \mathbb{Q} \cap (0,1)$. Найдите $\partial S$, $\mathrm{Int}(\partial S)$, $\partial(\partial S)$.</p>
+        <div class="task-meta"><span class="tag">плотность ℚ</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--hint"><summary>Подсказка</summary><div class="reveal__body">
+        <p>Как в Ex. 9 лекции 1: $\mathrm{Int}S = \varnothing$, а замыкание — отрезок.</p>
+      </div></details>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\mathrm{Int}S = \varnothing$ (в любом интервале есть иррациональные), $\mathrm{Cl}S = [0,1]$
+        (рациональные плотны в $(0,1)$, плюс концы). Значит $\partial S = [0,1]$. Далее
+        $\mathrm{Int}[0,1] = (0,1)$ и $\partial[0,1] = \{0, 1\}$.</p>
+        <p class="answer-line"><b>Ответ:</b> $[0,1]$; $(0,1)$; $\{0,1\}$.</p>
+      </div></details>
+    </section>
+
+    <section id="s-p1-extra" data-section-id="pract-01/extra">
+      <h2 id="h-p1-extra" data-short="Дополнительные задачи">Дополнительные задачи</h2>
+
+      <div class="block block--task" id="task-11" data-label="Задача 11" data-title="Вероятностный симплекс">
+        <div class="block__label">Задача 11 <span class="block__title">Вероятностный симплекс</span></div>
+        <p>$\Delta = \{p \in \mathbb{R}^3 : p_i \geqslant 0, \sum p_i = 1\}$, $H = \{\sum p_i = 1\}$.
+        (a) Внутренность и граница $\Delta$ в $\mathbb{R}^3$ и в $H$. (b) Открыто ли
+        $U = \{p \in \Delta : p_1 &gt; \tfrac12\}$ в $\Delta$? Найдите $\partial_\Delta U$.</p>
+        <div class="task-meta"><span class="tag">индуцированная топология</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a) В $\mathbb{R}^3$: $\Delta$ лежит в плоскости, шар туда не влезает —
+        $\mathrm{Int}_{\mathbb{R}^3}\Delta = \varnothing$; $\Delta$ замкнуто, поэтому $\partial_{\mathbb{R}^3}\Delta = \Delta$.
+        В $H$: $\mathrm{Int}_H \Delta = \{p_i &gt; 0\ \forall i\}$, $\partial_H \Delta = \{p \in \Delta : \exists i\ p_i = 0\}$
+        — стороны треугольника.</p>
+        <p>(b) $U = \Delta \cap \{p_1 &gt; \tfrac12\}$ — след открытого полупространства, открыто в $\Delta$.
+        $\mathrm{Cl}_\Delta U = \{p \in \Delta : p_1 \geqslant \tfrac12\}$, поэтому
+        $\partial_\Delta U = \{p \in \Delta : p_1 = \tfrac12\}$ — отрезок.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-12" data-label="Задача 12" data-title="Топология из блоков">
+        <div class="block__label">Задача 12 <span class="block__title">Топология из блоков</span></div>
+        <p>$X$ разбито на блоки $C_1, \dots, C_k$, $\tau$ — все объединения блоков. (a) $\tau$ —
+        топология. (b) Выразите $\mathrm{Int}A$, $\mathrm{Cl}A$ через блоки. (c) Посчитайте для
+        $A = \{a,b,c\}$, $C_1 = \{a,b\}$, $C_2 = \{c,d\}$, $C_3 = \{e,f\}$. (d) $C_2$ разбился на
+        $\{c\}$, $\{d\}$ — что стало с топологией и с $\mathrm{Int}A$, $\mathrm{Cl}A$?</p>
+        <div class="task-meta"><span class="tag">конечные топологии</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>(a) $\varnothing$ (пустое объединение) и $X$ (все блоки) входят. Объединение объединений
+        блоков — объединение блоков. Пересечение двух объединений — объединение общих блоков, так как
+        блоки не пересекаются.</p>
+        <p>(b) $\mathrm{Int}A$ — объединение блоков, целиком лежащих в $A$; $\mathrm{Cl}A$ — объединение
+        блоков, пересекающих $A$.</p>
+        <p>(c) $\mathrm{Int}A = \{a,b\}$, $\mathrm{Cl}A = \{a,b,c,d\}$, $\partial A = \{c,d\}$.</p>
+        <p>(d) Топология стала <b>сильнее</b> (старые открытые множества остались открытыми).
+        $\mathrm{Int}A = \{a,b,c\}$, $\mathrm{Cl}A = \{a,b,c\}$, граница пуста.</p>
+        <p class="footnote">Посчитано программно — <a href="../lectures/lecture-01.html#ml-blocks">виджет BlockTopology</a>.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-13" data-label="Задача 13" data-title="Полупространства — предбаза ℝⁿ">
+        <div class="block__label">Задача 13 <span class="block__title">Полупространства — предбаза $\mathbb{R}^n$</span></div>
+        <p>Докажите, что $\{x_j &lt; a\}$, $\{x_j &gt; a\}$, $a \in \mathbb{Q}$, $j = 1,\dots,n$, — предбаза
+        стандартной топологии. Как получить прямоугольник с рациональными концами?</p>
+        <div class="task-meta"><span class="tag">предбаза</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Все такие множества открыты. Пересечение $2n$ штук
+        $\bigcap_j \big(\{x_j &gt; a_j\} \cap \{x_j &lt; b_j\}\big) = \prod_j (a_j, b_j)$ — открытый
+        прямоугольник с рациональными концами. Такие прямоугольники образуют базу стандартной топологии:
+        в любой открытый куб вокруг точки влезает куб с рациональными концами (плотность $\mathbb{Q}$,
+        Ex. 12). Значит конечные пересечения предбазы дают базу — это Def. 14.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-14" data-label="Задача 14" data-title="Точка 0 открыта и замкнута">
+        <div class="block__label">Задача 14 <span class="block__title">Точка 0 открыта и замкнута</span></div>
+        <p>$\tau \supseteq \tau_{\mathrm{st}}$, и лучи $(-\infty,0]$, $[0,+\infty)$ открыты. Докажите,
+        что $\{0\}$ открыто и замкнуто. Замкнуты ли лучи?</p>
+        <div class="task-meta"><span class="tag">аксиомы</span><span class="tag">сложность 2/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$\{0\} = (-\infty,0] \cap [0,+\infty)$ — пересечение двух открытых, открыто. Дополнение
+        $\mathbb{R}\setminus\{0\} = (-\infty,0)\cup(0,+\infty) \in \tau_{\mathrm{st}} \subseteq \tau$ —
+        значит $\{0\}$ замкнуто. Лучи тоже замкнуты: дополнение $(-\infty,0]$ — это $(0,+\infty)$,
+        открытое уже в $\tau_{\mathrm{st}}$; аналогично для $[0,+\infty)$.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-15" data-label="Задача 15" data-title="Добавить точку ко всем открытым">
+        <div class="block__label">Задача 15 <span class="block__title">Добавить точку ко всем открытым</span></div>
+        <p>$y \notin X$, $Y = X \cup \{y\}$. Является ли $\{\{y\} \cup T : T \in \tau_X\} \cup \{\varnothing\}$
+        топологией на $Y$?</p>
+        <div class="task-meta"><span class="tag">аксиомы</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>Да. $\varnothing$ есть; $Y = \{y\} \cup X$. Объединения: $\bigcup(\{y\}\cup T_\alpha) = \{y\}\cup\bigcup T_\alpha$
+        (и добавление $\varnothing$ ничего не меняет). Пересечения:
+        $(\{y\}\cup T_1)\cap(\{y\}\cup T_2) = \{y\}\cup(T_1\cap T_2)$; если одно из множеств пусто —
+        пересечение пусто. Все три аксиомы выполнены.</p>
+      </div></details>
+
+      <div class="block block--task" id="task-16" data-label="Задача 16" data-title="Три открытых множества с общей границей">
+        <div class="block__label">Задача 16 <span class="block__title">Три открытых множества с общей границей</span></div>
+        <p>Постройте три попарно различных открытых подмножества $\mathbb{R}$ с одной и той же границей.</p>
+        <div class="task-meta"><span class="tag">граница</span><span class="tag">сложность 1/5</span></div>
+      </div>
+      <details class="reveal reveal--solution"><summary>Полное решение</summary><div class="reveal__body">
+        <p>$(-\infty, 0)$, $(0, +\infty)$ и $\mathbb{R}\setminus\{0\}$ — у всех граница $\{0\}$.</p>
+      </div></details>
+    </section>
+  </main>
+</div>
+</body>
+</html>
