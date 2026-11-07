@@ -122,5 +122,6 @@ test('sourceTitle снимает ведущие нули с номера', () =>
   assert.equal(sourceTitle('lecture-12.html'), 'Лекция 12');
   assert.equal(sourceTitle('pract-01.html'), 'Листок 1');
   assert.equal(sourceTitle('kr-01.html'), 'Пробная КР 1');
+  assert.equal(sourceTitle('kolok-02.html'), 'Коллоквиум, часть 2');
   assert.equal(sourceTitle('notes.html'), 'notes');
 });

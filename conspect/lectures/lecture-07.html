@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лекция 7. Гладкие отображения — дифгем</title>
+<meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-title" content="Дифгем">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <a class="topbar__home" href="../index.html">Дифгем</a>
+  <span class="topbar__crumbs"><span>Лекция 7 · Гладкие отображения</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <a class="btn" href="../../data/lections/lecture_3_Smooth_maps.pdf">оригинал PDF</a>
+    <a class="btn" href="../cheatsheet.html">шпаргалка</a>
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc" data-toc>
+    <div class="toc__title">В этой лекции</div>
+  </aside>
+
+  <main id="main">
+    <header class="page-header">
+      <div class="page-header__eyebrow">Лекция 7</div>
+      <h1>Гладкие отображения</h1>
+      <p class="lead">Многообразие уже умеет быть гладким внутри себя: замены координат между картами —
+      диффеоморфизмы. Теперь гладкость переносится на отображения между многообразиями: на кривые,
+      функции, диффеоморфизмы. Главный приём один — <b>смотреть на отображение в картах</b>. В конце
+      лекции появляются срезающие функции и разбиение единицы — инструмент, который склеивает локальные
+      конструкции в глобальные.</p>
+      <p class="footnote">В PDF лектора эта глава пронумерована как 3; нумерация разделов и утверждений сохранена.
+      Формулировки и обозначения — как у преподавателя.</p>
+    </header>
+
+    <!-- ================================================================= -->
+    <section id="s-3-1" data-section-id="lecture-07/3.1">
+      <h2 id="h-3-1" data-short="3.1 Дифференцируемые отображения">3.1 Дифференцируемые отображения</h2>
+
+      <p>Пусть $\langle M, \widetilde{\mathcal{A}}_M \rangle$ и $\langle N, \widetilde{\mathcal{A}}_N \rangle$ —
+      два гладких $C^\infty$-многообразия и $\sigma : M \to N$ — отображение из $M$ в $N$.</p>
+
+      <div class="block block--def" id="def-1" data-label="Def. 1" data-title="Дифференцируемость в точке">
+        <div class="block__label">Def. 1 <span class="block__title">Дифференцируемость в точке</span></div>
+        <p>Отображение $\sigma : M \to N$ называется <b>$C^r$-дифференцируемым в точке</b> $P \in M$, если
+        найдутся карты $(U, \varphi) \in \widetilde{\mathcal{A}}_M$ и $(V, \psi) \in \widetilde{\mathcal{A}}_N$,
+        такие, что $P \in U$, $\sigma(U) \subset V$, и следующее отображение является
+        $C^r$-дифференцируемым:</p>
+        $$\widehat{\sigma} = \psi \circ \sigma \circ \varphi^{-1} : \quad \varphi(U) \to \psi(V).$$
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Координатный представитель: обойти квадрат снизу</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 620 270" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Коммутативная диаграмма: сигма из M в N сверху, карты фи и пси вниз, сигма с крышкой снизу">
+            <ellipse cx="140" cy="60" rx="95" ry="38" fill="var(--role-set)" fill-opacity="0.12" stroke="var(--role-set)" stroke-width="2"/>
+            <text x="140" y="56" text-anchor="middle" font-size="17" font-weight="700" fill="var(--role-set)">U ⊂ M</text>
+            <text x="140" y="80" text-anchor="middle" font-size="12" fill="var(--text-faint)">точка P ∈ U</text>
+            <ellipse cx="480" cy="60" rx="95" ry="38" fill="var(--role-interior)" fill-opacity="0.12" stroke="var(--role-interior)" stroke-width="2"/>
+            <text x="480" y="56" text-anchor="middle" font-size="17" font-weight="700" fill="var(--role-interior)">V ⊂ N</text>
+            <text x="480" y="80" text-anchor="middle" font-size="12" fill="var(--text-faint)">σ(U) ⊂ V</text>
+            <line x1="240" y1="60" x2="372" y2="60" stroke="var(--text-muted)" stroke-width="2"/>
+            <path d="M 380 60 L 368 53 L 368 67 Z" fill="var(--text-muted)"/>
+            <text x="310" y="48" text-anchor="middle" font-size="17" fill="var(--text-muted)">σ</text>
+
+            <line x1="140" y1="102" x2="140" y2="168" stroke="var(--text-muted)" stroke-width="2"/>
+            <path d="M 140 176 L 133 164 L 147 164 Z" fill="var(--text-muted)"/>
+            <text x="124" y="144" text-anchor="end" font-size="17" fill="var(--text-muted)">φ</text>
+            <line x1="480" y1="102" x2="480" y2="168" stroke="var(--text-muted)" stroke-width="2"/>
+            <path d="M 480 176 L 473 164 L 487 164 Z" fill="var(--text-muted)"/>
+            <text x="496" y="144" font-size="17" fill="var(--text-muted)">ψ</text>
+
+            <rect x="60" y="182" width="160" height="56" rx="6" fill="var(--role-set)" fill-opacity="0.08" stroke="var(--role-set)" stroke-dasharray="5 4"/>
+            <text x="140" y="216" text-anchor="middle" font-size="16" fill="var(--role-set)">φ(U) ⊂ ℝⁿ</text>
+            <rect x="400" y="182" width="160" height="56" rx="6" fill="var(--role-interior)" fill-opacity="0.08" stroke="var(--role-interior)" stroke-dasharray="5 4"/>
+            <text x="480" y="216" text-anchor="middle" font-size="16" fill="var(--role-interior)">ψ(V) ⊂ ℝᵐ</text>
+            <line x1="222" y1="210" x2="390" y2="210" stroke="var(--role-highlight)" stroke-width="2.5" stroke-dasharray="7 4"/>
+            <path d="M 398 210 L 386 203 L 386 217 Z" fill="var(--role-highlight)"/>
+            <text x="310" y="198" text-anchor="middle" font-size="15" font-weight="700" fill="var(--role-highlight)">σ̂ = ψ ∘ σ ∘ φ⁻¹</text>
+            <text x="310" y="262" text-anchor="middle" font-size="12" fill="var(--text-faint)">
+              гладкость σ по определению — это гладкость обычной функции σ̂ между открытыми множествами евклидовых пространств
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Что значит «производная отображения сферы в тор», мы пока не знаем: на многообразии нет
+        координат, вычитать точки нельзя. Зато в карте есть обычные координаты. Поэтому определение
+        делает очевидное: поднимаемся из $\varphi(U)$ в $M$ через $\varphi^{-1}$, применяем $\sigma$,
+        спускаемся в $\psi(V)$ через $\psi$. Получается обычное отображение $\mathbb{R}^n \supset \varphi(U) \to \psi(V) \subset \mathbb{R}^m$,
+        его гладкость проверяется частными производными, как на матанализе.</p>
+        <p>Условие $\sigma(U) \subset V$ нужно, чтобы композиция была определена на всём $\varphi(U)$:
+        иначе $\psi$ пришлось бы применять к точкам вне $V$. Его всегда можно добиться, уменьшив $U$
+        (если $\sigma$ непрерывно).</p>
+        <p>Сразу возникает вопрос: а если взять другие карты, гладкость не пропадёт? Ответ — <a href="#lm-1">Lm. 1</a>:
+        не пропадёт, потому что замены координат внутри $M$ и внутри $N$ сами гладкие
+        (<a href="lecture-05.html#def-3">Def. 3 лекции 5</a>).</p>
+      </div>
+
+      <div class="block block--nb" id="nb-1" data-label="NB 1" data-title="Дифференцируемость на M, координатный представитель">
+        <div class="block__label">NB 1 <span class="block__title">Дифференцируемость на M, координатный представитель</span></div>
+        <p>Отображение $\sigma : M \to N$, $C^r$-дифференцируемое в каждой точке $P \in M$, называется
+        <i>$C^r$-дифференцируемым на $M$</i>. Отображение $\widehat{\sigma}$ называется <i>координатным
+        представителем</i> отображения $\sigma$ в картах $(U, \varphi)$ и $(V, \psi)$.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-1" data-label="Lm. 1" data-title="Независимость от выбора карт">
+        <div class="block__label">Lm. 1 <span class="block__title">Независимость от выбора карт</span></div>
+        <p>Свойство $C^r$-дифференцируемости отображения $\sigma : M \to N$ в точке $P$ не зависит от выбора
+        карт $(U, \varphi) \in \widetilde{\mathcal{A}}_M$ и $(V, \psi) \in \widetilde{\mathcal{A}}_N$, содержащих
+        $P \in M$ и $\sigma(P) \in N$ соответственно, после сужения карт к окрестностям этих точек.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Пусть $\widehat{\sigma}$ имеет класс $C^r$ в картах $(U, \varphi)$ и $(V, \psi)$. Тогда
+            $\sigma|_U = \psi^{-1} \circ \widehat{\sigma} \circ \varphi$ непрерывно.</div>
+            <div class="proof-step__why">почему: $\widehat{\sigma}$ дифференцируемо, значит непрерывно; $\varphi$ и
+            $\psi^{-1}$ — гомеоморфизмы в топологии многообразия (лекция 6); композиция непрерывных непрерывна.
+            Равенство — просто «снять» $\psi$ и $\varphi^{-1}$ с двух сторон</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Возьмём другую пару карт $(U', \varphi')$, $(V', \psi')$, содержащих $P$ и $\sigma(P)$.
+            Множество $W = U \cap U' \cap \sigma^{-1}(V')$ является открытой окрестностью $P$, и
+            $\sigma(W) \subset V \cap V'$.</div>
+            <div class="proof-step__why">почему: $U$, $U'$, $V'$ открыты (носитель карты открыт, <a href="lecture-06.html#def-1">лекция 6</a>);
+            $U \cap \sigma^{-1}(V') = (\sigma|_U)^{-1}(V')$ открыто по шагу 1 и
+            <a href="lecture-03.html#th-3-1">Th. 3.1 лекции 3</a>; $P \in W$, так как $\sigma(P) \in V'$.
+            Это и есть «сужение карт к окрестностям» из формулировки</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>На $\varphi'(W)$ имеем
+            $$\psi' \circ \sigma \circ \varphi'^{-1} = (\psi' \circ \psi^{-1}) \circ (\psi \circ \sigma \circ \varphi^{-1}) \circ (\varphi' \circ \varphi^{-1})^{-1}.$$</div>
+            <div class="proof-step__why">почему: $(\varphi' \circ \varphi^{-1})^{-1} = \varphi \circ \varphi'^{-1}$; раскрываем
+            скобки, внутренние $\psi^{-1} \circ \psi$ и $\varphi^{-1} \circ \varphi$ сокращаются. Все композиции
+            определены, потому что $W \subset U \cap U'$ и $\sigma(W) \subset V \cap V'$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Но $\psi' \circ \psi^{-1}$ и $\varphi' \circ \varphi^{-1}$ — суть $C^r$-диффеоморфизмы по
+            определению многообразий $M$ и $N$, а значит, вся правая часть $C^r$-дифференцируема.</div>
+            <div class="proof-step__why">почему: карты из максимального атласа попарно $C^r$-согласованы
+            (<a href="lecture-05.html#def-3">Def. 3</a>, <a href="lecture-05.html#def-8">Def. 8 лекции 5</a>);
+            композиция $C^r$-отображений между открытыми множествами $\mathbb{R}^k$ — $C^r$ (цепное правило)</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>В лемме незаметно используется <b>непрерывность</b> $\sigma$ (шаг 1–2): без неё прообраз
+        $\sigma^{-1}(V')$ мог бы не быть открытым, и «сузить карты» было бы нельзя. Поэтому в Def. 1
+        условие $\sigma(U) \subset V$ для некоторой окрестности $U$ — не формальность: оно и даёт
+        непрерывность в точке $P$. Отображение, разрывное в $P$, гладким в $P$ быть не может.</p>
+        <p>И ещё: определение работает только потому, что многообразие <b>гладкое</b>, а не просто
+        топологическое. Для $C^0$-многообразия замены координат — лишь гомеоморфизмы, и шаг 4 разваливается:
+        «гладкость в одной карте» ничего не говорила бы о гладкости в другой.</p>
+      </div>
+
+      <div class="block block--def" id="def-2" data-label="Def. 2" data-title="Дифференцируемость на подмножестве">
+        <div class="block__label">Def. 2 <span class="block__title">Дифференцируемость на подмножестве</span></div>
+        <p>Пусть $M$ и $N$ — дифференцируемые $C^r$-многообразия и $S \subset M$ — произвольное подмножество
+        $M$. Отображение $\sigma : S \to N$ называется <b>$C^r$-дифференцируемым на</b> $S$, если для каждой
+        точки $P \in S$:</p>
+        <ul>
+          <li>существует открытая окрестность $O_P \subset M$, содержащая точку $P$;</li>
+          <li>существует $C^r$-отображение $\widetilde{\sigma} : O_P \to N$, такое, что
+          $\widetilde{\sigma}|_{S \cap O_P} = \sigma|_{S \cap O_P}$.</li>
+        </ul>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Подмножество $S$ может быть «плохим» — отрезок с концами, множество с углами, кривая. Карт у него
+        нет, и Def. 1 неприменима. Выход: $\sigma$ гладко на $S$, если его можно <b>локально продолжить</b>
+        до гладкого отображения на открытой окрестности в объемлющем $M$. Продолжение ищется своё для каждой
+        точки, и склеивать их в одно глобальное продолжение не требуется.</p>
+      </div>
+
+      <div class="block block--example">
+        <div class="block__label">Пример</div>
+        <p><b>$f(x) = |x|$ на $S = [0,1] \subset \mathbb{R}$ гладкая.</b> Для любой $P \in S$ возьмём
+        $O_P = \mathbb{R}$ и $\widetilde{f}(x) = x$. На $S \cap O_P = [0,1]$ имеем $|x| = x$, а $x$ — $C^\infty$.
+        В точке $P = 0$ это особенно показательно: «половины окрестности» хватает, слева $S$ нет, и излом $|x|$
+        никто не видит.</p>
+        <p><b>На $S = [-1,1]$ — не гладкая.</b> В точке $P = 0$ любая $O_P$ содержит интервал $(-\varepsilon, \varepsilon) \subset S$.
+        На нём $\widetilde{f}$ обязана совпасть с $|x|$, а $|x|$ недифференцируема в нуле. Продолжения нет.</p>
+        <p><b>Функция на окружности.</b> $S^1 \subset \mathbb{R}^2$, $f(x,y) = x^2 - y$ на $S^1$. Продолжение
+        $\widetilde{f}(x,y) = x^2 - y$ — многочлен на всём $\mathbb{R}^2$, значит $f$ гладкая на $S^1$ в смысле Def. 2.
+        Так проверяется гладкость почти всех «естественных» функций на подмногообразиях: они — ограничения
+        гладких функций объемлющего пространства.</p>
+      </div>
+
+      <div class="block block--def" id="def-3" data-label="Def. 3" data-title="Диффеоморфизм">
+        <div class="block__label">Def. 3 <span class="block__title">Диффеоморфизм</span></div>
+        <p>Гомеоморфизм $\sigma : M \to N$, обладающий тем свойством, что $\sigma$ и $\sigma^{-1}$ являются
+        $C^r$-дифференцируемыми отображениями, называется <b>$C^r$-диффеоморфизмом</b>. В этом случае
+        многообразия называются <b>диффеоморфными</b>.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Диффеоморфизм для гладких многообразий — то же, что гомеоморфизм для топологических: «одно и то же
+        многообразие под разными именами». Всё, что формулируется через гладкость (касательные векторы,
+        дифференциалы, гладкие функции), переносится диффеоморфизмом туда и обратно. Требование гладкости
+        <b>обратного</b> — содержательное, см. <a href="#ex-2">Ex. 2</a>.</p>
+      </div>
+
+      <div class="block block--example" id="ex-1" data-label="Ex. 1" data-title="Диск диффеоморфен плоскости">
+        <div class="block__label">Ex. 1 <span class="block__title">Диск диффеоморфен плоскости</span></div>
+        <p>Отображение $\sigma : D^2 \to \mathbb{R}^2$ двумерного диска
+        $D^2 = \{(x,y) \in \mathbb{R}^2 : x^2 + y^2 &lt; 1\}$ на плоскость $\mathbb{R}^2$, задаваемое функциями
+        $$(x, y) \mapsto (x/z,\ y/z), \qquad z = \sqrt{1 - x^2 - y^2},$$
+        является диффеоморфизмом.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Проверка по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Карты. $D^2$ — открытое подмногообразие $\mathbb{R}^2$ с картой $(D^2, \mathrm{id})$, на
+            $\mathbb{R}^2$ — карта $(\mathbb{R}^2, \mathrm{id})$. Значит $\widehat{\sigma} = \mathrm{id} \circ \sigma \circ \mathrm{id}^{-1} = \sigma$:
+            проверять нужно гладкость самой формулы.</div>
+            <div class="proof-step__why">почему: <a href="lecture-06.html#def-2">открытое подмногообразие, Def. 2 лекции 6</a>; карту берём одну на всё многообразие</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>$\sigma$ гладкое: на $D^2$ подкоренное $1 - x^2 - y^2 > 0$, а $\sqrt{\cdot}$ гладок на
+            $(0, +\infty)$; значит $z$ — гладкая положительная функция, и $x/z$, $y/z$ гладкие.</div>
+            <div class="proof-step__why">почему: композиции и частные гладких функций гладки там, где знаменатель не обращается в ноль</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Найдём обратное. Пусть $(u, v) = (x/z, y/z)$. Тогда
+            $$u^2 + v^2 = \frac{x^2 + y^2}{1 - x^2 - y^2} \;\Rightarrow\; 1 + u^2 + v^2 = \frac{1}{1 - x^2 - y^2} = \frac{1}{z^2}.$$
+            Отсюда $z = 1/\sqrt{1 + u^2 + v^2}$ и $x = uz$, $y = vz$:
+            $$\sigma^{-1}(u, v) = \frac{(u, v)}{\sqrt{1 + u^2 + v^2}}.$$</div>
+            <div class="proof-step__why">почему: выражаем $z$ через $(u,v)$, затем $x$ и $y$; $z > 0$, так что корень берётся положительный</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Формула действительно задаёт обратное: для любой $(u,v) \in \mathbb{R}^2$ точка
+            $\sigma^{-1}(u,v)$ лежит в $D^2$, так как $\frac{u^2 + v^2}{1 + u^2 + v^2} &lt; 1$, и подстановка
+            в $\sigma$ возвращает $(u,v)$. Значит $\sigma$ — биекция $D^2 \to \mathbb{R}^2$.</div>
+            <div class="proof-step__why">почему: при $(x,y) = \sigma^{-1}(u,v)$ имеем $z = 1/\sqrt{1+u^2+v^2}$, и $x/z = u$, $y/z = v$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>$\sigma^{-1}$ гладкое на всём $\mathbb{R}^2$: знаменатель $\sqrt{1 + u^2 + v^2} \geqslant 1$
+            не обращается в ноль. Обе стороны гладкие и взаимно обратные — это диффеоморфизм (в частности,
+            гомеоморфизм).</div>
+            <div class="proof-step__why">почему: <a href="#def-3">Def. 3</a>; непрерывность обеих сторон следует из гладкости</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Диск растягивается на плоскость по радиусу</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 720 270" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Радиальный профиль r в r делить на корень из 1 минус r квадрат и образы окружностей диска на плоскости">
+            <line x1="60" y1="220" x2="320" y2="220" stroke="var(--border-strong)" stroke-width="1.5"/>
+            <line x1="60" y1="225" x2="60" y2="30" stroke="var(--border-strong)" stroke-width="1.5"/>
+            <line x1="300" y1="30" x2="300" y2="220" stroke="var(--role-boundary)" stroke-width="1.5" stroke-dasharray="5 4"/>
+            <polyline fill="none" stroke="var(--role-set)" stroke-width="3"
+                      points="60,220 108,211.8 156,202.6 180,196.9 204,190 228,180.8 252,166.7 264,155.4 276,137.4 288,98.3 292.8,60.4 294,44.5"/>
+            <text x="60" y="240" text-anchor="middle" font-size="13" fill="var(--text-muted)">0</text>
+            <text x="300" y="240" text-anchor="middle" font-size="13" fill="var(--role-boundary)">1</text>
+            <text x="320" y="214" font-size="14" fill="var(--text-muted)">r</text>
+            <text x="68" y="40" font-size="14" fill="var(--text-muted)">ρ</text>
+            <text x="180" y="60" text-anchor="middle" font-size="15" fill="var(--role-set)">ρ = r / √(1 − r²)</text>
+            <text x="180" y="262" text-anchor="middle" font-size="12" fill="var(--text-faint)">при r → 1 образ уходит на бесконечность</text>
+
+            <circle cx="440" cy="130" r="90" fill="var(--role-set)" fill-opacity="0.08" stroke="var(--role-boundary)" stroke-width="2" stroke-dasharray="5 4"/>
+            <circle cx="440" cy="130" r="27" fill="none" stroke="var(--role-set)" stroke-width="2"/>
+            <circle cx="440" cy="130" r="54" fill="none" stroke="var(--role-interior)" stroke-width="2"/>
+            <circle cx="440" cy="130" r="81" fill="none" stroke="var(--role-highlight)" stroke-width="2"/>
+            <text x="440" y="242" text-anchor="middle" font-size="14" fill="var(--text-muted)">D², r = 0.3, 0.6, 0.9</text>
+            <line x1="540" y1="130" x2="570" y2="130" stroke="var(--text-muted)" stroke-width="1.6"/>
+            <path d="M 578 130 L 567 124 L 567 136 Z" fill="var(--text-muted)"/>
+            <text x="559" y="118" text-anchor="middle" font-size="15" fill="var(--text-muted)">σ</text>
+            <circle cx="650" cy="130" r="6.2" fill="none" stroke="var(--role-set)" stroke-width="2"/>
+            <circle cx="650" cy="130" r="15" fill="none" stroke="var(--role-interior)" stroke-width="2"/>
+            <circle cx="650" cy="130" r="41.3" fill="none" stroke="var(--role-highlight)" stroke-width="2"/>
+            <text x="650" y="242" text-anchor="middle" font-size="14" fill="var(--text-muted)">ℝ², ρ ≈ 0.31, 0.75, 2.06</text>
+            <text x="650" y="262" text-anchor="middle" font-size="12" fill="var(--text-faint)">масштаб справа в 3 раза мельче</text>
+          </svg>
+          <p class="viz__caption">$\sigma$ сохраняет направление и меняет только расстояние до центра:
+          $\sigma(p) = p / \sqrt{1 - |p|^2}$, то есть $|p| = r \mapsto \rho = r/\sqrt{1 - r^2}$. Обратный профиль
+          $\rho \mapsto \rho / \sqrt{1 + \rho^2}$. Граничная окружность $r = 1$ в $D^2$ не входит — ей и
+          некуда отобразиться, как концам отрезка у тангенса в лекции 3.</p>
+        </div>
+      </div>
+
+      <div class="block block--example" id="ex-2" data-label="Ex. 2" data-title="Гладкий гомеоморфизм, не диффеоморфизм">
+        <div class="block__label">Ex. 2 <span class="block__title">Гладкий гомеоморфизм, не диффеоморфизм</span></div>
+        <p>Отображение $\sigma : \mathbb{R} \to \mathbb{R}$, заданное формулой $x \mapsto x^3$, является гладким
+        гомеоморфизмом стандартной прямой, но не $C^r$-диффеоморфизмом при $r \geqslant 1$: обратное отображение
+        $y \mapsto \sqrt[3]{y}$ не дифференцируемо в нуле.</p>
+      </div>
+
+      <div data-viz="CubeHomeo" data-viz-config='{"x":0.8}'></div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Разбор по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>На стандартной прямой одна карта $(\mathbb{R}, \mathrm{id})$, поэтому координатный представитель —
+            сама формула. $x^3$ — многочлен, $C^\infty$. Это биекция, обратное $\sqrt[3]{y}$ непрерывно —
+            значит гомеоморфизм.</div>
+            <div class="proof-step__why">почему: <a href="#def-1">Def. 1</a> с $\varphi = \psi = \mathrm{id}$; $x^3$ строго возрастает и непрерывна</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>$(\sqrt[3]{y})' = \tfrac13 y^{-2/3} \to +\infty$ при $y \to 0$, а разностное отношение в нуле
+            $\sqrt[3]{h}/h = h^{-2/3} \to +\infty$. Производной в нуле нет, $\sigma^{-1} \notin C^1$.</div>
+            <div class="proof-step__why">почему: касательная к графику $\sqrt[3]{y}$ в нуле вертикальна — зеркальное отражение горизонтальной касательной $x^3$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Корень зла: $\sigma'(0) = 3 \cdot 0^2 = 0$. Если бы $\sigma^{-1}$ была дифференцируема в нуле, то
+            из $\sigma^{-1} \circ \sigma = \mathrm{id}$ по цепному правилу $(\sigma^{-1})'(0) \cdot \sigma'(0) = 1$,
+            то есть $(\sigma^{-1})'(0) \cdot 0 = 1$ — невозможно.</div>
+            <div class="proof-step__why">почему: у диффеоморфизма производная (якобиан) обязана быть обратимой в каждой точке; нулевая производная это запрещает</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>При $r = 0$ противоречия нет: $C^0$-диффеоморфизм — это просто гомеоморфизм. Поэтому в
+            формулировке «при $r \geqslant 1$».</div>
+            <div class="proof-step__why">почему: <a href="lecture-05.html#def-8">лекция 5</a>, NB о классе гладкости: при $r = 0$ под $C^0$-диффеоморфизмами понимаются гомеоморфизмы</div>
+          </div>
+        </div>
+      </details>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция: $x^3$ как карта</div>
+        <p>Та же функция $x^3$ может играть роль <b>карты</b>. Обозначим $\mathbb{R}_{\mathrm{st}}$ — прямую со
+        структурой $\{(\mathbb{R}, \mathrm{id})\}$, и $\mathbb{R}'$ — прямую со структурой $\{(\mathbb{R}, x^3)\}$.
+        Это законный атлас из одной карты: $x \mapsto x^3$ — биекция $\mathbb{R} \to \mathbb{R}$. Карты
+        $\mathrm{id}$ и $x^3$ <b>не согласованы</b>: замена $\mathrm{id} \circ (x^3)^{-1} = \sqrt[3]{y}$ не $C^1$.
+        Значит структуры разные — ровно как с картами $\varphi_\alpha$ в <a href="lecture-05.html#ex-2">Ex. 2 лекции 5</a>.</p>
+        <p>Теперь считаем координатные представители (всюду по <a href="#def-1">Def. 1</a>):</p>
+        <ul>
+          <li>$\mathrm{id} : \mathbb{R}_{\mathrm{st}} \to \mathbb{R}'$: $\widehat{\sigma}(x) = x^3 \circ \mathrm{id} \circ \mathrm{id}^{-1}(x) = x^3$ —
+          гладко. Обратное $\mathrm{id} : \mathbb{R}' \to \mathbb{R}_{\mathrm{st}}$: $\widehat{\sigma}(y) = \mathrm{id} \circ \mathrm{id} \circ (x^3)^{-1}(y) = \sqrt[3]{y}$ —
+          не гладко. Тождественное отображение — гомеоморфизм, но <b>не диффеоморфизм</b>.</li>
+          <li>$\sigma(x) = x^3 : \mathbb{R}' \to \mathbb{R}_{\mathrm{st}}$: $\widehat{\sigma}(y) = \mathrm{id} \circ x^3 \circ (x^3)^{-1}(y) = y$.
+          Обратное $\sqrt[3]{\cdot} : \mathbb{R}_{\mathrm{st}} \to \mathbb{R}'$: $\widehat{\sigma}(x) = (\sqrt[3]{x})^3 = x$.
+          Оба представителя — тождественные. Это <b>диффеоморфизм</b>.</li>
+        </ul>
+        <p>Итог: структуры $\mathbb{R}_{\mathrm{st}}$ и $\mathbb{R}'$ различны (тождественное отображение их не
+        связывает гладко), но многообразия <b>диффеоморфны</b> — через само картирующее отображение
+        $x \mapsto x^3$ (или обратное $x \mapsto x^{1/3}$ в другую сторону). Это та же история, что в
+        лекции 5: «все полученные многообразия $C^r$-диффеоморфны стандартной прямой посредством $\varphi_\alpha$».
+        Мораль: одна и та же формула $x^3$ — гладкий гомеоморфизм, но не диффеоморфизм
+        $\mathbb{R}_{\mathrm{st}} \to \mathbb{R}_{\mathrm{st}}$, и в то же время диффеоморфизм
+        $\mathbb{R}' \to \mathbb{R}_{\mathrm{st}}$. Гладкость отображения всегда относится к паре структур.</p>
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p><b>Гладкий гомеоморфизм $\neq$ диффеоморфизм.</b> Проверить, что $\sigma$ гладкое и биективное, мало —
+        нужно проверить гладкость $\sigma^{-1}$. Быстрый тест на КР: найдите точку, где якобиан $\widehat{\sigma}$
+        вырожден ($\det = 0$). Если такая есть, $\sigma$ не диффеоморфизм (шаг 3 разбора выше работает в любой
+        размерности: $D(\sigma^{-1}) \cdot D\sigma = E$).</p>
+        <p>Обратное тоже неверно «в лоб»: невырожденный якобиан во всех точках даёт лишь <i>локальную</i>
+        обратимость. $t \mapsto (\cos t, \sin t)$ из $\mathbb{R}$ в $S^1$ имеет ненулевую производную везде, но не
+        инъективно.</p>
+      </div>
+
+      <div class="block block--ml" id="ml-diffeo-flows" data-label="ИИ" data-title="Диффеоморфизмы и нормализующие потоки">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Нормализующий поток — это диффеоморфизм.</b> Поток $f_\theta : \mathbb{R}^d \to \mathbb{R}^d$ переводит
+        гауссовский шум $z$ в данные $x = f_\theta(z)$, а плотность считается по формуле замены переменных:
+        $$\log p_X(x) = \log p_Z\bigl(f_\theta^{-1}(x)\bigr) + \log \bigl|\det D f_\theta^{-1}(x)\bigr|.$$
+        Здесь нужны обе стороны: $f_\theta^{-1}$ — чтобы считать правдоподобие, $f_\theta$ — чтобы сэмплировать, и
+        обе должны быть гладкими, чтобы якобианы существовали. В <a href="lecture-03.html#ml-flows">лекции 3</a>
+        речь шла о гомеоморфизмах; Def. 3 — ровно то требование, которое реально нужно потокам.</p>
+        <p><b>Почему $x^3$ не годится как слой потока.</b> Он обратим и гладок, но $\sigma'(0) = 0$, так что
+        $\log|\det D\sigma^{-1}|$ в нуле равен $+\infty$: плотность взрывается, градиенты по параметрам
+        улетают. Поэтому монотонные слои в потоках (Leaky ReLU с наклоном $\geqslant \varepsilon$, аффинные
+        coupling-слои с множителем $e^{s(\cdot)} > 0$, монотонные сплайны с производной, ограниченной снизу)
+        конструируются так, чтобы производная была <b>отделена от нуля</b>. Это и есть дискретная версия
+        Ex. 2: «гладкий гомеоморфизм» недостаточен, нужен диффеоморфизм.</p>
+      </div>
+
+      <div class="block block--card" id="card-smooth-map">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Дай определение $C^r$-дифференцируемости отображения $\sigma : M \to N$ в точке.
+        Почему оно не зависит от выбора карт?</p>
+        <div class="card__answer" data-card-answer>
+          <p>Есть карты $(U,\varphi) \ni P$ и $(V, \psi)$ с $\sigma(U) \subset V$, такие что
+          $\widehat{\sigma} = \psi \circ \sigma \circ \varphi^{-1} : \varphi(U) \to \psi(V)$ класса $C^r$. В других картах
+          $\psi' \circ \sigma \circ \varphi'^{-1} = (\psi' \circ \psi^{-1}) \circ \widehat{\sigma} \circ (\varphi' \circ \varphi^{-1})^{-1}$
+          на $\varphi'(W)$, а замены координат — $C^r$-диффеоморфизмы по определению многообразия (Lm. 1).</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-cube">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Почему $x \mapsto x^3$ — гладкий гомеоморфизм, но не диффеоморфизм прямой?
+        А между какими структурами на $\mathbb{R}$ оно всё-таки диффеоморфизм?</p>
+        <div class="card__answer" data-card-answer>
+          <p>$x^3$ — гладкая биекция с непрерывным обратным, но $\sqrt[3]{y}$ не дифференцируема в нуле (иначе
+          $(\sigma^{-1})'(0)\cdot\sigma'(0) = 1$ при $\sigma'(0) = 0$). Если на области взять структуру с картой
+          $x^3$, то представитель $\mathrm{id} \circ x^3 \circ (x^3)^{-1} = \mathrm{id}$ — и
+          $x^3 : \mathbb{R}' \to \mathbb{R}_{\mathrm{st}}$ диффеоморфизм.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-3-2" data-section-id="lecture-07/3.2">
+      <h2 id="h-3-2" data-short="3.2 Кривые и функции">3.2 Гладкие кривые и функции</h2>
+
+      <p>Рассмотрим специальные виды отображений, играющие ключевую роль при описании свойств гладких
+      многообразий.</p>
+
+      <h3 id="h-3-2-1">3.2.1 Кривая на многообразии</h3>
+
+      <div class="block block--def" id="def-4" data-label="Def. 4" data-title="Кривая на многообразии">
+        <div class="block__label">Def. 4 <span class="block__title">Кривая на многообразии</span></div>
+        <p><b>Кривой</b> или <b>путём</b> на многообразии $M$ называется непрерывное отображение
+        $\gamma : I \to M$, где $I \subset \mathbb{R}$ — интервал. Кривая называется $C^r$-дифференцируемой, если
+        $\gamma$ имеет класс $C^r$ в смысле определения гладкости на подмножестве, и гладкой при $r = \infty$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Почему «на подмножестве», а не просто Def. 1? Потому что $I$ может быть отрезком $[a, b]$ — он не
+        многообразие без края. <a href="#def-2">Def. 2</a> позволяет говорить о гладкости в концах: кривая
+        гладкая в $a$, если её можно гладко продолжить немного левее. Для открытого интервала $I$ оба
+        определения совпадают.</p>
+        <p>Сравни с <a href="lecture-04.html#def-4">Def. 4 лекции 4</a>: там кривая — путь из $P$ в $Q$ на $[0,1]$.
+        Здесь концы не фиксируются, а главное — добавляется гладкость, без которой у кривой не будет
+        касательного вектора (следующая лекция).</p>
+      </div>
+
+      <div class="block block--nb" id="nb-2" data-label="NB 2" data-title="Представитель кривой">
+        <div class="block__label">NB 2 <span class="block__title">Представитель кривой</span></div>
+        <p>Представителем кривой $\gamma$ в произвольной карте $(U, \varphi)$ является параметрически заданная
+        кривая $\widehat{\gamma} = \varphi \circ \gamma : \gamma^{-1}(U) \to \varphi(U)$ в координатном
+        пространстве $\mathbb{R}^n$:</p>
+        $$\widehat{\gamma}(t) = \bigl(x^1(t), x^2(t), \dots, x^n(t)\bigr).$$
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Кривая входит в многообразие, функция выходит из него</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 680 280" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Интервал I отображается кривой гамма в M, карта фи переводит в R n, функция f из M в R">
+            <line x1="20" y1="140" x2="130" y2="140" stroke="var(--role-set)" stroke-width="5" stroke-linecap="round"/>
+            <text x="75" y="166" text-anchor="middle" font-size="15" fill="var(--text-muted)">I ⊂ ℝ</text>
+            <line x1="140" y1="140" x2="182" y2="140" stroke="var(--text-muted)" stroke-width="1.8"/>
+            <path d="M 190 140 L 179 134 L 179 146 Z" fill="var(--text-muted)"/>
+            <text x="162" y="128" text-anchor="middle" font-size="16" fill="var(--text-muted)">γ</text>
+
+            <ellipse cx="310" cy="140" rx="115" ry="85" fill="var(--role-neighborhood)" fill-opacity="0.08" stroke="var(--border-strong)" stroke-width="2"/>
+            <ellipse cx="330" cy="140" rx="62" ry="48" fill="none" stroke="var(--role-interior)" stroke-width="2" stroke-dasharray="5 4"/>
+            <path d="M 215 190 C 260 120, 320 190, 360 120 S 400 90, 410 80" fill="none" stroke="var(--role-set)" stroke-width="3"/>
+            <text x="225" y="88" font-size="17" font-weight="700" fill="var(--text-muted)">M</text>
+            <text x="350" y="186" font-size="14" fill="var(--role-interior)">U</text>
+
+            <line x1="400" y1="170" x2="482" y2="215" stroke="var(--text-muted)" stroke-width="1.8"/>
+            <path d="M 489 219 L 476 218 L 482 207 Z" fill="var(--text-muted)"/>
+            <text x="436" y="214" font-size="16" fill="var(--text-muted)">φ</text>
+            <rect x="495" y="180" width="160" height="80" rx="6" fill="var(--role-interior)" fill-opacity="0.08" stroke="var(--role-interior)" stroke-dasharray="5 4"/>
+            <path d="M 510 245 C 545 205, 590 250, 640 195" fill="none" stroke="var(--role-set)" stroke-width="3"/>
+            <text x="575" y="276" text-anchor="middle" font-size="13" fill="var(--text-muted)">φ(U) ⊂ ℝⁿ, γ̂ = φ ∘ γ</text>
+
+            <line x1="400" y1="105" x2="482" y2="60" stroke="var(--text-muted)" stroke-width="1.8"/>
+            <path d="M 489 56 L 476 57 L 482 68 Z" fill="var(--text-muted)"/>
+            <text x="436" y="70" font-size="16" fill="var(--text-muted)">f</text>
+            <line x1="500" y1="45" x2="660" y2="45" stroke="var(--role-highlight)" stroke-width="4" stroke-linecap="round"/>
+            <text x="580" y="28" text-anchor="middle" font-size="15" fill="var(--role-highlight)">ℝ</text>
+            <text x="575" y="80" text-anchor="middle" font-size="13" fill="var(--text-muted)">f̂ = f ∘ φ⁻¹ : φ(U) → ℝ</text>
+          </svg>
+          <p class="viz__caption">Кривая $\gamma$ — отображение <b>в</b> $M$, его представитель получается
+          приписыванием карты слева: $\widehat{\gamma} = \varphi \circ \gamma$. Функция $f$ — отображение <b>из</b>
+          $M$, карта приписывается справа: $\widehat{f} = f \circ \varphi^{-1}$. Оба — частные случаи
+          $\widehat{\sigma} = \psi \circ \sigma \circ \varphi^{-1}$, где на $\mathbb{R}$ взята карта $\mathrm{id}$.</p>
+        </div>
+      </div>
+
+      <div class="block block--example" id="ex-3" data-label="Ex. 3" data-title="Кривая на сфере">
+        <div class="block__label">Ex. 3 <span class="block__title">Кривая на сфере</span></div>
+        <p>На двумерной сфере $S^2 = \{(x, y, z) : x^2 + y^2 + z^2 = 1\}$ кривую можно задать, используя либо
+        внутренние координаты $(\theta, \psi)$, либо прямоугольные декартовы координаты $(x, y, z)$. В первом
+        случае в области угловой карты имеем $\widehat{\gamma}(t) = (\theta(t), \psi(t))$, а во втором
+        $P(t) = (x(t), y(t), z(t))$, $P(t) \in S^2$.</p>
+      </div>
+
+      <div class="block block--example">
+        <div class="block__label">Пример: представители кривых с вычислением</div>
+        <p><b>Окружность.</b> $\gamma(t) = (\cos t, \sin t) \in S^1$, $t \in \mathbb{R}$. Карта стереографической
+        проекции из <a href="lecture-05.html#ex-1">Ex. 1 лекции 5</a>: $U = S^1 \setminus \{(0,1)\}$,
+        $\varphi(x,y) = x/(1-y)$. Тогда $\gamma^{-1}(U) = \mathbb{R} \setminus \{\tfrac{\pi}{2} + 2\pi k\}$ и
+        $$\widehat{\gamma}(t) = \frac{\cos t}{1 - \sin t} = \frac{1 + \sin t}{\cos t} = \operatorname{tg}\Bigl(\frac{\pi}{4} + \frac{t}{2}\Bigr).$$
+        Среднее равенство — умножение на $(1+\sin t)/(1+\sin t)$ и $\cos^2 t = 1 - \sin^2 t$. Представитель гладок
+        на каждом интервале области; во второй карте $\psi(x,y) = x/(1+y)$ аналогично
+        $\widehat{\gamma}(t) = \cos t/(1 + \sin t)$. Значит $\gamma$ гладкая.</p>
+        <p><b>Тор.</b> $T^2 = S^1 \times S^1$, $\gamma(t) = \bigl((\cos at, \sin at), (\cos bt, \sin bt)\bigr)$. В
+        угловой карте $(\theta_1, \theta_2)$ (каждый угол — в интервале длины $2\pi$) представитель линеен:
+        $\widehat{\gamma}(t) = (at + c_1, bt + c_2)$ на каждом куске $\gamma^{-1}(U)$. «Прямая обмотка тора» —
+        прямая в координатах. При иррациональном $a/b$ она всюду плотна на торе, но в каждой карте —
+        набор отрезков прямых.</p>
+        <p><b>Сфера в угловых координатах.</b> Угловая карта
+        $(\theta, \psi) \mapsto (\sin\theta\cos\psi, \sin\theta\sin\psi, \cos\theta)$, $\theta \in (0, \pi)$,
+        $\psi \in (0, 2\pi)$. Параллель $P(t) = (\sin\theta_0 \cos t, \sin\theta_0 \sin t, \cos\theta_0)$ имеет
+        представитель $\widehat{\gamma}(t) = (\theta_0, t)$, меридиан $P(t) = (\sin t \cos\psi_0, \sin t\sin\psi_0, \cos t)$ —
+        представитель $\widehat{\gamma}(t) = (t, \psi_0)$, $t \in (0, \pi)$. Это две формы из Ex. 3: в декартовых
+        координатах кривая лежит в $\mathbb{R}^3$ и обязана удовлетворять $x^2 + y^2 + z^2 = 1$, во внутренних
+        — свободная пара функций.</p>
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Угловая карта не покрывает всю сферу: полюса ($\theta = 0, \pi$) и меридиан $\psi = 0$ из неё
+        выброшены. Меридиан, проходящий через северный полюс, в этой карте распадается на куски, и гладкость
+        в полюсе надо проверять в другой карте (например, стереографической). Отсюда и формулировка NB 2:
+        представитель задан только на $\gamma^{-1}(U)$, а не на всём $I$.</p>
+      </div>
+
+      <h3 id="h-3-2-2">3.2.2 Функции на многообразии</h3>
+
+      <div class="block block--def" id="def-5" data-label="Def. 5" data-title="Функция на многообразии">
+        <div class="block__label">Def. 5 <span class="block__title">Функция на многообразии</span></div>
+        <p><b>Функцией на многообразии</b> $M$ называется отображение $f : M \to \mathbb{R}$, сопоставляющее
+        каждой точке $P \in M$ вещественное число $a \in \mathbb{R}$.</p>
+      </div>
+
+      <div class="block block--nb" id="nb-3" data-label="NB 3" data-title="Представитель функции">
+        <div class="block__label">NB 3 <span class="block__title">Представитель функции</span></div>
+        <p>Представителем функции $f$ в произвольной карте $(U, \varphi) \in \widetilde{\mathcal{A}}_M$ будет
+        функция $\widehat{f} = f \circ \varphi^{-1} : \varphi(U) \to \mathbb{R}$ от нескольких переменных:</p>
+        $$f(P) = \widehat{f}\bigl(x^1_P, x^2_P, \dots, x^n_P\bigr).$$
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Функция на многообразии — «поле чисел» на поверхности: температура на Земле, высота точки, потери
+        модели на пространстве параметров. Сама по себе она не знает координат. В карте она становится
+        обычной функцией $n$ переменных $\widehat{f}$, и её гладкость — гладкость $\widehat{f}$. По
+        <a href="#lm-1">Lm. 1</a> ответ не зависит от карты: в другой карте $\widehat{f}' = \widehat{f} \circ (\varphi \circ \varphi'^{-1})$ —
+        композиция с гладкой заменой координат.</p>
+      </div>
+
+      <div class="block block--example">
+        <div class="block__label">Пример: функции и их представители</div>
+        <p><b>Высота на сфере</b> $f(x,y,z) = z$ на $S^2$. В угловой карте $\widehat{f}(\theta, \psi) = \cos\theta$.
+        В стереографической карте из северного полюса $(u, v) = \frac{(x, y)}{1 - z}$ обратное отображение
+        $$\varphi^{-1}(u,v) = \Bigl(\frac{2u}{1 + u^2 + v^2},\ \frac{2v}{1 + u^2 + v^2},\ \frac{u^2 + v^2 - 1}{u^2 + v^2 + 1}\Bigr),$$
+        поэтому $\widehat{f}(u, v) = \dfrac{u^2 + v^2 - 1}{u^2 + v^2 + 1}$ — гладкая на всём $\mathbb{R}^2$ (знаменатель
+        $\geqslant 1$). Проверка: при $u = v = 0$ получаем $z = -1$ — южный полюс, как и должно быть для проекции
+        из северного. Две карты покрывают $S^2$ без северного полюса; там работает проекция из южного, и $f$
+        гладкая всюду.</p>
+        <p><b>Координатные функции.</b> Карта $\varphi = (x^1, \dots, x^n)$ состоит из функций $x^i : U \to \mathbb{R}$
+        (<a href="lecture-05.html#def-1">лекция 5</a>). Их представитель в той же карте —
+        $\widehat{x^i} = x^i \circ \varphi^{-1} : (a^1, \dots, a^n) \mapsto a^i$, проекция на $i$-ю ось. Она линейна,
+        значит $x^i$ — гладкие функции на $U$. Это тавтология, но полезная: «координаты гладки» верно в любой
+        карте гладкого атласа.</p>
+      </div>
+
+      <div class="block block--ml" id="ml-curves-functions" data-label="ИИ" data-title="Кривые в латентном пространстве и функции потерь на многообразиях">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Интерполяция в латентном пространстве — это выбор кривой.</b> Если латенты нормированы (лежат на
+        сфере, как эмбеддинги после L2-нормировки), прямая $z(t) = (1-t)z_0 + tz_1$ выходит со сферы внутрь
+        шара — в область, которую модель никогда не видела. Сферическая интерполяция (slerp) — кривая на
+        $S^{d-1}$, в угловых координатах это просто дуга большой окружности. Ex. 3 в миниатюре: одну и ту же
+        кривую можно писать во внешних координатах с ограничением $\|z\| = 1$ или во внутренних — без него.</p>
+        <p><b>Оптимизация на многообразии.</b> Потери как функция на многообразии параметров — ортогональные
+        матрицы, матрицы фиксированного ранга, сфера весов при нормализации. Параметризация (например,
+        $W = \exp(A)$ для кососимметричной $A$) — это карта, а $\widehat{L} = L \circ \varphi^{-1}$ — функция,
+        которую реально дифференцирует autograd. NB 3 буквально описывает, что делает такой трюк с
+        перепараметризацией.</p>
+      </div>
+
+      <div class="block block--card" id="card-representatives">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Как выглядят координатные представители кривой и функции на многообразии?
+        Вычисли представитель высоты $f = z$ на $S^2$ в угловой карте.</p>
+        <div class="card__answer" data-card-answer>
+          <p>$\widehat{\gamma} = \varphi \circ \gamma : \gamma^{-1}(U) \to \varphi(U)$, то есть
+          $\widehat{\gamma}(t) = (x^1(t), \dots, x^n(t))$; $\widehat{f} = f \circ \varphi^{-1} : \varphi(U) \to \mathbb{R}$.
+          Для высоты на сфере $\widehat{f}(\theta, \psi) = \cos\theta$.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-3-3" data-section-id="lecture-07/3.3">
+      <h2 id="h-3-3" data-short="3.3 Разбиение единицы">3.3 Разбиение единицы</h2>
+
+      <div class="block block--nb" id="nb-4" data-label="NB 4" data-title="Носитель функции">
+        <div class="block__label">NB 4 <span class="block__title">Носитель функции</span></div>
+        <p>Напомним, что носителем $\mathrm{supp}(f)$ функции $f : X \to \mathbb{R}$, заданной на
+        топологическом пространстве $X$, называется замыкание подмножества, на котором функция $f$ принимает
+        значения, отличные от нуля.</p>
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>$\mathrm{supp}(f) = \mathrm{Cl}_X\{P : f(P) \neq 0\}$ — <b>замыкание</b>, а не само множество ненулевых
+        значений. Для $f = \sin x$ на $\mathbb{R}$ нули есть ($\pi k$), но $\mathrm{supp}(f) = \mathbb{R}$. Для
+        $f(x) = \max(0, 1 - |x|)$ ненулевые значения на $(-1, 1)$, а носитель — $[-1, 1]$. Важно и то, в
+        каком пространстве берётся замыкание: условие «$\mathrm{supp}(\beta) \subset O$» в Lm. 2 означает
+        замыкание <b>в</b> $M$, и оно должно целиком лежать в $O$ — с запасом от границы $O$.</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-2" data-label="Lm. 2" data-title="Существование срезающей функции">
+        <div class="block__label">Lm. 2 <span class="block__title">Существование срезающей функции</span></div>
+        <p>Пусть $K$ — компактное подмножество гладкого многообразия $M$ и $O$ — открытое в $M$ подмножество,
+        содержащее $K$. Тогда существует гладкая функция $\beta : M \to \mathbb{R}$, которая равна $1$ на $K$,
+        принимает значения из отрезка $[0, 1]$ и имеет компактный носитель $\mathrm{supp}(\beta)$ в $O$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Срезающая функция — <b>гладкий выключатель</b>: на $K$ «включено» (значение 1), вне $O$ «выключено»
+        (значение 0), а в зазоре между ними — плавный, бесконечно гладкий переход. Обычная индикаторная функция
+        $\mathbf{1}_K$ делает то же, но со скачком. Лемма говорит, что скачок всегда можно заменить гладкой
+        ступенькой, если между $K$ и границей $O$ есть зазор — а он есть, потому что $K$ компактно, $O$ открыто.</p>
+        <p>Обозначения: в доказательстве буква $\varphi$ служит и срезкой на шаре в $\mathbb{R}^n$, и картами
+        $\varphi_P$. Не путайте: $\varphi(x)$ — число в $[0,1]$, $\varphi_P$ — картирующее отображение.</p>
+      </div>
+
+      <p class="ticket-noproof">На коллоквиуме можно без доказательства (сообщение преподавателя).</p>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <p><b>Шаг А. Шар в $\mathbb{R}^n$.</b> Начнём со случая $M = \mathbb{R}^n$ и пусть $O = B(0, R)$ и
+          $K = \overline{B}(0, r)$, при этом $0 &lt; r &lt; R$. Выберем $s$ так, что $r &lt; s &lt; R$, и положим</p>
+          $$\varphi(x) = \int_{|x|}^{s} g(t)\, dt \Big/ \int_{r}^{s} g(t)\, dt, \qquad
+          g(t) = \begin{cases} e^{-(t-r)^{-1}} e^{(t-s)^{-1}}, & t \in (r, s), \\ 0, & t \notin (r, s). \end{cases}$$
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Функция $h(t) = e^{-1/t}$ при $t > 0$, $h(t) = 0$ при $t \leqslant 0$ — класса $C^\infty$ на
+            $\mathbb{R}$. Тогда $g(t) = h(t - r)\, h(s - t)$ тоже $C^\infty$, $g > 0$ на $(r,s)$ и $g = 0$ вне.</div>
+            <div class="proof-step__why">почему: при $t > 0$ по индукции $h^{(k)}(t) = p_k(1/t)\, e^{-1/t}$ с
+            многочленом $p_k$; при $t \to 0+$ экспонента $e^{-1/t}$ убывает быстрее любой степени $1/t$, так что
+            все производные стремятся к $0$ и склеиваются с нулевой функцией слева. Для $g$: $e^{(t-s)^{-1}} = e^{-1/(s-t)} = h(s-t)$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>$\varphi(x) = 1$ при $|x| \leqslant r$, $\varphi(x) = 0$ при $|x| \geqslant s$, и $0 \leqslant \varphi \leqslant 1$.</div>
+            <div class="proof-step__why">почему: при $|x| \leqslant r$ интеграл от $|x|$ до $s$ совпадает с интегралом
+            от $r$ до $s$ — на $[|x|, r]$ подынтегральная $g = 0$. При $|x| \geqslant s$ интеграл идёт по
+            области, где $g = 0$. Между ними числитель — интеграл неотрицательной функции по части отрезка $[r,s]$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>$\varphi$ гладкая на $\mathbb{R}^n$.</div>
+            <div class="proof-step__why">почему: $\varphi(x) = \Phi(|x|)$, где $\Phi(\rho) = \int_\rho^s g / \int_r^s g$ —
+            $C^\infty$ по $\rho$ ($\Phi' = -g / \int_r^s g$, основная теорема анализа). Функция $|x|$ гладкая вне
+            нуля. А в окрестности нуля ($|x| &lt; r$) $\varphi \equiv 1$ — постоянная, гладкая. Излом $|x|$ в нуле
+            «прячется» в зоне, где $\varphi$ постоянна</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Тогда $\mathrm{supp}(\varphi) = \overline{B}(0, s) \subset O$.</div>
+            <div class="proof-step__why">почему: $\{\varphi \neq 0\} = B(0, s)$, его замыкание — замкнутый шар
+            (<a href="#nb-4">NB 4</a>); $s &lt; R$. Шар компактен (замкнут и ограничен)</div>
+          </div>
+
+          <p><b>Шаг Б. Компакт в $\mathbb{R}^n$.</b></p>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Для каждой точки $P \in K \subset \mathbb{R}^n$ выберем открытый шар $U_P = B(P, \rho) \subset O$.
+            Пусть также $K_P = \overline{B}(P, \rho/2)$. Семейство $\{\mathrm{Int}(K_P)\}_{P \in K}$ образует
+            открытое покрытие $K$.</div>
+            <div class="proof-step__why">почему: $O$ открыто, значит у каждой $P$ есть шар внутри $O$ ($\rho$ своё для каждой точки); $P \in B(P, \rho/2) = \mathrm{Int}(K_P)$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">6.</div>
+            <div>В силу компактности из этого покрытия можно выбрать конечное подпокрытие. Значит, существует
+            семейство $\{K_i\}$ замкнутых шаров, таких, что $K \subset \bigcup K_i$, с соответствующими
+            концентрическими открытыми шарами $U_i \subset O$.</div>
+            <div class="proof-step__why">почему: <a href="lecture-02.html#def-10">Def. 10 лекции 2</a> — компактность</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">7.</div>
+            <div>Для каждого $U_i$ выберем функцию срезки $\varphi_i$, которая принимает значение $1$ на $K_i$.
+            Тогда искомой будет
+            $$\beta(x) = 1 - \prod_i \bigl(1 - \varphi_i(x)\bigr).$$</div>
+            <div class="proof-step__why">почему: $\varphi_i$ — срезка из шага А, сдвинутая в центр шара, с радиусами $\rho_i/2$ и $s_i \in (\rho_i/2, \rho_i)$; $\mathrm{supp}(\varphi_i) \subset U_i$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">8.</div>
+            <div>Проверка: $\beta$ гладкая; $\beta = 1$ на $K$; $0 \leqslant \beta \leqslant 1$;
+            $\mathrm{supp}(\beta) \subset \bigcup_i \mathrm{supp}(\varphi_i)$ — компакт в $O$.</div>
+            <div class="proof-step__why">почему: конечное произведение гладких гладко. Если $x \in K$, то
+            $x \in K_i$ для некоторого $i$, множитель $1 - \varphi_i(x) = 0$ обнуляет произведение. Каждый
+            множитель в $[0,1]$, значит и произведение, и $\beta$. Если $x$ вне всех $\mathrm{supp}(\varphi_i)$, все
+            множители равны $1$ и $\beta(x) = 0$; конечное объединение компактов компактно и замкнуто, а
+            замкнутое подмножество компакта компактно. Это ровно «логическое ИЛИ» гладких выключателей:
+            $\beta$ «включена», если включена хоть одна $\varphi_i$</div>
+          </div>
+
+          <p><b>Шаг В. Общий случай.</b></p>
+          <div class="proof-step">
+            <div class="proof-step__index">9.</div>
+            <div>Для каждой точки $P \in K$ выберем карту $(U_P, \varphi_P)$ с $U_P \subset O$ и компакт
+            $K_P \subset U_P$, являющийся прообразом замкнутого координатного шара и содержащий $P$ во
+            внутренности. Из покрытия $\{\mathrm{Int}(K_P)\}_{P \in K}$ выберем конечное подпокрытие. Тогда
+            $$K \subset \bigcup_{i=1}^{k} K_i, \quad K_i \subset U_i, \quad \bigcup U_i \subset O.$$</div>
+            <div class="proof-step__why">почему: сужение карты на $U_P \cap O$ — снова карта (лекция 6), так что
+            $U_P \subset O$ можно считать. $K_P = \varphi_P^{-1}(\overline{B})$ компактен как образ компактного шара
+            при непрерывном $\varphi_P^{-1}$; $\varphi_P$ — гомеоморфизм, поэтому прообраз открытого шара открыт и
+            лежит во $\mathrm{Int}(K_P)$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">10.</div>
+            <div>Построенные в координатах срезки перенесём на $U_i$ и продолжим нулём вне $U_i$. Их носители
+            компактны и содержатся в $U_i$, поэтому продолжения $\beta_i$ гладкие; при этом
+            $0 \leqslant \beta_i \leqslant 1$ и $\beta_i|_{K_i} = 1$.</div>
+            <div class="proof-step__why">почему: на $U_i$ функция $\beta_i$ гладкая — её представитель в карте $\varphi_i$
+            есть срезка из шага Б. Носитель — компакт в хаусдорфовом $M$, значит замкнут, и $M \setminus \mathrm{supp}(\beta_i)$
+            открыто; там $\beta_i \equiv 0$. Открытые $U_i$ и $M \setminus \mathrm{supp}(\beta_i)$ покрывают $M$, на каждом
+            $\beta_i$ гладкая — значит гладкая всюду (гладкость — локальное свойство, <a href="#def-1">Def. 1</a>)</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">11.</div>
+            <div>Искомая функция задаётся выражением
+            $$\beta = 1 - \prod_{i=1}^{k} (1 - \beta_i).$$</div>
+            <div class="proof-step__why">почему: та же проверка, что в шаге 8: на $K$ хоть один множитель нулевой,
+            значения в $[0,1]$, носитель внутри $\bigcup_i \mathrm{supp}(\beta_i)$ — конечного объединения компактов
+            в $\bigcup U_i \subset O$</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div data-viz="CutoffBuilder" data-viz-config='{"stage":0,"r":1,"s":2}'></div>
+
+      <div class="block block--counter">
+        <div class="block__label">Контрпример</div>
+        <p><b>Аналитическая функция не может быть срезающей.</b> Если $\beta$ аналитична на связном $\mathbb{R}^n$
+        и равна нулю на непустом открытом множестве (вне компактного носителя), то по теореме единственности
+        $\beta \equiv 0$ — а она должна быть равна 1 на $K$. Никакие многочлены, $\sin$, $\operatorname{th}$,
+        гауссианы $e^{-x^2}$ не годятся: у гауссианы носитель — вся прямая.</p>
+        <p>Поэтому в доказательстве стоит $e^{-1/t}$: она $C^\infty$, все её производные в нуле равны нулю, её
+        ряд Тейлора в нуле тождественно нулевой — но сама она не ноль. Функция, не совпадающая со своим
+        рядом Тейлора, — именно то, что нужно, чтобы гладко «выключиться» и остаться выключенной.</p>
+      </div>
+
+      <div class="block block--def" id="def-6" data-label="Def. 6" data-title="Срезающая функция">
+        <div class="block__label">Def. 6 <span class="block__title">Срезающая функция</span></div>
+        <p>Функция $\beta : M \to \mathbb{R}$, обладающая перечисленными в лемме свойствами, называется
+        <b>срезающей функцией</b>.</p>
+      </div>
+
+      <div class="block block--nb" id="nb-5" data-label="NB 5" data-title="Продолжение нулём">
+        <div class="block__label">NB 5 <span class="block__title">Продолжение нулём</span></div>
+        <p>Пусть $f : U \to \mathbb{R}$ — гладкая функция, заданная на $U \subset M$ и $\beta$ — срезающая
+        функция, такая что $\mathrm{supp}(\beta) \subset U$. Тогда $\beta \cdot f$, продолженная нулём вне $U$, —
+        гладкая функция, определённая на всём $M$ и принимающая значение $0$ вне $U$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Это главное применение срезок: <b>локальное делается глобальным</b>. Гладкая функция, заданная лишь
+        в карте (например, координата $x^1$), умножается на срезку и становится гладкой функцией на всём $M$,
+        совпадающей с исходной около $K$. Почему гладко: на $U$ это произведение гладких, на открытом
+        $M \setminus \mathrm{supp}(\beta)$ — тождественный ноль, и эти два открытых множества покрывают $M$.</p>
+        <p>Без срезки так нельзя: $f = 1/x$ на $U = (0, 1) \subset \mathbb{R}$, продолженная нулём, разрывна в нуле.
+        Срезка с носителем внутри $U$ гасит $f$ раньше, чем та доберётся до края $U$.</p>
+      </div>
+
+      <div class="block block--ml" id="ml-smooth-gates" data-label="ИИ" data-title="Гладкие выключатели: smoothstep, гейтинг, оконные функции">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Жёсткий порог не обучается.</b> Индикатор $\mathbf{1}[x > 0]$ имеет нулевую производную почти всюду —
+        градиентный спуск через него ничего не узнаёт. Поэтому в нейросетях всюду стоят гладкие ступеньки:
+        сигмоида в LSTM/GRU-гейтах, $x\,\sigma(x)$ в SiLU/GELU, smoothstep $3t^2 - 2t^3$ в графике и в
+        neural fields. Они дифференцируемы, но — в отличие от срезки из Lm. 2 — <b>не выключаются полностью</b>:
+        сигмоида нигде не равна 0. Это и есть контрпример выше в действии: аналитические функции компактного
+        носителя не имеют.</p>
+        <p><b>Окна с компактным носителем.</b> Где «выключиться точно» важно, используют кусочные конструкции:
+        окна Ханна и Тьюки в спектральном анализе (STFT для аудио-моделей), гладкие cutoff-функции в
+        межатомных потенциалах (SchNet, NequIP, MACE: взаимодействие плавно обнуляется на радиусе отсечки $r_c$,
+        чтобы энергия оставалась гладкой при пересечении атомом этой границы). Функция «бамп»
+        $e^{-1/(1 - x^2)}$ на $(-1,1)$ — та же $g$ из Lm. 2 — встречается в этих потенциалах напрямую.</p>
+      </div>
+
+      <div class="block block--def" id="def-7" data-label="Def. 7" data-title="Разбиение единицы">
+        <div class="block__label">Def. 7 <span class="block__title">Разбиение единицы</span></div>
+        <p><b>Разбиением единицы</b> на гладком многообразии $M$ называется семейство $\{\varphi_\alpha\}_{\alpha \in A}$
+        гладких функций на $M$, удовлетворяющих следующим условиям:</p>
+        <ol>
+          <li>$0 \leqslant \varphi_\alpha \leqslant 1$, $\quad \forall \alpha \in A$;</li>
+          <li>для каждой точки $P \in M$ существует открытая окрестность $W_P \ni P$, такая, что
+          $W_P \cap \mathrm{supp}(\varphi_\alpha) = \varnothing$ для всех, кроме конечного числа, индексов $\alpha$;</li>
+          <li>$\forall P \in M \quad \sum_{\alpha \in A} \varphi_\alpha(P) = 1$ (из п. 2 в сумме только конечное число
+          ненулевых слагаемых).</li>
+        </ol>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Разбиение единицы — способ <b>склеить локальные объекты в глобальный взвешенной суммой</b>. Пусть на
+        каждом куске $O_\alpha$ есть своя локальная конструкция $s_\alpha$ (функция, метрика, векторное поле,
+        построенные в карте). Тогда $s = \sum_\alpha \varphi_\alpha s_\alpha$ определено на всём $M$: в каждой
+        точке это выпуклая комбинация тех $s_\alpha$, что «видны» рядом. Веса неотрицательны и дают в сумме 1 —
+        ничего не теряется и не удваивается.</p>
+        <p>Условие 2 — локальная конечность носителей (<a href="lecture-02.html#def-12">Def. 12 лекции 2</a>).
+        Оно делает сумму в каждой точке конечной, а около каждой точки — конечной суммой <b>гладких функций</b>,
+        а значит гладкой.</p>
+      </div>
+
+      <div data-viz="PartitionOfUnity" data-viz-config='{"count":3}'></div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p><b>Мало, чтобы в каждой точке ненулевых слагаемых было конечно.</b> Нужна окрестность $W_P$, которую
+        задевает конечно много <b>носителей</b>. Пример на $\mathbb{R}$: бампы $\varphi_n$ с носителями
+        $[\tfrac{1}{n+1}, \tfrac{1}{n}]$ — в каждой точке ненулевых конечно много (не больше двух), но любая
+        окрестность нуля задевает бесконечно много носителей. Сумма таких функций может оказаться не гладкой
+        и даже разрывной в нуле. Условие 2 запрещает такое накопление.</p>
+      </div>
+
+      <div class="block block--def" id="def-8" data-label="Def. 8" data-title="Подчинённое разбиение единицы">
+        <div class="block__label">Def. 8 <span class="block__title">Подчинённое разбиение единицы</span></div>
+        <p>Говорят, что разбиение единицы $\{\varphi_\alpha\}_{\alpha \in A}$ <b>подчинено</b> открытому покрытию
+        $\mathcal{O}_M = \{O_\alpha\}_{\alpha \in A}$ многообразия $M$, если для всех $\alpha \in A$ имеет место
+        $\mathrm{supp}(\varphi_\alpha) \subset O_\alpha$.</p>
+      </div>
+
+      <div class="block block--theorem" id="th-3-1" data-label="Th. 3.1" data-title="Существование разбиения единицы">
+        <div class="block__label">Th. 3.1 <span class="block__title">Существование разбиения единицы</span></div>
+        <p>Пусть $M$ — гладкое многообразие и $\mathcal{O}_M = \{O_\alpha\}_{\alpha \in A}$ — произвольное открытое
+        покрытие $M$. Тогда существует разбиение единицы $\{\varphi_\alpha\}_{\alpha \in A}$, подчинённое этому
+        покрытию.</p>
+      </div>
+
+      <p class="ticket-noproof">На коллоквиуме можно без доказательства (сообщение преподавателя). В PDF доказательства нет.</p>
+
+      <details class="reveal reveal--proof">
+        <summary>Набросок доказательства <span class="ticket-own">набросок не из лекции</span></summary>
+        <div class="reveal__body">
+          <p><b>Компактное $M$.</b></p>
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Для каждой $P \in M$ выберем индекс $\alpha(P)$ с $P \in O_{\alpha(P)}$ и срезку $\psi_P$ с
+            $\psi_P(P) = 1$ и $\mathrm{supp}(\psi_P) \subset O_{\alpha(P)}$.</div>
+            <div class="proof-step__why">почему: <a href="#lm-2">Lm. 2</a> с $K = \{P\}$ (точка компактна) и $O = O_{\alpha(P)}$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Открытые множества $\{\psi_P > 0\}$ покрывают $M$; выберем конечное подпокрытие —
+            срезки $\psi_1, \dots, \psi_m$.</div>
+            <div class="proof-step__why">почему: $\psi_P$ непрерывна, $\psi_P(P) = 1 > 0$; компактность</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Сумма $S = \sum_j \psi_j$ гладкая и всюду $> 0$. Нормируем: $\varphi_i = \psi_i / \sum_j \psi_j$.
+            Тогда $0 \leqslant \varphi_i \leqslant 1$, $\sum_i \varphi_i = 1$, $\mathrm{supp}(\varphi_i) = \mathrm{supp}(\psi_i)$.</div>
+            <div class="proof-step__why">почему: каждая точка лежит в каком-то $\{\psi_j > 0\}$; деление на гладкую положительную функцию гладко. Условие 2 Def. 7 тривиально — функций конечно</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Переиндексируем по $A$: $\varphi_\alpha = \sum_{i : \alpha(i) = \alpha} \varphi_i$ (ноль, если таких $i$
+            нет). Носитель $\varphi_\alpha$ лежит в $O_\alpha$.</div>
+            <div class="proof-step__why">почему: в Th. 3.1 разбиение индексируется тем же $A$, что и покрытие (Def. 8); конечная сумма функций с носителями в $O_\alpha$ имеет носитель в $O_\alpha$</div>
+          </div>
+          <p><b>Общий случай.</b></p>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>По паракомпактности у покрытия картами, вписанными в $O_\alpha$ и с компактными замыканиями, есть
+            открытое локально конечное уточнение $\{V_j\}$. Его «ужимают» до покрытия $\{W_j\}$ с
+            $\overline{W_j} \subset V_j$ компактными.</div>
+            <div class="proof-step__why">почему: <a href="lecture-02.html#def-13">Def. 13</a>, <a href="lecture-02.html#def-11">Def. 11</a>, <a href="lecture-02.html#def-12">Def. 12 лекции 2</a>;
+            многообразие паракомпактно и хаусдорфово по определению. Лемма об ужатии покрытия — факт за пределами лекции</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">6.</div>
+            <div>Lm. 2 с $K = \overline{W_j}$, $O = V_j$ даёт срезки $\psi_j$. Сумма $\sum_j \psi_j$ локально конечна,
+            значит гладкая, и $> 0$ (каждая точка в некотором $W_j$). Дальше — нормировка и переиндексация, как в
+            шагах 3–4.</div>
+            <div class="proof-step__why">почему: около каждой точки сумма — конечная сумма гладких функций; локальная конечность $\{V_j\}$ даёт условие 2 Def. 7</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция: зачем паракомпактность</div>
+        <p>Вот где наконец «срабатывает» требование паракомпактности из определения многообразия
+        (<a href="lecture-04.html#def-7">лекция 4</a>). Без неё Th. 3.1 неверна, и вместе с ней ломаются
+        построения, которые склеиваются разбиением единицы: риманова метрика на многообразии, интеграл по
+        многообразию, продолжение функций с замкнутых подмножеств, вложение в $\mathbb{R}^N$.</p>
+      </div>
+
+      <div class="block block--ml" id="ml-moe-partition" data-label="ИИ" data-title="Разбиение единицы и softmax-гейтинг">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Mixture of Experts — разбиение единицы на пространстве входов.</b> Гейтинг
+        $g(x) = \mathrm{softmax}(Wx)$ даёт веса $g_i(x) \in [0,1]$ с $\sum_i g_i(x) = 1$ — условия 1 и 3 из Def. 7.
+        Модель $y = \sum_i g_i(x)\, f_i(x)$ — та самая склейка локальных «экспертов» взвешенной суммой. Нормировка
+        softmax $e^{a_i} / \sum_j e^{a_j}$ — ровно шаг 3 наброска: положительные $\psi_i = e^{a_i}$ делятся на сумму.</p>
+        <p>Отличия поучительны. У softmax носитель каждого веса — всё пространство: эксперт никогда не
+        «выключается» (аналитичность снова). Sparse top-$k$ гейтинг выключает экспертов точно и даёт аналог
+        локальной конечности (в каждой точке работают $k$ экспертов), но ценой гладкости: на границах смены
+        top-$k$ веса прыгают. Срезки из Lm. 2 дают и то и другое сразу — гладкость и компактный носитель, —
+        поэтому в математике разбиение единицы строят из них, а не из экспонент.</p>
+      </div>
+
+      <div class="block block--ml" id="ml-fem-rbf" data-label="ИИ" data-title="Сплайны, конечные элементы и RBF">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Конечные элементы.</b> «Шапочки» кусочно-линейных базисных функций на сетке неотрицательны, имеют
+        компактный носитель (соседние ячейки) и дают в сумме 1 — разбиение единицы (лишь непрерывное, не
+        гладкое). B-сплайны степени $k$ — тоже разбиение единицы, уже класса $C^{k-1}$; на этом стоят
+        KAN-сети (Kolmogorov–Arnold Networks), где активации параметризуются B-сплайнами. Метод «partition of
+        unity FEM» прямо склеивает локальные приближения весами $\varphi_\alpha$.</p>
+        <p><b>RBF и интерполяция Шепарда.</b> Нормированные радиальные базисные функции
+        $\varphi_i(x) = w(\|x - x_i\|) / \sum_j w(\|x - x_j\|)$ — разбиение единицы по построению, та же формула,
+        что в наброске Th. 3.1. С $w$ компактного носителя (функции Вендланда) получается локально конечная
+        сумма и разреженные матрицы — практическая версия условия 2.</p>
+      </div>
+
+      <div class="block block--card" id="card-cutoff">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Сформулируй Lm. 2 о срезающей функции. Как строится срезка на шаре в
+        $\mathbb{R}^n$ и почему она гладкая в нуле?</p>
+        <div class="card__answer" data-card-answer>
+          <p>Для компакта $K$ в открытом $O \subset M$ есть гладкая $\beta : M \to [0,1]$, $\beta|_K = 1$,
+          $\mathrm{supp}(\beta)$ компактен и лежит в $O$. На шаре: $g(t) = e^{-(t-r)^{-1}} e^{(t-s)^{-1}}$ на
+          $(r,s)$, нуль вне; $\varphi(x) = \int_{|x|}^s g / \int_r^s g$ равна $1$ на $\overline{B}(0,r)$ и $0$ вне
+          $B(0,s)$. В нуле $\varphi \equiv 1$ на шаре радиуса $r$, так что излом $|x|$ не мешает. Склейка
+          конечного числа срезок: $\beta = 1 - \prod(1 - \beta_i)$.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-partition">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Дай определение разбиения единицы, подчинённого покрытию, и сформулируй
+        Th. 3.1. Как построить его для компактного $M$?</p>
+        <div class="card__answer" data-card-answer>
+          <p>Семейство гладких $\{\varphi_\alpha\}_{\alpha \in A}$: $0 \leqslant \varphi_\alpha \leqslant 1$; носители
+          локально конечны; $\sum_\alpha \varphi_\alpha = 1$; подчинено, если $\mathrm{supp}(\varphi_\alpha) \subset O_\alpha$.
+          Th. 3.1: для любого открытого покрытия гладкого многообразия такое есть. Компактный случай: конечное
+          покрытие множествами $\{\psi_i > 0\}$ срезок, нормировка $\varphi_i = \psi_i / \sum_j \psi_j$.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-supp">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Что такое $\mathrm{supp}(f)$? Чему равен носитель $\sin x$ на $\mathbb{R}$? Почему
+        срезающая функция не может быть аналитической?</p>
+        <div class="card__answer" data-card-answer>
+          <p>Замыкание множества $\{f \neq 0\}$. У $\sin x$ это всё $\mathbb{R}$. Аналитическая функция на связном
+          $\mathbb{R}^n$, равная нулю на открытом множестве, тождественно равна нулю, а срезка равна $1$ на $K$ —
+          поэтому нужна неаналитическая $e^{-1/t}$.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-3-sum" data-section-id="lecture-07/summary">
+      <h2 id="h-3-sum" data-short="Итоги лекции">Итоги лекции</h2>
+
+      <div class="block block--summary">
+        <div class="block__label">Сводка</div>
+        <p>Всё в этой лекции проверяется «в картах». Как именно.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Понятие</th><th>Как проверять в картах</th><th>Пример</th></tr></thead>
+            <tbody>
+              <tr><td>гладкость $\sigma : M \to N$ в $P$ (Def. 1)</td><td>$\widehat{\sigma} = \psi \circ \sigma \circ \varphi^{-1}$ класса $C^r$ около $\varphi(P)$, при $\sigma(U) \subset V$; от карт не зависит (Lm. 1)</td><td>$D^2 \to \mathbb{R}^2$ в картах $\mathrm{id}$</td></tr>
+              <tr><td>гладкость на подмножестве $S$ (Def. 2)</td><td>около каждой $P \in S$ найти гладкое продолжение $\widetilde{\sigma}$ на открытую $O_P$</td><td>$|x|$ на $[0,1]$ — да, на $[-1,1]$ — нет</td></tr>
+              <tr><td>диффеоморфизм (Def. 3)</td><td>биекция, $\widehat{\sigma}$ и $\widehat{\sigma^{-1}}$ гладкие; быстрый отказ — вырожденный якобиан</td><td>Ex. 1 — да; $x^3$ на $\mathbb{R}_{\mathrm{st}}$ — нет</td></tr>
+              <tr><td>гладкая кривая (Def. 4)</td><td>$\widehat{\gamma} = \varphi \circ \gamma$ гладкая на $\gamma^{-1}(U)$ для карт, покрывающих образ</td><td>$\operatorname{tg}(\tfrac{\pi}{4} + \tfrac{t}{2})$ для окружности</td></tr>
+              <tr><td>гладкая функция (Def. 5)</td><td>$\widehat{f} = f \circ \varphi^{-1}$ гладкая функция $n$ переменных</td><td>высота на $S^2$: $\cos\theta$</td></tr>
+              <tr><td>срезающая функция (Def. 6)</td><td>в карте — радиальная срезка $\varphi(x) = \Phi(|x|)$ из $e^{-1/t}$; вне носителя — ноль</td><td>$\beta = 1 - \prod(1 - \beta_i)$</td></tr>
+              <tr><td>разбиение единицы (Def. 7–8)</td><td>гладкость каждой $\varphi_\alpha$ в картах; около точки — конечная сумма; $\mathrm{supp}(\varphi_\alpha) \subset O_\alpha$</td><td>$\varphi_i = \psi_i / \sum_j \psi_j$</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="block block--summary">
+        <div class="block__label">Сводка</div>
+        <p>Ловушки лекции одной строкой каждая.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Ловушка</th><th>Правильно</th></tr></thead>
+            <tbody>
+              <tr><td>гладкий гомеоморфизм — значит диффеоморфизм</td><td>нужна гладкость обратного; $x^3$ — контрпример</td></tr>
+              <tr><td>гладкость отображения — свойство формулы</td><td>свойство формулы <b>и пары структур</b>: $x^3 : \mathbb{R}' \to \mathbb{R}_{\mathrm{st}}$ — диффеоморфизм</td></tr>
+              <tr><td>$\mathrm{supp}(f) = \{f \neq 0\}$</td><td>это замыкание множества $\{f \neq 0\}$</td></tr>
+              <tr><td>в разбиении единицы достаточно конечной суммы в каждой точке</td><td>нужна локальная конечность носителей</td></tr>
+              <tr><td>срезку можно взять аналитической (гауссиана, сигмоида)</td><td>нельзя: нужна $e^{-1/t}$</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

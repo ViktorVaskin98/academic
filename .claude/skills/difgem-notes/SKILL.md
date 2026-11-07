@@ -16,7 +16,7 @@ conspect/
 ├── index.html              карта курса; новые лекции добавляются карточкой сюда
 ├── cheatsheet.html         генерируется, править не нужно
 ├── lectures/lecture-NN.html
-├── pract/pract-NN.html
+├── pract/pract-NN.html     разборы листков; kr-NN — пробные КР; kolok-NN — билеты коллоквиума
 ├── assets/
 │   ├── topology.js         множества на прямой: Int/Cl/граница в τ_st, τ_→, τ_CF, покрытия
 │   ├── finite-topology.js  конечные топологии: базы, T₁/T₂, отображения, притянутая топология
@@ -24,7 +24,8 @@ conspect/
 │   ├── metric.js           расстояния и шары в ℝ²
 │   ├── render.js           примитивы отрисовки SVG
 │   ├── viz.js              реестр виджетов и виджеты лекции 1
-│   ├── widgets-*.js        виджеты по темам: bases, covers, separation, maps
+│   ├── smooth.js           карты окружности, C^r-структуры, уровни h, срезки, разбиение единицы
+│   ├── widgets-*.js        виджеты по темам: bases, covers, separation, maps, connectedness, manifolds, kolok
 │   ├── app.js              тема, оглавление, прогресс, поиск, карточки
 │   ├── style.css           дизайн-система
 │   └── bundle.js           СОБИРАЕТСЯ, править запрещено
@@ -120,6 +121,19 @@ npm run serve     # http://localhost:4173 для проверки в брауз�
 | `PreimageExplorer` | `fn` (`linear`, `square`, `step`, `constant`, `tan`) | прообраз интервала, проверка непрерывности по Th. 3.1 |
 | `FiniteMapChecker` | `preset` (0–3) | отображения двухточечных пространств: непрерывность, гомеоморфизм, f⁻¹(τ_Y) |
 | `TangentStretch` | — | tg растягивает интервал на прямую, концам отрезка некуда отобразиться |
+| `ComponentCounter` | `preset` (0–4) | компоненты связности подмножества прямой, выкалывание точек |
+| `CircleCharts` | `atlas` (`stereo`, `angle`, `projection`), `theta` | носители карт окружности, точка P, график замены координат |
+| `KinkStructures` | `alpha`, `beta` | разные $C^r$-структуры на ℝ: излом перехода φ_α ∘ φ_β⁻¹ |
+| `CubeHomeo` | `x` | x³ и ∛y с касательными: гладкий гомеоморфизм, не диффеоморфизм |
+| `LevelSets` | `fn` (`circle`, `cross`, `cusp`, `doubleParabola`) | нулевой уровень h, градиент и rank Dh (Th. 6.2) |
+| `CutoffBuilder` | `stage` (0–2), `r`, `s` | ядро g, срезка на шаре, склейка β = 1 − Π(1 − φᵢ) |
+| `PartitionOfUnity` | `count` (2–5) | разбиение единицы на (−3, 3), подчинённое покрытию интервалами |
+| `TicketDraw` | `parts` | тренажёр коллоквиума на главной: случайная пара билетов |
+
+Вычисления для виджетов лекций 5–7 лежат в `assets/smooth.js` (тесты `tests/smooth.test.mjs`).
+
+Перед сдачей любой страницы: `node conspect/tools/check-page.mjs <файлы>` — ловит ошибки KaTeX,
+непарные `$`, TAB и управляющие символы, повторные id, битые ссылки и якоря, дисбаланс тегов.
 
 Конечные пространства на трёх точках рисуются общими помощниками `drawHull`, `POSITIONS`,
 `LABELS` из `widgets-bases.js` — переиспользуй их, а не рисуй заново.

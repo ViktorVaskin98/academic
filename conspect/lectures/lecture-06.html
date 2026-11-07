@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лекция 6. Топология дифференцируемого многообразия — дифгем</title>
+<meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-title" content="Дифгем">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <a class="topbar__home" href="../index.html">Дифгем</a>
+  <span class="topbar__crumbs"><span>Лекция 6 · Топология дифференцируемого многообразия</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <a class="btn" href="../../data/lections/lecture_2_Manifold_topology.pdf">оригинал PDF</a>
+    <a class="btn" href="../cheatsheet.html">шпаргалка</a>
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc" data-toc>
+    <div class="toc__title">В этой лекции</div>
+  </aside>
+
+  <main id="main">
+    <header class="page-header">
+      <div class="page-header__eyebrow">Лекция 6</div>
+      <h1>Топология дифференцируемого многообразия</h1>
+      <p class="lead">В <a href="lecture-05.html">лекции 5</a> многообразие задавалось атласом — набором
+      согласованных карт, а топологии на множестве $M$ не было вовсе. Здесь топология появляется сама:
+      множество объявляется открытым, если оно открыто в каждой карте. Затем — какие аксиомы эта топология
+      выполняет автоматически, а какие приходится требовать. И, наконец, главный источник примеров:
+      подмногообразия $\mathbb{R}^d$, заданные уравнениями $h(x) = 0$.</p>
+      <p class="footnote">Формулировки, нумерация и обозначения — как у преподавателя.
+      $\widetilde{\mathcal{A}}_M$ — максимальный атлас (дифференциальная структура), $\tau_M$ —
+      индуцированная им топология, $S \leqslant M$ — «$S$ открытое подмногообразие $M$».</p>
+    </header>
+
+    <!-- ================================================================= -->
+    <section id="s-6-1" data-section-id="lecture-06/6.1">
+      <h2 id="h-6-1" data-short="6.1 Открытые множества">6.1 Открытые множества</h2>
+
+      <div class="block block--nb" id="nb-1" data-label="NB 1" data-title="Образ объединения и пересечения">
+        <div class="block__label">NB 1 <span class="block__title">Образ объединения и пересечения</span></div>
+        <p>Пусть $\langle M, \widetilde{\mathcal{A}}_M \rangle$ — дифференцируемое $n$-мерное многообразие и
+        $\{O_\beta\}$ — некоторое семейство подмножеств $M$. Тогда для любой карты
+        $(U, \varphi) \in \widetilde{\mathcal{A}}_M$ имеют место следующие свойства:</p>
+        $$\bigcup_\beta \varphi(O_\beta \cap U) = \varphi\left(\left(\bigcup_\beta O_\beta\right) \cap U\right),$$
+        $$\bigcap_\beta \varphi(O_\beta \cap U) = \varphi\left(\left(\bigcap_\beta O_\beta\right) \cap U\right).$$
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Почему так</div>
+        <p>Первое равенство верно для <b>любого</b> отображения: образ объединения — объединение образов, а
+        $\bigcup_\beta (O_\beta \cap U) = \left(\bigcup_\beta O_\beta\right) \cap U$ — дистрибутивность.</p>
+        <p>Второе держится на том, что карта $\varphi : U \to \varphi(U)$ — <b>биекция</b>. Для произвольного
+        $f$ верно только $f(A \cap B) \subseteq f(A) \cap f(B)$: две разные точки $a \in A$ и $b \in B$ могут
+        склеиться в одну $f(a) = f(b)$, и эта точка попадёт в правую часть, не попав в левую. Инъективность
+        запрещает склейку, поэтому для карты образ пересечения — пересечение образов.</p>
+        <p>Зачем это нужно: равенства говорят, что «взять образ в карте» перестановочно с объединениями и
+        пересечениями. Поэтому аксиомы топологии в $\mathbb{R}^n$ переносятся на $M$ (это <a href="#nb-2">NB 2</a>).</p>
+      </div>
+
+      <div class="block block--def" id="def-1" data-label="Def. 1" data-title="Открытое множество многообразия">
+        <div class="block__label">Def. 1 <span class="block__title">Открытое множество многообразия</span></div>
+        <p>Подмножество $O \subset M$ называется <b>открытым</b> в $M$, если для любой карты
+        $(U, \varphi) \in \widetilde{\mathcal{A}}_M$ образ $\varphi(O \cap U)$ открыт в $\mathbb{R}^n$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Топология «вытягивается» из атласа. На $M$ никакой топологии нет — есть только карты, переносящие
+        куски $M$ в $\mathbb{R}^n$, где открытость уже известна. Правило: <b>множество открыто, если оно
+        выглядит открытым в каждой карте</b>. Кусок $O \cap U$ — то, что карта $(U,\varphi)$ «видит» от $O$, и
+        его картинка в $\mathbb{R}^n$ должна быть открытой.</p>
+        <p>Это то же, что с глобусом и атласом Земли: область на глобусе открыта, если на каждой странице
+        атласа её кусок нарисован без «граничной линии».</p>
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Def. 1: открыто, если открыто в каждой карте</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 640 260" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Множество O на многообразии и его образы в двух картах">
+            <defs>
+              <marker id="arr-6-1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/>
+              </marker>
+            </defs>
+            <ellipse cx="170" cy="128" rx="150" ry="92" fill="none" stroke="var(--border-strong)" stroke-width="2"/>
+            <text x="40" y="58" font-size="16" font-weight="700" fill="var(--text-muted)">M</text>
+            <ellipse cx="122" cy="128" rx="88" ry="64" fill="none" stroke="var(--role-interior)" stroke-width="2" stroke-dasharray="6 4"/>
+            <ellipse cx="218" cy="128" rx="88" ry="64" fill="none" stroke="var(--role-highlight)" stroke-width="2" stroke-dasharray="6 4"/>
+            <text x="62" y="128" font-size="15" fill="var(--role-interior)">U</text>
+            <text x="270" y="128" font-size="15" fill="var(--role-highlight)">U′</text>
+            <ellipse cx="170" cy="122" rx="56" ry="34" fill="var(--role-set)" fill-opacity="0.28" stroke="var(--role-set)" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <text x="170" y="127" text-anchor="middle" font-size="16" font-weight="700" fill="var(--role-set)">O</text>
+
+            <line x1="150" y1="72" x2="395" y2="60" stroke="var(--text-muted)" stroke-width="1.6" marker-end="url(#arr-6-1)"/>
+            <text x="270" y="52" text-anchor="middle" font-size="15" fill="var(--role-interior)">φ</text>
+            <line x1="200" y1="186" x2="395" y2="196" stroke="var(--text-muted)" stroke-width="1.6" marker-end="url(#arr-6-1)"/>
+            <text x="300" y="212" text-anchor="middle" font-size="15" fill="var(--role-highlight)">φ′</text>
+
+            <rect x="405" y="18" width="220" height="100" rx="6" fill="none" stroke="var(--border-strong)"/>
+            <text x="615" y="36" text-anchor="end" font-size="13" fill="var(--text-faint)">ℝⁿ</text>
+            <ellipse cx="505" cy="70" rx="82" ry="38" fill="none" stroke="var(--role-interior)" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <ellipse cx="545" cy="70" rx="38" ry="22" fill="var(--role-set)" fill-opacity="0.28" stroke="var(--role-set)" stroke-dasharray="3 3"/>
+            <text x="455" y="74" text-anchor="middle" font-size="12" fill="var(--role-interior)">φ(U)</text>
+            <text x="545" y="74" text-anchor="middle" font-size="11" fill="var(--role-set)">φ(O∩U)</text>
+
+            <rect x="405" y="142" width="220" height="100" rx="6" fill="none" stroke="var(--border-strong)"/>
+            <text x="615" y="160" text-anchor="end" font-size="13" fill="var(--text-faint)">ℝⁿ</text>
+            <ellipse cx="505" cy="194" rx="82" ry="38" fill="none" stroke="var(--role-highlight)" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <ellipse cx="465" cy="194" rx="38" ry="22" fill="var(--role-set)" fill-opacity="0.28" stroke="var(--role-set)" stroke-dasharray="3 3"/>
+            <text x="560" y="198" text-anchor="middle" font-size="12" fill="var(--role-highlight)">φ′(U′)</text>
+            <text x="465" y="198" text-anchor="middle" font-size="11" fill="var(--role-set)">φ′(O∩U′)</text>
+          </svg>
+          <p class="viz__caption">Пунктир — граница не входит в множество. $O$ открыто в $M$, если оба куска
+          $\varphi(O \cap U)$ и $\varphi'(O \cap U')$ (и вообще образы во всех картах максимального атласа)
+          открыты в $\mathbb{R}^n$. <a href="#lm-1">Lm. 1</a> разрешает проверять не все карты, а только
+          покрывающие $O$.</p>
+        </div>
+      </div>
+
+      <div class="block block--nb" id="nb-2" data-label="NB 2" data-title="Многообразие — топологическое пространство">
+        <div class="block__label">NB 2 <span class="block__title">Многообразие — топологическое пространство</span></div>
+        <p>Таким образом, каждое многообразие является топологическим пространством с топологией $\tau$,
+        индуцированной дифференциальной структурой $\widetilde{\mathcal{A}}_M$ на $M$.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Проверка аксиом топологии по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>$\varnothing$ и $M$ открыты: $\varphi(\varnothing \cap U) = \varnothing$ и
+            $\varphi(M \cap U) = \varphi(U)$ открыты в $\mathbb{R}^n$.</div>
+            <div class="proof-step__why">почему: образ карты $\varphi(U)$ открыт по определению карты (<a href="lecture-05.html#def-1">Def. 1 лекции 5</a>)</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Объединение любого семейства открытых $O_\beta$ открыто:
+            $\varphi\left(\left(\bigcup_\beta O_\beta\right) \cap U\right) = \bigcup_\beta \varphi(O_\beta \cap U)$ —
+            объединение открытых в $\mathbb{R}^n$.</div>
+            <div class="proof-step__why">почему: первое равенство <a href="#nb-1">NB 1</a> и аксиома объединения в $\mathbb{R}^n$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Пересечение <b>конечного</b> семейства открытых открыто:
+            $\varphi\left(\left(\bigcap_{i=1}^m O_i\right) \cap U\right) = \bigcap_{i=1}^m \varphi(O_i \cap U)$.</div>
+            <div class="proof-step__why">почему: второе равенство NB 1 (нужна биективность карты) и аксиома конечного пересечения в $\mathbb{R}^n$. NB 1 верно и для бесконечных семейств, но бесконечное пересечение открытых в $\mathbb{R}^n$ уже не обязано быть открытым — поэтому только конечные</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--lemma" id="lm-1" data-label="Lm. 1" data-title="Достаточно покрывающих карт">
+        <div class="block__label">Lm. 1 <span class="block__title">Достаточно покрывающих карт</span></div>
+        <p>Пусть $O \subset M$ и $\{(U_\beta, \varphi_\beta)\}$ — набор карт, согласованных с максимальным
+        атласом $\widetilde{\mathcal{A}}_M$ и таких, что</p>
+        $$O \subseteq \bigcup_\beta U_\beta.$$
+        <p>Тогда $O$ открыто в $M$, если и только если открыты в $\mathbb{R}^n$ все множества
+        $\varphi_\beta(O \cap U_\beta)$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Def. 1 требует проверить <b>все</b> карты максимального атласа — их несчётно много, на практике
+        так никто не делает. Лемма говорит: хватит любого набора карт, покрывающего $O$. Остальные карты
+        «узнают» про открытость через функции перехода, которые гомеоморфизмы и потому открытость сохраняют.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>$(\Rightarrow)$ Карты $(U_\beta, \varphi_\beta)$ согласованы с $\widetilde{\mathcal{A}}_M$, значит
+            лежат в нём, и $\varphi_\beta(O \cap U_\beta)$ открыто по определению открытого множества.</div>
+            <div class="proof-step__why">почему: максимальный атлас содержит все согласованные с ним карты (<a href="lecture-05.html#def-7">Def. 7 лекции 5</a>); дальше <a href="#def-1">Def. 1</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>$(\Leftarrow)$ Возьмём произвольную карту $(U, \varphi) \in \widetilde{\mathcal{A}}_M$ и точку
+            $x \in \varphi(U \cap O)$. Нужно показать, что $x$ — внутренняя точка $\varphi(U \cap O)$.</div>
+            <div class="proof-step__why">почему: множество в $\mathbb{R}^n$ открыто ⇔ все его точки внутренние</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Точка $P = \varphi^{-1}(x)$ лежит в $O$, а значит в некоторой карте $(U_\alpha, \varphi_\alpha)$
+            из нашего набора.</div>
+            <div class="proof-step__why">почему: $O \subseteq \bigcup_\beta U_\beta$ — условие леммы</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Множество $\varphi_\alpha(O \cap U_\alpha \cap U) = \varphi_\alpha(O \cap U_\alpha) \cap \varphi_\alpha(U_\alpha \cap U)$
+            открыто в $\mathbb{R}^n$.</div>
+            <div class="proof-step__why">почему: равенство — <a href="#nb-1">NB 1</a> для двух множеств; первое открыто по предположению, второе — по согласованности карт (<a href="lecture-05.html#def-3">Def. 3 лекции 5</a>: образ пересечения областей открыт)</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Переход $\varphi \circ \varphi_\alpha^{-1} : \varphi_\alpha(U \cap U_\alpha) \to \varphi(U \cap U_\alpha)$ —
+            гомеоморфизм открытых множеств $\mathbb{R}^n$. Он переводит открытое множество из шага 4 в
+            $\varphi(O \cap U \cap U_\alpha)$, которое поэтому тоже открыто.</div>
+            <div class="proof-step__why">почему: функция перехода — $C^r$-диффеоморфизм, в частности гомеоморфизм; гомеоморфизм переводит открытые в открытые, а открытое в открытом подмножестве $\mathbb{R}^n$ открыто в $\mathbb{R}^n$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">6.</div>
+            <div>$x \in \varphi(O \cap U_\alpha \cap U) \subset \varphi(O \cap U)$, то есть $x$ лежит в
+            $\varphi(U \cap O)$ вместе с открытым множеством — внутренняя точка.</div>
+            <div class="proof-step__why">почему: $P \in O \cap U_\alpha \cap U$ по выбору $\alpha$; карта $(U,\varphi)$ и точка $x$ были произвольными, так что выполнено <a href="#def-1">Def. 1</a></div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--nb" id="nb-3" data-label="NB 3" data-title="Область карты открыта">
+        <div class="block__label">NB 3 <span class="block__title">Область карты открыта</span></div>
+        <p>Для любой карты $(U, \varphi) \in \widetilde{\mathcal{A}}_M$ произвольное подмножество $V \subset U$
+        будет открытым в $M$, если $\varphi(V)$ является открытым в $\mathbb{R}^n$. В частности, открытым в
+        $M$ является множество $U$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Почему так</div>
+        <p>Это <a href="#lm-1">Lm. 1</a> с набором из одной карты $\{(U, \varphi)\}$: она покрывает $V$, а
+        $\varphi(V \cap U) = \varphi(V)$ открыто. Для $V = U$ условие выполнено, потому что $\varphi(U)$
+        открыто по определению карты. Итог, которым пользуются постоянно: <b>области карт — открытые
+        множества, а карта переводит открытые подмножества области в открытые и обратно</b>. То есть карта —
+        гомеоморфизм $U \to \varphi(U)$.</p>
+      </div>
+
+      <div class="block block--def" id="def-2" data-label="Def. 2" data-title="Открытое подмногообразие">
+        <div class="block__label">Def. 2 <span class="block__title">Открытое подмногообразие</span></div>
+        <p><b>Открытым подмногообразием</b> многообразия $M$ называется открытое подмножество $S \subset M$ с
+        дифференциальной структурой
+        $\widetilde{\mathcal{A}}_S = \{(S \cap U_\alpha, \varphi_\alpha|_{S \cap U_\alpha})\}_\alpha$, если
+        $\widetilde{\mathcal{A}}_M = \{(U_\alpha, \varphi_\alpha)\}$.</p>
+      </div>
+
+      <div class="block block--nb" id="nb-4" data-label="NB 4" data-title="Обозначение и размерность">
+        <div class="block__label">NB 4 <span class="block__title">Обозначение и размерность</span></div>
+        <p>Тот факт, что $S$ является открытым подмногообразием $M$, будем записывать $S \leqslant M$.</p>
+        $$\dim S = \dim M = n. \qquad (1)$$
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Открытое подмногообразие — просто «вырезали кусок, карты обрезали». Открытость $S$ здесь
+        принципиальна: $\varphi_\alpha(S \cap U_\alpha)$ открыто в $\mathbb{R}^n$ (по <a href="#def-1">Def. 1</a>),
+        поэтому обрезанные карты остаются картами, а их переходы — сужениями старых, то есть $C^r$.
+        Размерность не падает: $S$ — того же «объёма», что и $M$. Примеры: $\mathbb{R}^n \setminus \{0\} \leqslant \mathbb{R}^n$,
+        группа обратимых матриц $GL_n = \{\det X \neq 0\} \leqslant \mathbb{R}^{n \times n}$.</p>
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Значок $S \leqslant M$ в лекции 4 (<a href="lecture-04.html#ex-6">Ex. 6</a>) означал
+        <b>любое</b> подмногообразие, в том числе меньшей размерности: $S^m \leqslant S^n$. Здесь он
+        зарезервирован под <b>открытые</b> подмногообразия той же размерности, формула (1). Окружность в
+        плоскости открытым подмногообразием не является — она не открыта в $\mathbb{R}^2$. Такие
+        подмногообразия появятся в <a href="#s-6-3">разделе 6.3</a> под именем «вложенных».</p>
+      </div>
+
+      <div class="block block--ml" id="ml-chart-autoencoder" data-label="ИИ" data-title="Атлас из энкодеров">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Одной карты часто не хватает.</b> Обычный автоэнкодер — это попытка покрыть многообразие данных
+        одной картой: энкодер $\varphi$ переводит данные в открытое множество $\mathbb{R}^n$. Для окружности
+        или сферы так нельзя: компактное $S^1$ не гомеоморфно открытому подмножеству $\mathbb{R}$. Поэтому
+        существуют «атласные» автоэнкодеры (chart autoencoders): несколько пар энкодер–декодер, каждая
+        отвечает за свой кусок $U_\alpha$, плюс классификатор «какая карта сейчас активна».</p>
+        <p><b>Def. 1 в этих терминах.</b> «Окрестность объекта в пространстве данных» корректно определять
+        через латентные координаты любой активной карты — <a href="#lm-1">Lm. 1</a> гарантирует, что ответ не
+        зависит от выбора карты, если переходы между латентными пространствами непрерывны. Если переходы
+        рвутся, «близость в латенте» перестаёт быть корректным понятием.</p>
+      </div>
+
+      <div class="block block--card" id="card-open-set">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Как определяется открытое множество дифференцируемого многообразия? Что
+        утверждает Lm. 1 и зачем в доказательстве нужна согласованность карт?</p>
+        <div class="card__answer" data-card-answer>
+          <p>$O$ открыто, если $\varphi(O \cap U)$ открыто в $\mathbb{R}^n$ для каждой карты
+          $(U,\varphi)$ максимального атласа. Lm. 1: достаточно проверить карты из любого набора, покрывающего
+          $O$. Согласованность даёт открытость $\varphi_\alpha(U_\alpha \cap U)$ и то, что переход
+          $\varphi \circ \varphi_\alpha^{-1}$ — гомеоморфизм, переносящий открытость из карты
+          $\varphi_\alpha$ в карту $\varphi$.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-6-2" data-section-id="lecture-06/6.2">
+      <h2 id="h-6-2" data-short="6.2 Индуцированная топология">6.2 Свойства индуцированной топологии</h2>
+
+      <p>Пусть $\tau_M$ — топология, индуцированная дифференциальной структурой $\widetilde{\mathcal{A}}_M$.</p>
+
+      <div class="block block--lemma" id="lm-2" data-label="Lm. 2" data-title="Первая аксиома счётности">
+        <div class="block__label">Lm. 2 <span class="block__title">Первая аксиома счётности</span></div>
+        <p>Топология $\tau_M$ удовлетворяет первой аксиоме счётности.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Каждая точка $P \in M$ лежит в некоторой карте $(U, \varphi)$, где $U$ — её координатная
+            окрестность.</div>
+            <div class="proof-step__why">почему: области карт атласа покрывают $M$; $U$ открыто по <a href="#nb-3">NB 3</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Любая окрестность $V$ точки $P$ содержит координатную окрестность $V \cap U$.</div>
+            <div class="proof-step__why">почему: $V \cap U$ открыто как пересечение открытых и лежит в $U$, а сужение карты на открытое подмножество области — снова карта максимального атласа</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Среди координатных окрестностей точки $P$ можно выбрать счётную фундаментальную систему:
+            $W_k = \varphi^{-1}\bigl(B(\varphi(P), 1/k)\bigr)$ при $k \geqslant k_0$, где $k_0$ таково, что шар
+            $B(\varphi(P), 1/k_0) \subseteq \varphi(U)$.</div>
+            <div class="proof-step__why">почему: $W_k$ открыты по <a href="#nb-3">NB 3</a>; $\varphi(V \cap U)$ открыто и содержит $\varphi(P)$, значит содержит некоторый шар $B(\varphi(P), 1/k)$, и тогда $W_k \subseteq V$. Это <a href="lecture-02.html#def-3">Def. 3</a> и <a href="lecture-02.html#def-4">Def. 4 лекции 2</a></div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Локально многообразие — это $\mathbb{R}^n$, а в $\mathbb{R}^n$ у точки есть шары радиуса $1/k$.
+        Их прообразы и есть счётная база окрестностей. Первая аксиома — свойство <b>локальное</b>, поэтому
+        она получается бесплатно. Вторая аксиома счётности и хаусдорфовость — <b>глобальные</b>: они
+        зависят от того, как карты склеены, и из атласа не следуют. Это показывают два следующих примера.</p>
+      </div>
+
+      <div class="block block--example" id="ex-1" data-label="Ex. 1" data-title="Несчётное дискретное многообразие">
+        <div class="block__label">Ex. 1 <span class="block__title">Несчётное дискретное многообразие</span></div>
+        <p>Примером многообразия, топология которого не удовлетворяет второй аксиоме счётности, является
+        дизъюнктное объединение несчётного числа одноточечных множеств. Более конкретно, рассмотрим
+        $M = \mathbb{R}$ как дискретное многообразие размерности нуль. Каждая точка $P \in M$ имеет в этом
+        случае единственную координатную окрестность $O_P = \{P\}$ и координатное отображение, переводящее
+        её в $\{0\}$. Это пространство хаусдорфово и паракомпактно.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Разбор: почему нет счётной базы и почему $T_2$ и паракомпактность есть</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Каждая точка открыта: $\{P\}$ — область карты, а $\mathbb{R}^0 = \{0\}$ открыто само в себе.
+            Значит $\tau_M$ — дискретная топология на $\mathbb{R}$.</div>
+            <div class="proof-step__why">почему: <a href="#nb-3">NB 3</a>; любое множество — объединение своих точек</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Любая база $\mathcal{B}$ содержит все одноточечные множества. Действительно, $\{P\}$ открыто и
+            содержит $P$, поэтому найдётся $B \in \mathcal{B}$ с $P \in B \subseteq \{P\}$, то есть $B = \{P\}$.
+            Одноточечных множеств несчётно много, значит счётной базы нет.</div>
+            <div class="proof-step__why">почему: определение базы (<a href="lecture-01.html#def-13">Def. 13 лекции 1</a>) и <a href="lecture-02.html#def-5">вторая аксиома счётности</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Хаусдорфовость: различные $P$ и $Q$ разделяются окрестностями $\{P\}$ и $\{Q\}$.</div>
+            <div class="proof-step__why">почему: <a href="lecture-02.html#def-15">Def. 15 лекции 2</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Паракомпактность: у любого открытого покрытия есть уточнение $\{\{P\} : P \in M\}$. Оно
+            локально конечно: окрестность $\{P\}$ задевает ровно один его элемент.</div>
+            <div class="proof-step__why">почему: каждое $\{P\}$ лежит в любом элементе покрытия, содержащем $P$; <a href="lecture-02.html#def-13">Def. 13 лекции 2</a></div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Это пространство — <b>не</b> $\mathbb{R}$ со стандартной топологией. Множество то же, но атлас
+        другой: каждая точка — своя карта. Топология $\tau_M$ определяется атласом, а не множеством. Тот же
+        урок, что в лекции 1: одно множество — много топологий. Для конечного числа точек это нульмерное
+        многообразие из <a href="lecture-04.html#ex-3">Ex. 3 лекции 4</a>; несчётность ломает только вторую
+        аксиому.</p>
+      </div>
+
+      <div class="block block--def" id="def-3" data-label="Def. 3" data-title="Дифференцируемое многообразие">
+        <div class="block__label">Def. 3 <span class="block__title">Дифференцируемое многообразие</span></div>
+        <p><b>Дифференцируемым $n$-мерным многообразием</b> класса $C^r$ называется множество $M$ с заданной на
+        нём дифференциальной структурой $\widetilde{\mathcal{A}}_M$, индуцирующей топологию паракомпактного
+        хаусдорфова пространства.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Это окончательное определение курса. Атлас даёт локальную евклидовость и первую аксиому
+        счётности даром, а две глобальные аксиомы из определения топологического многообразия
+        (<a href="lecture-04.html#def-7">Def. 7 лекции 4</a>) — паракомпактность
+        (<a href="lecture-02.html#def-13">Def. 13</a>) и хаусдорфовость (<a href="lecture-02.html#def-15">Def. 15
+        лекции 2</a>) — добавляются явным требованием. Итого: дифференцируемое многообразие = топологическое
+        многообразие + согласованная $C^r$-структура.</p>
+      </div>
+
+      <div class="block block--example" id="ex-2" data-label="Ex. 2" data-title="Прямая с двумя нулями">
+        <div class="block__label">Ex. 2 <span class="block__title">Прямая с двумя нулями</span></div>
+        <p>Пусть $a$, $b$ и $c$ — три непересекающиеся копии прямой. Рассмотрим множество $M = U \cup V$ с
+        картами</p>
+        $$U = \{(x,a) : x \leqslant 0\} \cup \{(x,b) : x > 0\}, \quad \varphi(x,\alpha) = x, \quad \alpha \in \{a,b\},$$
+        $$V = \{(x,c) : x \leqslant 0\} \cup \{(x,b) : x > 0\}, \quad \psi(x,\beta) = x, \quad \beta \in \{b,c\}.$$
+        <p>Образы обеих карт равны $\mathbb{R}$, а переход тождествен на $(0,\infty)$. Любые окрестности точек
+        $(0,a)$ и $(0,c)$ пересекаются на ветви $b$, поэтому эти точки не отделены.</p>
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Ex. 2: две нулевые точки и общая ветвь b</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 660 270" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Ветви a и c при x не больше нуля сходятся к общей ветви b при x больше нуля; окрестности двух нулей пересекаются на b">
+            <line x1="40" y1="80" x2="300" y2="80" stroke="var(--role-set)" stroke-width="4"/>
+            <line x1="40" y1="190" x2="300" y2="190" stroke="var(--role-set)" stroke-width="4"/>
+            <line x1="330" y1="135" x2="630" y2="135" stroke="var(--role-set)" stroke-width="4"/>
+            <line x1="300" y1="80" x2="330" y2="135" stroke="var(--text-faint)" stroke-width="1.2" stroke-dasharray="3 3"/>
+            <line x1="300" y1="190" x2="330" y2="135" stroke="var(--text-faint)" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+            <line x1="225" y1="72" x2="300" y2="72" stroke="var(--role-interior)" stroke-width="7" stroke-opacity="0.55" stroke-linecap="round"/>
+            <line x1="332" y1="128" x2="430" y2="128" stroke="var(--role-interior)" stroke-width="7" stroke-opacity="0.55"/>
+            <line x1="225" y1="198" x2="300" y2="198" stroke="var(--role-boundary)" stroke-width="7" stroke-opacity="0.55" stroke-linecap="round"/>
+            <line x1="332" y1="142" x2="405" y2="142" stroke="var(--role-boundary)" stroke-width="7" stroke-opacity="0.55"/>
+
+            <circle cx="300" cy="80" r="6" fill="var(--role-highlight)"/>
+            <circle cx="300" cy="190" r="6" fill="var(--role-highlight)"/>
+            <circle cx="330" cy="135" r="5" fill="var(--bg-deep)" stroke="var(--role-set)" stroke-width="2"/>
+
+            <text x="40" y="62" font-size="14" fill="var(--text-muted)">ветвь a: x ≤ 0</text>
+            <text x="40" y="222" font-size="14" fill="var(--text-muted)">ветвь c: x ≤ 0</text>
+            <text x="630" y="118" text-anchor="end" font-size="14" fill="var(--text-muted)">ветвь b: x &gt; 0</text>
+            <text x="300" y="56" text-anchor="middle" font-size="14" font-weight="700" fill="var(--role-highlight)">(0,a)</text>
+            <text x="300" y="225" text-anchor="middle" font-size="14" font-weight="700" fill="var(--role-highlight)">(0,c)</text>
+            <text x="470" y="170" text-anchor="middle" font-size="13" fill="var(--text-faint)">обе окрестности содержат (x,b) при малых x &gt; 0</text>
+            <text x="330" y="255" text-anchor="middle" font-size="13" fill="var(--text-faint)">U = a ∪ b (карта φ),   V = c ∪ b (карта ψ),   U ∩ V = ветвь b</text>
+          </svg>
+          <p class="viz__caption">Синим — окрестность точки $(0,a)$, красным — окрестность $(0,c)$. Каждая
+          обязана «перетечь» на ветвь $b$: в карте её образ — интервал вокруг $0$, а правая половина интервала
+          — это точки ветви $b$. На ветви $b$ две окрестности и пересекаются.</p>
+        </div>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Разбор: атлас корректный, а топология не хаусдорфова</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Карты биективны: $\varphi : U \to \mathbb{R}$ переводит ветвь $a$ в $(-\infty, 0]$, а ветвь $b$ —
+            в $(0, \infty)$; аналогично $\psi : V \to \mathbb{R}$. Образы $\varphi(U) = \psi(V) = \mathbb{R}$ открыты.</div>
+            <div class="proof-step__why">почему: $(-\infty,0] \sqcup (0,\infty) = \mathbb{R}$, и каждое число получается ровно из одной точки</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Пересечение областей $U \cap V = \{(x,b) : x > 0\}$; его образы
+            $\varphi(U \cap V) = \psi(U \cap V) = (0, \infty)$ открыты, переход
+            $\psi \circ \varphi^{-1} = \mathrm{id}$ на $(0, \infty)$ — $C^\infty$-диффеоморфизм.</div>
+            <div class="proof-step__why">почему: точки $(0,a)$ и $(0,c)$ — разные, в пересечение не входят; это условие согласованности карт (<a href="lecture-05.html#def-3">Def. 3 лекции 5</a>)</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Значит $\{(U,\varphi), (V,\psi)\}$ — $C^\infty$-атлас, и на $M$ возникает топология $\tau_M$.
+            Каждая точка имеет окрестность, гомеоморфную $\mathbb{R}$: локально всё хорошо.</div>
+            <div class="proof-step__why">почему: <a href="#nb-2">NB 2</a>, <a href="#nb-3">NB 3</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Пусть $O \ni (0,a)$ открыто. Тогда $\varphi(O \cap U)$ открыто в $\mathbb{R}$ и содержит $0$,
+            значит содержит $(-\varepsilon, \varepsilon)$. Поэтому
+            $O \supseteq \{(x,a) : -\varepsilon &lt; x \leqslant 0\} \cup \{(x,b) : 0 &lt; x &lt; \varepsilon\}$.</div>
+            <div class="proof-step__why">почему: <a href="#def-1">Def. 1</a> для карты $\varphi$; прообраз $(0,\varepsilon)$ под $\varphi$ лежит на ветви $b$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Так же любая $O' \ni (0,c)$ содержит $\{(x,c) : -\delta &lt; x \leqslant 0\} \cup \{(x,b) : 0 &lt; x &lt; \delta\}$.
+            Тогда $(x, b) \in O \cap O'$ при $0 &lt; x &lt; \min(\varepsilon, \delta)$.</div>
+            <div class="proof-step__why">почему: то же для карты $\psi$; окрестности пересекаются на ветви $b$ — аксиома $T_2$ (<a href="lecture-02.html#def-15">Def. 15 лекции 2</a>) нарушена</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Соблазн: «переход тождественный, значит всё гладко, значит многообразие». Гладкость атласа
+        проверяет только <b>как</b> карты склеены там, где они пересекаются, но не <b>где</b> склейка
+        обрывается. Здесь $(0,\infty)$ открыто в обеих картах, но его «край» $0$ в одной карте — точка
+        $(0,a)$, в другой — $(0,c)$. Поэтому Def. 3 требует хаусдорфовость явно. Это то же пространство, что
+        <a href="lecture-04.html#ex-4">Ex. 4 (3) лекции 4</a>, только склеенное по положительной полупрямой.</p>
+        <p>Ещё одно странное следствие: последовательность $(1/k, b)$ сходится сразу к двум пределам — к
+        $(0,a)$ и к $(0,c)$. В хаусдорфовом пространстве предел единственен.</p>
+      </div>
+
+      <div class="block block--theorem" id="th-6-1" data-label="Th. 6.1" data-title="Когда топология совпадает с индуцированной">
+        <div class="block__label">Th. 6.1 <span class="block__title">Когда топология совпадает с индуцированной</span></div>
+        <p>Пусть $\langle M, \widetilde{\mathcal{A}}_M \rangle$ и $\langle M, \tau \rangle$ — дифференциальная и
+        топологическая структуры на множестве $M$. Топология $\tau_M$, индуцированная атласом
+        $\widetilde{\mathcal{A}}_M$, будет совпадать с данной топологией $\tau$ тогда и только тогда, когда для
+        каждой карты $(U, \varphi) \in \widetilde{\mathcal{A}}_M$ множество $U$ будет открыто в $\tau$, а
+        отображение $\varphi$ — гомеоморфизмом $U$ на $\varphi(U) \subseteq \mathbb{R}^n$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Часто топология на $M$ уже есть «из жизни» — например, $M \subset \mathbb{R}^d$ с топологией
+        подпространства. Теорема говорит, когда атлас с ней <b>не спорит</b>: карты должны быть
+        гомеоморфизмами в этой топологии и жить на открытых множествах. Именно так в <a href="#lm-3">Lm. 3</a>
+        доказывается, что у вложенного подмногообразия топология атласа — обычная топология подпространства.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Необходимость. Если $\tau = \tau_M$, то $U$ открыто в $\tau_M$, а $\varphi : U \to \varphi(U)$ —
+            гомеоморфизм в топологии $\tau_M$.</div>
+            <div class="proof-step__why">почему: свойства индуцированной топологии — <a href="#nb-3">NB 3</a>: $V \subseteq U$ открыто ⇔ $\varphi(V)$ открыто; то есть $\varphi$ и $\varphi^{-1}$ переводят открытые в открытые</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Достаточность, $\tau_M \subseteq \tau$. Пусть $O \in \tau_M$. Для каждой карты атласа
+            $\varphi_\alpha(O \cap U_\alpha)$ открыто в $\mathbb{R}^n$, поэтому
+            $O \cap U_\alpha = \varphi_\alpha^{-1}\bigl(\varphi_\alpha(O \cap U_\alpha)\bigr) \in \tau$.</div>
+            <div class="proof-step__why">почему: $\varphi_\alpha$ — гомеоморфизм в $\tau$, поэтому прообраз открытого открыт в $U_\alpha$; а открытое в открытом $U_\alpha \in \tau$ открыто и в $\tau$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>$O = \bigcup_\alpha (O \cap U_\alpha) \in \tau$.</div>
+            <div class="proof-step__why">почему: области карт покрывают $M$; аксиома объединения для $\tau$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Достаточность, $\tau \subseteq \tau_M$. Пусть $O \in \tau$. Тогда $O \cap U_\alpha \in \tau$, и
+            $\varphi_\alpha(O \cap U_\alpha) \in \tau(\mathbb{R}^n)$ для всех $\alpha$.</div>
+            <div class="proof-step__why">почему: гомеоморфизм переводит открытое в $U_\alpha$ в открытое в $\varphi_\alpha(U_\alpha)$, а $\varphi_\alpha(U_\alpha)$ открыто в $\mathbb{R}^n$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Значит $O \in \tau_M$. Следовательно, $\tau = \tau_M$.</div>
+            <div class="proof-step__why">почему: <a href="#lm-1">Lm. 1</a> — карты $(U_\alpha, \varphi_\alpha)$ покрывают $O$</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--ml" id="ml-first-countable" data-label="ИИ" data-title="Последовательностей достаточно">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Почему в ML можно думать последовательностями.</b> Lm. 2 означает, что на любом
+        многообразии — пространстве параметров, сфере нормированных эмбеддингов, многообразии
+        ортогональных матриц — непрерывность и замыкание можно проверять через сходящиеся последовательности
+        (как в лекции 2). «Шаг оптимизатора $\to 0$, итерации сходятся» — корректный язык именно потому, что у
+        точки есть счётная база окрестностей $W_k$.</p>
+        <p><b>Неотделимость как баг склейки.</b> Ex. 2 — модель того, что бывает, когда два локальных
+        представления склеивают по открытому куску без проверки «краёв»: у одной и той же траектории
+        $(1/k, b)$ два разных предела. В латентных моделях с несколькими картами (см. <a href="#ml-chart-autoencoder">выше</a>)
+        это проявляется как неоднозначность декодирования на стыке карт.</p>
+      </div>
+
+      <div class="block block--card" id="card-two-zeros">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Почему атлас в Ex. 2 гладкий, а пространство не многообразие по Def. 3?
+        Опиши окрестности $(0,a)$ и $(0,c)$.</p>
+        <div class="card__answer" data-card-answer>
+          <p>Области карт пересекаются по ветви $b$, образ пересечения $(0,\infty)$ открыт, переход — тождество.
+          Но любая окрестность $(0,a)$ содержит $(-\varepsilon,0]$ на ветви $a$ и $(0,\varepsilon)$ на ветви
+          $b$; любая окрестность $(0,c)$ — $(-\delta,0]$ на $c$ и $(0,\delta)$ на $b$. Они пересекаются на $b$,
+          хаусдорфовость нарушена.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-countability">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Какие аксиомы топологии атлас даёт автоматически, а какие нет? Приведи
+        пример на каждую «невыполненную».</p>
+        <div class="card__answer" data-card-answer>
+          <p>Автоматически — первая аксиома счётности (Lm. 2), локальная евклидовость. Не следуют: вторая
+          аксиома счётности (несчётное дискретное $\mathbb{R}$, Ex. 1) и хаусдорфовость (прямая с двумя
+          нулями, Ex. 2). Поэтому Def. 3 требует паракомпактность и хаусдорфовость явно.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-6-3" data-section-id="lecture-06/6.3">
+      <h2 id="h-6-3" data-short="6.3 Подмногообразия ℝ^d">6.3 Многообразия в евклидовом пространстве</h2>
+
+      <p>Пусть $\mathcal{E}$ — евклидово пространство и $\dim \mathcal{E} = d$. В этом разделе считаем
+      $r \geqslant 1$. Подмножества $\mathcal{E}$ рассматриваются с топологией подпространства.</p>
+
+      <div class="block block--def" id="def-4" data-label="Def. 4" data-title="Вложенное подмногообразие">
+        <div class="block__label">Def. 4 <span class="block__title">Вложенное подмногообразие</span></div>
+        <p>Подмножество $M \subset \mathcal{E}$ называется <b>вложенным подмногообразием</b> класса $C^r$
+        размерности $0 \leqslant n \leqslant d$, если для каждой точки $x \in M$ существует открытая окрестность
+        $O_x \subset \mathcal{E}$, открытое множество $V_x \subset \mathbb{R}^d$ и $C^r$-диффеоморфизм
+        $\varphi_x : O_x \to V_x$, такие что</p>
+        $$\varphi_x(M \cap O_x) = V_x \cap E, \qquad E = \mathbb{R}^n \times \{0\}^{d-n}.$$
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Вложенное подмногообразие — то, что <b>локально выпрямляется</b>. Около каждой своей точки $M$
+        можно гладко «разогнуть» вместе с окружающим пространством так, что $M$ превратится в кусок
+        координатной плоскости $\mathbb{R}^n \times \{0\}$. Окружность выпрямляется полярными координатами:
+        $(r, \theta) \mapsto (\theta, r - 1)$ переводит дугу в отрезок оси $\{r - 1 = 0\}$.</p>
+        <p>Важно, что $\varphi_x$ — диффеоморфизм <b>всей</b> окрестности $O_x$ в $\mathbb{R}^d$, а не только
+        $M \cap O_x$. Выпрямляется не только кривая, но и пространство вокруг неё — поэтому изломы и
+        самокасания исключены.</p>
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Def. 4: выпрямление куска M в кусок плоскости E</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 640 260" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Диффеоморфизм phi_x переводит кусок кривой M в окрестности O_x в отрезок прямой E внутри V_x">
+            <defs>
+              <marker id="arr-6-3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/>
+              </marker>
+              <clipPath id="clip-ox">
+                <circle cx="150" cy="125" r="85"/>
+              </clipPath>
+            </defs>
+            <circle cx="150" cy="125" r="85" fill="var(--role-interior)" fill-opacity="0.08" stroke="var(--role-interior)" stroke-width="2" stroke-dasharray="6 4"/>
+            <path d="M 20 175 C 100 55, 200 205, 285 85" fill="none" stroke="var(--text-faint)" stroke-width="2"/>
+            <path d="M 20 175 C 100 55, 200 205, 285 85" fill="none" stroke="var(--role-set)" stroke-width="5" clip-path="url(#clip-ox)"/>
+            <circle cx="152" cy="130" r="6" fill="var(--role-highlight)"/>
+            <text x="160" y="152" font-size="15" font-weight="700" fill="var(--role-highlight)">x</text>
+            <text x="30" y="200" font-size="15" fill="var(--text-muted)">M</text>
+            <text x="150" y="232" text-anchor="middle" font-size="14" fill="var(--text-muted)">Oₓ ⊂ ℰ,  кусок M ∩ Oₓ</text>
+
+            <line x1="250" y1="40" x2="390" y2="40" stroke="var(--text-muted)" stroke-width="1.6" marker-end="url(#arr-6-3)"/>
+            <text x="320" y="28" text-anchor="middle" font-size="14" fill="var(--text-muted)">φₓ — Cʳ-диффеоморфизм</text>
+
+            <line x1="370" y1="125" x2="630" y2="125" stroke="var(--text-faint)" stroke-width="1.5"/>
+            <text x="628" y="115" text-anchor="end" font-size="13" fill="var(--text-faint)">E = ℝⁿ × {0}</text>
+            <circle cx="490" cy="125" r="85" fill="var(--role-interior)" fill-opacity="0.08" stroke="var(--role-interior)" stroke-width="2" stroke-dasharray="6 4"/>
+            <line x1="405" y1="125" x2="575" y2="125" stroke="var(--role-set)" stroke-width="5"/>
+            <circle cx="490" cy="125" r="6" fill="var(--role-highlight)"/>
+            <text x="490" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="var(--role-highlight)">φₓ(x)</text>
+            <text x="490" y="232" text-anchor="middle" font-size="14" fill="var(--text-muted)">Vₓ ⊂ ℝᵈ,  φₓ(M ∩ Oₓ) = Vₓ ∩ E</text>
+          </svg>
+          <p class="viz__caption">Слева окрестность $O_x$ и кривая $M$ (жирно — кусок $M \cap O_x$), справа
+          открытое $V_x$ и координатная прямая $E$. Диффеоморфизм переводит жирное в жирное. Эта же картинка,
+          прочитанная справа налево, — карта $\theta_x^{-1}$ из <a href="#lm-3">Lm. 3</a>: кусок $E$ — открытое
+          множество $\mathbb{R}^n$, а $\varphi_x^{-1}$ укладывает его на $M$.</p>
+        </div>
+      </div>
+
+      <div class="block block--lemma" id="lm-3" data-label="Lm. 3" data-title="Структура на вложенном подмногообразии">
+        <div class="block__label">Lm. 3 <span class="block__title">Структура на вложенном подмногообразии</span></div>
+        <p>Вложенное подмногообразие $M$ обладает естественной дифференциальной структурой класса $C^r$,
+        индуцирующей топологию подпространства.</p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Пусть $\pi : \mathbb{R}^d \to \mathbb{R}^n$ — проекция на первые $n$ координат, а
+            $\iota : \mathbb{R}^n \to \mathbb{R}^d$, $\iota(u) = (u, 0)$. Множества $U_x = M \cap O_x$ образуют
+            открытое покрытие $M$.</div>
+            <div class="proof-step__why">почему: $O_x$ открыты в $\mathcal{E}$, так что $M \cap O_x$ открыты в топологии подпространства; $x \in U_x$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Отображения
+            $$\theta_x = \pi \circ \varphi_x|_{U_x} : U_x \to \iota^{-1}(V_x), \qquad \theta_x^{-1} = \varphi_x^{-1} \circ \iota$$
+            — гомеоморфизмы на открытые подмножества $\mathbb{R}^n$.</div>
+            <div class="proof-step__why">почему: $\varphi_x$ биективно переводит $U_x$ на $V_x \cap E$ (<a href="#def-4">Def. 4</a>), а на $E$ проекция $\pi$ и вложение $\iota$ взаимно обратны; обе формулы — композиции непрерывных; $\iota^{-1}(V_x)$ открыто как прообраз открытого под непрерывным $\iota$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Переходы
+            $$\theta_y \circ \theta_x^{-1} = \pi \circ \varphi_y \circ \varphi_x^{-1} \circ \iota$$
+            и обратные к ним имеют класс $C^r$, поэтому карты образуют атлас.</div>
+            <div class="proof-step__why">почему: $\pi$ и $\iota$ линейны, $\varphi_y \circ \varphi_x^{-1}$ — $C^r$-диффеоморфизм на $\varphi_x(O_x \cap O_y)$; композиция $C^r$-отображений — $C^r$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Его максимальное пополнение не зависит от выбора выпрямлений.</div>
+            <div class="proof-step__why">почему: если взять другие выпрямления $\varphi'_x$, та же формула из шага 3 показывает, что новые карты $C^r$-согласованы со старыми, и максимальные атласы совпадают</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Индуцированная топология совпадает с топологией подпространства.</div>
+            <div class="proof-step__why">почему: <a href="#th-6-1">Th. 6.1</a> с $\tau$ = топология подпространства: области $U_x$ в ней открыты (шаг 1), карты $\theta_x$ — гомеоморфизмы (шаг 2)</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">6.</div>
+            <div>Метризуемость $M$ обеспечивает хаусдорфовость и паракомпактность.</div>
+            <div class="proof-step__why">почему: $M$ — подпространство метрического $\mathcal{E}$, расстояние $\|x - y\|$; метрическое пространство хаусдорфово (шары радиуса $\|x-y\|/3$), а паракомпактность метрических пространств — теорема Стоуна, за пределами лекции. Итог — Def. 3 выполнено</div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--example" id="ex-3" data-label="Ex. 3" data-title="Множество решений линейной системы">
+        <div class="block__label">Ex. 3 <span class="block__title">Множество решений линейной системы</span></div>
+        <p>Пусть $A \in \mathbb{R}^{d \times d}$ — матрица такая, что $\operatorname{rank} A = k$, и фиксирован
+        $b \in \operatorname{Im} A$. Тогда следующее множество является гладким многообразием размерности
+        $\dim M = d - k$:</p>
+        $$M = \{x \in \mathbb{R}^d : \ Ax = b\}.$$
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Разбор: доказательство через Th. 6.2 и пример</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>$M \neq \varnothing$: раз $b \in \operatorname{Im} A$, есть $x_0$ с $Ax_0 = b$.</div>
+            <div class="proof-step__why">почему: определение образа; <a href="#th-6-2">Th. 6.2</a> говорит о непустых множествах</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Наивно взять $h(x) = Ax - b : \mathbb{R}^d \to \mathbb{R}^d$ нельзя: $Dh = A$ имеет ранг $k$, а
+            Th. 6.2 хочет ранг, равный числу компонент $h$. Поэтому выберем $k$ линейно независимых строк $A$:
+            матрицу $\hat{A} \in \mathbb{R}^{k \times d}$ и соответствующие компоненты $\hat{b} \in \mathbb{R}^k$.</div>
+            <div class="proof-step__why">почему: ранг матрицы = максимальное число независимых строк</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>$Ax = b \iff \hat{A}x = \hat{b}$. Любая строка $a_j = \sum_i c_{ji}\hat{a}_i$, и тогда
+            $b_j = a_j x_0 = \sum_i c_{ji} \hat{a}_i x_0 = \sum_i c_{ji}\hat{b}_i$. Значит из $\hat{A}x = \hat{b}$
+            следует $a_j x = \sum_i c_{ji}\hat{b}_i = b_j$.</div>
+            <div class="proof-step__why">почему: остальные уравнения — линейные комбинации выбранных; совместность ($b \in \operatorname{Im} A$) нужна, чтобы правые части комбинировались так же</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>$h(x) = \hat{A}x - \hat{b} : \mathbb{R}^d \to \mathbb{R}^k$, $U_x = \mathbb{R}^d$. Тогда
+            $h^{-1}(0) = M$ и $Dh(x) = \hat{A}$ имеет ранг $k$ в каждой точке.</div>
+            <div class="proof-step__why">почему: производная аффинного отображения — его линейная часть: $\frac{d}{dt}\big|_{t=0} \hat{A}(x+tv) - \hat{b} = \hat{A}v$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>По Th. 6.2 с $d - n = k$: $M$ — вложенное $C^\infty$-подмногообразие размерности $n = d - k$.
+            Случай $k = 0$: тогда $A = 0$, $b = 0$, $M = \mathbb{R}^d$ — размерность $d$, тоже $d - k$.</div>
+            <div class="proof-step__why">почему: Th. 6.2 требует $n &lt; d$, то есть $k \geqslant 1$; случай $k = 0$ тривиален</div>
+          </div>
+          <p class="qed">∎</p>
+          <p><b>Пример.</b> Плоскость $x + y + z = 1$ в $\mathbb{R}^3$:
+          $A = \begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 0 \end{pmatrix}$, $b = (1,0,0)^T$,
+          $k = 1$, $\dim M = 3 - 1 = 2$. Здесь $h = x + y + z - 1$, $Dh = (1, 1, 1) \neq 0$. Выпрямление из
+          доказательства Th. 6.2 явное: $\varphi(x,y,z) = (x, y, x + y + z - 1)$ — линейный диффеоморфизм
+          $\mathbb{R}^3$, переводящий плоскость в $\{z' = 0\} = \mathbb{R}^2 \times \{0\}$.</p>
+        </div>
+      </details>
+
+      <div class="block block--theorem" id="th-6-2" data-label="Th. 6.2" data-title="Критерий через локально определяющую функцию">
+        <div class="block__label">Th. 6.2 <span class="block__title">Критерий через локально определяющую функцию</span></div>
+        <p>Непустое подмножество $M$ евклидова пространства $\mathcal{E}$ является вложенным подмногообразием
+        класса $C^r$ размерности $n &lt; d$ тогда и только тогда, когда для каждой точки $x \in M$ существует
+        открытая окрестность $U_x \subset \mathcal{E}$ и $C^r$-гладкая функция $h : U_x \to \mathbb{R}^{d-n}$,
+        такая, что:</p>
+        <ol>
+          <li>$U_x \cap M = \{y \in U_x : \ h(y) = 0\} = h^{-1}(0)$;</li>
+          <li>$\operatorname{rank} Dh(x) = d - n$, где $Dh(x)[v] = \frac{d}{dt}\big|_{t=0} h(x + tv)$.</li>
+        </ol>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p><b>$d - n$ уравнений с независимыми градиентами.</b> $h = (h_1, \dots, h_{d-n})$ — это
+        $d-n$ скалярных уравнений $h_i = 0$. Каждое «независимое» уравнение отрезает одну размерность: в
+        $\mathbb{R}^3$ одно уравнение даёт поверхность, два — кривую. Независимость понимается
+        дифференциально: градиенты $\nabla h_1(x), \dots, \nabla h_{d-n}(x)$ — строки матрицы $Dh(x)$ —
+        линейно независимы, то есть ранг полный.</p>
+        <p>Если же градиент вырождается, уравнение в этой точке «отрезает меньше», чем должно, и множество
+        может там ломаться: крест, излом, касание — это <a href="#ex-4">Ex. 4</a>.</p>
+      </div>
+
+      <p class="ticket-noproof">На коллоквиуме можно без доказательства (сообщение преподавателя).</p>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Необходимость. Для выпрямления $\varphi_x$ положим $h = \rho \circ \varphi_x$, где
+            $\rho : \mathbb{R}^d \to \mathbb{R}^{d-n}$ — проекция на последние $d - n$ координат, и $U_x = O_x$.</div>
+            <div class="proof-step__why">почему: $\varphi_x$ есть по <a href="#def-4">Def. 4</a>; $h$ класса $C^r$ как композиция $C^r$ и линейного</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Тогда $h^{-1}(0) = M \cap O_x$.</div>
+            <div class="proof-step__why">почему: $h(y) = 0 \iff \varphi_x(y) \in E$ (последние координаты нулевые) $\iff \varphi_x(y) \in V_x \cap E = \varphi_x(M \cap O_x) \iff y \in M \cap O_x$, так как $\varphi_x$ — биекция</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>$Dh(x) = \rho \circ D\varphi_x(x)$ имеет ранг $d - n$.</div>
+            <div class="proof-step__why">почему: цепное правило; $D\varphi_x(x)$ обратима ($\varphi_x$ — диффеоморфизм, $r \geqslant 1$), а $\rho$ сюръективна, так что $\rho \circ D\varphi_x(x)$ сюръективна на $\mathbb{R}^{d-n}$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Достаточность. Зафиксируем $x \in M$ и положим $U = U_x$, $k = d - n$. После перестановки
+            координат матрицу $Dh(x)$ ранга $k$ можно записать в виде
+            $$Dh(x) = [A, B],$$
+            где $B$ — обратимая $k \times k$-матрица, а $A$ — некоторая $k \times n$-матрица.</div>
+            <div class="proof-step__why">почему: у $k \times d$-матрицы ранга $k$ есть $k$ линейно независимых столбцов; переставим их в конец. Перестановка координат — линейный диффеоморфизм $\mathbb{R}^d$, на свойства из Def. 4 она не влияет</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Определим $\varphi : U \to \mathbb{R}^d$:
+            $$\varphi(y) = (y_1, \dots, y_n, h_1(y), \dots, h_k(y)),$$
+            $$D\varphi(x) = \begin{bmatrix} I_n &amp; 0 \\ A &amp; B \end{bmatrix}, \qquad
+            (D\varphi(x))^{-1} = \begin{bmatrix} I_n &amp; 0 \\ -B^{-1}A &amp; B^{-1} \end{bmatrix}.$$</div>
+            <div class="proof-step__why">почему: первые $n$ компонент — координаты, их производная $[I_n, 0]$; последние $k$ — это $h$, их производная $Dh(x) = [A, B]$. Обратная проверяется умножением: $\begin{bmatrix} I_n &amp; 0 \\ A &amp; B \end{bmatrix}\begin{bmatrix} I_n &amp; 0 \\ -B^{-1}A &amp; B^{-1} \end{bmatrix} = \begin{bmatrix} I_n &amp; 0 \\ A - BB^{-1}A &amp; BB^{-1} \end{bmatrix} = I_d$; и $\det D\varphi(x) = \det B \neq 0$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">6.</div>
+            <div>Согласно теореме об обратной функции существует окрестность $U' \subseteq U$ точки $x$ такая,
+            что $\varphi$ является диффеоморфизмом между $U'$ и $V' = \varphi(U')$.</div>
+            <div class="proof-step__why">почему: <b>теорема об обратной функции</b>: если $F$ класса $C^r$, $r \geqslant 1$, около $x$ и $DF(x)$ обратима, то $F$ — $C^r$-диффеоморфизм некоторой окрестности $x$ на открытое множество. Линейное приближение обратимо ⇒ отображение локально обратимо, и обратное тоже $C^r$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">7.</div>
+            <div>Свойство $\varphi(M \cap U') = V' \cap E$ следует из равенства $M \cap U' = h^{-1}(0) \cap U'$.
+            Это и есть требуемое локальное выпрямление: $O_x = U'$, $V_x = V'$, $\varphi_x = \varphi$.</div>
+            <div class="proof-step__why">почему: $y \in M \cap U' \iff h(y) = 0 \iff$ последние $k$ координат $\varphi(y)$ нулевые $\iff \varphi(y) \in E$; это ровно <a href="#def-4">Def. 4</a></div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Смысл достаточности: новые координаты — «старые $y_1, \dots, y_n$ плюс значения уравнений». В таких
+        координатах $M$ — это ровно «значения уравнений равны нулю», то есть координатная плоскость. Блок
+        $B = \partial h / \partial (y_{n+1}, \dots, y_d)$ обратим — это условие теоремы о неявной функции:
+        около $x$ уравнение $h = 0$ разрешается как $(y_{n+1}, \dots, y_d) = g(y_1, \dots, y_n)$ с гладкой $g$.
+        Иными словами, <b>регулярное множество уровня локально — график гладкой функции</b>.</p>
+      </div>
+
+      <div class="block block--nb" id="nb-5" data-label="NB 5" data-title="Локально определяющая функция">
+        <div class="block__label">NB 5 <span class="block__title">Локально определяющая функция</span></div>
+        <p>Функция $h : U_x \to \mathbb{R}^{d-n}$ из теоремы называется <i>локально определяющей</i>.</p>
+      </div>
+
+      <div class="block block--example" id="ex-4" data-label="Ex. 4" data-title="Не локально определяющие функции">
+        <div class="block__label">Ex. 4 <span class="block__title">Не локально определяющие функции</span></div>
+        <p>Примеры $C^r$-гладких функций, не являющихся локально определяющими в начале координат:</p>
+        <ol>
+          <li>$h(x_1, x_2) = x_1^2 - x_2^2$ — крест;</li>
+          <li>$h(x_1, x_2) = x_1^2 - x_2^3$ — точка возврата;</li>
+          <li>$h(x_1, x_2) = x_1^2 - x_2^4$ — двойная парабола.</li>
+        </ol>
+      </div>
+
+      <div class="block block--example" id="ex-5" data-label="Ex. 5" data-title="Окружность">
+        <div class="block__label">Ex. 5 <span class="block__title">Окружность</span></div>
+        <p>Примером $C^r$-гладкой локально определяющей функции окружности $S^1$ является
+        $h(x_1, x_2) = x_1^2 + x_2^2 - 1$.</p>
+      </div>
+
+      <div data-viz="LevelSets" data-viz-config='{"fn":"cross"}'></div>
+
+      <p class="footnote">В виджете есть переключатель функции: окружность (Ex. 5), крест, точка возврата и
+      двойная парабола (Ex. 4). Кнопка «в особую точку» ставит точку в начало координат, где $Dh = 0$.</p>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Разбор Ex. 4–5: где $Dh = 0$ и почему в нуле действительно плохо</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div><b>Крест</b> $h = x_1^2 - x_2^2 = (x_1 - x_2)(x_1 + x_2)$, $Dh = (2x_1, -2x_2)$ — нуль только в
+            $(0,0)$. Множество $h^{-1}(0)$ — две прямые $x_2 = \pm x_1$. Вне нуля ранг $1 = d - n$, там это гладкая
+            кривая. В нуле: если бы у $0$ была окрестность в $M$, гомеоморфная интервалу $J$, то $J \setminus \{0\}$
+            имело бы 2 компоненты, а маленькая окрестность креста без центра — 4 луча.</div>
+            <div class="proof-step__why">почему: каждый из 4 лучей связен и лежит в одной из двух половинок $J$; два непересекающихся связных куска одной половинки — интервалы, оба примыкающие к $0$, а так не бывает. Это даже не топологическое многообразие, как <a href="lecture-04.html#ex-4">Ex. 4 (1) лекции 4</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div><b>Точка возврата</b> $h = x_1^2 - x_2^3$, $Dh = (2x_1, -3x_2^2)$ — нуль только в $(0,0)$.
+            Множество $x_2 = |x_1|^{2/3}$ — «клюв» с остриём вверх-вниз. <b>Топологически</b> это прямая (график
+            непрерывной функции), но гладким подмногообразием оно не является.</div>
+            <div class="proof-step__why">почему: у $C^1$-подмногообразия в точке $0$ есть касательная прямая $L$, и около $0$ оно — график $C^1$-функции над $L$ (интуиция к Th. 6.2). Секущие из $0$ к точкам $(t, |t|^{2/3})$ при $t \to 0$ становятся вертикальными с обеих сторон, так что $L$ — ось $x_2$. Но над осью $x_2$ множество не график: при $x_2 > 0$ две точки $\pm x_2^{3/2}$, при $x_2 &lt; 0$ — ни одной</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div><b>Двойная парабола</b> $h = x_1^2 - x_2^4 = (x_1 - x_2^2)(x_1 + x_2^2)$, $Dh = (2x_1, -4x_2^3)$ —
+            нуль только в $(0,0)$. Множество — две параболы $x_1 = x_2^2$ и $x_1 = -x_2^2$, касающиеся в нуле.
+            Около нуля без центра — 4 ветви, поэтому, как и у креста, это не многообразие даже топологически.</div>
+            <div class="proof-step__why">почему: тот же подсчёт компонент, что в шаге 1. Отличие от креста — у обеих парабол одна касательная (ось $x_2$), так что «угол» не виден, но число ветвей выдаёт</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div><b>Окружность</b> $h = x_1^2 + x_2^2 - 1$, $Dh = (2x_1, 2x_2)$ обращается в нуль только в
+            $(0,0) \notin S^1$. На $S^1$ ранг $1 = d - n$ при $d = 2$, $n = 1$, и Th. 6.2 даёт: $S^1$ — вложенное
+            $C^\infty$-подмногообразие размерности 1, $U_x = \mathbb{R}^2$.</div>
+            <div class="proof-step__why">почему: $x_1^2 + x_2^2 = 1$ запрещает $x_1 = x_2 = 0$</div>
+          </div>
+        </div>
+      </details>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p><b>Th. 6.2 — критерий существования какой-то $h$, а не свойство конкретной.</b> То, что данная
+        функция не локально определяющая, ещё не значит, что множество не подмногообразие. Пример:
+        $h = (x_1^2 + x_2^2 - 1)^2$. Её нулевое множество — та же окружность, но
+        $Dh = 2(x_1^2 + x_2^2 - 1) \cdot (2x_1, 2x_2) = 0$ во <b>всех</b> точках $S^1$. Окружность от этого
+        подмногообразием быть не перестаёт — просто $h$ выбрана неудачно.</p>
+        <p>Поэтому в Ex. 4 мало сказать «$Dh(0) = 0$». Чтобы доказать, что множество не подмногообразие,
+        нужен отдельный аргумент, как в разборе выше: число ветвей или отсутствие касательной.</p>
+      </div>
+
+      <div class="block block--counter">
+        <div class="block__label">Контрпример</div>
+        <p><b>Гладкая параметризация ≠ гладкое подмногообразие.</b> Точку возврата можно задать бесконечно
+        гладкой кривой $\gamma(t) = (t^3, t^2)$: $h(\gamma(t)) = t^6 - t^6 = 0$. Но $\gamma'(0) = (0, 0)$ —
+        кривая «останавливается» в нуле и разворачивается, оставляя излом. Гладкость отображения не спасает,
+        если его производная вырождается.</p>
+        <p><b>Ранг важен даже без особых точек на рисунке.</b> Для $h = x_2^3$ нулевое множество — ось
+        $x_1$, отличное подмногообразие, но $Dh = (0, 3x_2^2) = 0$ на всей оси. Th. 6.2 с этой $h$ не
+        работает, а с $h = x_2$ — работает.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Ещё примеры подмногообразий</div>
+        <ul>
+          <li><b>Сфера</b> $S^n \subset \mathbb{R}^{n+1}$: $h(x) = \|x\|^2 - 1$, $Dh(x) = 2x^T \neq 0$ на сфере.
+          Ранг $1 = (n+1) - n$, $\dim S^n = n$.</li>
+          <li><b>График гладкой функции</b> $f : \mathbb{R}^n \to \mathbb{R}^k$, $\Gamma_f = \{(u, f(u))\}$:
+          $h(u, v) = v - f(u)$, $Dh = [-Df(u), I_k]$ — ранг $k$ всегда. $\dim \Gamma_f = n$. Здесь даже
+          глобальное выпрямление: $\varphi(u, v) = (u, v - f(u))$ — диффеоморфизм $\mathbb{R}^{n+k}$.</li>
+          <li><b>$SL_2$</b> $= \{X \in \mathbb{R}^{2 \times 2} : \det X = 1\}$: для
+          $X = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}$, $h = ad - bc - 1$,
+          $Dh = (d, -c, -b, a)$. Он не нулевой, иначе $\det X = 0 \neq 1$. $\dim SL_2 = 4 - 1 = 3$.</li>
+          <li><b>Ортогональные матрицы</b> $O(n) = \{X^T X = I\} \subset \mathbb{R}^{n \times n}$:
+          $h(X) = X^T X - I$ со значениями в симметричных матрицах ($\cong \mathbb{R}^{n(n+1)/2}$),
+          $Dh(X)[V] = V^T X + X^T V$. На $O(n)$ оно сюръективно: для симметричной $S$ возьмём $V = XS/2$.
+          Значит $\dim O(n) = n^2 - \frac{n(n+1)}{2} = \frac{n(n-1)}{2}$.</li>
+        </ul>
+      </div>
+
+      <div class="block block--ml" id="ml-manifold-constraints" data-label="ИИ" data-title="Гипотеза многообразия и ограничения">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Гипотеза многообразия на языке Def. 4.</b> «Данные лежат на $n$-мерном многообразии в
+        $\mathbb{R}^d$» — это ровно существование локальных выпрямлений: около каждой точки данных есть
+        гладкая замена координат, в которой данные занимают $n$ координат, а остальные $d - n$ — «шум». Th. 6.2
+        говорит то же через $d - n$ независимых ограничений на данные. Оценки внутренней размерности (PCA
+        локально, MLE-оценщики) ищут именно $n$.</p>
+        <p><b>Оптимизация с ограничениями.</b> Ортогональные матрицы весов (orthogonal RNN, Стифель), нормированные
+        эмбеддинги на сфере $S^{n}$ в контрастивном обучении — это оптимизация на подмногообразиях из
+        примеров выше. Касательное пространство — $\ker Dh(x)$: римановский градиентный спуск проецирует
+        градиент на $\ker Dh(x)$ и возвращается на многообразие ретракцией (для сферы — нормировкой).</p>
+      </div>
+
+      <div class="block block--ml" id="ml-licq" data-label="ИИ" data-title="Независимость градиентов и метод Лагранжа">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Условие 2 Th. 6.2 — это LICQ.</b> Задача $\min f(x)$ при $h(x) = 0$ решается методом Лагранжа:
+        в минимуме $\nabla f = \sum_i \lambda_i \nabla h_i$. Теорема о множителях требует <i>linear independence
+        constraint qualification</i> — линейной независимости $\nabla h_i(x^*)$, то есть
+        $\operatorname{rank} Dh(x^*) = $ число ограничений. Это ровно регулярность уровня.</p>
+        <p><b>Что ломается без неё.</b> Минимизируем $f = x_2$ на точке возврата $x_1^2 - x_2^3 = 0$. Минимум —
+        в начале координат ($x_2 = |x_1|^{2/3} \geqslant 0$), но $\nabla f = (0,1)$, а $\nabla h(0) = 0$: никакого
+        $\lambda$ с $\nabla f = \lambda \nabla h$ нет, Лагранж минимум не находит. И тонкость из ловушки выше:
+        для окружности, заданной $h = (x_1^2 + x_2^2 - 1)^2$, Лагранж тоже ломается, хотя множество хорошее —
+        LICQ свойство <b>описания</b>, а не множества. Отсюда практика: формулируй ограничения так, чтобы
+        градиенты были независимыми.</p>
+      </div>
+
+      <div class="block block--ml" id="ml-flows-jacobian" data-label="ИИ" data-title="Ранг якобиана в нормализующих потоках">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Матрица $D\varphi$ из доказательства — это coupling-слой.</b> В RealNVP слой
+        $y_{1:n} = x_{1:n}$, $y_{n+1:d} = x_{n+1:d} \odot e^{s(x_{1:n})} + t(x_{1:n})$ имеет якобиан
+        $\begin{bmatrix} I_n &amp; 0 \\ A &amp; B \end{bmatrix}$ с диагональным $B = \operatorname{diag}(e^{s})$ —
+        ровно блочная структура $D\varphi(x)$. Определитель $\det B = \prod e^{s_i}$ считается за линейное время,
+        и он никогда не нуль: по теореме об обратной функции слой локально (а тут и глобально) обратим.</p>
+        <p><b>Ранг и размерность.</b> Поток — диффеоморфизм $\mathbb{R}^d \to \mathbb{R}^d$, полный ранг
+        якобиана везде. Если же данные лежат на $n$-мерном подмногообразии с $n &lt; d$, плотность
+        относительно меры Лебега в $\mathbb{R}^d$ не существует — отсюда «injective flows» и потоки на
+        многообразиях, где якобиан $d \times n$ и в формуле замены переменных стоит
+        $\sqrt{\det (Dg^T Dg)}$.</p>
+      </div>
+
+      <div class="block block--card" id="card-embedded">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Сформулируй Def. 4 и Th. 6.2. Как строится выпрямление в доказательстве
+        достаточности?</p>
+        <div class="card__answer" data-card-answer>
+          <p>Def. 4: для каждой $x \in M$ есть $C^r$-диффеоморфизм $\varphi_x : O_x \to V_x$ с
+          $\varphi_x(M \cap O_x) = V_x \cap E$, $E = \mathbb{R}^n \times \{0\}^{d-n}$. Th. 6.2: эквивалентно
+          локальному заданию $M = h^{-1}(0)$, $h : U_x \to \mathbb{R}^{d-n}$, $\operatorname{rank} Dh(x) = d - n$.
+          Выпрямление: $\varphi(y) = (y_1, \dots, y_n, h(y))$ после перестановки координат, $D\varphi(x)$ обратима
+          ($\det = \det B$), дальше теорема об обратной функции.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-singular">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Почему крест $x_1^2 = x_2^2$ и точка возврата $x_1^2 = x_2^3$ — не
+        подмногообразия? Достаточно ли сказать «$Dh(0) = 0$»?</p>
+        <div class="card__answer" data-card-answer>
+          <p>Недостаточно: $Dh = 0$ значит лишь, что эта $h$ не подходит (пример $(x_1^2+x_2^2-1)^2$ для
+          окружности). Крест: без центра 4 луча, а у интервала без точки 2 куска — не многообразие даже
+          топологически. Точка возврата топологически — прямая, но касательная в нуле обязана быть
+          вертикальной, а над вертикалью множество не график ($0$ или $2$ точки).</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-linear-system">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Докажи Ex. 3: $\{Ax = b\}$ при $\operatorname{rank} A = k$, $b \in \operatorname{Im} A$ —
+        подмногообразие размерности $d - k$. Почему нельзя взять $h = Ax - b$?</p>
+        <div class="card__answer" data-card-answer>
+          <p>$h = Ax - b$ имеет $d$ компонент, а ранг $Dh = A$ только $k$. Берём $k$ независимых строк
+          $\hat{A}$: по совместности $Ax = b \iff \hat{A}x = \hat{b}$. Для $h = \hat{A}x - \hat{b}$ ранг
+          $Dh = k$ везде, по Th. 6.2 $n = d - k$. Пример: плоскость $x + y + z = 1$, $\dim = 2$.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-6-sum" data-section-id="lecture-06/summary">
+      <h2 id="h-6-sum" data-short="Итоги лекции">Итоги лекции</h2>
+
+      <div class="block block--summary">
+        <div class="block__label">Сводка</div>
+        <p>Как доказать, что $M \subset \mathbb{R}^d$ — подмногообразие.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Приём</th><th>Что предъявить</th><th>Пример</th></tr></thead>
+            <tbody>
+              <tr><td>выпрямление (Def. 4)</td><td>$C^r$-диффеоморфизм $\varphi_x : O_x \to V_x$ с $\varphi_x(M \cap O_x) = V_x \cap E$</td><td>окружность в полярных координатах</td></tr>
+              <tr><td>критерий (Th. 6.2)</td><td>$h : U_x \to \mathbb{R}^{d-n}$, $U_x \cap M = h^{-1}(0)$, $\operatorname{rank} Dh(x) = d - n$</td><td>$S^n$, $\{Ax = b\}$, $SL_2$, $O(n)$</td></tr>
+              <tr><td>график функции</td><td>$M = \{(u, f(u))\}$, $f$ класса $C^r$; $\varphi(u,v) = (u, v - f(u))$</td><td>парабола $x_2 = x_1^2$</td></tr>
+              <tr><td>открытое подмножество (Def. 2)</td><td>$S$ открыто в $M$; $\dim S = \dim M$</td><td>$GL_n \leqslant \mathbb{R}^{n \times n}$</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Почему не подмногообразие.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Множество</th><th>Особая точка</th><th>Аргумент</th></tr></thead>
+            <tbody>
+              <tr><td>крест $x_1^2 = x_2^2$</td><td>$(0,0)$</td><td>без точки 4 луча вместо 2 — не топологическое многообразие</td></tr>
+              <tr><td>двойная парабола $x_1^2 = x_2^4$</td><td>$(0,0)$</td><td>две касающиеся параболы, 4 ветви</td></tr>
+              <tr><td>точка возврата $x_1^2 = x_2^3$</td><td>$(0,0)$</td><td>топологически прямая, но касательная вертикальна, а над ней не график</td></tr>
+              <tr><td>прямая с двумя нулями (Ex. 2)</td><td>$(0,a)$, $(0,c)$</td><td>атлас гладкий, но нет хаусдорфовости — нарушена Def. 3</td></tr>
+              <tr><td>несчётное дискретное $\mathbb{R}$ (Ex. 1)</td><td>—</td><td>многообразие по Def. 3, но без второй аксиомы счётности: в $\mathbb{R}^d$ не вкладывается</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Главная тонкость: $Dh(x) = 0$ для конкретной $h$ ничего не доказывает — нужен отдельный
+        аргумент (число ветвей, касательная).</p>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

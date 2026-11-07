@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лекция 5. Дифференцируемое многообразие — дифгем</title>
+<meta name="theme-color" content="#0e1116" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-title" content="Дифгем">
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/vendor/katex/katex.min.js"></script>
+<script defer src="../assets/vendor/katex/contrib/auto-render.min.js"></script>
+<script defer src="../assets/bundle.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">К содержанию</a>
+
+<div class="topbar">
+  <a class="topbar__home" href="../index.html">Дифгем</a>
+  <span class="topbar__crumbs"><span>Лекция 5 · Дифференцируемое многообразие</span></span>
+  <span class="topbar__spacer"></span>
+  <span class="topbar__actions">
+    <a class="btn" href="../../data/lections/lecture_1_Manifold_definition.pdf">оригинал PDF</a>
+    <a class="btn" href="../cheatsheet.html">шпаргалка</a>
+    <button class="btn" type="button" data-theme-toggle>тема</button>
+  </span>
+</div>
+
+<div class="layout">
+  <aside class="toc" data-toc>
+    <div class="toc__title">В этой лекции</div>
+  </aside>
+
+  <main id="main">
+    <header class="page-header">
+      <div class="page-header__eyebrow">Лекция 5</div>
+      <h1>Дифференцируемое многообразие</h1>
+      <p class="lead">Топологическое многообразие из <a href="lecture-04.html#def-7">лекции 4</a> умеет
+      говорить о непрерывности, но не о производных. Чтобы дифференцировать, на множестве вводят
+      координаты — карты — и требуют, чтобы переходы между картами были гладкими. Набор таких карт —
+      атлас, а класс всех совместимых атласов — дифференциальная структура. Здесь строится сам объект
+      дифференциальной геометрии: $C^r$-дифференцируемое многообразие.</p>
+      <p class="footnote">Формулировки, нумерация и обозначения — как у преподавателя. Верхние индексы
+      $x^i$ — номера координат, а не степени.</p>
+    </header>
+
+    <!-- ================================================================= -->
+    <section id="s-5-1" data-section-id="lecture-05/5.1">
+      <h2 id="h-5-1" data-short="5.1 Карты и атласы">5.1 Карты и атласы</h2>
+
+      <div class="block block--def" id="def-1" data-label="Def. 1" data-title="Карта">
+        <div class="block__label">Def. 1 <span class="block__title">Карта</span></div>
+        <p><b>Картой</b> на множестве $M$ называется пара $(U, \varphi)$, состоящая из подмножества
+        $U \subseteq M$ и биективного отображения $\varphi : U \to O$, действующего в открытое (в стандартной
+        топологии) подмножество $O \subseteq \mathbb{R}^n$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Карта — это «лист географического атласа»: кусок $U$ поверхности Земли и способ записать каждую
+        его точку парой чисел. Важно, что $M$ здесь — <b>просто множество</b>, без топологии. Вся
+        «геометрия» приходит через карты: точки $U$ мы отождествляем с точками открытого куска
+        $\mathbb{R}^n$, где уже умеем считать производные.</p>
+        <p>Почему образ открыт: дифференцировать функцию можно только во внутренней точке области —
+        нужен запас во все стороны. Открытость $O$ гарантирует этот запас для каждой точки карты.</p>
+      </div>
+
+      <div class="block block--nb" id="nb-1" data-label="NB 1" data-title="Носитель и локальные координаты">
+        <div class="block__label">NB 1 <span class="block__title">Носитель и локальные координаты</span></div>
+        <p>Обычно множество $U$ называют <i>носителем карты</i>, а отображение $\varphi$ —
+        <i>картирующим отображением</i>. Это отображение представляет собой набор
+        <i>координатных функций</i> на $U$</p>
+        $$\varphi = \left(x^1, x^2, \dots, x^n\right), \qquad x^i : U \to \mathbb{R},$$
+        <p>так что для любой точки $P \in U$ мы имеем <i>набор её локальных координат</i>:</p>
+        $$\varphi(P) = \left(x^1_P, x^2_P, \dots, x^n_P\right), \qquad x^i_P = x^i(P).$$
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Карта — биекция именно на <b>открытое</b> множество. Пара $([0,1], \mathrm{id})$ на
+        $M = [0,1]$ картой не является: $[0,1]$ не открыт в $\mathbb{R}$. Пара $(S^1, \theta)$, где
+        $\theta \in [0, 2\pi)$ — угол, тоже не карта: образ $[0, 2\pi)$ не открыт. Поэтому окружность
+        одной картой не покрыть, и в <a href="#ex-1">Ex. 1</a> и <a href="#ex-3">Ex. 3</a> карт минимум две.</p>
+        <p>И второе: от $\varphi$ требуется только биективность. Непрерывность сказать не о чем — на $M$
+        пока нет топологии. Топология на $M$ потом сама <i>индуцируется</i> картами (это обещано в
+        <a href="#def-8">Def. 8</a>).</p>
+      </div>
+
+      <div class="block block--def" id="def-2" data-label="Def. 2" data-title="Центрированная карта">
+        <div class="block__label">Def. 2 <span class="block__title">Центрированная карта</span></div>
+        <p>Говорят, что карта $(U, \varphi)$ <b>центрирована</b> в точке $P \in U$, если $\varphi(P) = 0$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Это не ограничение, а удобство: любую карту можно центрировать сдвигом
+        $\tilde\varphi = \varphi - \varphi(P)$. Сдвиг — диффеоморфизм $\mathbb{R}^n$, образ остаётся открытым,
+        а согласованность с остальными картами не портится. В доказательствах «возьмём карту, центрированную
+        в $P$» значит «положим точку в начало координат».</p>
+      </div>
+
+      <div class="block block--def" id="def-3" data-label="Def. 3" data-title="Согласованные карты">
+        <div class="block__label">Def. 3 <span class="block__title">Согласованные карты</span></div>
+        <p>Две карты $(U, \varphi)$ и $(V, \psi)$ называются <b>$C^r$-согласованными</b> в одном из двух случаев:</p>
+        <ol>
+          <li>$U \cap V = \varnothing$;</li>
+          <li>$U \cap V = W \neq \varnothing$, и тогда
+            <ul>
+              <li>$\varphi(W)$ и $\psi(W)$ — открытые в $\mathbb{R}^n$ множества;</li>
+              <li>$\psi \circ \varphi^{-1} : \varphi(W) \to \psi(W)$ — $C^r$-<i>диффеоморфизм</i>.</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Две карты и замена координат на пересечении</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 640 330" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Носители U и V пересекаются по W; карты переводят W в открытые множества φ(W) и ψ(W), между которыми действует замена координат ψ∘φ⁻¹">
+            <ellipse cx="320" cy="80" rx="250" ry="62" fill="none" stroke="var(--border-strong)" stroke-width="1.6"/>
+            <text x="88" y="38" font-size="15" fill="var(--text-muted)">M</text>
+            <ellipse cx="270" cy="82" rx="110" ry="42" fill="var(--role-set)" fill-opacity="0.14" stroke="var(--role-set)" stroke-width="2"/>
+            <ellipse cx="380" cy="82" rx="110" ry="42" fill="var(--role-interior)" fill-opacity="0.14" stroke="var(--role-interior)" stroke-width="2"/>
+            <text x="190" y="88" font-size="16" font-weight="700" fill="var(--role-set)">U</text>
+            <text x="452" y="88" font-size="16" font-weight="700" fill="var(--role-interior)">V</text>
+            <text x="325" y="88" text-anchor="middle" font-size="16" font-weight="700" fill="var(--role-highlight)">W</text>
+
+            <rect x="40" y="200" width="200" height="110" rx="6" fill="none" stroke="var(--border-strong)" stroke-dasharray="4 3"/>
+            <text x="48" y="218" font-size="13" fill="var(--text-faint)">ℝⁿ</text>
+            <ellipse cx="140" cy="258" rx="70" ry="36" fill="var(--role-set)" fill-opacity="0.14" stroke="var(--role-set)" stroke-width="2"/>
+            <ellipse cx="160" cy="258" rx="32" ry="22" fill="var(--role-highlight)" fill-opacity="0.22" stroke="var(--role-highlight)" stroke-width="2"/>
+            <text x="160" y="263" text-anchor="middle" font-size="13" fill="var(--role-highlight)">φ(W)</text>
+
+            <rect x="400" y="200" width="200" height="110" rx="6" fill="none" stroke="var(--border-strong)" stroke-dasharray="4 3"/>
+            <text x="408" y="218" font-size="13" fill="var(--text-faint)">ℝⁿ</text>
+            <ellipse cx="500" cy="258" rx="70" ry="36" fill="var(--role-interior)" fill-opacity="0.14" stroke="var(--role-interior)" stroke-width="2"/>
+            <ellipse cx="480" cy="258" rx="32" ry="22" fill="var(--role-highlight)" fill-opacity="0.22" stroke="var(--role-highlight)" stroke-width="2"/>
+            <text x="480" y="263" text-anchor="middle" font-size="13" fill="var(--role-highlight)">ψ(W)</text>
+
+            <line x1="260" y1="125" x2="170" y2="225" stroke="var(--role-set)" stroke-width="1.8"/>
+            <path d="M 170 225 L 172 213 L 181 221 Z" fill="var(--role-set)"/>
+            <text x="198" y="170" font-size="16" fill="var(--role-set)">φ</text>
+            <line x1="390" y1="125" x2="470" y2="225" stroke="var(--role-interior)" stroke-width="1.8"/>
+            <path d="M 470 225 L 459 220 L 468 212 Z" fill="var(--role-interior)"/>
+            <text x="440" y="170" font-size="16" fill="var(--role-interior)">ψ</text>
+
+            <line x1="196" y1="258" x2="440" y2="258" stroke="var(--text-muted)" stroke-width="1.8"/>
+            <path d="M 446 258 L 434 252 L 434 264 Z" fill="var(--text-muted)"/>
+            <text x="320" y="248" text-anchor="middle" font-size="15" fill="var(--text-muted)">ψ ∘ φ⁻¹</text>
+            <text x="320" y="285" text-anchor="middle" font-size="12" fill="var(--text-faint)">обязана быть Cʳ-диффеоморфизмом</text>
+          </svg>
+          <p class="viz__caption">Сама точка $M$ ни в каких координатах не записана. Сравнивать можно только
+          числа: одна и та же точка $P \in W$ имеет координаты $\varphi(P)$ и $\psi(P)$, и переход между
+          ними — обычное отображение открытых множеств $\mathbb{R}^n$. Именно от него и требуется гладкость.</p>
+        </div>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Согласованность — это «переход между листами атласа гладкий». На стыке двух листов одна и та же
+        точка нарисована дважды; если пересчёт координат с одного листа на другой гладкий (вместе с обратным),
+        то понятие «гладкая функция» не зависит от того, на каком листе мы её проверяем:
+        $f \circ \varphi^{-1} = (f \circ \psi^{-1}) \circ (\psi \circ \varphi^{-1})$.</p>
+        <p>Почему «диффеоморфизм», а не просто «гладкое»: условие должно быть симметричным. Если
+        $\psi \circ \varphi^{-1}$ гладкое, а обратное $\varphi \circ \psi^{-1}$ — нет, то гладкость функций
+        «в карте $\psi$» и «в карте $\varphi$» разойдётся.</p>
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Пункт 1 не опечатка: карты с <b>пустым</b> пересечением носителей согласованы автоматически —
+        им нечего сверять. Отсюда частая ошибка в проверке атласа: перебирая пары, не нужно ничего
+        доказывать для непересекающихся носителей, но нельзя забыть пары с непустым пересечением, даже
+        «маленьким».</p>
+        <p>Вторая тонкость — открытость $\varphi(W)$ и $\psi(W)$ стоит отдельным условием. Без топологии на
+        $M$ она не следует ни из чего: $\varphi$ — просто биекция, и образ куска $W$ может оказаться
+        каким угодно.</p>
+      </div>
+
+      <div class="block block--counter">
+        <div class="block__label">Контрпример</div>
+        <p>На $M = \mathbb{R}$ рассмотрим две карты с одним носителем: $(\mathbb{R}, \mathrm{id})$ и
+        $(\mathbb{R}, \sigma)$, где $\sigma(x) = x^3$. Обе — биекции $\mathbb{R} \to \mathbb{R}$, образы открыты,
+        так что обе — карты. Но замена координат</p>
+        $$\mathrm{id} \circ \sigma^{-1}(y) = \sqrt[3]{y}$$
+        <p>не дифференцируема в нуле: $(\sqrt[3]{y})' = \tfrac13 y^{-2/3} \to \infty$ при $y \to 0$. Значит,
+        эти карты не $C^r$-согласованы ни при каком $r \geqslant 1$, хотя $\sigma$ — гомеоморфизм и даже
+        гладкое отображение. Гладкость в одну сторону не спасает: требуется диффеоморфизм.</p>
+      </div>
+
+      <div class="block block--nb" id="nb-2" data-label="NB 2" data-title="Замена координат">
+        <div class="block__label">NB 2 <span class="block__title">Замена координат</span></div>
+        <p>Говорят, что отображение $\chi = \psi \circ \varphi^{-1}$ <i>осуществляет замену координат</i> на $W$:</p>
+        $$\begin{aligned} \varphi &amp;= \left(x^1, x^2, \dots, x^n\right), \qquad \psi = \left(y^1, y^2, \dots, y^n\right) \\ \chi &amp;= \psi \circ \varphi^{-1} : \quad y^i = y^i(x^1, x^2, \dots, x^n). \end{aligned}$$
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Это та самая «замена переменных» из матанализа: полярные координаты
+        $x = r\cos\theta$, $y = r\sin\theta$ — пример $\chi$. Условие «$\chi$ — диффеоморфизм» на практике
+        проверяют так: $\chi$ гладкая, биективная, и её якобиан $\det\big(\partial y^i / \partial x^j\big)$
+        нигде на $\varphi(W)$ не обращается в ноль (тогда обратная гладкая по теореме об обратной функции).</p>
+      </div>
+
+      <div class="block block--def" id="def-4" data-label="Def. 4" data-title="Атлас">
+        <div class="block__label">Def. 4 <span class="block__title">Атлас</span></div>
+        <p><b>$C^r$-атласом</b> на $M$ называется множество $\mathcal{A}_M = \{(U_\alpha, \varphi_\alpha)\}_\alpha$
+        попарно согласованных карт, чьи носители $\{U_\alpha\}$ образуют покрытие множества $M$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Два требования: <b>каждая точка</b> $M$ попала хотя бы на один лист (покрытие), и <b>все листы
+        стыкуются</b> гладко (попарная согласованность). Размерность $n$ у всех карт одна — иначе
+        замена координат $\mathbb{R}^n \supseteq \varphi(W) \to \psi(W) \subseteq \mathbb{R}^m$ не могла бы быть
+        диффеоморфизмом (её дифференциал — обратимая матрица, значит $n = m$).</p>
+      </div>
+
+      <div class="block block--example" id="ex-1" data-label="Ex. 1" data-title="Первые примеры атласов">
+        <div class="block__label">Ex. 1 <span class="block__title">Первые примеры атласов</span></div>
+        <p><i>Первые примеры атласов на множествах:</i></p>
+        <ol>
+          <li>$M = \mathbb{R}, \quad \mathcal{A}_M = \{(\mathbb{R}, \mathrm{id})\}$;</li>
+          <li>$M = S^1 = \{(x, y) \in \mathbb{R}^2 : \ x^2 + y^2 = 1\}, \quad \mathcal{A}_M = \{(U, \varphi), (V, \psi)\}$:
+          $$\begin{aligned} U &amp;= S^1 \setminus \{(0,1)\}, &amp;\quad \varphi(x, y) &amp;= x/(1 - y) = \alpha, \\ V &amp;= S^1 \setminus \{(0,-1)\}, &amp;\quad \psi(x, y) &amp;= x/(1 + y) = \beta, \\ U \cap V &amp;= S^1 \setminus \{(0,1), (0,-1)\}, &amp; &amp; \\ \beta &amp;= (\psi \circ \varphi^{-1})(\alpha) = 1/\alpha, &amp;\quad \alpha &amp;\neq 0. \end{aligned}$$</li>
+        </ol>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Это <b>стереографические проекции</b>. Карта $\varphi$ проводит прямую из северного полюса
+        $N = (0,1)$ через точку $P$ и смотрит, где она пересекает ось $Ox$; значение — координата $\alpha$
+        точки пересечения. Карта $\psi$ делает то же из южного полюса $S = (0,-1)$. Полюс-источник
+        выколот: прямая из полюса в себя не определена.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Проверка: это действительно атлас</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Обратная карта. Ищем точку $(x, y) \in S^1$ с $x = \alpha(1 - y)$. Подставим в
+            $x^2 + y^2 = 1$: $\alpha^2(1-y)^2 = (1-y)(1+y)$, и после сокращения на $1 - y \neq 0$
+            получаем $\alpha^2(1 - y) = 1 + y$. Отсюда
+            $$\varphi^{-1}(\alpha) = \left(\frac{2\alpha}{\alpha^2+1}, \frac{\alpha^2-1}{\alpha^2+1}\right), \qquad \alpha \in \mathbb{R}.$$</div>
+            <div class="proof-step__why">почему можно сокращать: на $U$ выколот $N$, то есть $y \neq 1$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>$\varphi : U \to \mathbb{R}$ — биекция на всё $\mathbb{R}$: для каждого $\alpha$ формула шага 1
+            даёт ровно одну точку, и $y = \frac{\alpha^2 - 1}{\alpha^2 + 1} \lt 1$, то есть она в $U$. Аналогично
+            $\psi^{-1}(\beta) = \left(\frac{2\beta}{\beta^2+1}, \frac{1-\beta^2}{\beta^2+1}\right)$, и $\psi : V \to \mathbb{R}$.</div>
+            <div class="proof-step__why">почему: <a href="#def-1">Def. 1</a> — нужна биекция на открытое множество, а $\mathbb{R}$ открыто</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Носители покрывают $S^1$: $N \in V$, $S \in U$, все прочие точки лежат в обоих.</div>
+            <div class="proof-step__why">почему: <a href="#def-4">Def. 4</a> требует покрытия</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Пересечение $W = U \cap V$ — без обоих полюсов. Точке $S$ отвечает $\alpha = 0$, поэтому
+            $\varphi(W) = \mathbb{R} \setminus \{0\}$, и так же $\psi(W) = \mathbb{R} \setminus \{0\}$. Оба множества открыты.</div>
+            <div class="proof-step__why">почему: $\varphi(S) = 0/(1+1) = 0$, и $\varphi$ биективна</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Замена координат. Подставим $\varphi^{-1}(\alpha)$ в $\psi$:
+            $1 + y = \frac{2\alpha^2}{\alpha^2+1}$, и
+            $$\beta = \frac{x}{1+y} = \frac{2\alpha}{\alpha^2+1}\cdot\frac{\alpha^2+1}{2\alpha^2} = \frac{1}{\alpha}.$$
+            Короче: $\alpha\beta = \frac{x^2}{(1-y)(1+y)} = \frac{x^2}{1 - y^2} = 1$.</div>
+            <div class="proof-step__why">почему: $x^2 = 1 - y^2$ на окружности</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">6.</div>
+            <div>$\alpha \mapsto 1/\alpha$ — $C^\infty$ на $\mathbb{R}\setminus\{0\}$ (рациональная функция без нулей
+            знаменателя), биективна и сама себе обратна. Значит, это $C^\infty$-диффеоморфизм, и атлас
+            $C^\infty$, то есть $C^r$ при любом $r$.</div>
+            <div class="proof-step__why">почему: <a href="#def-3">Def. 3</a>, пункт 2; обратное $\varphi \circ \psi^{-1}(\beta) = 1/\beta$ того же вида</div>
+          </div>
+        </div>
+      </details>
+
+      <div data-viz="CircleCharts" data-viz-config='{"atlas":"stereo","theta":0.9}'></div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Ещё примеры атласов</div>
+        <p>Не из лекции, но встречаются в задачах.</p>
+        <ul>
+          <li><b>$\mathbb{R}^n$</b>: атлас из одной карты $\{(\mathbb{R}^n, \mathrm{id})\}$. Согласованность
+          проверять не с чем. Любое открытое $O \subseteq \mathbb{R}^n$ — тоже с одной картой $(O, \mathrm{id})$.</li>
+          <li><b>Сфера $S^2 = \{x^2 + y^2 + z^2 = 1\}$, шесть проекционных карт.</b> Полусферы
+          $U_{x\pm} = \{\pm x > 0\}$, $U_{y\pm}$, $U_{z\pm}$ и проекции, выкидывающие одну координату, например
+          $\varphi_{x+}(x, y, z) = (y, z)$ с образом — открытым кругом $\{y^2 + z^2 \lt 1\}$. Переход, например,
+          с $U_{x+}$ на $U_{y+}$:
+          $$(\varphi_{y+} \circ \varphi_{x+}^{-1})(y, z) = \left(\sqrt{1 - y^2 - z^2},\ z\right), \qquad y > 0,\ y^2 + z^2 \lt 1,$$
+          гладок, потому что под корнем строго положительное число ($x > 0$ на пересечении).</li>
+          <li><b>Сфера $S^2$, две стереографические карты</b> из полюсов $N = (0,0,1)$ и $S = (0,0,-1)$:
+          $\varphi(x,y,z) = \frac{(x, y)}{1 - z}$, $\psi(x,y,z) = \frac{(x, y)}{1 + z}$. Как и в $S^1$, получается
+          $$(\psi \circ \varphi^{-1})(u) = \frac{u}{\|u\|^2}, \qquad u \in \mathbb{R}^2 \setminus \{0\},$$
+          — инверсия относительно единичной окружности, $C^\infty$ вне нуля и сама себе обратна. Двух карт
+          хватает, одной — нет (сфера компактна, а $\mathbb{R}^2$ — нет).</li>
+        </ul>
+      </div>
+
+      <div class="block block--ml" id="ml-charts" data-label="ИИ" data-title="Карта как латентные координаты">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Энкодер — это карта.</b> Когда автоэнкодер сжимает картинку в латентный вектор
+        $z \in \mathbb{R}^d$, он по сути строит $\varphi : U \to O \subseteq \mathbb{R}^d$ на куске «многообразия
+        данных», а декодер играет роль $\varphi^{-1}$. Требование биективности — это ровно идеальная
+        реконструкция: $\varphi^{-1}(\varphi(P)) = P$.</p>
+        <p><b>Замена координат — репараметризация.</b> Две разные обученные модели дают два латентных
+        пространства одного и того же множества; отображение между ними — аналог $\psi \circ \varphi^{-1}$.
+        Если оно гладкое, то всё, что «гладко» в одном латентном пространстве (интерполяция, градиентный шаг),
+        гладко и в другом. Пример с $x^3$ выше показывает, как это ломается: координата
+        $\sqrt[3]{y}$ бесконечно растягивает окрестность нуля, и шаг градиента фиксированного размера там
+        ведёт себя совсем не так, как в исходных координатах. Та же причина, по которой оптимизация
+        чувствительна к параметризации весов (и почему естественный градиент старается от неё не зависеть).</p>
+      </div>
+
+      <div class="block block--card" id="card-chart">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Что такое карта на множестве $M$? Почему $(S^1, \theta)$ с углом
+        $\theta \in [0, 2\pi)$ — не карта?</p>
+        <div class="card__answer" data-card-answer>
+          <p>Пара $(U, \varphi)$: $U \subseteq M$ и биекция $\varphi : U \to O$ на открытое $O \subseteq \mathbb{R}^n$.
+          Угол — биекция $S^1 \to [0, 2\pi)$, но $[0, 2\pi)$ не открыто в $\mathbb{R}$. Поэтому на окружности
+          нужно не меньше двух карт.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-compatible">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Когда карты $(U, \varphi)$ и $(V, \psi)$ $C^r$-согласованы? Посчитай замену
+        координат для стереографических карт окружности.</p>
+        <div class="card__answer" data-card-answer>
+          <p>Либо $U \cap V = \varnothing$, либо $\varphi(W)$, $\psi(W)$ открыты и $\psi \circ \varphi^{-1}$ —
+          $C^r$-диффеоморфизм на $W = U \cap V$. Для стереографических: $\alpha\beta = x^2/(1 - y^2) = 1$, то есть
+          $\beta = 1/\alpha$ на $\mathbb{R}\setminus\{0\}$.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-5-2" data-section-id="lecture-05/5.2">
+      <h2 id="h-5-2" data-short="5.2 Дифференциальная структура">5.2 Дифференциальная структура</h2>
+
+      <div class="block block--def" id="def-5" data-label="Def. 5" data-title="Карта, согласованная с атласом">
+        <div class="block__label">Def. 5 <span class="block__title">Карта, согласованная с атласом</span></div>
+        <p>Карта $(U, \varphi)$ называется <b>$C^r$-согласованной с атласом</b> $\mathcal{A}_M$, если объединение
+        $\mathcal{A}_M \cup \{(U, \varphi)\}$ — снова $C^r$-атлас на $M$.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Покрытие при добавлении карты не теряется, так что Def. 5 говорит просто: новая карта
+        согласована с <b>каждой</b> картой атласа. Это «новый лист, который можно вклеить в атлас, не
+        нарушив стыков».</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-1" data-label="Lm. 1" data-title="Все согласованные карты образуют атлас">
+        <div class="block__label">Lm. 1 <span class="block__title">Все согласованные карты образуют атлас</span></div>
+        <p><i>Множество $\widetilde{\mathcal{A}}_M$ всех карт, $C^r$-согласованных с $\mathcal{A}_M$, является
+        $C^r$-атласом.</i></p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Что тут нетривиально: каждая карта из $\widetilde{\mathcal{A}}_M$ согласована с <b>картами
+        $\mathcal{A}_M$</b>, но почему две новые карты согласованы <b>друг с другом</b>? Их можно сверить
+        «через посредника»: в окрестности каждой точки стоит карта $(U_\beta, \varphi_\beta)$ исходного атласа,
+        и переход $\psi \circ \varphi^{-1}$ раскладывается в два гладких перехода через неё. Покрытие очевидно:
+        $\mathcal{A}_M \subseteq \widetilde{\mathcal{A}}_M$.</p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Покрытие: каждая карта $\mathcal{A}_M$ согласована с $\mathcal{A}_M$, поэтому
+            $\mathcal{A}_M \subseteq \widetilde{\mathcal{A}}_M$, и носители $\widetilde{\mathcal{A}}_M$ покрывают $M$.
+            Остаётся попарная согласованность.</div>
+            <div class="proof-step__why">почему: <a href="#def-4">Def. 4</a> — атлас покрывает $M$, а карты атласа попарно согласованы</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Пусть $(U, \varphi)$ и $(V, \psi)$ — две карты, согласованные с $\mathcal{A}_M$, и
+            $U \cap V = W \neq \varnothing$ (при пустом пересечении доказывать нечего). Пусть далее
+            $x \in \varphi(W)$ — произвольная точка и $P = \varphi^{-1}(x)$ — её прообраз в $M$. В $\mathcal{A}_M$
+            существует карта $(U_\beta, \varphi_\beta)$ такая, что $P \in U_\beta$.</div>
+            <div class="proof-step__why">почему: носители $\mathcal{A}_M$ покрывают $M$; пустое пересечение — пункт 1 <a href="#def-3">Def. 3</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Так как $(U, \varphi)$ и $(V, \psi)$ согласованы с $(U_\beta, \varphi_\beta)$, то
+            $$\varphi_\beta(U \cap U_\beta), \quad \varphi_\beta(V \cap U_\beta), \quad \varphi_\beta(W \cap U_\beta) = \varphi_\beta(U \cap U_\beta) \cap \varphi_\beta(V \cap U_\beta)$$
+            — открыты в $\mathbb{R}^n$.</div>
+            <div class="proof-step__why">почему: первые два — <a href="#def-3">Def. 3</a> для пар с $(U_\beta, \varphi_\beta)$; равенство — $\varphi_\beta$ биективна, поэтому образ пересечения равен пересечению образов; пересечение двух открытых открыто</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Так как $\varphi \circ \varphi_\beta^{-1}$ — диффеоморфизм (а значит, и гомеоморфизм), то множество
+            $\varphi(W \cap U_\beta)$, содержащее точку $x$, также будет открытым в $\mathbb{R}^n$:
+            $$\left(\varphi \circ \varphi_\beta^{-1}\right)\left(\varphi_\beta(W \cap U_\beta)\right) = \varphi(W \cap U_\beta) \subseteq \varphi(W).$$</div>
+            <div class="proof-step__why">почему: гомеоморфизм открытых множеств переводит открытые в открытые (<a href="lecture-03.html#lm-3">Lm. 3 лекции 3</a>), а $\varphi_\beta(W \cap U_\beta)$ — открытое подмножество области определения $\varphi_\beta(U \cap U_\beta)$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Следовательно, $x$ — внутренняя точка $\varphi(W)$, и раз $x$ произвольна, $\varphi(W)$ открыто.
+            Аналогично (меняя ролями $\varphi$ и $\psi$) $\psi(W)$ тоже открыто.</div>
+            <div class="proof-step__why">почему: множество, каждая точка которого внутренняя, открыто (лекция 1)</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">6.</div>
+            <div>Гладкость перехода: на открытом множестве $\varphi(W \cap U_\beta)$ выполнено равенство
+            $$\psi \circ \varphi^{-1} = \left(\psi \circ \varphi_\beta^{-1}\right) \circ \left(\varphi_\beta \circ \varphi^{-1}\right).$$
+            Оба сомножителя — $C^r$-отображения, значит и композиция $C^r$ в окрестности $x$.</div>
+            <div class="proof-step__why">почему: вставили $\varphi_\beta^{-1} \circ \varphi_\beta = \mathrm{id}$ на $W \cap U_\beta$; композиция $C^r$-отображений — $C^r$ (цепное правило)</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">7.</div>
+            <div>Гладкость — локальное свойство: $C^r$ в окрестности каждой точки $x \in \varphi(W)$ означает $C^r$
+            на всём $\varphi(W)$. То же рассуждение для $\varphi \circ \psi^{-1}$ даёт гладкость обратного, и
+            $\psi \circ \varphi^{-1}$ — $C^r$-диффеоморфизм. Пара карт согласована.</div>
+            <div class="proof-step__why">почему: $\psi \circ \varphi^{-1}$ — биекция $\varphi(W) \to \psi(W)$, а обратное к ней — $\varphi \circ \psi^{-1}$; <a href="#def-3">Def. 3</a></div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--def" id="def-6" data-label="Def. 6" data-title="Эквивалентные атласы">
+        <div class="block__label">Def. 6 <span class="block__title">Эквивалентные атласы</span></div>
+        <p>Атласы $\mathcal{A}_M$ и $\mathcal{A}'_M$ называются <b>эквивалентными</b>, если
+        $\mathcal{A}_M \cup \mathcal{A}'_M$ — снова атлас на $M$.</p>
+      </div>
+
+      <div class="block block--def" id="def-7" data-label="Def. 7" data-title="Максимальный атлас (структура)">
+        <div class="block__label">Def. 7 <span class="block__title">Максимальный атлас (структура)</span></div>
+        <p><b>Максимальным $C^r$-атласом</b> или <b>$C^r$-структурой</b> на $M$ называется максимальный по
+        включению элемент в классе эквивалентных атласов.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Атласов у одного и того же многообразия бесконечно много: на окружности — стереографический,
+        угловой, проекционный (<a href="#ex-3">Ex. 3</a>). Все они «про одну и ту же гладкость», и
+        хочется, чтобы определение многообразия не зависело от выбора. Решение — взять <b>все совместимые
+        карты сразу</b>. Это и есть максимальный атлас: по <a href="#lm-1">Lm. 1</a> он равен
+        $\widetilde{\mathcal{A}}_M$ для любого атласа $\mathcal{A}_M$ из класса.</p>
+        <p>Практический вывод: два атласа задают одну структуру тогда и только тогда, когда каждая карта
+        одного согласована с каждой картой другого (<a href="#def-6">Def. 6</a>). Чтобы доказать, что
+        стереографический и угловой атласы окружности эквивалентны, достаточно проверить переходы
+        «стерео ↔ угол». Для точки $(\cos\theta, \sin\theta)$ с обычным полярным углом $\theta$ получается
+        $\alpha = \frac{\cos\theta}{1 - \sin\theta} = \operatorname{tg}\left(\frac{\pi}{4} + \frac{\theta}{2}\right)$ —
+        гладкая функция с ненулевой производной на своей области.</p>
+      </div>
+
+      <div class="block block--def" id="def-8" data-label="Def. 8" data-title="Дифференцируемое многообразие">
+        <div class="block__label">Def. 8 <span class="block__title">Дифференцируемое многообразие</span></div>
+        <p>Пара $\langle M, \widetilde{\mathcal{A}}_M \rangle$ называется <b>$C^r$-дифференцируемым
+        многообразием</b>. Требования хаусдорфовости и паракомпактности индуцированной топологии будут
+        добавлены в следующей лекции.</p>
+      </div>
+
+      <div class="block block--trap">
+        <div class="block__label">Ловушка</div>
+        <p>Многообразие — это пара «множество + <b>структура</b>», а не «множество + атлас». Одно и то же
+        множество $\mathbb{R}$ несёт много разных $C^r$-структур (<a href="#ex-2">Ex. 2</a>). Но «разные
+        структуры» не значит «разные многообразия с точки зрения геометрии»: все они диффеоморфны
+        стандартной прямой. Различаются структуры как <b>множества карт</b>, а многообразия сравниваются
+        с точностью до диффеоморфизма.</p>
+      </div>
+
+      <div class="block block--example" id="ex-2" data-label="Ex. 2" data-title="Различные структуры на прямой">
+        <div class="block__label">Ex. 2 <span class="block__title">Различные структуры на прямой</span></div>
+        <p><i>Пусть $M = \mathbb{R}$ и $r \geqslant 1$. Для каждого $\alpha > 0$ рассмотрим отображение
+        $\varphi_\alpha : \mathbb{R} \to \mathbb{R}$</i></p>
+        $$\varphi_\alpha(x) = \begin{cases} x, &amp; x \leqslant 0, \\ \alpha x, &amp; x > 0, \end{cases} \qquad (\varphi_\alpha \circ \varphi_\beta^{-1})(x) = \begin{cases} x, &amp; x \leqslant 0, \\ (\alpha/\beta) x, &amp; x > 0. \end{cases}$$
+        <p><i>Атласы $\{(\mathbb{R}, \varphi_\alpha)\}$ при $\alpha > 0$ порождают попарно различные
+        $C^r$-структуры на $\mathbb{R}$: если $\alpha \neq \beta$, то $\varphi_\alpha \circ \varphi_\beta^{-1}$ не
+        дифференцируемо в нуле, и значит, $\{(\mathbb{R}, \varphi_\alpha)\}$ и $\{(\mathbb{R}, \varphi_\beta)\}$
+        определяют различные $C^r$-структуры на $\mathbb{R}$. При этом все полученные многообразия
+        $C^r$-диффеоморфны стандартной прямой посредством отображений $\varphi_\alpha$.</i></p>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Разбор вычислений</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>$\varphi_\alpha$ — биекция $\mathbb{R} \to \mathbb{R}$ (кусочно-линейная, строго возрастающая, на обеих
+            полупрямых сюръективна), образ $\mathbb{R}$ открыт. Значит $(\mathbb{R}, \varphi_\alpha)$ — карта, а
+            $\{(\mathbb{R}, \varphi_\alpha)\}$ — атлас из одной карты.</div>
+            <div class="proof-step__why">почему: <a href="#def-1">Def. 1</a>, <a href="#def-4">Def. 4</a>; одна карта согласована сама с собой ($\varphi_\alpha \circ \varphi_\alpha^{-1} = \mathrm{id}$)</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Обратная: $\varphi_\beta^{-1}(x) = x$ при $x \leqslant 0$ и $x/\beta$ при $x > 0$. Знак при этом
+            сохраняется, поэтому
+            $(\varphi_\alpha \circ \varphi_\beta^{-1})(x) = x$ при $x \leqslant 0$ и $\alpha \cdot x/\beta$ при $x > 0$.</div>
+            <div class="proof-step__why">почему: $\varphi_\beta$ не меняет знак, так что ветка выбирается по знаку $x$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Односторонние производные в нуле: слева $1$, справа $\alpha/\beta$. При $\alpha \neq \beta$ они
+            различны — излом, функция не дифференцируема в $0$, то есть не $C^r$ ни при каком $r \geqslant 1$.</div>
+            <div class="proof-step__why">почему: производная существует, только если односторонние совпадают</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Значит карты $(\mathbb{R}, \varphi_\alpha)$ и $(\mathbb{R}, \varphi_\beta)$ не согласованы, объединение
+            атласов — не атлас, атласы не эквивалентны. Если бы их максимальные атласы совпадали,
+            $(\mathbb{R}, \varphi_\beta)$ лежала бы в $\widetilde{\mathcal{A}}$ для $\varphi_\alpha$, то есть была бы
+            согласована с $\varphi_\alpha$ — противоречие. Структуры различны, и их континуум (по одной на
+            каждое $\alpha > 0$).</div>
+            <div class="proof-step__why">почему: <a href="#def-3">Def. 3</a>, <a href="#def-6">Def. 6</a>, <a href="#lm-1">Lm. 1</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Почему тем не менее $\varphi_\alpha : \langle \mathbb{R}, \{\varphi_\alpha\} \rangle \to \langle \mathbb{R}, \{\mathrm{id}\} \rangle$ —
+            диффеоморфизм. Гладкость отображения многообразий проверяется <b>в картах</b>: берём карту
+            $\varphi_\alpha$ в источнике и карту $\mathrm{id}$ в цели, и «представитель» отображения в
+            координатах равен
+            $$\mathrm{id} \circ \varphi_\alpha \circ \varphi_\alpha^{-1} = \mathrm{id}_{\mathbb{R}},$$
+            что $C^\infty$, как и обратное. Излом $\varphi_\alpha$ «видно» только в чужой карте $\mathrm{id}$
+            на источнике, а в родной карте его нет.</div>
+            <div class="proof-step__why">почему: определение гладкого отображения многообразий — через карты, оно формально вводится в следующих лекциях; здесь им пользуемся заранее</div>
+          </div>
+        </div>
+      </details>
+
+      <div data-viz="KinkStructures" data-viz-config='{"alpha":2,"beta":1}'></div>
+
+      <div class="block block--counter">
+        <div class="block__label">Контрпример</div>
+        <p>Ещё одна несогласованная структура на $\mathbb{R}$ — уже знакомая карта $\sigma(x) = x^3$. Атлас
+        $\{(\mathbb{R}, \sigma)\}$ не эквивалентен стандартному $\{(\mathbb{R}, \mathrm{id})\}$: переход
+        $\mathrm{id} \circ \sigma^{-1} = \sqrt[3]{\,\cdot\,}$ не дифференцируем в $0$. Здесь нет излома, зато
+        бесконечная производная. Функция $f(x) = x$ гладкая в стандартной структуре, но в структуре
+        $\{\sigma\}$ её координатная запись $f \circ \sigma^{-1}(y) = \sqrt[3]{y}$ — не гладкая.</p>
+        <p>И снова многообразие $\langle \mathbb{R}, \{\sigma\} \rangle$ диффеоморфно стандартной прямой — через
+        само $\sigma$, по тому же рассуждению, что в шаге 5 выше. Мораль: «гладкая функция на множестве» —
+        бессмысленная фраза, пока не сказано, какая структура.</p>
+      </div>
+
+      <div class="block block--nb" id="nb-3" data-label="NB 3" data-title="Размерность и класс гладкости">
+        <div class="block__label">NB 3 <span class="block__title">Размерность и класс гладкости</span></div>
+        <p>Число $n$ называется <i>размерностью</i> многообразия $M$. Многообразие имеет <i>класс гладкости</i>
+        $C^r$, если все переходы $\psi \circ \varphi^{-1}$ между картами его атласа являются диффеоморфизмами
+        класса $C^r$. Значение $r = \infty$ отвечает гладким многообразиям. При $r = 0$ под
+        $C^0$-диффеоморфизмами понимаются гомеоморфизмы; после добавления указанных топологических требований
+        этот случай соответствует топологическим многообразиям.</p>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Чем больше $r$, тем меньше карт согласованы и тем «жёстче» структура. При $r = 0$ карты $\mathrm{id}$
+        и $x^3$ (и все $\varphi_\alpha$) согласованы — они гомеоморфизмы, и все структуры Ex. 2 сливаются в одну
+        $C^0$-структуру. Именно поэтому в Ex. 2 стоит условие $r \geqslant 1$. Класс $C^r$ определяет, сколько раз
+        на многообразии можно дифференцировать: функция может быть $C^k$ только при $k \leqslant r$, больше
+        гладкости карты не дают.</p>
+      </div>
+
+      <div class="block block--example" id="ex-3" data-label="Ex. 3" data-title="Атласы окружности">
+        <div class="block__label">Ex. 3 <span class="block__title">Атласы окружности</span></div>
+        <p><i>$M = S^1 : \ x^2 + y^2 = 1$ — окружность.</i></p>
+        <ol>
+          <li><i>Пусть $P_0 = (1, 0)$ и $Q_0 = (-1, 0)$. Атлас на $S^1$ могут составить две карты:</i>
+          $$\begin{aligned} U &amp;= S^1 \setminus \{P_0\}, &amp;\quad &amp;\varphi(P) \text{ — угол, отсчитываемый от точки } Q_0, \\ V &amp;= S^1 \setminus \{Q_0\}, &amp;\quad &amp;\psi(P) \text{ — угол, отсчитываемый от точки } P_0. \end{aligned}$$
+          <p><i>Оба угла отсчитываются против часовой стрелки и принимают значения в $(-\pi, \pi)$. При этом
+          $U \cap V = S^1 \setminus \{P_0, Q_0\}$, и значит,</i></p>
+          $$\varphi(U \cap V) = (-\pi, 0) \cup (0, \pi), \qquad \psi(U \cap V) = (-\pi, 0) \cup (0, \pi),$$
+          $$(\psi \circ \varphi^{-1})(t) = \begin{cases} t + \pi, &amp; t \in (-\pi, 0), \\ t - \pi, &amp; t \in (0, \pi). \end{cases}$$</li>
+          <li><i>Рассмотрим теперь другой атлас, состоящий из четырёх карт:</i>
+          $$\begin{aligned} U_+ &amp;= \{(x, y) \in S^1 \mid x > 0\}, &amp;\quad \varphi_+(x, y) &amp;= y, \\ U_- &amp;= \{(x, y) \in S^1 \mid x \lt 0\}, &amp;\quad \varphi_-(x, y) &amp;= y, \\ V_+ &amp;= \{(x, y) \in S^1 \mid y > 0\}, &amp;\quad \psi_+(x, y) &amp;= x, \\ V_- &amp;= \{(x, y) \in S^1 \mid y \lt 0\}, &amp;\quad \psi_-(x, y) &amp;= x. \end{aligned}$$
+          <p><i>Рассмотрим карты $(U_+, \varphi_+)$ и $(V_+, \psi_+)$. Их пересечение задаётся множеством</i></p>
+          $$W_{++} = U_+ \cap V_+ = \{(x, y) \in S^1 \mid x > 0, y > 0\},$$
+          <p><i>а отображение замены координат на $W_{++}$ имеет вид</i></p>
+          $$(\psi_+ \circ \varphi_+^{-1})(y) = \sqrt{1 - y^2}, \qquad y \in (0, 1).$$</li>
+        </ol>
+      </div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Разбор вычислений: угловой атлас</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Запишем точку через обычный полярный угол: $P = (\cos\theta, \sin\theta)$. Угол от $P_0$ против
+            часовой стрелки — это $\theta$, приведённый в $(-\pi, \pi)$; угол от $Q_0$ — это $\theta - \pi$,
+            приведённый туда же. Значение $\pm\pi$ получилось бы у точки, противоположной началу отсчёта, —
+            поэтому из носителя $\psi$ выколота $Q_0$, а из носителя $\varphi$ — $P_0$.</div>
+            <div class="proof-step__why">почему: полярный угол $P_0$ равен $0$, а $Q_0$ — $\pi$; интервал $(-\pi, \pi)$ открыт, как требует <a href="#def-1">Def. 1</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>На $U \cap V$ дополнительно выколота точка, где каждая карта равна нулю: $\varphi(Q_0) = 0$ и
+            $\psi(P_0) = 0$. Отсюда $\varphi(U \cap V) = \psi(U \cap V) = (-\pi, 0) \cup (0, \pi)$ — открыты.</div>
+            <div class="proof-step__why">почему: $\varphi$ и $\psi$ — биекции на $(-\pi, \pi)$, выкидываем образ лишней точки</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Пусть $t = \varphi(P) \in (-\pi, 0)$. Тогда полярный угол $\theta = t + \pi \in (0, \pi)$ уже лежит в
+            $(-\pi, \pi)$, и $\psi(P) = t + \pi$. Если $t \in (0, \pi)$, то $\theta = t + \pi \in (\pi, 2\pi)$, и после
+            приведения $\psi(P) = t + \pi - 2\pi = t - \pi$.</div>
+            <div class="proof-step__why">почему: $\psi$ — это полярный угол, приведённый в $(-\pi, \pi)$ вычитанием $2\pi$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>На каждой из двух компонент $\varphi(W)$ переход — сдвиг на $\pm\pi$: $C^\infty$, производная $1$,
+            обратный — сдвиг в другую сторону. Так что это $C^\infty$-диффеоморфизм, хотя единой формулы на
+            $\varphi(W)$ нет: разрыв в $t = 0$ не мешает, ведь $0 \notin \varphi(W)$.</div>
+            <div class="proof-step__why">почему: гладкость — локальное свойство, проверяется на каждой компоненте открытого множества; <a href="#def-3">Def. 3</a></div>
+          </div>
+        </div>
+      </details>
+
+      <div data-viz="CircleCharts" data-viz-config='{"atlas":"angle","theta":2.2}'></div>
+
+      <details class="reveal reveal--proof" open>
+        <summary>Разбор вычислений: проекционный атлас</summary>
+        <div class="reveal__body">
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Каждая карта — биекция полуокружности на интервал $(-1, 1)$. Например,
+            $\varphi_+^{-1}(y) = \left(\sqrt{1 - y^2},\ y\right)$, $\psi_+^{-1}(x) = \left(x,\ \sqrt{1 - x^2}\right)$:
+            на правой полуокружности $x > 0$, поэтому $x$ однозначно восстанавливается по $y$ со знаком «+».</div>
+            <div class="proof-step__why">почему: $x^2 = 1 - y^2$ и знак $x$ фиксирован носителем; $(-1, 1)$ открыт</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Покрытие: четыре открытые полуокружности покрывают $S^1$ — у каждой точки хотя бы одна
+            координата ненулевая.</div>
+            <div class="proof-step__why">почему: $(0, 0) \notin S^1$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>$\varphi_+(W_{++}) = (0, 1)$, $\psi_+(W_{++}) = (0, 1)$ — открыты, и
+            $(\psi_+ \circ \varphi_+^{-1})(y) = \psi_+\left(\sqrt{1 - y^2}, y\right) = \sqrt{1 - y^2}$.</div>
+            <div class="proof-step__why">почему: в первой четверти $x, y \in (0, 1)$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>На $(0, 1)$ подкоренное выражение $1 - y^2 > 0$, поэтому $\sqrt{1 - y^2}$ — $C^\infty$, производная
+            $-y/\sqrt{1 - y^2} \neq 0$, а обратная функция имеет тот же вид $x \mapsto \sqrt{1 - x^2}$. Получаем
+            $C^\infty$-диффеоморфизм. Портится всё только в $y = 1$ (вертикальная касательная), но эта точка
+            соответствует $(0, 1) \notin U_+$.</div>
+            <div class="proof-step__why">почему: корень гладок вне нуля; <a href="#def-3">Def. 3</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Остальные пары с непустым пересечением дают переходы $\pm\sqrt{1 - y^2}$ на $(0,1)$ или $(-1,0)$ —
+            разбираются так же. Пары $(U_+, U_-)$ и $(V_+, V_-)$ не пересекаются и согласованы по пункту 1
+            <a href="#def-3">Def. 3</a>.</div>
+            <div class="proof-step__why">почему: всего $\binom{4}{2} = 6$ пар, из них 4 с непустым пересечением</div>
+          </div>
+        </div>
+      </details>
+
+      <div data-viz="CircleCharts" data-viz-config='{"atlas":"projection","theta":0.7}'></div>
+
+      <div class="block block--ml" id="ml-structure" data-label="ИИ" data-title="Атлас как смесь карт в manifold learning">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Mixture of charts.</b> Одна карта часто не может покрыть многообразие данных — как одна карта
+        не покрывает окружность. Поэтому в manifold learning есть модели «атлас из нескольких
+        энкодеров»: каждая компонента смеси отвечает за свой кусок данных и даёт локальные координаты, а
+        гейтинг выбирает карту. Требование согласованности здесь — чтобы на перекрытиях латентные
+        координаты разных энкодеров переводились друг в друга гладко; иначе интерполяция через границу
+        кусков даёт скачок.</p>
+        <p><b>Структура, а не параметризация.</b> Ex. 2 — хорошая модель того, что в ML называют
+        «идентифицируемостью»: одна и та же модель может иметь бесконечно много эквивалентных
+        параметризаций, и сравнивать их надо с точностью до диффеоморфизма. Свойство, которое зависит от
+        выбора карты (например, евклидово расстояние в латентном пространстве), — не свойство данных, а
+        свойство конкретного энкодера.</p>
+      </div>
+
+      <div class="block block--card" id="card-structure">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Что такое $C^r$-структура? Зачем в определении многообразия берут
+        максимальный атлас, а не просто атлас?</p>
+        <div class="card__answer" data-card-answer>
+          <p>Максимальный по включению атлас в классе эквивалентных (Def. 6, 7), по Lm. 1 — множество
+          $\widetilde{\mathcal{A}}_M$ всех карт, согласованных с любым атласом класса. Берут его, чтобы
+          многообразие не зависело от выбора конкретного атласа: эквивалентные атласы дают одну и ту же
+          структуру.</p>
+        </div>
+      </div>
+
+      <div class="block block--card" id="card-kink">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Почему $\{(\mathbb{R}, \varphi_\alpha)\}$ и $\{(\mathbb{R}, \varphi_\beta)\}$ при
+        $\alpha \neq \beta$ задают разные структуры, но диффеоморфные многообразия?</p>
+        <div class="card__answer" data-card-answer>
+          <p>$\varphi_\alpha \circ \varphi_\beta^{-1}$ имеет в нуле односторонние производные $1$ и $\alpha/\beta$ —
+          не дифференцируема, карты не согласованы. Но $\varphi_\alpha$ как отображение
+          $\langle \mathbb{R}, \{\varphi_\alpha\} \rangle \to \langle \mathbb{R}, \{\mathrm{id}\} \rangle$ в картах
+          записывается как $\mathrm{id} \circ \varphi_\alpha \circ \varphi_\alpha^{-1} = \mathrm{id}$ — диффеоморфизм.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-5-3" data-section-id="lecture-05/5.3">
+      <h2 id="h-5-3" data-short="5.3 Декартово произведение">5.3 Декартово произведение</h2>
+
+      <p>Пусть $\langle M, \mathcal{A}_M \rangle$ и $\langle N, \mathcal{A}_N \rangle$ — два
+      $C^r$-дифференцируемых многообразия размерностей $n$ и $m$ соответственно.</p>
+
+      <div class="block block--def" id="def-9" data-label="Def. 9" data-title="Декартово произведение многообразий">
+        <div class="block__label">Def. 9 <span class="block__title">Декартово произведение многообразий</span></div>
+        <p><b>Декартовым произведением</b> многообразий $\langle M, \mathcal{A}_M \rangle$ и
+        $\langle N, \mathcal{A}_N \rangle$ называется пара $\langle X, \mathcal{A}_X \rangle$:</p>
+        $$X = M \times N, \qquad \mathcal{A}_X = \widetilde{\mathcal{B}}_X,$$
+        <p>где $\widetilde{\mathcal{B}}_X$ — максимальный атлас, порождённый атласом произведений карт</p>
+        $$\mathcal{B}_X = \{(U \times V, \varphi \times \psi) \mid (U, \varphi) \in \mathcal{A}_M,\ (V, \psi) \in \mathcal{A}_N\},$$
+        <p>причём $(\varphi \times \psi)(P, Q) = (\varphi(P), \psi(Q))$.</p>
+      </div>
+
+      <div class="viz">
+        <div class="viz__head">
+          <span class="viz__badge">Схема</span>
+          <span class="viz__title">Карта-произведение</span>
+        </div>
+        <div class="viz__body">
+          <svg class="viz__canvas" viewBox="0 0 640 260" preserveAspectRatio="xMidYMid meet" role="img"
+               aria-label="Прямоугольник U×V в M×N отображается картой φ×ψ в прямоугольник φ(U)×ψ(V) в ℝ^(n+m)">
+            <line x1="40" y1="210" x2="250" y2="210" stroke="var(--border-strong)" stroke-width="1.6"/>
+            <line x1="40" y1="210" x2="40" y2="30" stroke="var(--border-strong)" stroke-width="1.6"/>
+            <text x="250" y="232" text-anchor="end" font-size="14" fill="var(--text-muted)">M</text>
+            <text x="22" y="40" font-size="14" fill="var(--text-muted)">N</text>
+            <line x1="90" y1="210" x2="190" y2="210" stroke="var(--role-set)" stroke-width="6"/>
+            <line x1="40" y1="80" x2="40" y2="160" stroke="var(--role-interior)" stroke-width="6"/>
+            <text x="140" y="232" text-anchor="middle" font-size="14" fill="var(--role-set)">U</text>
+            <text x="26" y="125" font-size="14" fill="var(--role-interior)">V</text>
+            <rect x="90" y="80" width="100" height="80" fill="var(--role-highlight)" fill-opacity="0.18" stroke="var(--role-highlight)" stroke-width="2"/>
+            <text x="140" y="125" text-anchor="middle" font-size="15" fill="var(--role-highlight)">U × V</text>
+            <circle cx="160" cy="100" r="4" fill="var(--role-highlight)"/>
+            <text x="168" y="98" font-size="12" fill="var(--text-muted)">(P, Q)</text>
+
+            <line x1="270" y1="120" x2="360" y2="120" stroke="var(--text-muted)" stroke-width="1.8"/>
+            <path d="M 366 120 L 354 114 L 354 126 Z" fill="var(--text-muted)"/>
+            <text x="316" y="108" text-anchor="middle" font-size="15" fill="var(--text-muted)">φ × ψ</text>
+
+            <line x1="390" y1="210" x2="610" y2="210" stroke="var(--border-strong)" stroke-width="1.6"/>
+            <line x1="390" y1="210" x2="390" y2="30" stroke="var(--border-strong)" stroke-width="1.6"/>
+            <text x="610" y="232" text-anchor="end" font-size="14" fill="var(--text-muted)">ℝⁿ</text>
+            <text x="368" y="40" font-size="14" fill="var(--text-muted)">ℝᵐ</text>
+            <line x1="440" y1="210" x2="560" y2="210" stroke="var(--role-set)" stroke-width="6"/>
+            <line x1="390" y1="70" x2="390" y2="170" stroke="var(--role-interior)" stroke-width="6"/>
+            <text x="500" y="232" text-anchor="middle" font-size="14" fill="var(--role-set)">φ(U)</text>
+            <text x="350" y="125" font-size="14" fill="var(--role-interior)">ψ(V)</text>
+            <rect x="440" y="70" width="120" height="100" fill="var(--role-highlight)" fill-opacity="0.18" stroke="var(--role-highlight)" stroke-width="2"/>
+            <text x="500" y="125" text-anchor="middle" font-size="14" fill="var(--role-highlight)">φ(U) × ψ(V)</text>
+            <circle cx="530" cy="92" r="4" fill="var(--role-highlight)"/>
+            <text x="500" y="252" text-anchor="middle" font-size="12" fill="var(--text-faint)">открыто в ℝⁿ⁺ᵐ: произведение открытых</text>
+          </svg>
+          <p class="viz__caption">Точка $(P, Q)$ получает $n + m$ координат: первые $n$ — от карты $\varphi$
+          на $M$, последние $m$ — от карты $\psi$ на $N$. Координаты «не смешиваются», и замена координат
+          действует на каждую группу отдельно.</p>
+        </div>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <p>Произведение карт — это «табличный» лист атласа: строки размечены картой $M$, столбцы — картой $N$.
+        Максимальный атлас $\widetilde{\mathcal{B}}_X$ нужен по той же причине, что и в <a href="#def-7">Def. 7</a>:
+        в него попадают и карты, <b>не</b> являющиеся произведениями (например, на $\mathbb{R}^2 = \mathbb{R} \times \mathbb{R}$
+        полярные координаты на подходящей области — законная карта, но не произведение карт прямой).</p>
+      </div>
+
+      <div class="block block--lemma" id="lm-2" data-label="Lm. 2" data-title="Произведение — многообразие">
+        <div class="block__label">Lm. 2 <span class="block__title">Произведение — многообразие</span></div>
+        <p><i>$\langle X, \mathcal{A}_X \rangle$ — $C^r$-дифференцируемое многообразие размерности $n + m$.</i></p>
+      </div>
+
+      <details class="reveal reveal--proof">
+        <summary>Доказательство по шагам</summary>
+        <div class="reveal__body">
+          <p><span class="ticket-own">доказательство не из лекции</span> В PDF лемма дана без доказательства.
+          По <a href="#lm-1">Lm. 1</a> достаточно проверить, что $\mathcal{B}_X$ — $C^r$-атлас: тогда его
+          максимальное расширение $\widetilde{\mathcal{B}}_X$ — тоже атлас.</p>
+          <div class="proof-step">
+            <div class="proof-step__index">1.</div>
+            <div>Каждая $(U \times V, \varphi \times \psi)$ — карта: $\varphi \times \psi$ биективна как произведение
+            биекций, а её образ $\varphi(U) \times \psi(V)$ открыт в $\mathbb{R}^n \times \mathbb{R}^m = \mathbb{R}^{n+m}$.</div>
+            <div class="proof-step__why">почему: обратное — $\varphi^{-1} \times \psi^{-1}$; произведение открытых множеств открыто в топологии произведения, которая на $\mathbb{R}^{n+m}$ совпадает со стандартной; <a href="#def-1">Def. 1</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">2.</div>
+            <div>Носители покрывают $M \times N$: для $(P, Q)$ возьмём $(U, \varphi) \ni P$ из $\mathcal{A}_M$ и
+            $(V, \psi) \ni Q$ из $\mathcal{A}_N$, тогда $(P, Q) \in U \times V$.</div>
+            <div class="proof-step__why">почему: $\mathcal{A}_M$ и $\mathcal{A}_N$ — атласы, <a href="#def-4">Def. 4</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">3.</div>
+            <div>Возьмём две карты $(U \times V, \varphi \times \psi)$ и $(U' \times V', \varphi' \times \psi')$.
+            Пересечение носителей $(U \cap U') \times (V \cap V')$; если оно пусто — согласованы. Иначе его
+            образы $\varphi(U \cap U') \times \psi(V \cap V')$ и $\varphi'(U \cap U') \times \psi'(V \cap V')$
+            открыты как произведения открытых.</div>
+            <div class="proof-step__why">почему: $(A \times B) \cap (C \times D) = (A \cap C) \times (B \cap D)$; открытость сомножителей — <a href="#def-3">Def. 3</a> для пар в $\mathcal{A}_M$ и $\mathcal{A}_N$</div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">4.</div>
+            <div>Замена координат действует покомпонентно:
+            $$(\varphi' \times \psi') \circ (\varphi \times \psi)^{-1} = (\varphi' \circ \varphi^{-1}) \times (\psi' \circ \psi^{-1}).$$
+            Каждый сомножитель — $C^r$-диффеоморфизм, а произведение $C^r$-диффеоморфизмов —
+            $C^r$-диффеоморфизм: его компоненты — $C^r$-функции, обратное — произведение обратных,
+            якобиан — блочно-диагональная матрица с обратимыми блоками.</div>
+            <div class="proof-step__why">почему: $(a, b) \mapsto (f(a), g(b))$ имеет частные производные любого порядка $\leqslant r$, если их имеют $f$ и $g$; <a href="#def-3">Def. 3</a></div>
+          </div>
+          <div class="proof-step">
+            <div class="proof-step__index">5.</div>
+            <div>Итак, $\mathcal{B}_X$ — $C^r$-атлас, все карты которого имеют значения в $\mathbb{R}^{n+m}$. По
+            <a href="#lm-1">Lm. 1</a> $\widetilde{\mathcal{B}}_X$ — $C^r$-атлас, и $\langle X, \mathcal{A}_X \rangle$ —
+            $C^r$-многообразие размерности $n + m$.</div>
+            <div class="proof-step__why">почему: <a href="#def-8">Def. 8</a>, <a href="#nb-3">NB 3</a></div>
+          </div>
+          <p class="qed">∎</p>
+        </div>
+      </details>
+
+      <div class="block block--example" id="ex-4" data-label="Ex. 4" data-title="Новые примеры многообразий">
+        <div class="block__label">Ex. 4 <span class="block__title">Новые примеры многообразий</span></div>
+        <p><i>Новые примеры многообразий:</i></p>
+        <ol>
+          <li>$\mathbb{R}^2 = \mathbb{R} \times \mathbb{R}$ — <i>плоскость</i>;</li>
+          <li>$C = \mathbb{R} \times S^1$ — <i>цилиндр</i>;</li>
+          <li>$T^2 = S^1 \times S^1$ — <i>тор</i>.</li>
+        </ol>
+      </div>
+
+      <div class="block block--intuition">
+        <div class="block__label">Интуиция</div>
+        <ul>
+          <li><b>Плоскость.</b> $\mathcal{B}_X = \{(\mathbb{R}^2, \mathrm{id} \times \mathrm{id})\}$ — одна карта,
+          и $\mathrm{id} \times \mathrm{id} = \mathrm{id}_{\mathbb{R}^2}$. Получается стандартная структура
+          $\mathbb{R}^2$.</li>
+          <li><b>Цилиндр.</b> Атлас $\mathbb{R}$ из одной карты, атлас $S^1$ — из двух стереографических, итого
+          две карты $(\mathbb{R} \times U, \mathrm{id} \times \varphi)$ и $(\mathbb{R} \times V, \mathrm{id} \times \psi)$.
+          Переход: $(h, \alpha) \mapsto (h, 1/\alpha)$ при $\alpha \neq 0$ — высота не меняется.</li>
+          <li><b>Тор.</b> Две карты на каждой окружности дают $2 \cdot 2 = 4$ карты. С угловым атласом из
+          <a href="#ex-3">Ex. 3</a> переходы имеют вид $(s, t) \mapsto (s \pm \pi, t \pm \pi)$ или
+          $(s \pm \pi, t)$ — сдвиги, то есть $C^\infty$. Это объясняет «квадрат со склеенными сторонами»:
+          координаты тора — пара углов.</li>
+        </ul>
+      </div>
+
+      <div class="block block--ml" id="ml-product" data-label="ИИ" data-title="Произведение и факторизованные представления">
+        <div class="block__label">Связь с ИИ</div>
+        <p><b>Факторизованные (disentangled) представления.</b> Мечта $\beta$-VAE и родственных моделей —
+        латентное пространство как произведение: одна группа координат отвечает за форму объекта, другая —
+        за поворот, третья — за цвет. Геометрически это ровно карта-произведение $\varphi \times \psi$:
+        координаты разных факторов не смешиваются, и замена координат в одном факторе не трогает другие
+        (шаг 4 доказательства Lm. 2).</p>
+        <p><b>Тор в данных.</b> Если факторы периодичны — угол поворота объекта, фаза сигнала, время суток —
+        то фактор $S^1$, а не $\mathbb{R}$, и латентное пространство должно быть тором $T^k$, а не
+        $\mathbb{R}^k$. Плоский гауссов латент $\mathbb{R}^2$ не умеет «замкнуть» угол, поэтому периодические признаки
+        кодируют парами $(\cos t, \sin t)$ — фактически вкладывают $S^1$ в $\mathbb{R}^2$, как в
+        <a href="#ex-3">Ex. 3</a>.</p>
+      </div>
+
+      <div class="block block--card" id="card-product">
+        <div class="block__label">Карточка</div>
+        <p class="card__question">Как устроен атлас произведения $M \times N$? Какой размерности получается
+        многообразие и почему переходы гладкие?</p>
+        <div class="card__answer" data-card-answer>
+          <p>$\mathcal{B}_X$ — все карты $(U \times V, \varphi \times \psi)$, $\mathcal{A}_X = \widetilde{\mathcal{B}}_X$.
+          Размерность $n + m$. Переход $(\varphi' \circ \varphi^{-1}) \times (\psi' \circ \psi^{-1})$ — произведение
+          $C^r$-диффеоморфизмов, якобиан блочно-диагональный.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <section id="s-5-sum" data-section-id="lecture-05/summary">
+      <h2 id="h-5-sum" data-short="Итоги лекции">Итоги лекции</h2>
+
+      <div class="block block--summary">
+        <div class="block__label">Сводка</div>
+        <p>Три атласа окружности: все $C^\infty$ и все эквивалентны — задают одну стандартную структуру на $S^1$.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Атлас</th><th>Карт</th><th>Носители</th><th>Карты</th><th>Переходы</th></tr></thead>
+            <tbody>
+              <tr><td>стереографический (<a href="#ex-1">Ex. 1</a>)</td><td>2</td>
+                <td>$S^1$ без $(0,1)$; $S^1$ без $(0,-1)$</td>
+                <td>$\alpha = \frac{x}{1-y}$, $\beta = \frac{x}{1+y}$</td>
+                <td>$\beta = 1/\alpha$ на $\mathbb{R}\setminus\{0\}$</td></tr>
+              <tr><td>угловой (<a href="#ex-3">Ex. 3</a>.1)</td><td>2</td>
+                <td>$S^1$ без $P_0 = (1,0)$; $S^1$ без $Q_0 = (-1,0)$</td>
+                <td>углы от $Q_0$ и от $P_0$, значения в $(-\pi, \pi)$</td>
+                <td>$t \mapsto t + \pi$ на $(-\pi, 0)$, $t \mapsto t - \pi$ на $(0, \pi)$</td></tr>
+              <tr><td>проекционный (<a href="#ex-3">Ex. 3</a>.2)</td><td>4</td>
+                <td>полуокружности $x > 0$, $x \lt 0$, $y > 0$, $y \lt 0$</td>
+                <td>$\varphi_\pm = y$, $\psi_\pm = x$</td>
+                <td>$y \mapsto \pm\sqrt{1 - y^2}$ на $(0,1)$ или $(-1, 0)$</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="block block--summary">
+        <div class="block__label">Сводка</div>
+        <p>Цепочка понятий лекции.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Понятие</th><th>Что требуется</th><th>Как проверять на КР</th></tr></thead>
+            <tbody>
+              <tr><td>карта (<a href="#def-1">Def. 1</a>)</td><td>биекция $U \to O$, $O$ открыто в $\mathbb{R}^n$</td><td>предъявить обратную, проверить открытость образа</td></tr>
+              <tr><td>согласованность (<a href="#def-3">Def. 3</a>)</td><td>$\varphi(W)$, $\psi(W)$ открыты, $\psi \circ \varphi^{-1}$ — $C^r$-диффеоморфизм</td><td>явная формула перехода; гладкость + гладкость обратного (или якобиан $\neq 0$)</td></tr>
+              <tr><td>атлас (<a href="#def-4">Def. 4</a>)</td><td>покрытие + попарная согласованность</td><td>перебрать пары с непустым пересечением</td></tr>
+              <tr><td>структура (<a href="#def-7">Def. 7</a>)</td><td>максимальный атлас класса</td><td>атласы эквивалентны ⇔ все перекрёстные переходы гладкие</td></tr>
+              <tr><td>разные структуры</td><td>есть несогласованная пара карт</td><td>переход с изломом ($\varphi_\alpha$) или с бесконечной производной ($x^3$)</td></tr>
+              <tr><td>произведение (<a href="#def-9">Def. 9</a>)</td><td>карты $\varphi \times \psi$</td><td>переходы покомпонентные, размерность $n + m$</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

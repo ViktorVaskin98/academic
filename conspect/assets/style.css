@@ -406,6 +406,56 @@ code {
 .block--summary { --block-accent: var(--accent-summary); }
 .block--task { --block-accent: var(--accent-theorem); }
 
+.block--ticket { --block-accent: var(--accent-def); }
+.block--extra { --block-accent: var(--accent-card); }
+
+.ticket-sources {
+  font-size: 0.92em;
+  color: var(--text-muted);
+}
+
+.ticket-plan {
+  margin: 0.4rem 0 0;
+  padding-left: 1.4rem;
+}
+
+.ticket-plan li + li { margin-top: 0.25rem; }
+
+.ticket-noproof {
+  margin: 0.8rem 0;
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--accent-nb) 10%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent-nb) 40%, var(--border));
+}
+
+.ticket-own {
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--accent-trap);
+}
+
+.ticket-draw {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: stretch;
+}
+
+.ticket-draw__card {
+  flex: 1 1 260px;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.ticket-draw__card small {
+  display: block;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
 .reveal--hint > summary { color: var(--accent-intuition); }
 .reveal--idea > summary { color: var(--accent-ml); }
 .reveal--solution > summary { color: var(--accent-example); }

@@ -10,6 +10,7 @@ const BUNDLE_MODULES = [
   'assets/finite-topology.js',
   'assets/mappings.js',
   'assets/metric.js',
+  'assets/smooth.js',
   'assets/render.js',
   'assets/viz.js',
   'assets/widgets-bases.js',
@@ -17,6 +18,8 @@ const BUNDLE_MODULES = [
   'assets/widgets-separation.js',
   'assets/widgets-maps.js',
   'assets/widgets-connectedness.js',
+  'assets/widgets-manifolds.js',
+  'assets/widgets-kolok.js',
   'assets/app.js',
 ];
 
@@ -191,10 +194,12 @@ export function extractEntries(html, meta) {
   return entries;
 }
 
-const SOURCE_KINDS = { lecture: 'Лекция', pract: 'Листок', kr: 'Пробная КР' };
+const SOURCE_KINDS = {
+  lecture: 'Лекция', pract: 'Листок', kr: 'Пробная КР', kolok: 'Коллоквиум, часть',
+};
 
 export function sourceTitle(file) {
-  const match = file.match(/^(lecture|pract|kr)-(\d+)\.html$/);
+  const match = file.match(/^(lecture|pract|kr|kolok)-(\d+)\.html$/);
   return match ? `${SOURCE_KINDS[match[1]]} ${Number(match[2])}` : file.replace('.html', '');
 }
 
